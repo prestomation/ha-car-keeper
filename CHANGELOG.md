@@ -29,9 +29,9 @@ is the single source of truth (see `RELEASE.md`).
   Each car gets an odometer sensor, the next due distance and date, a status sensor, an
   overdue binary sensor and a to-do list of the due jobs. A check on the to-do list logs
   the service.
-- **[Dashboard cards](https://prestomation.github.io/ha-car-keeper/docs/guide/cards).** The garage card shows each car with its status and its
-  next job. The car card lets any user type a reading or mark a job done, and it can
-  scroll inside a fixed height.
+- **[Dashboard cards](https://prestomation.github.io/ha-car-keeper/docs/guide/cards).**
+  The garage card shows each car with its status and its next job. The car card lets any
+  user type a reading or mark a job done, and it can scroll inside a fixed height.
 - **[Car Keeper services](https://prestomation.github.io/ha-car-keeper/docs/guide/services).**
   An automation can type a reading or log a service with the same rules as the tab.
   Events tell an automation when a job is due soon or overdue.
