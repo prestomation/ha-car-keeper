@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.10.2">
 <title data-rh="true">Architecture | Car Keeper</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://prestomation.github.io/ha-car-keeper/pr-preview/pr-2/img/logo.svg"><meta data-rh="true" name="twitter:image" content="https://prestomation.github.io/ha-car-keeper/pr-preview/pr-2/img/logo.svg"><meta data-rh="true" property="og:url" content="https://prestomation.github.io/ha-car-keeper/pr-preview/pr-2/developer/architecture"><meta data-rh="true" property="og:locale" content="en"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-developer-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-developer-current"><meta data-rh="true" property="og:title" content="Architecture | Car Keeper"><meta data-rh="true" name="description" content="Car Keeper is a Home Assistant integration (domain car_keeper) for the maintenance of the"><meta data-rh="true" property="og:description" content="Car Keeper is a Home Assistant integration (domain car_keeper) for the maintenance of the"><link data-rh="true" rel="icon" href="/ha-car-keeper/pr-preview/pr-2/img/favicon.svg"><link data-rh="true" rel="canonical" href="https://prestomation.github.io/ha-car-keeper/pr-preview/pr-2/developer/architecture"><link data-rh="true" rel="alternate" href="https://prestomation.github.io/ha-car-keeper/pr-preview/pr-2/developer/architecture" hreflang="en"><link data-rh="true" rel="alternate" href="https://prestomation.github.io/ha-car-keeper/pr-preview/pr-2/developer/architecture" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Architecture","item":"https://prestomation.github.io/ha-car-keeper/pr-preview/pr-2/developer/architecture"}]}</script><link rel="stylesheet" href="/ha-car-keeper/pr-preview/pr-2/assets/css/styles.eef33b07.css">
-<script src="/ha-car-keeper/pr-preview/pr-2/assets/js/runtime~main.37af61b9.js" defer="defer"></script>
+<script src="/ha-car-keeper/pr-preview/pr-2/assets/js/runtime~main.72f6f263.js" defer="defer"></script>
 <script src="/ha-car-keeper/pr-preview/pr-2/assets/js/main.1c726893.js" defer="defer"></script>
 </head>
 <body>
@@ -23,8 +23,8 @@ interval, or both. It is due at the first limit.</li>
 integration only removes the typing.</li>
 <li class=""><strong>G3. Home Keeper does the reminders.</strong> Each job is a Home Keeper task. Car Keeper builds
 no notification, calendar or to-do system of its own.</li>
-<li class=""><strong>G4. Every read is open.</strong> Every Home Assistant user can read all data, also the VIN,
-the plate and the costs. Only record management is admin-only.</li>
+<li class=""><strong>G4. Every read is open.</strong> Every Home Assistant user can read all data. This includes
+the VIN and the plate. Only record management is admin-only.</li>
 <li class=""><strong>G5. Testable core.</strong> The rules for intervals, units, readings and sync plans run without
 Home Assistant, so the unit tier and the mutation gate check them.</li>
 <li class=""><strong>G6. Services first.</strong> Each data action is a <code>car_keeper.*</code> service, so automations and
@@ -129,9 +129,10 @@ Car Keeper has no credential.</p>
 Text that is not an exception, such as the tab title, is in <code>backend_strings/&lt;lang&gt;.json</code>.
 <code>backend_i18n.preload</code> reads every table in an executor job at setup.</p>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="diagnostics">Diagnostics<a href="#diagnostics" class="hash-link" aria-label="Direct link to Diagnostics" title="Direct link to Diagnostics" translate="no">​</a></h3>
-<p>The diagnostics download has the options, the tab state, the Home Keeper reason, the counts
-and the document. A user attaches the download to a public issue. So the download redacts
-the VIN and the plate. That rule is for the support file. It is not access control.</p>
+<p>The diagnostics download holds the document with its counts. It also gives the options and
+the state of the tab, with the reason from Home Keeper. A user attaches the download to a
+public issue. So the download redacts the VIN and the plate. That rule is for the support
+file. It is not access control.</p>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="design-doc-index">Design doc index<a href="#design-doc-index" class="hash-link" aria-label="Direct link to Design doc index" title="Direct link to Design doc index" translate="no">​</a></h3>
 
 
@@ -172,8 +173,8 @@ the VIN and the plate. That rule is for the support file. It is not access contr
 into these docs when it is built.</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="trade-offs">Trade-offs<a href="#trade-offs" class="hash-link" aria-label="Direct link to Trade-offs" title="Direct link to Trade-offs" translate="no">​</a></h2>
 <ul>
-<li class=""><strong>A companion integration</strong> over <strong>a change to Home Keeper</strong>: cars get fields, an odometer
-and a history that an appliance does not have, and Home Keeper stays general. The cost is
+<li class=""><strong>A companion integration</strong> over <strong>a change to Home Keeper</strong>: a car needs an odometer
+and a service history, which an appliance does not have. Home Keeper stays general. The cost is
 a second install and the sync.</li>
 <li class=""><strong>A tab in the Home Keeper panel</strong> over <strong>a panel of its own</strong>: 1 admin place for the home.</li>
 <li class=""><strong>Every read open</strong> over <strong>admin-only private fields</strong>: the household shares its cars, and
