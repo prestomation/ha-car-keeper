@@ -312,6 +312,13 @@ class HomeKeeperSync:
             await self._call("set_task_meter", step)
         for step in plan["consumables"]:
             await self._call("set_task_consumable", step)
+        for step in plan["records"]:
+            await self._own(
+                self._store.set_completion,
+                step["service_id"],
+                step["item_id"],
+                step["completion"],
+            )
         for step in plan["completes"]:
             fields = step["fields"]
             await self._call("complete_task", {**fields, "origin": ORIGIN})

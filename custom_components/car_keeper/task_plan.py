@@ -261,6 +261,7 @@ def plan_tasks(
     - ``completes``: a job of a service with no Home Keeper completion yet. The
       cost goes on the first job of the service that has a task, so the spend total
       of Home Keeper counts it 1 time.
+    - ``records``: a completion that Home Keeper has and the service does not hold.
     - ``deletes``: a Car Keeper task with no job, or of a job with no task now.
     """
     items = state["items"]
@@ -275,6 +276,7 @@ def plan_tasks(
             "meters",
             "consumables",
             "completes",
+            "records",
             "deletes",
         )
     }
@@ -369,6 +371,20 @@ def plan_tasks(
             first = False
             if (done.get(item_id) or {}).get("task_id") == target["id"]:
                 continue
+            if fields["completed_at"] in _completion_times(target):
+                # Home Keeper has the completion: the store write after the call
+                # did not happen. Write it now, and do not complete the task again.
+                plan["records"].append(
+                    {
+                        "service_id": service_id,
+                        "item_id": item_id,
+                        "completion": {
+                            "task_id": target["id"],
+                            "ts": fields["completed_at"],
+                        },
+                    }
+                )
+                continue
             if target.get("recurrence_type") == SENSOR and service.get("reading"):
                 fields["reading"] = service["reading"]
             if str(service.get("who") or "").startswith("person."):
@@ -379,6 +395,15 @@ def plan_tasks(
                 {"service_id": service_id, "item_id": item_id, "fields": fields}
             )
     return plan
+
+
+def _completion_times(task: Mapping[str, Any]) -> set[str]:
+    """The ``ts`` of each completion of a Home Keeper task."""
+    return {
+        str(c.get("ts"))
+        for c in task.get("completions") or []
+        if isinstance(c, Mapping)
+    }
 
 
 def _key(parts: list[Mapping[str, Any]]) -> list[tuple[str, str, float]]:

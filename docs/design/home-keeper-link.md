@@ -6,7 +6,7 @@ implements:
   - custom_components/car_keeper/task_plan.py
   - custom_components/car_keeper/hk_sync.py
 related: [architecture, data-model, frontend]
-source_hash: ece07678f63b
+source_hash: abdffb3c06de
 ---
 
 # Home Keeper link
@@ -67,7 +67,9 @@ A Home Keeper record is Car Keeper's when `managed_by.integration` is `car_keepe
 appliance names its car in `managed_by.car_id`. A task names its job in
 `source.car_keeper.item_id`. The steps are `adds`, `binds`, `updates`, `releases` for the
 appliances, and `adds`, `binds`, `forgets`, `updates`, `meters`, `consumables`,
-`completes`, `deletes` for the tasks.
+`completes`, `records`, `deletes` for the tasks. A `records` step writes a completion
+that Home Keeper has but the service does not hold, so a lost store write never
+completes a task 2 times.
 
 ### The sync
 

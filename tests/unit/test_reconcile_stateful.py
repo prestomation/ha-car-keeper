@@ -44,7 +44,11 @@ class FakeHomeKeeper:
 
     def add(self, fields: dict) -> str:
         task_id = f"t{next(self._ids)}"
-        self.tasks[task_id] = {**copy.deepcopy(fields), "id": task_id, "done": []}
+        self.tasks[task_id] = {
+            **copy.deepcopy(fields),
+            "id": task_id,
+            "completions": [],
+        }
         return task_id
 
     def listing(self) -> list[dict]:
@@ -155,6 +159,20 @@ class ReconcileMachine(RuleBasedStateMachine):
         self._refresh(service["items"])
         self.sync()
 
+    @rule(data=st.data())
+    def lose_a_completion_write(self, data) -> None:
+        """The store write after ``complete_task`` failed: the service forgets it."""
+        held = [
+            (service_id, item_id)
+            for service_id, service in sorted(self.state["services"].items())
+            for item_id in sorted(service["hk_completions"])
+        ]
+        if not held:
+            return
+        service_id, item_id = data.draw(st.sampled_from(held))
+        del self.state["services"][service_id]["hk_completions"][item_id]
+        self.sync()
+
     # ── Home Keeper side ─────────────────────────────────────────────────────
 
     @rule(data=st.data())
@@ -174,7 +192,7 @@ class ReconcileMachine(RuleBasedStateMachine):
         item_id = task["source"]["car_keeper"]["item_id"]
         self.day += 1
         ts = f"{self._date()}T18:00:00+00:00"
-        task["done"].append(ts)
+        task["completions"].append({"ts": ts})
         item = self.state["items"][item_id]
         service = models.build_service(
             tp.service_from_completion({"completed_at": ts}, item),
@@ -215,8 +233,10 @@ class ReconcileMachine(RuleBasedStateMachine):
     def sync(self) -> None:
         for entry in self.state["sync"]["undo"]:
             task = self.hk.tasks.get(entry["task_id"])
-            if task and entry["ts"] in task["done"]:
-                task["done"].remove(entry["ts"])
+            if task:
+                task["completions"] = [
+                    c for c in task["completions"] if c["ts"] != entry["ts"]
+                ]
         self.state["sync"]["undo"] = []
         for self.rounds in range(1, MAX_ROUNDS + 1):
             plan = self.plan()
@@ -242,10 +262,13 @@ class ReconcileMachine(RuleBasedStateMachine):
             self.hk.tasks[step["task_id"]]["sensor"]["baseline"] = step["baseline"]
         for step in plan["consumables"]:
             self.hk.tasks[step["task_id"]]["source"]["parts"] = step["parts"]
+        for step in plan["records"]:
+            service = self.state["services"][step["service_id"]]
+            service["hk_completions"][step["item_id"]] = dict(step["completion"])
         for step in plan["completes"]:
             fields = step["fields"]
             task = self.hk.tasks[fields["task_id"]]
-            task["done"].append(fields["completed_at"])
+            task["completions"].append({"ts": fields["completed_at"]})
             if "reading" in fields and task.get("sensor"):
                 task["sensor"]["baseline"] = fields["reading"]
             service = self.state["services"][step["service_id"]]
@@ -319,11 +342,14 @@ class ReconcileMachine(RuleBasedStateMachine):
                     continue
                 done = service["hk_completions"][item_id]
                 assert done["task_id"] == item["hk_task_id"]
-                assert done["ts"] in self.hk.tasks[done["task_id"]]["done"]
+                times = {c["ts"] for c in self.hk.tasks[done["task_id"]]["completions"]}
+                assert done["ts"] in times
             for done in service["hk_completions"].values():
                 held.setdefault(done["task_id"], set()).add(done["ts"])
         for task_id, task in self.hk.tasks.items():
-            assert set(task["done"]) <= held.get(task_id, set())
+            times = [c["ts"] for c in task["completions"]]
+            assert len(times) == len(set(times)), "a task was completed 2 times"
+            assert set(times) <= held.get(task_id, set())
 
 
 ReconcileMachine.TestCase.settings = STATEFUL

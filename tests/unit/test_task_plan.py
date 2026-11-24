@@ -419,3 +419,17 @@ def test_each_sensor_key_counts() -> None:
         ("combinator", "all"),
     ):
         assert tp._sensor_differs({**want, key: other}, want), key
+
+
+def test_a_completion_that_home_keeper_has_is_only_recorded() -> None:
+    task = _linked()
+    task["completions"] = [{"ts": "2026-03-01T09:00:00+02:00"}, "bad"]
+    plan = _plan([_item(hk_task_id="t1")], [task], {"s": _service(items=["i"])})
+    assert plan["completes"] == []
+    assert plan["records"] == [
+        {
+            "service_id": "s",
+            "item_id": "i",
+            "completion": {"task_id": "t1", "ts": "2026-03-01T09:00:00+02:00"},
+        }
+    ]
