@@ -32,8 +32,8 @@ Each operation of the tab is a `car_keeper.*` service.
 | Files | `export_data`, `import_data` |
 | Reads | `list_cars`, `get_car`, `list_items`, `list_services` |
 
-A service that changes data returns its record when the call asks for a response. A read
-service always returns a response. Use `car_id` to name a car, because 2 cars can have the
+A change returns its record when the call asks for a response, and a read always gives
+one. Use `car_id` to name a car, because 2 cars can have the
 same name.
 
 ### Feed the odometer from another sensor

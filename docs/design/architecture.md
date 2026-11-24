@@ -16,9 +16,9 @@ source_hash: a74ee707ff9e
 # Architecture
 
 Car Keeper is a Home Assistant integration (domain `car_keeper`) for the maintenance of the
-cars of a household. It is a companion of Home Keeper, as Home Keeper Library is. The request
-that started it is Home Keeper issue 599: a Vehicles tab with time-based and sensor-based
-maintenance, which borrows the parts and stock framework.
+cars of a household. It is a companion of Home Keeper, as Home Keeper Library is. Home Keeper
+issue 599 asked for it: a Vehicles tab with time-based and sensor-based maintenance, which
+borrows the parts and stock framework.
 
 ## Goals
 

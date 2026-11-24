@@ -11,9 +11,9 @@ reading and log a service.
 
 ## The rule
 
-- **Every read is open.** Every user can read each car with its VIN and its plate, each
-  job, each service with its shop, its notes and its cost, and each setting. The entity
-  attributes, the event payloads, the cards and the read services show the same values.
+- **Every read is open.** Every user can read all Car Keeper data. This includes the VIN
+  and the plate of a car and the cost of a service record. The entities
+  and the events show the same values as the read services.
 - **Record management is admin-only.** Only an admin can add, change or delete a car, a
   job, a template, a document, a rule or a setting, and run an export or an import.
 - **The use of a car is open.** Every user can type an odometer reading and log a service.
