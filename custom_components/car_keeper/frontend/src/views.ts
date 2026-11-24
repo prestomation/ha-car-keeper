@@ -80,6 +80,11 @@ export function limitText(item: Rec, unit: string): string {
   return parts.length ? parts.join(` ${t('item.or')} `) : t('item.no_limit');
 }
 
+/** Only a path in Home Assistant is a link: never a scheme such as `javascript:`. */
+export function safeLink(url: string): boolean {
+  return /^\/(?!\/)/.test(url);
+}
+
 // ── Garage ──────────────────────────────────────────────────────────────────
 
 export function garageView(state: State): string {
@@ -240,7 +245,7 @@ function carCard(car: Rec, ui: DetailUi, applianceLink: string): string {
     .join('');
   return `<section class="ck-card" data-section="car"><h2>${e(t('car.details'))}</h2>${list}
     <div class="ck-actions">
-      ${applianceLink ? `<a class="ck-btn text" href="${e(applianceLink)}" data-k="appliance">${e(t('car.in_home_keeper'))}</a>` : ''}
+      ${safeLink(applianceLink) ? `<a class="ck-btn text" href="${e(applianceLink)}" data-k="appliance">${e(t('car.in_home_keeper'))}</a>` : ''}
       <button class="ck-btn text danger" data-act="delete-car" data-k="delete-car">${e(t('car.delete'))}</button>
       <button class="ck-btn" data-act="edit-car" data-k="edit-car">${e(t('action.edit'))}</button>
     </div></section>`;

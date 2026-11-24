@@ -106,6 +106,35 @@ describe('Cars tab', () => {
     expect($('[data-k="appliance"]').getAttribute('href')).toBe('/home-keeper/appliances/a1');
   });
 
+  it('links only a path of Home Assistant', async () => {
+    const state = garage();
+    state.cars.civic.hk_asset_id = 'a1';
+    const { el, $ } = mount({ state }, '/car/civic');
+    el.host.applianceLink = () => 'javascript:alert(1)';
+    el.route = { path: '/car/civic' };
+    await flush();
+    expect($('[data-k="appliance"]')).toBeNull();
+    el.host.applianceLink = () => '//evil.example/x';
+    el.route = { path: '/car/civic' };
+    expect($('[data-k="appliance"]')).toBeNull();
+  });
+
+  it('closes a question on Escape, and stops listening when the tab is gone', async () => {
+    const { el, $, click, fake } = mount({ state: garage() }, '/car/civic');
+    await flush();
+    await click('[data-k="delete-car"]');
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
+    expect($('[data-confirm]')).toBeNull();
+    await click('[data-k="delete-car"]');
+    const dialog = $('[data-confirm]');
+    dialog.remove();
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+    el.shadowRoot.appendChild(dialog);
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
+    expect($('[data-confirm]')).not.toBeNull();
+    expect(fake.calls('delete_car')).toEqual([]);
+  });
+
   it('shows the gone notice for a car that is not there', async () => {
     const { $, click, nav } = mount({ state: garage() }, '/car/nope');
     await flush();

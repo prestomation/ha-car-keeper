@@ -34,7 +34,8 @@ export function confirmDestructive(root: ShadowRoot, opts: ConfirmOptions): HTML
     document.removeEventListener('keydown', onKey);
   };
   const onKey = (ev: KeyboardEvent): void => {
-    if (ev.key === 'Escape') close();
+    // A tab that the panel removed takes its dialog with it: stop listening.
+    if (!wrap.isConnected || ev.key === 'Escape') close();
   };
   wrap.addEventListener('click', (ev) => {
     const target = ev.target as HTMLElement;

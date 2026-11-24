@@ -111,6 +111,10 @@ against a fake Home Keeper. The Docker tier runs it against the real one.
 - **Few locked fields** over **a lock on each field**: Home Keeper drops a locked field
   from each update, also from the owner. So a task locks only `device_id` and an
   appliance only `name`, and a pass writes the other fields of the car again.
+- **A lost completion found by its time** over **a mark on each completion**: Home Keeper
+  keeps no origin on a completion. So a completion by hand in Home Keeper, in the minute
+  after a service that lost its own, counts as that one. It needs a missed Home Keeper
+  event too, because the event logs a service that holds the completion.
 - **A pass that plans from both sides** over **1 call for each change**: a pass also
   repairs what was lost while Home Keeper was not loaded.
 
