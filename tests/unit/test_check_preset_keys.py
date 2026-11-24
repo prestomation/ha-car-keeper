@@ -56,6 +56,12 @@ def test_missing_in_text_needs_a_quoted_key() -> None:
     assert check.missing_in_text(ROW, text) == ["sensor.gone"]
 
 
+def test_missing_in_text_also_takes_a_quoted_key_in_a_comment() -> None:
+    """The known limit: the text check does not parse the code."""
+    text = 'KEYS = {"days": 1, "warn": 2}  # "gone" was removed'
+    assert check.missing_in_text(ROW, text) == []
+
+
 def test_the_presets_module_loads_with_no_home_assistant() -> None:
     presets = check.load_presets()
     assert presets.ROWS

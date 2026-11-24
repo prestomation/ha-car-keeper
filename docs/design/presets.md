@@ -5,7 +5,7 @@ implements:
   - custom_components/car_keeper/presets.py
   - custom_components/car_keeper/hk_presets.py
 related: [home-keeper-link, frontend, services-events]
-source_hash: 13641684bc7e
+source_hash: 629a54243dcd
 ---
 
 # Car presets in Home Keeper
@@ -74,7 +74,9 @@ service warning are longer than 32 characters.
 | `stop` | `unregister` if the service is there |
 
 `hk_presets.PresetSync` feeds the events and runs the calls 1 at a time in a background
-task. A register call replaces what Home Keeper holds, and Home Keeper fires no event
+task. When a run gets the lock, the state at that time decides: register while running,
+else unregister. So the last run matches the newest state, whatever the order of the
+queued runs. A register call replaces what Home Keeper holds, and Home Keeper fires no event
 when the presets did not change. A refused call logs a warning. A status change sends the
 store signal, so the tab reads the state again.
 

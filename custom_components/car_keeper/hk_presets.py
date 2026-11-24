@@ -1,7 +1,8 @@
 """Registers the car presets of Car Keeper in Home Keeper.
 
-:func:`presets.transition` decides each call. This class feeds it the events of Home
-Assistant and runs the calls 1 at a time:
+:func:`presets.transition` decides when to call. This class feeds it the events of
+Home Assistant and runs the calls 1 at a time. A run registers while Car Keeper runs and
+removes the presets after the stop, by the state when the run starts:
 
 * ``start`` at setup, and ``stop`` at unload;
 * ``service_added`` and ``service_removed`` when Home Keeper adds or removes
@@ -108,7 +109,7 @@ class PresetSync:
         self.state, call = presets.transition(self.state, event)
         if call is not None:
             self._entry.async_create_background_task(
-                self._hass, self._run(call), "car_keeper presets"
+                self._hass, self._run(), "car_keeper presets"
             )
         if presets.status(before) != presets.status(self.state):
             self._changed()
@@ -118,11 +119,14 @@ class PresetSync:
         # The tab and the cards read the state again on this signal.
         async_dispatcher_send(self._hass, SIGNAL_STORE_CHANGED, self._store.revision)
 
-    async def _run(self, call: str) -> None:
+    async def _run(self) -> None:
         async with self._lock:
             if not self._has_service():
                 return
-            if call == presets.UNREGISTER:
+            # The state when the lock is free decides, not the call that queued this
+            # run. So the last run always matches the newest state, and a run that
+            # waited past the stop removes the presets.
+            if not self.state.running:
                 await self._unregister()
                 return
             try:

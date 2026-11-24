@@ -91,11 +91,12 @@ class PresetMachine(RuleBasedStateMachine):
     @precondition(lambda self: bool(self.queue))
     @rule()
     def run_oldest_call(self) -> None:
-        call = self.queue.pop(0)
-        # The runner checks the service first, as PresetSync._run does.
+        self.queue.pop(0)
+        # As PresetSync._run: the service first, then the state now decides, not the
+        # call that queued the run.
         if not self.hk.service:
             return
-        if call == presets.UNREGISTER:
+        if not self.link.running:
             self.hk.unregister(COMPANION)
             return
         try:

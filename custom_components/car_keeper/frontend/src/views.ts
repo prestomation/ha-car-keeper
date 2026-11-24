@@ -371,7 +371,9 @@ export function settingsView(state: State): string {
 
 /** The line that says if Home Keeper holds the car presets. */
 export function presetStatus(presets: Presets): string {
-  const status = presets.status ?? 'waiting';
+  const known = ['registered', 'no_service', 'failed', 'waiting'];
+  // A status that this tab does not know yet shows the waiting text, not a raw key.
+  const status = known.includes(presets.status ?? '') ? presets.status : 'waiting';
   if (status === 'registered') return tn('presets.status.registered', presets.preset_ids?.length ?? 0);
   if (status === 'failed') return t('presets.status.failed', { error: presets.error ?? '' });
   return t(`presets.status.${status}`);

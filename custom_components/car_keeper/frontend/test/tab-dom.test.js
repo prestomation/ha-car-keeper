@@ -353,6 +353,7 @@ describe('Cars tab', () => {
     [{ status: 'failed', error: 'rows[0]: bad' }, 'Home Keeper refused the presets: rows[0]: bad'],
     [{ status: 'waiting' }, 'Car Keeper is sending the presets to Home Keeper.'],
     [{}, 'Car Keeper is sending the presets to Home Keeper.'],
+    [{ status: 'paused' }, 'Car Keeper is sending the presets to Home Keeper.'],
   ])('says the preset status %o', async (presets, text) => {
     const state = garage();
     state.presets = presets;
