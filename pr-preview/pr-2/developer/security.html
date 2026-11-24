@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.10.2">
 <title data-rh="true">Security model | Car Keeper</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://prestomation.github.io/ha-car-keeper/pr-preview/pr-2/img/logo.svg"><meta data-rh="true" name="twitter:image" content="https://prestomation.github.io/ha-car-keeper/pr-preview/pr-2/img/logo.svg"><meta data-rh="true" property="og:url" content="https://prestomation.github.io/ha-car-keeper/pr-preview/pr-2/developer/security"><meta data-rh="true" property="og:locale" content="en"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-developer-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-developer-current"><meta data-rh="true" property="og:title" content="Security model | Car Keeper"><meta data-rh="true" name="description" content="In Car Keeper, every Home Assistant user can read all data. Only an admin can manage the"><meta data-rh="true" property="og:description" content="In Car Keeper, every Home Assistant user can read all data. Only an admin can manage the"><link data-rh="true" rel="icon" href="/ha-car-keeper/pr-preview/pr-2/img/favicon.svg"><link data-rh="true" rel="canonical" href="https://prestomation.github.io/ha-car-keeper/pr-preview/pr-2/developer/security"><link data-rh="true" rel="alternate" href="https://prestomation.github.io/ha-car-keeper/pr-preview/pr-2/developer/security" hreflang="en"><link data-rh="true" rel="alternate" href="https://prestomation.github.io/ha-car-keeper/pr-preview/pr-2/developer/security" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Security","item":"https://prestomation.github.io/ha-car-keeper/pr-preview/pr-2/developer/security"}]}</script><link rel="stylesheet" href="/ha-car-keeper/pr-preview/pr-2/assets/css/styles.eef33b07.css">
-<script src="/ha-car-keeper/pr-preview/pr-2/assets/js/runtime~main.2141efd2.js" defer="defer"></script>
+<script src="/ha-car-keeper/pr-preview/pr-2/assets/js/runtime~main.37af61b9.js" defer="defer"></script>
 <script src="/ha-car-keeper/pr-preview/pr-2/assets/js/main.1c726893.js" defer="defer"></script>
 </head>
 <body>
@@ -42,7 +42,51 @@ trusts a call with no user, as Home Assistant does. An automation makes that kin
 
 
 
-<table><thead><tr><th>Service</th><th>Access</th></tr></thead><tbody><tr><td><code>set_settings</code></td><td>Admin</td></tr></tbody></table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Service</th><th>Access</th><th>Rule</th></tr></thead><tbody><tr><td><code>add_car</code>, <code>update_car</code>, <code>delete_car</code></td><td>Admin</td><td>Record management</td></tr><tr><td><code>add_item</code>, <code>update_item</code>, <code>delete_item</code>, <code>apply_templates</code></td><td>Admin</td><td>Record management</td></tr><tr><td><code>update_service</code>, <code>delete_service</code></td><td>Admin</td><td>Record management</td></tr><tr><td><code>correct_odometer</code></td><td>Admin</td><td>Record management: a correction can lower the odometer</td></tr><tr><td><code>set_settings</code></td><td>Admin</td><td>Record management</td></tr><tr><td><code>export_data</code>, <code>import_data</code></td><td>Admin</td><td>Whole-store operation</td></tr><tr><td><code>set_odometer</code></td><td>Every user</td><td>The use of a car. The value cannot go down.</td></tr><tr><td><code>log_service</code></td><td>Every user</td><td>The use of a car</td></tr><tr><td><code>list_cars</code>, <code>get_car</code>, <code>list_items</code>, <code>list_services</code></td><td>Every user</td><td>Every read is open</td></tr></tbody></table>
+<p>The to-do list of a car follows <code>log_service</code>: every user who can use the list can check a
+job.</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="websocket-commands">Websocket commands<a href="#websocket-commands" class="hash-link" aria-label="Direct link to Websocket commands" title="Direct link to Websocket commands" translate="no">​</a></h2>
 
 

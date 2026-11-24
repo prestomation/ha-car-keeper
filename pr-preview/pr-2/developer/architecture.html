@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.10.2">
 <title data-rh="true">Architecture | Car Keeper</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://prestomation.github.io/ha-car-keeper/pr-preview/pr-2/img/logo.svg"><meta data-rh="true" name="twitter:image" content="https://prestomation.github.io/ha-car-keeper/pr-preview/pr-2/img/logo.svg"><meta data-rh="true" property="og:url" content="https://prestomation.github.io/ha-car-keeper/pr-preview/pr-2/developer/architecture"><meta data-rh="true" property="og:locale" content="en"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-developer-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-developer-current"><meta data-rh="true" property="og:title" content="Architecture | Car Keeper"><meta data-rh="true" name="description" content="Car Keeper is a Home Assistant integration (domain car_keeper) for the maintenance of the"><meta data-rh="true" property="og:description" content="Car Keeper is a Home Assistant integration (domain car_keeper) for the maintenance of the"><link data-rh="true" rel="icon" href="/ha-car-keeper/pr-preview/pr-2/img/favicon.svg"><link data-rh="true" rel="canonical" href="https://prestomation.github.io/ha-car-keeper/pr-preview/pr-2/developer/architecture"><link data-rh="true" rel="alternate" href="https://prestomation.github.io/ha-car-keeper/pr-preview/pr-2/developer/architecture" hreflang="en"><link data-rh="true" rel="alternate" href="https://prestomation.github.io/ha-car-keeper/pr-preview/pr-2/developer/architecture" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Architecture","item":"https://prestomation.github.io/ha-car-keeper/pr-preview/pr-2/developer/architecture"}]}</script><link rel="stylesheet" href="/ha-car-keeper/pr-preview/pr-2/assets/css/styles.eef33b07.css">
-<script src="/ha-car-keeper/pr-preview/pr-2/assets/js/runtime~main.2141efd2.js" defer="defer"></script>
+<script src="/ha-car-keeper/pr-preview/pr-2/assets/js/runtime~main.37af61b9.js" defer="defer"></script>
 <script src="/ha-car-keeper/pr-preview/pr-2/assets/js/main.1c726893.js" defer="defer"></script>
 </head>
 <body>
@@ -95,7 +95,12 @@ services, the cards and the entities still work.</li>
 
 
 
-<table><thead><tr><th>Layer</th><th>Modules</th><th>Rule</th></tr></thead><tbody><tr><td>Pure core</td><td><code>const.py</code>, <code>models.py</code>, <code>events.py</code>, <code>projections.py</code>, <code>card_resource.py</code>, <code>backend_i18n.py</code>, <code>api_surface.py</code></td><td>No Home Assistant import.</td></tr><tr><td>Boundary</td><td><code>store.py</code>, <code>coordinator.py</code></td><td>Talks to storage and the bus.</td></tr><tr><td>Glue</td><td><code>__init__.py</code>, <code>services.py</code>, <code>websocket_api.py</code>, <code>home_keeper.py</code>, <code>frontend_assets.py</code>, <code>card.py</code>, <code>config_flow.py</code>, <code>diagnostics.py</code></td><td>Registers and connects, with no rules of its own.</td></tr></tbody></table>
+
+
+
+
+
+<table><thead><tr><th>Layer</th><th>Modules</th><th>Rule</th></tr></thead><tbody><tr><td>Pure core</td><td><code>const.py</code>, <code>units.py</code>, <code>models.py</code>, <code>readings.py</code>, <code>schedule.py</code>, <code>history.py</code>, <code>templates.py</code>, <code>events.py</code>, <code>projections.py</code>, <code>import_export.py</code>, <code>card_resource.py</code>, <code>backend_i18n.py</code>, <code>api_surface.py</code></td><td>No Home Assistant import.</td></tr><tr><td>Boundary</td><td><code>store.py</code>, <code>coordinator.py</code>, <code>odometer.py</code></td><td>Talks to storage, the bus and the state machine.</td></tr><tr><td>Glue</td><td><code>__init__.py</code>, <code>services.py</code>, <code>websocket_api.py</code>, <code>home_keeper.py</code>, <code>frontend_assets.py</code>, <code>card.py</code>, <code>config_flow.py</code>, <code>diagnostics.py</code></td><td>Registers and connects, with no rules of its own.</td></tr><tr><td>Platforms</td><td><code>sensor.py</code>, <code>binary_sensor.py</code>, <code>todo.py</code>, with <code>entity.py</code></td><td><code>const.PLATFORMS</code> lists them.</td></tr></tbody></table>
 <p><code>tests/unit/test_pure_core.py</code> checks the pure core row against the code.</p>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="setup">Setup<a href="#setup" class="hash-link" aria-label="Direct link to Setup" title="Direct link to Setup" translate="no">​</a></h3>
 <p><code>async_setup_entry</code> runs these steps in order:</p>
@@ -104,11 +109,13 @@ services, the cards and the entities still work.</li>
 <li class="">Make the coordinator and store it as <code>entry.runtime_data</code>.</li>
 <li class="">Register the static path, the card resource and the websocket commands.</li>
 <li class="">Forward the platforms and register the services.</li>
+<li class="">Start the odometer follower and the due check, which runs after each change and each
+hour.</li>
 <li class="">Start <code>home_keeper.HomeKeeperLink</code>. It adds the tab and the companion row, or shows a
 repair issue.</li>
 </ol>
-<p><code>async_unload_entry</code> unloads the platforms and removes each service. The static path and
-the card resource stay, because most unloads are half of a reload.</p>
+<p><code>async_unload_entry</code> unloads the platforms, removes each service and stops the follower.
+The static path and the card resource stay, because most unloads are half of a reload.</p>
 <h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="config-entry-and-options">Config entry and options<a href="#config-entry-and-options" class="hash-link" aria-label="Direct link to Config entry and options" title="Direct link to Config entry and options" translate="no">​</a></h3>
 <p>The config flow checks Home Keeper first and stops with the reason if the check fails. It
 asks for the distance unit of a new car, with the unit system of Home Assistant as the
@@ -151,7 +158,15 @@ the VIN and the plate. That rule is for the support file. It is not access contr
 
 
 
-<table><thead><tr><th>Doc</th><th>Subject</th></tr></thead><tbody><tr><td><a href="https://github.com/prestomation/ha-car-keeper/blob/main/docs/design/data-model.md" target="_blank" rel="noopener noreferrer" class="">data-model</a></td><td>The storage document and the store</td></tr><tr><td><a href="https://github.com/prestomation/ha-car-keeper/blob/main/docs/design/home-keeper-link.md" target="_blank" rel="noopener noreferrer" class="">home-keeper-link</a></td><td>The check, the tab, the companion and the repair issue</td></tr><tr><td><a href="https://github.com/prestomation/ha-car-keeper/blob/main/docs/design/services-events.md" target="_blank" rel="noopener noreferrer" class="">services-events</a></td><td>Services, events, websocket commands and the API surface</td></tr><tr><td><a href="https://github.com/prestomation/ha-car-keeper/blob/main/docs/design/frontend.md" target="_blank" rel="noopener noreferrer" class="">frontend</a></td><td>The Cars tab, the cards and the delivery of the bundles</td></tr></tbody></table>
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Doc</th><th>Subject</th></tr></thead><tbody><tr><td><a href="https://github.com/prestomation/ha-car-keeper/blob/main/docs/design/data-model.md" target="_blank" rel="noopener noreferrer" class="">data-model</a></td><td>The storage document, the records, the store, the export and import</td></tr><tr><td><a href="https://github.com/prestomation/ha-car-keeper/blob/main/docs/design/odometer-schedule.md" target="_blank" rel="noopener noreferrer" class="">odometer-schedule</a></td><td>The odometer, the units, the due rule, the history, the starter jobs</td></tr><tr><td><a href="https://github.com/prestomation/ha-car-keeper/blob/main/docs/design/entities.md" target="_blank" rel="noopener noreferrer" class="">entities</a></td><td>The device, the sensors and the to-do list of each car</td></tr><tr><td><a href="https://github.com/prestomation/ha-car-keeper/blob/main/docs/design/home-keeper-link.md" target="_blank" rel="noopener noreferrer" class="">home-keeper-link</a></td><td>The check, the tab, the companion and the repair issue</td></tr><tr><td><a href="https://github.com/prestomation/ha-car-keeper/blob/main/docs/design/services-events.md" target="_blank" rel="noopener noreferrer" class="">services-events</a></td><td>Services, events, websocket commands and the API surface</td></tr><tr><td><a href="https://github.com/prestomation/ha-car-keeper/blob/main/docs/design/frontend.md" target="_blank" rel="noopener noreferrer" class="">frontend</a></td><td>The Cars tab, the cards and the delivery of the bundles</td></tr></tbody></table>
 <p>The approved design of the first release is in
 <a href="https://github.com/prestomation/ha-car-keeper/blob/main/docs/research/first-release/architecture.md" target="_blank" rel="noopener noreferrer" class="">docs/research/first-release</a>. Each part moves
 into these docs when it is built.</p>

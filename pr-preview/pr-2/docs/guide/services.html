@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="generator" content="Docusaurus v3.10.2">
 <title data-rh="true">Services and events | Car Keeper</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:image" content="https://prestomation.github.io/ha-car-keeper/pr-preview/pr-2/img/logo.svg"><meta data-rh="true" name="twitter:image" content="https://prestomation.github.io/ha-car-keeper/pr-preview/pr-2/img/logo.svg"><meta data-rh="true" property="og:url" content="https://prestomation.github.io/ha-car-keeper/pr-preview/pr-2/docs/guide/services"><meta data-rh="true" property="og:locale" content="en"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="Services and events | Car Keeper"><meta data-rh="true" name="description" content="Each Car Keeper data action is a car_keeper.* service. An automation, a script or a"><meta data-rh="true" property="og:description" content="Each Car Keeper data action is a car_keeper.* service. An automation, a script or a"><link data-rh="true" rel="icon" href="/ha-car-keeper/pr-preview/pr-2/img/favicon.svg"><link data-rh="true" rel="canonical" href="https://prestomation.github.io/ha-car-keeper/pr-preview/pr-2/docs/guide/services"><link data-rh="true" rel="alternate" href="https://prestomation.github.io/ha-car-keeper/pr-preview/pr-2/docs/guide/services" hreflang="en"><link data-rh="true" rel="alternate" href="https://prestomation.github.io/ha-car-keeper/pr-preview/pr-2/docs/guide/services" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Services and events","item":"https://prestomation.github.io/ha-car-keeper/pr-preview/pr-2/docs/guide/services"}]}</script><link rel="stylesheet" href="/ha-car-keeper/pr-preview/pr-2/assets/css/styles.eef33b07.css">
-<script src="/ha-car-keeper/pr-preview/pr-2/assets/js/runtime~main.2141efd2.js" defer="defer"></script>
+<script src="/ha-car-keeper/pr-preview/pr-2/assets/js/runtime~main.37af61b9.js" defer="defer"></script>
 <script src="/ha-car-keeper/pr-preview/pr-2/assets/js/main.1c726893.js" defer="defer"></script>
 </head>
 <body>
@@ -29,7 +29,97 @@ voice assistant can do what the Cars tab does.</p>
 
 
 
-<table><thead><tr><th>Service</th><th>Who can call it</th><th>What it does</th></tr></thead><tbody><tr><td><code>car_keeper.set_settings</code></td><td>Admins</td><td>Changes the distance unit of a new car.</td></tr></tbody></table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Service</th><th>Who can call it</th><th>What it does</th></tr></thead><tbody><tr><td><code>car_keeper.add_car</code></td><td>Admins</td><td>Adds a car, with its odometer and the starter jobs.</td></tr><tr><td><code>car_keeper.update_car</code></td><td>Admins</td><td>Changes a car. A new unit converts each value of the car.</td></tr><tr><td><code>car_keeper.delete_car</code></td><td>Admins</td><td>Deletes a car with its jobs and history.</td></tr><tr><td><code>car_keeper.set_odometer</code></td><td>Every user</td><td>Stores a reading. It cannot be below the last one.</td></tr><tr><td><code>car_keeper.correct_odometer</code></td><td>Admins</td><td>Stores any reading, and an offset for a new instrument cluster.</td></tr><tr><td><code>car_keeper.add_item</code></td><td>Admins</td><td>Adds a maintenance job.</td></tr><tr><td><code>car_keeper.update_item</code></td><td>Admins</td><td>Changes a job.</td></tr><tr><td><code>car_keeper.delete_item</code></td><td>Admins</td><td>Deletes a job.</td></tr><tr><td><code>car_keeper.apply_templates</code></td><td>Admins</td><td>Adds starter jobs to a car.</td></tr><tr><td><code>car_keeper.log_service</code></td><td>Every user</td><td>Adds a service record and marks its jobs done.</td></tr><tr><td><code>car_keeper.update_service</code></td><td>Admins</td><td>Changes a service record.</td></tr><tr><td><code>car_keeper.delete_service</code></td><td>Admins</td><td>Deletes a service record.</td></tr><tr><td><code>car_keeper.set_settings</code></td><td>Admins</td><td>Changes the unit of a new car and the starter jobs.</td></tr><tr><td><code>car_keeper.export_data</code></td><td>Admins</td><td>Returns all data for the Home Keeper export.</td></tr><tr><td><code>car_keeper.import_data</code></td><td>Admins</td><td>Adds and updates data from an export.</td></tr><tr><td><code>car_keeper.list_cars</code></td><td>Every user</td><td>Returns the cars with their status.</td></tr><tr><td><code>car_keeper.get_car</code></td><td>Every user</td><td>Returns 1 car with its jobs and history.</td></tr><tr><td><code>car_keeper.list_items</code></td><td>Every user</td><td>Returns the jobs with their limits.</td></tr><tr><td><code>car_keeper.list_services</code></td><td>Every user</td><td>Returns the service records.</td></tr></tbody></table>
 <p>The full list of the services and their fields is in the
 <a class="" href="/ha-car-keeper/pr-preview/pr-2/developer/api">API reference</a>.</p>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="events">Events<a href="#events" class="hash-link" aria-label="Direct link to Events" title="Direct link to Events" translate="no">​</a></h2>
@@ -47,7 +137,35 @@ voice assistant can do what the Cars tab does.</p>
 
 
 
-<table><thead><tr><th>Event</th><th>When it fires</th></tr></thead><tbody><tr><td><code>car_keeper_settings_updated</code></td><td>A setting changes.</td></tr></tbody></table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>Event</th><th>When it fires</th></tr></thead><tbody><tr><td><code>car_keeper_car_added</code>, <code>_updated</code>, <code>_removed</code></td><td>A car changes.</td></tr><tr><td><code>car_keeper_odometer_updated</code></td><td>A reading is stored.</td></tr><tr><td><code>car_keeper_item_added</code>, <code>_updated</code>, <code>_removed</code></td><td>A job changes.</td></tr><tr><td><code>car_keeper_item_due_soon</code></td><td>A job enters its warning window.</td></tr><tr><td><code>car_keeper_item_overdue</code></td><td>A job reaches a limit.</td></tr><tr><td><code>car_keeper_service_logged</code>, <code>_updated</code>, <code>_removed</code></td><td>A service record changes.</td></tr><tr><td><code>car_keeper_settings_updated</code></td><td>A setting changes.</td></tr><tr><td><code>car_keeper_data_imported</code></td><td>An import is written.</td></tr></tbody></table>
 <p>The payload of each event is in <a href="https://github.com/prestomation/ha-car-keeper/blob/main/docs/EVENTS.md" target="_blank" rel="noopener noreferrer" class="">EVENTS.md</a>.</p></div><footer class="theme-doc-footer docusaurus-mt-lg"><div class="row margin-top--sm theme-doc-footer-edit-meta-row"><div class="col noPrint_WFHX"><a href="https://github.com/prestomation/ha-car-keeper/tree/main/website/docs/guide/automation/services.md" target="_blank" rel="noopener noreferrer" class="theme-edit-this-page"><svg fill="currentColor" height="20" width="20" viewBox="0 0 40 40" class="iconEdit_Z9Sw" aria-hidden="true"><g><path d="m34.5 11.7l-3 3.1-6.3-6.3 3.1-3q0.5-0.5 1.2-0.5t1.1 0.5l3.9 3.9q0.5 0.4 0.5 1.1t-0.5 1.2z m-29.5 17.1l18.4-18.5 6.3 6.3-18.4 18.4h-6.3v-6.2z"></path></g></svg>Edit this page</a></div><div class="col lastUpdated_JAkA"></div></div></footer></article><nav class="docusaurus-mt-lg pagination-nav" aria-label="Docs pages"><a class="pagination-nav__link pagination-nav__link--prev" href="/ha-car-keeper/pr-preview/pr-2/docs/guide/installation"><div class="pagination-nav__sublabel">Previous</div><div class="pagination-nav__label">Installation</div></a><a class="pagination-nav__link pagination-nav__link--next" href="/ha-car-keeper/pr-preview/pr-2/docs/release-notes"><div class="pagination-nav__sublabel">Next</div><div class="pagination-nav__label">Release Notes</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#services" class="table-of-contents__link toc-highlight">Services</a></li><li><a href="#events" class="table-of-contents__link toc-highlight">Events</a></li></ul></div></div></div></div></main></div></div></div><footer class="theme-layout-footer footer footer--dark"><div class="container container-fluid"><div class="row footer__links"><div class="theme-layout-footer-column col footer__col"><div class="footer__title">Docs</div><ul class="footer__items clean-list"><li class="footer__item"><a class="footer__link-item" href="/ha-car-keeper/pr-preview/pr-2/docs/intro">User Guide</a></li><li class="footer__item"><a class="footer__link-item" href="/ha-car-keeper/pr-preview/pr-2/developer/integrating">Developer Guide</a></li></ul></div><div class="theme-layout-footer-column col footer__col"><div class="footer__title">Community</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://www.home-assistant.io/" target="_blank" rel="noopener noreferrer" class="footer__link-item">Home Assistant<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li><li class="footer__item"><a href="https://hacs.xyz/" target="_blank" rel="noopener noreferrer" class="footer__link-item">HACS<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li></ul></div><div class="theme-layout-footer-column col footer__col"><div class="footer__title">More</div><ul class="footer__items clean-list"><li class="footer__item"><a href="https://github.com/prestomation/ha-car-keeper" target="_blank" rel="noopener noreferrer" class="footer__link-item">GitHub<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li><li class="footer__item"><a href="https://github.com/prestomation/ha-car-keeper/issues" target="_blank" rel="noopener noreferrer" class="footer__link-item">Issues<svg width="13.5" height="13.5" aria-label="(opens in new tab)" class="iconExternalLink_nPIU"><use href="#theme-svg-external-link"></use></svg></a></li></ul></div></div><div class="footer__bottom text--center"><div class="footer__copyright">Car Keeper, a community Home Assistant integration. Built with Docusaurus.</div></div></div></footer></div>
 </body>
 </html>
