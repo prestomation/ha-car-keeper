@@ -1,0 +1,731 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Car Keeper",
+        "description": "Legen Sie die Entfernungseinheit eines neuen Autos fest. Jedes Auto kann eine eigene Einheit haben.",
+        "data": {
+          "unit": "Entfernungseinheit"
+        },
+        "data_description": {
+          "unit": "Kilometer oder Meilen."
+        }
+      }
+    },
+    "abort": {
+      "already_configured": "Car Keeper ist bereits eingerichtet.",
+      "single_instance_allowed": "Car Keeper ist bereits eingerichtet.",
+      "home_keeper_missing": "Car Keeper benötigt Home Keeper. Installieren Sie Home Keeper aus HACS, starten Sie Home Assistant neu und fügen Sie Car Keeper erneut hinzu. Installationsschritte: {url}",
+      "home_keeper_not_set_up": "Fügen Sie zuerst die Home Keeper-Integration hinzu.",
+      "home_keeper_too_old": "Aktualisieren Sie Home Keeper auf Version {version} oder neuer."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Car Keeper-Optionen",
+        "data": {
+          "unit": "Entfernungseinheit"
+        },
+        "data_description": {
+          "unit": "Die Einheit eines neuen Autos. Ein bereits hinzugefügtes Auto behält seine Einheit."
+        }
+      }
+    }
+  },
+  "selector": {
+    "unit": {
+      "options": {
+        "km": "Kilometer",
+        "mi": "Meilen"
+      }
+    },
+    "fuel": {
+      "options": {
+        "petrol": "Benzin",
+        "diesel": "Diesel",
+        "hybrid": "Hybrid",
+        "plug_in_hybrid": "Plug-in-Hybrid",
+        "electric": "Elektrisch",
+        "other": "Andere"
+      }
+    },
+    "odometer_source": {
+      "options": {
+        "manual": "Eingegeben",
+        "entity": "Sensor"
+      }
+    },
+    "kind": {
+      "options": {
+        "job": "Intervallarbeit",
+        "date": "Datum"
+      }
+    },
+    "template": {
+      "options": {
+        "engine_oil": "Motoröl und Filter",
+        "tyre_rotation": "Reifenwechsel der Achsen",
+        "tyre_check": "Reifendruck und Profil",
+        "brake_fluid": "Bremsflüssigkeit",
+        "cabin_filter": "Innenraumfilter",
+        "engine_air_filter": "Motorluftfilter",
+        "wipers": "Wischerblätter",
+        "battery_12v": "Test der 12-V-Batterie",
+        "coolant": "Kühlmittel",
+        "spark_plugs": "Zündkerzen",
+        "adblue": "AdBlue nachfüllen",
+        "registration": "Zulassung",
+        "insurance": "Versicherung",
+        "inspection": "Hauptuntersuchung"
+      }
+    }
+  },
+  "issues": {
+    "home_keeper_missing": {
+      "title": "Home Keeper ist nicht installiert",
+      "description": "Der Tab Autos und die Wartungsaufgaben benötigen Home Keeper. Die Karten, die Entitäten und die Dienste funktionieren bereits. Installieren Sie Home Keeper aus HACS und starten Sie Home Assistant neu. Installationsschritte: {url}"
+    },
+    "home_keeper_not_set_up": {
+      "title": "Home Keeper ist nicht eingerichtet",
+      "description": "Der Tab Autos und die Wartungsaufgaben benötigen eine geladene Home Keeper-Integration. Die Karten, die Entitäten und die Dienste funktionieren bereits. Fügen Sie die Home Keeper-Integration hinzu oder aktivieren Sie sie."
+    },
+    "home_keeper_too_old": {
+      "title": "Home Keeper ist zu alt",
+      "description": "Der Tab Autos und die Wartungsaufgaben benötigen Home Keeper ab Version {version}. Die Karten, die Entitäten und die Dienste funktionieren bereits. Aktualisieren Sie Home Keeper."
+    },
+    "odometer_decreased": {
+      "title": "Der Kilometerstand von {car} ist gesunken",
+      "description": "Der Kilometerstandsensor von {car} hat 2-mal {value} {unit} gemeldet, unter dem letzten Stand von {current} {unit}. Car Keeper behält den letzten Stand. Wenn der Sensor falsch ist, korrigieren Sie den Sensor. Wenn das Auto ein neues Kombiinstrument hat, korrigieren Sie den Kilometerstand und legen Sie einen Versatz fest."
+    }
+  },
+  "services": {
+    "add_car": {
+      "name": "Auto hinzufügen",
+      "description": "Fügt ein Auto mit Kilometerstand und den ausgewählten Startarbeiten hinzu. Nur für Administratoren.",
+      "fields": {
+        "name": {
+          "name": "Name",
+          "description": "Der Name des Autos."
+        },
+        "make": {
+          "name": "Marke",
+          "description": "Der Hersteller des Autos."
+        },
+        "model": {
+          "name": "Modell",
+          "description": "Das Modell des Autos."
+        },
+        "year": {
+          "name": "Jahr",
+          "description": "Das Modelljahr."
+        },
+        "trim": {
+          "name": "Ausstattung",
+          "description": "Die Ausstattung oder die Version."
+        },
+        "fuel": {
+          "name": "Kraftstoff",
+          "description": "Die Kraftstoffart. Sie wählt die Startarbeiten."
+        },
+        "vin": {
+          "name": "FIN",
+          "description": "Die Fahrzeug-Identifizierungsnummer."
+        },
+        "plate": {
+          "name": "Kennzeichen",
+          "description": "Das Kennzeichen."
+        },
+        "engine_code": {
+          "name": "Motorcode",
+          "description": "Der Motorcode des Herstellers."
+        },
+        "transmission_code": {
+          "name": "Getriebecode",
+          "description": "Der Getriebecode des Herstellers."
+        },
+        "first_registered": {
+          "name": "Erstzulassung",
+          "description": "Das Datum der Erstzulassung des Autos."
+        },
+        "area_id": {
+          "name": "Bereich",
+          "description": "Der Bereich des Autos in Home Assistant."
+        },
+        "notes": {
+          "name": "Notizen",
+          "description": "Notizen."
+        },
+        "lead_distance": {
+          "name": "Warnabstand",
+          "description": "Der Abstand vor einer Grenze, ab dem eine Arbeit bald fällig ist."
+        },
+        "lead_days": {
+          "name": "Warntage",
+          "description": "Die Tage vor einer Grenze, ab denen eine Arbeit bald fällig ist."
+        },
+        "unit": {
+          "name": "Entfernungseinheit",
+          "description": "km oder mi."
+        },
+        "odometer_source": {
+          "name": "Quelle des Kilometerstands",
+          "description": "Geben Sie den Kilometerstand ein oder lesen Sie ihn von einem Sensor."
+        },
+        "odometer_entity_id": {
+          "name": "Kilometerstandsensor",
+          "description": "Der Sensor, der den Kilometerstand meldet."
+        },
+        "odometer": {
+          "name": "Kilometerstand",
+          "description": "Der aktuelle Stand in der Einheit des Autos."
+        },
+        "starter_jobs": {
+          "name": "Startarbeiten",
+          "description": "Die IDs der hinzuzufügenden Startarbeiten."
+        },
+        "due_dates": {
+          "name": "Fälligkeitsdaten",
+          "description": "Das Fälligkeitsdatum jeder Startarbeit mit Datum, nach ihrer ID."
+        }
+      }
+    },
+    "update_car": {
+      "name": "Auto aktualisieren",
+      "description": "Ändert die Felder eines Autos. Ein Wechsel der Einheit rechnet jeden Wert des Autos um. Nur für Administratoren.",
+      "fields": {
+        "car_id": {
+          "name": "Auto",
+          "description": "Die ID des Autos."
+        },
+        "name": {
+          "name": "Name",
+          "description": "Der Name des Autos."
+        },
+        "make": {
+          "name": "Marke",
+          "description": "Der Hersteller des Autos."
+        },
+        "model": {
+          "name": "Modell",
+          "description": "Das Modell des Autos."
+        },
+        "year": {
+          "name": "Jahr",
+          "description": "Das Modelljahr."
+        },
+        "trim": {
+          "name": "Ausstattung",
+          "description": "Die Ausstattung oder die Version."
+        },
+        "fuel": {
+          "name": "Kraftstoff",
+          "description": "Die Kraftstoffart. Sie wählt die Startarbeiten."
+        },
+        "vin": {
+          "name": "FIN",
+          "description": "Die Fahrzeug-Identifizierungsnummer."
+        },
+        "plate": {
+          "name": "Kennzeichen",
+          "description": "Das Kennzeichen."
+        },
+        "engine_code": {
+          "name": "Motorcode",
+          "description": "Der Motorcode des Herstellers."
+        },
+        "transmission_code": {
+          "name": "Getriebecode",
+          "description": "Der Getriebecode des Herstellers."
+        },
+        "first_registered": {
+          "name": "Erstzulassung",
+          "description": "Das Datum der Erstzulassung des Autos."
+        },
+        "area_id": {
+          "name": "Bereich",
+          "description": "Der Bereich des Autos in Home Assistant."
+        },
+        "notes": {
+          "name": "Notizen",
+          "description": "Notizen."
+        },
+        "lead_distance": {
+          "name": "Warnabstand",
+          "description": "Der Abstand vor einer Grenze, ab dem eine Arbeit bald fällig ist."
+        },
+        "lead_days": {
+          "name": "Warntage",
+          "description": "Die Tage vor einer Grenze, ab denen eine Arbeit bald fällig ist."
+        },
+        "unit": {
+          "name": "Entfernungseinheit",
+          "description": "km oder mi."
+        },
+        "odometer_source": {
+          "name": "Quelle des Kilometerstands",
+          "description": "Geben Sie den Kilometerstand ein oder lesen Sie ihn von einem Sensor."
+        },
+        "odometer_entity_id": {
+          "name": "Kilometerstandsensor",
+          "description": "Der Sensor, der den Kilometerstand meldet."
+        }
+      }
+    },
+    "delete_car": {
+      "name": "Auto löschen",
+      "description": "Löscht ein Auto mit seinen Arbeiten, Serviceeinträgen und Ständen. Nur für Administratoren.",
+      "fields": {
+        "car_id": {
+          "name": "Auto",
+          "description": "Die ID des Autos."
+        }
+      }
+    },
+    "set_odometer": {
+      "name": "Kilometerstand eingeben",
+      "description": "Speichert einen Kilometerstand. Der Wert kann nicht unter dem letzten Stand liegen.",
+      "fields": {
+        "car_id": {
+          "name": "Auto",
+          "description": "Die ID des Autos."
+        },
+        "value": {
+          "name": "Stand",
+          "description": "Der Kilometerstand in der Einheit des Autos."
+        }
+      }
+    },
+    "correct_odometer": {
+      "name": "Kilometerstand korrigieren",
+      "description": "Speichert jeden Stand, auch einen niedrigeren, und einen optionalen Versatz für ein neues Kombiinstrument. Nur für Administratoren.",
+      "fields": {
+        "car_id": {
+          "name": "Auto",
+          "description": "Die ID des Autos."
+        },
+        "value": {
+          "name": "Stand",
+          "description": "Der Kilometerstand in der Einheit des Autos."
+        },
+        "offset": {
+          "name": "Versatz",
+          "description": "Wird zu jedem späteren Sensorwert addiert, für ein neues Kombiinstrument."
+        }
+      }
+    },
+    "add_item": {
+      "name": "Arbeit hinzufügen",
+      "description": "Fügt einem Auto eine Wartungsarbeit hinzu. Nur für Administratoren.",
+      "fields": {
+        "car_id": {
+          "name": "Auto",
+          "description": "Die ID des Autos."
+        },
+        "name": {
+          "name": "Name",
+          "description": "Der Name der Arbeit."
+        },
+        "kind": {
+          "name": "Art",
+          "description": "Eine Arbeit mit Intervall, oder ein Datum wie eine Zulassung."
+        },
+        "interval_distance": {
+          "name": "Entfernungsintervall",
+          "description": "Die Strecke zwischen 2 Services in der Einheit des Autos."
+        },
+        "interval_months": {
+          "name": "Zeitintervall",
+          "description": "Die Monate zwischen 2 Services."
+        },
+        "due_date": {
+          "name": "Fälligkeitsdatum",
+          "description": "Das Fälligkeitsdatum einer Arbeit mit Datum."
+        },
+        "lead_distance": {
+          "name": "Warnabstand",
+          "description": "Der Abstand vor einer Grenze, ab dem eine Arbeit bald fällig ist."
+        },
+        "lead_days": {
+          "name": "Warntage",
+          "description": "Die Tage vor einer Grenze, ab denen eine Arbeit bald fällig ist."
+        },
+        "notes": {
+          "name": "Notizen",
+          "description": "Notizen."
+        },
+        "enabled": {
+          "name": "An",
+          "description": "Aus behält die Arbeit und stoppt ihren Fälligkeitsstatus."
+        },
+        "add_task": {
+          "name": "Home Keeper-Aufgabe",
+          "description": "Eine Home Keeper-Aufgabe für die Arbeit anlegen."
+        },
+        "parts": {
+          "name": "Teile",
+          "description": "Die Home Keeper-Teile, die die Arbeit jedes Mal braucht. Home Keeper zieht sie vom Bestand ab."
+        },
+        "last_date": {
+          "name": "Zuletzt erledigt am",
+          "description": "Das Datum des letzten Services, falls Sie es kennen."
+        },
+        "last_reading": {
+          "name": "Zuletzt erledigt bei",
+          "description": "Der Kilometerstand beim letzten Service, falls Sie ihn kennen."
+        }
+      }
+    },
+    "update_item": {
+      "name": "Arbeit aktualisieren",
+      "description": "Ändert die Felder einer Wartungsarbeit. Nur für Administratoren.",
+      "fields": {
+        "item_id": {
+          "name": "Arbeit",
+          "description": "Die ID der Arbeit."
+        },
+        "name": {
+          "name": "Name",
+          "description": "Der Name der Arbeit."
+        },
+        "kind": {
+          "name": "Art",
+          "description": "Eine Arbeit mit Intervall, oder ein Datum wie eine Zulassung."
+        },
+        "interval_distance": {
+          "name": "Entfernungsintervall",
+          "description": "Die Strecke zwischen 2 Services in der Einheit des Autos."
+        },
+        "interval_months": {
+          "name": "Zeitintervall",
+          "description": "Die Monate zwischen 2 Services."
+        },
+        "due_date": {
+          "name": "Fälligkeitsdatum",
+          "description": "Das Fälligkeitsdatum einer Arbeit mit Datum."
+        },
+        "lead_distance": {
+          "name": "Warnabstand",
+          "description": "Der Abstand vor einer Grenze, ab dem eine Arbeit bald fällig ist."
+        },
+        "lead_days": {
+          "name": "Warntage",
+          "description": "Die Tage vor einer Grenze, ab denen eine Arbeit bald fällig ist."
+        },
+        "notes": {
+          "name": "Notizen",
+          "description": "Notizen."
+        },
+        "enabled": {
+          "name": "An",
+          "description": "Aus behält die Arbeit und stoppt ihren Fälligkeitsstatus."
+        },
+        "add_task": {
+          "name": "Home Keeper-Aufgabe",
+          "description": "Eine Home Keeper-Aufgabe für die Arbeit anlegen."
+        },
+        "parts": {
+          "name": "Teile",
+          "description": "Die Home Keeper-Teile, die die Arbeit jedes Mal braucht. Home Keeper zieht sie vom Bestand ab."
+        }
+      }
+    },
+    "delete_item": {
+      "name": "Arbeit löschen",
+      "description": "Löscht eine Wartungsarbeit. Die Serviceeinträge bleiben. Nur für Administratoren.",
+      "fields": {
+        "item_id": {
+          "name": "Arbeit",
+          "description": "Die ID der Arbeit."
+        }
+      }
+    },
+    "apply_templates": {
+      "name": "Startarbeiten hinzufügen",
+      "description": "Fügt einem Auto die ausgewählten Startarbeiten hinzu. Nur für Administratoren.",
+      "fields": {
+        "car_id": {
+          "name": "Auto",
+          "description": "Die ID des Autos."
+        },
+        "starter_jobs": {
+          "name": "Startarbeiten",
+          "description": "Die hinzuzufügenden Startarbeiten."
+        },
+        "due_dates": {
+          "name": "Fälligkeitsdaten",
+          "description": "Das Fälligkeitsdatum jeder Startarbeit mit Datum, nach ihrer ID."
+        }
+      }
+    },
+    "log_service": {
+      "name": "Service eintragen",
+      "description": "Fügt einen Serviceeintrag hinzu und markiert seine Arbeiten als erledigt.",
+      "fields": {
+        "car_id": {
+          "name": "Auto",
+          "description": "Die ID des Autos."
+        },
+        "date": {
+          "name": "Datum",
+          "description": "Das Datum des Services. Standard ist heute."
+        },
+        "reading": {
+          "name": "Stand",
+          "description": "Der Kilometerstand beim Service."
+        },
+        "items": {
+          "name": "Arbeiten",
+          "description": "Die IDs der Arbeiten, die der Service erledigt hat."
+        },
+        "shop": {
+          "name": "Werkstatt",
+          "description": "Die Werkstatt, oder leer für eine Arbeit zu Hause."
+        },
+        "notes": {
+          "name": "Notizen",
+          "description": "Notizen."
+        },
+        "who": {
+          "name": "Wer",
+          "description": "Wer die Arbeit erledigt hat."
+        },
+        "cost": {
+          "name": "Kosten",
+          "description": "Die Kosten des Besuchs in der Währung von Home Assistant."
+        },
+        "parts_used": {
+          "name": "Verwendete Teile",
+          "description": "Eine Liste der Home Keeper-Teile, die der Service verwendet hat."
+        }
+      }
+    },
+    "update_service": {
+      "name": "Serviceeintrag aktualisieren",
+      "description": "Ändert einen Serviceeintrag. Nur für Administratoren.",
+      "fields": {
+        "service_id": {
+          "name": "Serviceeintrag",
+          "description": "Die ID des Serviceeintrags."
+        },
+        "date": {
+          "name": "Datum",
+          "description": "Das Datum des Services. Standard ist heute."
+        },
+        "reading": {
+          "name": "Stand",
+          "description": "Der Kilometerstand beim Service."
+        },
+        "items": {
+          "name": "Arbeiten",
+          "description": "Die IDs der Arbeiten, die der Service erledigt hat."
+        },
+        "shop": {
+          "name": "Werkstatt",
+          "description": "Die Werkstatt, oder leer für eine Arbeit zu Hause."
+        },
+        "notes": {
+          "name": "Notizen",
+          "description": "Notizen."
+        },
+        "who": {
+          "name": "Wer",
+          "description": "Wer die Arbeit erledigt hat."
+        },
+        "cost": {
+          "name": "Kosten",
+          "description": "Die Kosten des Besuchs in der Währung von Home Assistant."
+        },
+        "parts_used": {
+          "name": "Verwendete Teile",
+          "description": "Eine Liste der Home Keeper-Teile, die der Service verwendet hat."
+        }
+      }
+    },
+    "delete_service": {
+      "name": "Serviceeintrag löschen",
+      "description": "Löscht einen Serviceeintrag. Nur für Administratoren.",
+      "fields": {
+        "service_id": {
+          "name": "Serviceeintrag",
+          "description": "Die ID des Serviceeintrags."
+        }
+      }
+    },
+    "set_settings": {
+      "name": "Einstellungen festlegen",
+      "description": "Ändert die Einstellungen von Car Keeper. Nur für Administratoren.",
+      "fields": {
+        "unit": {
+          "name": "Entfernungseinheit",
+          "description": "Die Einheit eines neuen Autos: km oder mi."
+        },
+        "templates": {
+          "name": "Startarbeiten",
+          "description": "Änderungen der Startarbeiten nach ID: km, Monate und aktiviert."
+        }
+      }
+    },
+    "export_data": {
+      "name": "Daten exportieren",
+      "description": "Gibt alle Car Keeper-Daten für den Home Keeper-Export zurück. Nur für Administratoren.",
+      "fields": {
+        "files_dir": {
+          "name": "Dateiordner",
+          "description": "Von Home Keeper für einen Paketexport oder -import gesetzt."
+        }
+      }
+    },
+    "import_data": {
+      "name": "Daten importieren",
+      "description": "Fügt Car Keeper-Daten aus einem Export hinzu und aktualisiert sie. Er löscht keinen Eintrag. Nur für Administratoren.",
+      "fields": {
+        "document": {
+          "name": "Dokument",
+          "description": "Der Car Keeper-Abschnitt eines Exports."
+        },
+        "dry_run": {
+          "name": "Vorschau",
+          "description": "Melden, was sich ändern würde, und keine Daten schreiben."
+        },
+        "files_dir": {
+          "name": "Dateiordner",
+          "description": "Von Home Keeper für einen Paketexport oder -import gesetzt."
+        }
+      }
+    },
+    "list_cars": {
+      "name": "Autos auflisten",
+      "description": "Gibt jedes Auto mit seinem Status und seiner nächsten Arbeit zurück."
+    },
+    "get_car": {
+      "name": "Auto abrufen",
+      "description": "Gibt 1 Auto mit seinen Arbeiten, Serviceeinträgen und Ständen zurück.",
+      "fields": {
+        "car_id": {
+          "name": "Auto",
+          "description": "Die ID des Autos."
+        }
+      }
+    },
+    "list_items": {
+      "name": "Arbeiten auflisten",
+      "description": "Gibt die Arbeiten mit ihren Grenzen und ihrem Status zurück.",
+      "fields": {
+        "car_id": {
+          "name": "Auto",
+          "description": "Nur die Arbeiten dieses Autos."
+        }
+      }
+    },
+    "list_services": {
+      "name": "Serviceeinträge auflisten",
+      "description": "Gibt die Serviceeinträge zurück, den neuesten zuerst.",
+      "fields": {
+        "car_id": {
+          "name": "Auto",
+          "description": "Nur die Einträge dieses Autos."
+        }
+      }
+    }
+  },
+  "exceptions": {
+    "not_loaded": {
+      "message": "Car Keeper ist nicht geladen. Versuchen Sie es nach dem Start erneut."
+    },
+    "car_not_found": {
+      "message": "Kein Auto hat die ID {id}."
+    },
+    "item_not_found": {
+      "message": "Keine Arbeit hat die ID {id}."
+    },
+    "service_not_found": {
+      "message": "Kein Serviceeintrag hat die ID {id}."
+    },
+    "template_not_found": {
+      "message": "Keine Startarbeit hat die ID {id}."
+    },
+    "field_required": {
+      "message": "Geben Sie einen Wert für {field} ein."
+    },
+    "field_too_long": {
+      "message": "Der Wert von {field} ist länger als {limit} Zeichen."
+    },
+    "invalid_field": {
+      "message": "Der Wert von {field} ist ungültig."
+    },
+    "out_of_range": {
+      "message": "Der Wert von {field} muss zwischen {low} und {high} liegen."
+    },
+    "invalid_date": {
+      "message": "Das Datum {value} von {field} ist kein Datum im Format JJJJ-MM-TT."
+    },
+    "interval_required": {
+      "message": "Geben Sie ein Entfernungsintervall, ein Zeitintervall oder beide ein."
+    },
+    "invalid_reading": {
+      "message": "Der Stand {value} ist ungültig."
+    },
+    "odometer_decreased": {
+      "message": "Der Stand {value} liegt unter dem letzten Stand {current}. Ein Administrator kann den Kilometerstand korrigieren."
+    },
+    "todo_only_check": {
+      "message": "Haken Sie die Arbeit ab, um einen Service einzutragen. Die Liste hat keine andere Änderung."
+    },
+    "import_not_a_document": {
+      "message": "Das Dokument ist kein Car Keeper-Export."
+    },
+    "import_format_too_new": {
+      "message": "Das Exportformat {format} ist neuer als dieses Car Keeper. Aktualisieren Sie Car Keeper."
+    },
+    "import_missing_field": {
+      "message": "Das Feld {field} fehlt oder ist leer."
+    },
+    "import_bad_value": {
+      "message": "Der Wert von {field} ist ungültig."
+    },
+    "import_not_a_record": {
+      "message": "Der Eintrag ist ungültig."
+    },
+    "import_unknown_car": {
+      "message": "Der Eintrag nennt ein Auto, das nicht im Import oder in Car Keeper ist."
+    },
+    "import_unknown_item": {
+      "message": "Der Serviceeintrag nennt eine Arbeit, die nicht im Import oder in Car Keeper ist."
+    },
+    "import_entity_missing": {
+      "message": "Der Kilometerstandsensor {entity_id} ist nicht in diesem Home Assistant. Das Auto bekommt einen eingegebenen Kilometerstand."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "odometer": {
+        "name": "Kilometerstand"
+      },
+      "next_due_distance": {
+        "name": "Nächste Fälligkeit nach Strecke"
+      },
+      "next_due_date": {
+        "name": "Nächstes Fälligkeitsdatum"
+      },
+      "status": {
+        "name": "Wartungsstatus",
+        "state": {
+          "ok": "OK",
+          "soon": "Bald",
+          "overdue": "Überfällig"
+        }
+      }
+    },
+    "binary_sensor": {
+      "overdue": {
+        "name": "Wartung überfällig"
+      }
+    },
+    "todo": {
+      "jobs": {
+        "name": "Wartungsarbeiten"
+      }
+    }
+  }
+}

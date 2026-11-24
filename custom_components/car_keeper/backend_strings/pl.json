@@ -1,0 +1,20 @@
+{
+  "tab.title": "Samochody",
+  "companion.description": "Samochody, liczniki przebiegu, prace konserwacyjne i historia serwisu.",
+  "template.engine_oil": "Olej silnikowy i filtr",
+  "template.tyre_rotation": "Rotacja opon",
+  "template.tyre_check": "Ciśnienie i bieżnik opon",
+  "template.brake_fluid": "Płyn hamulcowy",
+  "template.cabin_filter": "Filtr kabinowy",
+  "template.engine_air_filter": "Filtr powietrza silnika",
+  "template.wipers": "Pióra wycieraczek",
+  "template.battery_12v": "Test akumulatora 12 V",
+  "template.coolant": "Płyn chłodniczy",
+  "template.spark_plugs": "Świece zapłonowe",
+  "template.adblue": "Uzupełnienie AdBlue",
+  "template.timing_belt": "Pasek rozrządu",
+  "template.gearbox_oil": "Olej w skrzyni biegów",
+  "template.registration": "Rejestracja",
+  "template.insurance": "Ubezpieczenie",
+  "template.inspection": "Przegląd techniczny"
+}

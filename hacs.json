@@ -1,0 +1,7 @@
+{
+  "name": "Car Keeper",
+  "render_readme": true,
+  "homeassistant": "2026.1.0",
+  "zip_release": true,
+  "filename": "car_keeper.zip"
+}

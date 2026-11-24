@@ -1,0 +1,613 @@
+add_car:
+  fields:
+    name:
+      required: true
+      selector:
+        text:
+    make:
+      required: false
+      selector:
+        text:
+    model:
+      required: false
+      selector:
+        text:
+    year:
+      required: false
+      selector:
+        number:
+          min: 1886
+          max: 2200
+          mode: box
+    trim:
+      required: false
+      selector:
+        text:
+    fuel:
+      required: false
+      selector:
+        select:
+          options:
+            - "petrol"
+            - "diesel"
+            - "hybrid"
+            - "plug_in_hybrid"
+            - "electric"
+            - "other"
+          translation_key: fuel
+    vin:
+      required: false
+      selector:
+        text:
+    plate:
+      required: false
+      selector:
+        text:
+    engine_code:
+      required: false
+      selector:
+        text:
+    transmission_code:
+      required: false
+      selector:
+        text:
+    first_registered:
+      required: false
+      selector:
+        date:
+    area_id:
+      required: false
+      selector:
+        area:
+    notes:
+      required: false
+      selector:
+        text:
+          multiline: true
+    lead_distance:
+      required: false
+      selector:
+        number:
+          min: 0
+          max: 1000000
+          mode: box
+    lead_days:
+      required: false
+      selector:
+        number:
+          min: 0
+          max: 365
+          mode: box
+    unit:
+      required: false
+      selector:
+        select:
+          options:
+            - "km"
+            - "mi"
+          translation_key: unit
+    odometer_source:
+      required: false
+      selector:
+        select:
+          options:
+            - "manual"
+            - "entity"
+          translation_key: odometer_source
+    odometer_entity_id:
+      required: false
+      selector:
+        entity:
+          domain: sensor
+    odometer:
+      required: false
+      selector:
+        number:
+          min: 0
+          max: 10000000
+          mode: box
+    starter_jobs:
+      required: false
+      selector:
+        object:
+    due_dates:
+      required: false
+      selector:
+        object:
+
+update_car:
+  fields:
+    car_id:
+      required: true
+      selector:
+        text:
+    name:
+      required: false
+      selector:
+        text:
+    make:
+      required: false
+      selector:
+        text:
+    model:
+      required: false
+      selector:
+        text:
+    year:
+      required: false
+      selector:
+        number:
+          min: 1886
+          max: 2200
+          mode: box
+    trim:
+      required: false
+      selector:
+        text:
+    fuel:
+      required: false
+      selector:
+        select:
+          options:
+            - "petrol"
+            - "diesel"
+            - "hybrid"
+            - "plug_in_hybrid"
+            - "electric"
+            - "other"
+          translation_key: fuel
+    vin:
+      required: false
+      selector:
+        text:
+    plate:
+      required: false
+      selector:
+        text:
+    engine_code:
+      required: false
+      selector:
+        text:
+    transmission_code:
+      required: false
+      selector:
+        text:
+    first_registered:
+      required: false
+      selector:
+        date:
+    area_id:
+      required: false
+      selector:
+        area:
+    notes:
+      required: false
+      selector:
+        text:
+          multiline: true
+    lead_distance:
+      required: false
+      selector:
+        number:
+          min: 0
+          max: 1000000
+          mode: box
+    lead_days:
+      required: false
+      selector:
+        number:
+          min: 0
+          max: 365
+          mode: box
+    unit:
+      required: false
+      selector:
+        select:
+          options:
+            - "km"
+            - "mi"
+          translation_key: unit
+    odometer_source:
+      required: false
+      selector:
+        select:
+          options:
+            - "manual"
+            - "entity"
+          translation_key: odometer_source
+    odometer_entity_id:
+      required: false
+      selector:
+        entity:
+          domain: sensor
+
+delete_car:
+  fields:
+    car_id:
+      required: true
+      selector:
+        text:
+
+set_odometer:
+  fields:
+    car_id:
+      required: true
+      selector:
+        text:
+    value:
+      required: true
+      selector:
+        number:
+          min: 0
+          max: 10000000
+          mode: box
+
+correct_odometer:
+  fields:
+    car_id:
+      required: true
+      selector:
+        text:
+    value:
+      required: true
+      selector:
+        number:
+          min: 0
+          max: 10000000
+          mode: box
+    offset:
+      required: false
+      selector:
+        number:
+          min: -10000000
+          max: 10000000
+          mode: box
+
+add_item:
+  fields:
+    car_id:
+      required: true
+      selector:
+        text:
+    name:
+      required: true
+      selector:
+        text:
+    kind:
+      required: false
+      selector:
+        select:
+          options:
+            - "job"
+            - "date"
+          translation_key: kind
+    interval_distance:
+      required: false
+      selector:
+        number:
+          min: 1
+          max: 1000000
+          mode: box
+    interval_months:
+      required: false
+      selector:
+        number:
+          min: 1
+          max: 240
+          mode: box
+    due_date:
+      required: false
+      selector:
+        date:
+    lead_distance:
+      required: false
+      selector:
+        number:
+          min: 0
+          max: 1000000
+          mode: box
+    lead_days:
+      required: false
+      selector:
+        number:
+          min: 0
+          max: 365
+          mode: box
+    notes:
+      required: false
+      selector:
+        text:
+          multiline: true
+    enabled:
+      required: false
+      selector:
+        boolean:
+    add_task:
+      required: false
+      selector:
+        boolean:
+    parts:
+      required: false
+      selector:
+        object:
+    last_date:
+      required: false
+      selector:
+        date:
+    last_reading:
+      required: false
+      selector:
+        number:
+          min: 0
+          max: 10000000
+          mode: box
+
+update_item:
+  fields:
+    item_id:
+      required: true
+      selector:
+        text:
+    name:
+      required: false
+      selector:
+        text:
+    kind:
+      required: false
+      selector:
+        select:
+          options:
+            - "job"
+            - "date"
+          translation_key: kind
+    interval_distance:
+      required: false
+      selector:
+        number:
+          min: 1
+          max: 1000000
+          mode: box
+    interval_months:
+      required: false
+      selector:
+        number:
+          min: 1
+          max: 240
+          mode: box
+    due_date:
+      required: false
+      selector:
+        date:
+    lead_distance:
+      required: false
+      selector:
+        number:
+          min: 0
+          max: 1000000
+          mode: box
+    lead_days:
+      required: false
+      selector:
+        number:
+          min: 0
+          max: 365
+          mode: box
+    notes:
+      required: false
+      selector:
+        text:
+          multiline: true
+    enabled:
+      required: false
+      selector:
+        boolean:
+    add_task:
+      required: false
+      selector:
+        boolean:
+    parts:
+      required: false
+      selector:
+        object:
+
+delete_item:
+  fields:
+    item_id:
+      required: true
+      selector:
+        text:
+
+apply_templates:
+  fields:
+    car_id:
+      required: true
+      selector:
+        text:
+    starter_jobs:
+      required: true
+      selector:
+        select:
+          options:
+            - "engine_oil"
+            - "tyre_rotation"
+            - "tyre_check"
+            - "brake_fluid"
+            - "cabin_filter"
+            - "engine_air_filter"
+            - "wipers"
+            - "battery_12v"
+            - "coolant"
+            - "spark_plugs"
+            - "adblue"
+            - "registration"
+            - "insurance"
+            - "inspection"
+          multiple: true
+          translation_key: template
+    due_dates:
+      required: false
+      selector:
+        object:
+
+log_service:
+  fields:
+    car_id:
+      required: true
+      selector:
+        text:
+    date:
+      required: false
+      selector:
+        date:
+    reading:
+      required: false
+      selector:
+        number:
+          min: 0
+          max: 10000000
+          mode: box
+    items:
+      required: false
+      selector:
+        text:
+          multiple: true
+    shop:
+      required: false
+      selector:
+        text:
+    notes:
+      required: false
+      selector:
+        text:
+          multiline: true
+    who:
+      required: false
+      selector:
+        text:
+    cost:
+      required: false
+      selector:
+        number:
+          min: 0
+          max: 10000000
+          step: 0.01
+          mode: box
+    parts_used:
+      required: false
+      selector:
+        object:
+
+update_service:
+  fields:
+    service_id:
+      required: true
+      selector:
+        text:
+    date:
+      required: false
+      selector:
+        date:
+    reading:
+      required: false
+      selector:
+        number:
+          min: 0
+          max: 10000000
+          mode: box
+    items:
+      required: false
+      selector:
+        text:
+          multiple: true
+    shop:
+      required: false
+      selector:
+        text:
+    notes:
+      required: false
+      selector:
+        text:
+          multiline: true
+    who:
+      required: false
+      selector:
+        text:
+    cost:
+      required: false
+      selector:
+        number:
+          min: 0
+          max: 10000000
+          step: 0.01
+          mode: box
+    parts_used:
+      required: false
+      selector:
+        object:
+
+delete_service:
+  fields:
+    service_id:
+      required: true
+      selector:
+        text:
+
+set_settings:
+  fields:
+    unit:
+      required: false
+      selector:
+        select:
+          options:
+            - "km"
+            - "mi"
+          translation_key: unit
+    templates:
+      required: false
+      selector:
+        object:
+
+export_data:
+  fields:
+    files_dir:
+      required: false
+      selector:
+        text:
+
+import_data:
+  fields:
+    document:
+      required: true
+      selector:
+        object:
+    dry_run:
+      required: false
+      selector:
+        boolean:
+    files_dir:
+      required: false
+      selector:
+        text:
+
+list_cars:
+
+get_car:
+  fields:
+    car_id:
+      required: true
+      selector:
+        text:
+
+list_items:
+  fields:
+    car_id:
+      required: false
+      selector:
+        text:
+
+list_services:
+  fields:
+    car_id:
+      required: false
+      selector:
+        text:

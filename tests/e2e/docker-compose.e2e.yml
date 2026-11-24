@@ -1,0 +1,11 @@
+# The browser tests add this file to tests/integration/docker-compose.yml:
+#
+#   docker compose -p ck-e2e -f tests/integration/docker-compose.yml \
+#     -f tests/e2e/docker-compose.e2e.yml up -d
+#
+# The browser tests need no service next to Home Assistant. A setting that only
+# the browser tests need goes here, so the Docker tier keeps its own stack.
+services:
+  homeassistant:
+    environment:
+      - CAR_KEEPER_E2E=1

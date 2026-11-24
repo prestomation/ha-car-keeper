@@ -1,0 +1,731 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Car Keeper",
+        "description": "Ustaw jednostkę odległości nowego samochodu. Każdy samochód może mieć własną jednostkę.",
+        "data": {
+          "unit": "Jednostka odległości"
+        },
+        "data_description": {
+          "unit": "Kilometry lub mile."
+        }
+      }
+    },
+    "abort": {
+      "already_configured": "Car Keeper jest już skonfigurowany.",
+      "single_instance_allowed": "Car Keeper jest już skonfigurowany.",
+      "home_keeper_missing": "Car Keeper wymaga Home Keeper. Zainstaluj Home Keeper z HACS, uruchom ponownie Home Assistant, a następnie ponownie dodaj Car Keeper. Kroki instalacji: {url}",
+      "home_keeper_not_set_up": "Najpierw dodaj integrację Home Keeper.",
+      "home_keeper_too_old": "Zaktualizuj Home Keeper do wersji {version} lub nowszej."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Opcje Car Keeper",
+        "data": {
+          "unit": "Jednostka odległości"
+        },
+        "data_description": {
+          "unit": "Jednostka nowego samochodu. Dodany już samochód zachowuje swoją jednostkę."
+        }
+      }
+    }
+  },
+  "selector": {
+    "unit": {
+      "options": {
+        "km": "Kilometry",
+        "mi": "Mile"
+      }
+    },
+    "fuel": {
+      "options": {
+        "petrol": "Benzyna",
+        "diesel": "Diesel",
+        "hybrid": "Hybryda",
+        "plug_in_hybrid": "Hybryda plug-in",
+        "electric": "Elektryczny",
+        "other": "Inne"
+      }
+    },
+    "odometer_source": {
+      "options": {
+        "manual": "Wpisany",
+        "entity": "Czujnik"
+      }
+    },
+    "kind": {
+      "options": {
+        "job": "Praca okresowa",
+        "date": "Data"
+      }
+    },
+    "template": {
+      "options": {
+        "engine_oil": "Olej silnikowy i filtr",
+        "tyre_rotation": "Rotacja opon",
+        "tyre_check": "Ciśnienie i bieżnik opon",
+        "brake_fluid": "Płyn hamulcowy",
+        "cabin_filter": "Filtr kabinowy",
+        "engine_air_filter": "Filtr powietrza silnika",
+        "wipers": "Pióra wycieraczek",
+        "battery_12v": "Test akumulatora 12 V",
+        "coolant": "Płyn chłodniczy",
+        "spark_plugs": "Świece zapłonowe",
+        "adblue": "Uzupełnienie AdBlue",
+        "registration": "Rejestracja",
+        "insurance": "Ubezpieczenie",
+        "inspection": "Przegląd techniczny"
+      }
+    }
+  },
+  "issues": {
+    "home_keeper_missing": {
+      "title": "Home Keeper nie jest zainstalowany",
+      "description": "Karta Samochody i zadania konserwacji wymagają Home Keeper. Karty, encje i usługi już działają. Zainstaluj Home Keeper z HACS i uruchom ponownie Home Assistant. Kroki instalacji: {url}"
+    },
+    "home_keeper_not_set_up": {
+      "title": "Home Keeper nie jest skonfigurowany",
+      "description": "Karta Samochody i zadania konserwacji wymagają załadowanej integracji Home Keeper. Karty, encje i usługi już działają. Dodaj lub włącz integrację Home Keeper."
+    },
+    "home_keeper_too_old": {
+      "title": "Home Keeper jest za stary",
+      "description": "Karta Samochody i zadania konserwacji wymagają Home Keeper w wersji {version} lub nowszej. Karty, encje i usługi już działają. Zaktualizuj Home Keeper."
+    },
+    "odometer_decreased": {
+      "title": "Licznik przebiegu {car} spadł",
+      "description": "Czujnik licznika przebiegu {car} zgłosił 2 razy {value} {unit}, poniżej ostatniego odczytu {current} {unit}. Car Keeper zachowuje ostatni odczyt. Jeśli czujnik jest błędny, napraw czujnik. Jeśli samochód ma nowe zegary, popraw licznik samochodu i ustaw przesunięcie."
+    }
+  },
+  "services": {
+    "add_car": {
+      "name": "Dodaj samochód",
+      "description": "Dodaje samochód z licznikiem przebiegu i wybranymi pracami początkowymi. Tylko dla administratorów.",
+      "fields": {
+        "name": {
+          "name": "Nazwa",
+          "description": "Nazwa samochodu."
+        },
+        "make": {
+          "name": "Marka",
+          "description": "Producent samochodu."
+        },
+        "model": {
+          "name": "Model",
+          "description": "Model samochodu."
+        },
+        "year": {
+          "name": "Rok",
+          "description": "Rok modelowy."
+        },
+        "trim": {
+          "name": "Wersja wyposażenia",
+          "description": "Wersja wyposażenia lub wersja."
+        },
+        "fuel": {
+          "name": "Paliwo",
+          "description": "Rodzaj paliwa. Wybiera prace początkowe."
+        },
+        "vin": {
+          "name": "VIN",
+          "description": "Numer identyfikacyjny pojazdu."
+        },
+        "plate": {
+          "name": "Tablica rejestracyjna",
+          "description": "Tablica rejestracyjna."
+        },
+        "engine_code": {
+          "name": "Kod silnika",
+          "description": "Kod silnika producenta."
+        },
+        "transmission_code": {
+          "name": "Kod skrzyni biegów",
+          "description": "Kod skrzyni biegów producenta."
+        },
+        "first_registered": {
+          "name": "Pierwsza rejestracja",
+          "description": "Data pierwszej rejestracji samochodu."
+        },
+        "area_id": {
+          "name": "Obszar",
+          "description": "Obszar samochodu w Home Assistant."
+        },
+        "notes": {
+          "name": "Notatki",
+          "description": "Notatki."
+        },
+        "lead_distance": {
+          "name": "Odległość ostrzeżenia",
+          "description": "Odległość przed limitem, od której praca jest wkrótce."
+        },
+        "lead_days": {
+          "name": "Dni ostrzeżenia",
+          "description": "Dni przed limitem, od których praca jest wkrótce."
+        },
+        "unit": {
+          "name": "Jednostka odległości",
+          "description": "km lub mi."
+        },
+        "odometer_source": {
+          "name": "Źródło licznika przebiegu",
+          "description": "Wpisz przebieg lub odczytaj go z czujnika."
+        },
+        "odometer_entity_id": {
+          "name": "Czujnik licznika przebiegu",
+          "description": "Czujnik, który podaje przebieg."
+        },
+        "odometer": {
+          "name": "Licznik przebiegu",
+          "description": "Obecny odczyt w jednostce samochodu."
+        },
+        "starter_jobs": {
+          "name": "Prace początkowe",
+          "description": "Identyfikatory prac początkowych do dodania."
+        },
+        "due_dates": {
+          "name": "Terminy",
+          "description": "Termin każdej pracy początkowej z datą, według identyfikatora."
+        }
+      }
+    },
+    "update_car": {
+      "name": "Zaktualizuj samochód",
+      "description": "Zmienia pola samochodu. Zmiana jednostki przelicza każdą wartość samochodu. Tylko dla administratorów.",
+      "fields": {
+        "car_id": {
+          "name": "Samochód",
+          "description": "Identyfikator samochodu."
+        },
+        "name": {
+          "name": "Nazwa",
+          "description": "Nazwa samochodu."
+        },
+        "make": {
+          "name": "Marka",
+          "description": "Producent samochodu."
+        },
+        "model": {
+          "name": "Model",
+          "description": "Model samochodu."
+        },
+        "year": {
+          "name": "Rok",
+          "description": "Rok modelowy."
+        },
+        "trim": {
+          "name": "Wersja wyposażenia",
+          "description": "Wersja wyposażenia lub wersja."
+        },
+        "fuel": {
+          "name": "Paliwo",
+          "description": "Rodzaj paliwa. Wybiera prace początkowe."
+        },
+        "vin": {
+          "name": "VIN",
+          "description": "Numer identyfikacyjny pojazdu."
+        },
+        "plate": {
+          "name": "Tablica rejestracyjna",
+          "description": "Tablica rejestracyjna."
+        },
+        "engine_code": {
+          "name": "Kod silnika",
+          "description": "Kod silnika producenta."
+        },
+        "transmission_code": {
+          "name": "Kod skrzyni biegów",
+          "description": "Kod skrzyni biegów producenta."
+        },
+        "first_registered": {
+          "name": "Pierwsza rejestracja",
+          "description": "Data pierwszej rejestracji samochodu."
+        },
+        "area_id": {
+          "name": "Obszar",
+          "description": "Obszar samochodu w Home Assistant."
+        },
+        "notes": {
+          "name": "Notatki",
+          "description": "Notatki."
+        },
+        "lead_distance": {
+          "name": "Odległość ostrzeżenia",
+          "description": "Odległość przed limitem, od której praca jest wkrótce."
+        },
+        "lead_days": {
+          "name": "Dni ostrzeżenia",
+          "description": "Dni przed limitem, od których praca jest wkrótce."
+        },
+        "unit": {
+          "name": "Jednostka odległości",
+          "description": "km lub mi."
+        },
+        "odometer_source": {
+          "name": "Źródło licznika przebiegu",
+          "description": "Wpisz przebieg lub odczytaj go z czujnika."
+        },
+        "odometer_entity_id": {
+          "name": "Czujnik licznika przebiegu",
+          "description": "Czujnik, który podaje przebieg."
+        }
+      }
+    },
+    "delete_car": {
+      "name": "Usuń samochód",
+      "description": "Usuwa samochód z jego pracami, wpisami serwisowymi i odczytami. Tylko dla administratorów.",
+      "fields": {
+        "car_id": {
+          "name": "Samochód",
+          "description": "Identyfikator samochodu."
+        }
+      }
+    },
+    "set_odometer": {
+      "name": "Ustaw przebieg",
+      "description": "Zapisuje odczyt przebiegu. Wartość nie może być niższa niż ostatni odczyt.",
+      "fields": {
+        "car_id": {
+          "name": "Samochód",
+          "description": "Identyfikator samochodu."
+        },
+        "value": {
+          "name": "Odczyt",
+          "description": "Odczyt przebiegu w jednostce samochodu."
+        }
+      }
+    },
+    "correct_odometer": {
+      "name": "Popraw przebieg",
+      "description": "Zapisuje dowolny odczyt, także niższy, i opcjonalne przesunięcie dla nowych zegarów. Tylko dla administratorów.",
+      "fields": {
+        "car_id": {
+          "name": "Samochód",
+          "description": "Identyfikator samochodu."
+        },
+        "value": {
+          "name": "Odczyt",
+          "description": "Odczyt przebiegu w jednostce samochodu."
+        },
+        "offset": {
+          "name": "Przesunięcie",
+          "description": "Dodawane do każdej późniejszej wartości czujnika, dla nowych zegarów."
+        }
+      }
+    },
+    "add_item": {
+      "name": "Dodaj pracę",
+      "description": "Dodaje pracę konserwacyjną do samochodu. Tylko dla administratorów.",
+      "fields": {
+        "car_id": {
+          "name": "Samochód",
+          "description": "Identyfikator samochodu."
+        },
+        "name": {
+          "name": "Nazwa",
+          "description": "Nazwa pracy."
+        },
+        "kind": {
+          "name": "Rodzaj",
+          "description": "Praca z interwałem lub data, na przykład rejestracja."
+        },
+        "interval_distance": {
+          "name": "Interwał odległości",
+          "description": "Odległość między 2 serwisami w jednostce samochodu."
+        },
+        "interval_months": {
+          "name": "Interwał czasu",
+          "description": "Miesiące między 2 serwisami."
+        },
+        "due_date": {
+          "name": "Termin",
+          "description": "Termin pracy z datą."
+        },
+        "lead_distance": {
+          "name": "Odległość ostrzeżenia",
+          "description": "Odległość przed limitem, od której praca jest wkrótce."
+        },
+        "lead_days": {
+          "name": "Dni ostrzeżenia",
+          "description": "Dni przed limitem, od których praca jest wkrótce."
+        },
+        "notes": {
+          "name": "Notatki",
+          "description": "Notatki."
+        },
+        "enabled": {
+          "name": "Włączona",
+          "description": "Wyłączona zachowuje pracę i zatrzymuje jej status terminu."
+        },
+        "add_task": {
+          "name": "Zadanie Home Keeper",
+          "description": "Utwórz zadanie Home Keeper dla pracy."
+        },
+        "parts": {
+          "name": "Części",
+          "description": "Części Home Keeper, których czynność używa za każdym razem. Home Keeper odejmuje je od zapasu."
+        },
+        "last_date": {
+          "name": "Ostatnio wykonano",
+          "description": "Data ostatniego serwisu, jeśli ją znasz."
+        },
+        "last_reading": {
+          "name": "Ostatnio przy",
+          "description": "Przebieg przy ostatnim serwisie, jeśli go znasz."
+        }
+      }
+    },
+    "update_item": {
+      "name": "Zaktualizuj pracę",
+      "description": "Zmienia pola pracy konserwacyjnej. Tylko dla administratorów.",
+      "fields": {
+        "item_id": {
+          "name": "Praca",
+          "description": "Identyfikator pracy."
+        },
+        "name": {
+          "name": "Nazwa",
+          "description": "Nazwa pracy."
+        },
+        "kind": {
+          "name": "Rodzaj",
+          "description": "Praca z interwałem lub data, na przykład rejestracja."
+        },
+        "interval_distance": {
+          "name": "Interwał odległości",
+          "description": "Odległość między 2 serwisami w jednostce samochodu."
+        },
+        "interval_months": {
+          "name": "Interwał czasu",
+          "description": "Miesiące między 2 serwisami."
+        },
+        "due_date": {
+          "name": "Termin",
+          "description": "Termin pracy z datą."
+        },
+        "lead_distance": {
+          "name": "Odległość ostrzeżenia",
+          "description": "Odległość przed limitem, od której praca jest wkrótce."
+        },
+        "lead_days": {
+          "name": "Dni ostrzeżenia",
+          "description": "Dni przed limitem, od których praca jest wkrótce."
+        },
+        "notes": {
+          "name": "Notatki",
+          "description": "Notatki."
+        },
+        "enabled": {
+          "name": "Włączona",
+          "description": "Wyłączona zachowuje pracę i zatrzymuje jej status terminu."
+        },
+        "add_task": {
+          "name": "Zadanie Home Keeper",
+          "description": "Utwórz zadanie Home Keeper dla pracy."
+        },
+        "parts": {
+          "name": "Części",
+          "description": "Części Home Keeper, których czynność używa za każdym razem. Home Keeper odejmuje je od zapasu."
+        }
+      }
+    },
+    "delete_item": {
+      "name": "Usuń pracę",
+      "description": "Usuwa pracę konserwacyjną. Wpisy serwisowe zostają. Tylko dla administratorów.",
+      "fields": {
+        "item_id": {
+          "name": "Praca",
+          "description": "Identyfikator pracy."
+        }
+      }
+    },
+    "apply_templates": {
+      "name": "Dodaj prace początkowe",
+      "description": "Dodaje wybrane prace początkowe do samochodu. Tylko dla administratorów.",
+      "fields": {
+        "car_id": {
+          "name": "Samochód",
+          "description": "Identyfikator samochodu."
+        },
+        "starter_jobs": {
+          "name": "Prace początkowe",
+          "description": "Prace początkowe do dodania."
+        },
+        "due_dates": {
+          "name": "Terminy",
+          "description": "Termin każdej pracy początkowej z datą, według identyfikatora."
+        }
+      }
+    },
+    "log_service": {
+      "name": "Zapisz serwis",
+      "description": "Dodaje wpis serwisowy i oznacza jego prace jako wykonane.",
+      "fields": {
+        "car_id": {
+          "name": "Samochód",
+          "description": "Identyfikator samochodu."
+        },
+        "date": {
+          "name": "Data",
+          "description": "Data serwisu. Domyślnie dzisiaj."
+        },
+        "reading": {
+          "name": "Odczyt",
+          "description": "Przebieg przy serwisie."
+        },
+        "items": {
+          "name": "Prace",
+          "description": "Identyfikatory prac wykonanych podczas serwisu."
+        },
+        "shop": {
+          "name": "Warsztat",
+          "description": "Warsztat lub puste dla pracy w domu."
+        },
+        "notes": {
+          "name": "Notatki",
+          "description": "Notatki."
+        },
+        "who": {
+          "name": "Kto",
+          "description": "Kto wykonał pracę."
+        },
+        "cost": {
+          "name": "Koszt",
+          "description": "Koszt wizyty w walucie Home Assistant."
+        },
+        "parts_used": {
+          "name": "Użyte części",
+          "description": "Lista części Home Keeper użytych podczas serwisu."
+        }
+      }
+    },
+    "update_service": {
+      "name": "Zaktualizuj wpis serwisowy",
+      "description": "Zmienia wpis serwisowy. Tylko dla administratorów.",
+      "fields": {
+        "service_id": {
+          "name": "Wpis serwisowy",
+          "description": "Identyfikator wpisu serwisowego."
+        },
+        "date": {
+          "name": "Data",
+          "description": "Data serwisu. Domyślnie dzisiaj."
+        },
+        "reading": {
+          "name": "Odczyt",
+          "description": "Przebieg przy serwisie."
+        },
+        "items": {
+          "name": "Prace",
+          "description": "Identyfikatory prac wykonanych podczas serwisu."
+        },
+        "shop": {
+          "name": "Warsztat",
+          "description": "Warsztat lub puste dla pracy w domu."
+        },
+        "notes": {
+          "name": "Notatki",
+          "description": "Notatki."
+        },
+        "who": {
+          "name": "Kto",
+          "description": "Kto wykonał pracę."
+        },
+        "cost": {
+          "name": "Koszt",
+          "description": "Koszt wizyty w walucie Home Assistant."
+        },
+        "parts_used": {
+          "name": "Użyte części",
+          "description": "Lista części Home Keeper użytych podczas serwisu."
+        }
+      }
+    },
+    "delete_service": {
+      "name": "Usuń wpis serwisowy",
+      "description": "Usuwa wpis serwisowy. Tylko dla administratorów.",
+      "fields": {
+        "service_id": {
+          "name": "Wpis serwisowy",
+          "description": "Identyfikator wpisu serwisowego."
+        }
+      }
+    },
+    "set_settings": {
+      "name": "Ustaw ustawienia",
+      "description": "Zmienia ustawienia Car Keeper. Tylko dla administratorów.",
+      "fields": {
+        "unit": {
+          "name": "Jednostka odległości",
+          "description": "Jednostka nowego samochodu: km lub mi."
+        },
+        "templates": {
+          "name": "Prace początkowe",
+          "description": "Zmiany prac początkowych według identyfikatora: km, miesiące i włączona."
+        }
+      }
+    },
+    "export_data": {
+      "name": "Eksportuj dane",
+      "description": "Zwraca wszystkie dane Car Keeper do eksportu Home Keeper. Tylko dla administratorów.",
+      "fields": {
+        "files_dir": {
+          "name": "Folder plików",
+          "description": "Ustawiany przez Home Keeper dla eksportu lub importu pakietu."
+        }
+      }
+    },
+    "import_data": {
+      "name": "Importuj dane",
+      "description": "Dodaje i aktualizuje dane Car Keeper z eksportu. Nie usuwa żadnego rekordu. Tylko dla administratorów.",
+      "fields": {
+        "document": {
+          "name": "Dokument",
+          "description": "Sekcja Car Keeper z eksportu."
+        },
+        "dry_run": {
+          "name": "Podgląd",
+          "description": "Zgłoś, co by się zmieniło, i nie zapisuj danych."
+        },
+        "files_dir": {
+          "name": "Folder plików",
+          "description": "Ustawiany przez Home Keeper dla eksportu lub importu pakietu."
+        }
+      }
+    },
+    "list_cars": {
+      "name": "Lista samochodów",
+      "description": "Zwraca każdy samochód z jego statusem i następną pracą."
+    },
+    "get_car": {
+      "name": "Pobierz samochód",
+      "description": "Zwraca 1 samochód z jego pracami, wpisami serwisowymi i odczytami.",
+      "fields": {
+        "car_id": {
+          "name": "Samochód",
+          "description": "Identyfikator samochodu."
+        }
+      }
+    },
+    "list_items": {
+      "name": "Lista prac",
+      "description": "Zwraca prace z ich limitami i statusem.",
+      "fields": {
+        "car_id": {
+          "name": "Samochód",
+          "description": "Tylko prace tego samochodu."
+        }
+      }
+    },
+    "list_services": {
+      "name": "Lista wpisów serwisowych",
+      "description": "Zwraca wpisy serwisowe, najnowszy najpierw.",
+      "fields": {
+        "car_id": {
+          "name": "Samochód",
+          "description": "Tylko wpisy tego samochodu."
+        }
+      }
+    }
+  },
+  "exceptions": {
+    "not_loaded": {
+      "message": "Car Keeper nie jest załadowany. Spróbuj ponownie po jego uruchomieniu."
+    },
+    "car_not_found": {
+      "message": "Żaden samochód nie ma identyfikatora {id}."
+    },
+    "item_not_found": {
+      "message": "Żadna praca nie ma identyfikatora {id}."
+    },
+    "service_not_found": {
+      "message": "Żaden wpis serwisowy nie ma identyfikatora {id}."
+    },
+    "template_not_found": {
+      "message": "Żadna praca początkowa nie ma identyfikatora {id}."
+    },
+    "field_required": {
+      "message": "Wpisz wartość dla {field}."
+    },
+    "field_too_long": {
+      "message": "Wartość {field} jest dłuższa niż {limit} znaków."
+    },
+    "invalid_field": {
+      "message": "Wartość {field} jest nieprawidłowa."
+    },
+    "out_of_range": {
+      "message": "Wartość {field} musi być między {low} a {high}."
+    },
+    "invalid_date": {
+      "message": "Data {value} w {field} nie jest datą w formacie RRRR-MM-DD."
+    },
+    "interval_required": {
+      "message": "Wpisz interwał odległości, interwał czasu lub oba."
+    },
+    "invalid_reading": {
+      "message": "Odczyt {value} jest nieprawidłowy."
+    },
+    "odometer_decreased": {
+      "message": "Odczyt {value} jest niższy niż ostatni odczyt {current}. Administrator może poprawić przebieg."
+    },
+    "todo_only_check": {
+      "message": "Zaznacz pracę, aby zapisać serwis. Lista nie ma innej zmiany."
+    },
+    "import_not_a_document": {
+      "message": "Dokument nie jest eksportem Car Keeper."
+    },
+    "import_format_too_new": {
+      "message": "Format eksportu {format} jest nowszy niż ten Car Keeper. Zaktualizuj Car Keeper."
+    },
+    "import_missing_field": {
+      "message": "Brak pola {field} lub jest puste."
+    },
+    "import_bad_value": {
+      "message": "Wartość {field} jest nieprawidłowa."
+    },
+    "import_not_a_record": {
+      "message": "Rekord jest nieprawidłowy."
+    },
+    "import_unknown_car": {
+      "message": "Rekord wskazuje samochód, którego nie ma w imporcie ani w Car Keeper."
+    },
+    "import_unknown_item": {
+      "message": "Wpis serwisowy wskazuje pracę, której nie ma w imporcie ani w Car Keeper."
+    },
+    "import_entity_missing": {
+      "message": "Czujnika licznika przebiegu {entity_id} nie ma w tym Home Assistant. Samochód dostanie wpisywany licznik."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "odometer": {
+        "name": "Licznik przebiegu"
+      },
+      "next_due_distance": {
+        "name": "Następny termin według odległości"
+      },
+      "next_due_date": {
+        "name": "Następny termin"
+      },
+      "status": {
+        "name": "Status konserwacji",
+        "state": {
+          "ok": "OK",
+          "soon": "Wkrótce",
+          "overdue": "Po terminie"
+        }
+      }
+    },
+    "binary_sensor": {
+      "overdue": {
+        "name": "Konserwacja po terminie"
+      }
+    },
+    "todo": {
+      "jobs": {
+        "name": "Prace konserwacyjne"
+      }
+    }
+  }
+}

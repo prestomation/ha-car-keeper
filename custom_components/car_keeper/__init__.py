@@ -1,0 +1,141 @@
+"""Car Keeper: the cars of a household, as a companion of Home Keeper.
+
+Setup order:
+
+1. Load the string tables and the store.
+2. Make the coordinator.
+3. Register the frontend and the websocket commands.
+4. Set up the entity platforms and register the services.
+5. Start the odometer follower and the due check.
+6. Link to Home Keeper: the tab and the companion, or a repair issue.
+"""
+
+from __future__ import annotations
+
+import logging
+from datetime import timedelta
+from typing import Any
+
+from homeassistant.config_entries import ConfigEntry
+from homeassistant.core import HomeAssistant, callback
+from homeassistant.exceptions import HomeAssistantError
+from homeassistant.helpers import config_validation as cv
+from homeassistant.helpers.dispatcher import async_dispatcher_send
+from homeassistant.helpers.event import async_track_time_interval
+from homeassistant.helpers.typing import ConfigType
+
+from . import (
+    backend_i18n,
+    card,
+    frontend_assets,
+    hk_presets,
+    hk_sync,
+    home_keeper,
+    websocket_api,
+)
+from .api_surface import SERVICE_NAMES
+from .const import DOMAIN, DUE_CHECK_INTERVAL_S, PLATFORMS, SIGNAL_STORE_CHANGED
+from .coordinator import CarCoordinator
+from .odometer import OdometerFollower
+from .services import async_register_services
+from .store import CarStore, today
+
+_LOGGER = logging.getLogger(__name__)
+
+CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
+
+type CarKeeperConfigEntry = ConfigEntry[CarCoordinator]
+
+
+async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
+    """Set up the integration. It has only a config entry."""
+    return True
+
+
+async def async_setup_entry(hass: HomeAssistant, entry: CarKeeperConfigEntry) -> bool:
+    """Set up Car Keeper from its config entry."""
+    await hass.async_add_executor_job(backend_i18n.preload)
+    store = CarStore(hass)
+    await store.load()
+
+    coordinator = CarCoordinator(hass, entry, store)
+    await coordinator.async_config_entry_first_refresh()
+    entry.runtime_data = coordinator
+    entry.async_on_unload(store.async_add_listener(coordinator.async_store_changed))
+
+    @callback
+    def _send_changed() -> None:
+        # The websocket subscriptions listen to the signal, not to the store,
+        # so they keep working after a reload makes a new store.
+        async_dispatcher_send(hass, SIGNAL_STORE_CHANGED, store.revision)
+
+    entry.async_on_unload(store.async_add_listener(_send_changed))
+
+    await frontend_assets.async_register(hass)
+    websocket_api.async_register(hass)
+    await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
+    async_register_services(hass)
+
+    follower = OdometerFollower(hass, coordinator)
+    follower.async_start()
+    entry.async_on_unload(follower.async_stop)
+
+    # The due check fires each due event 1 time. It runs after each change, and
+    # each hour, so a date limit changes status on the day.
+    @callback
+    def _check_due(*_args: Any) -> None:
+        entry.async_create_background_task(
+            hass, store.check_due(today()), "car_keeper due check"
+        )
+
+    entry.async_on_unload(store.async_add_listener(_check_due))
+    entry.async_on_unload(
+        async_track_time_interval(
+            hass,
+            _check_due,
+            timedelta(seconds=DUE_CHECK_INTERVAL_S),
+            cancel_on_shutdown=True,
+        )
+    )
+    _check_due()
+
+    # The link checks Home Keeper now and when it changes. It adds the tab only
+    # while Home Keeper can take it.
+    link = home_keeper.HomeKeeperLink(hass, entry, coordinator)
+    coordinator.home_keeper = link
+    # The sync starts first, so it hears the first pass of the link.
+    sync = hk_sync.HomeKeeperSync(hass, entry, store, link)
+    coordinator.sync = sync
+    sync.async_start()
+    entry.async_on_unload(sync.async_stop)
+    # The presets start before the link too, so they hear its first pass.
+    preset_sync = hk_presets.PresetSync(hass, entry, store, link)
+    coordinator.presets = preset_sync
+    preset_sync.async_start()
+    entry.async_on_unload(preset_sync.async_stop)
+    await link.async_start()
+    entry.async_on_unload(link.async_stop)
+    return True
+
+
+async def async_unload_entry(hass: HomeAssistant, entry: CarKeeperConfigEntry) -> bool:
+    """Unload the config entry and remove the services."""
+    unloaded = await hass.config_entries.async_unload_platforms(entry, PLATFORMS)
+    if unloaded:
+        # The model is the list of services, so a new service is removed here
+        # with no second edit.
+        for service in SERVICE_NAMES:
+            hass.services.async_remove(DOMAIN, service)
+    return unloaded
+
+
+async def async_remove_entry(hass: HomeAssistant, entry: CarKeeperConfigEntry) -> None:
+    """Remove the card resource when the integration is removed (not on unload).
+
+    The appliances of the cars go to the user, with their parts and stock.
+    """
+    await card.async_unregister_card(hass)
+    try:
+        await hk_sync.async_release(hass, entry)
+    except HomeAssistantError as err:
+        _LOGGER.warning("Car Keeper kept its Home Keeper appliances: %s", err)

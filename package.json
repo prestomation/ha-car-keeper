@@ -1,0 +1,28 @@
+{
+  "name": "ha-integration-template",
+  "version": "1.0.0",
+  "description": "A template for Home Assistant custom integrations: backend + Lovelace card + panel + translations + events + tests.",
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "vitest run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/prestomation/ha-car-keeper.git"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/prestomation/ha-car-keeper/issues"
+  },
+  "homepage": "https://github.com/prestomation/ha-car-keeper#readme",
+  "devDependencies": {
+    "@stryker-mutator/core": "^10.0.0",
+    "@stryker-mutator/vitest-runner": "^10.1.1",
+    "fast-check": "^3.23.2",
+    "jsdom": "^31.0.1",
+    "vitest": "^4.1.12"
+  }
+}

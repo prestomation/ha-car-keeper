@@ -1,0 +1,20 @@
+{
+  "tab.title": "Autos",
+  "companion.description": "Autos, Kilometerzähler, Wartungsarbeiten und Servicehistorie.",
+  "template.engine_oil": "Motoröl und Filter",
+  "template.tyre_rotation": "Reifenwechsel der Achsen",
+  "template.tyre_check": "Reifendruck und Profil",
+  "template.brake_fluid": "Bremsflüssigkeit",
+  "template.cabin_filter": "Innenraumfilter",
+  "template.engine_air_filter": "Motorluftfilter",
+  "template.wipers": "Wischerblätter",
+  "template.battery_12v": "Test der 12-V-Batterie",
+  "template.coolant": "Kühlmittel",
+  "template.spark_plugs": "Zündkerzen",
+  "template.adblue": "AdBlue nachfüllen",
+  "template.timing_belt": "Zahnriemen",
+  "template.gearbox_oil": "Getriebeöl",
+  "template.registration": "Zulassung",
+  "template.insurance": "Versicherung",
+  "template.inspection": "Hauptuntersuchung"
+}

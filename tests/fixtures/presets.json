@@ -1,0 +1,537 @@
+{
+  "registration": {
+    "domain": "car_keeper",
+    "rows": [
+      {
+        "domain": "volvo",
+        "brand": "Volvo Cars",
+        "icon": "mdi:car-wrench",
+        "duties": [
+          {
+            "duty": "annual_service",
+            "shape": "life_low",
+            "keys": [
+              "time_to_service"
+            ],
+            "limit": 336
+          },
+          {
+            "duty": "check_fluid_levels",
+            "shape": "alert",
+            "platform": "binary_sensor",
+            "keys": [
+              "oil_level_warning",
+              "washer_fluid_level_warning",
+              "coolant_level_warning"
+            ],
+            "state": "on"
+          },
+          {
+            "duty": "check_brake_fluid",
+            "shape": "alert",
+            "platform": "binary_sensor",
+            "keys": [
+              "brake_fluid_level_warning"
+            ],
+            "state": "on"
+          },
+          {
+            "duty": "check_tyres",
+            "shape": "alert",
+            "platform": "binary_sensor",
+            "keys": [
+              "tire_front_left",
+              "tire_front_right",
+              "tire_rear_left",
+              "tire_rear_right"
+            ],
+            "state": "on"
+          }
+        ]
+      },
+      {
+        "domain": "polestar_api",
+        "brand": "Polestar",
+        "icon": "mdi:car-wrench",
+        "duties": [
+          {
+            "duty": "annual_service",
+            "shape": "life_low",
+            "keys": [
+              "polestar_days_to_service"
+            ],
+            "limit": 336
+          }
+        ]
+      },
+      {
+        "domain": "uconnect",
+        "brand": "Uconnect (Jeep, Ram, Chrysler, Dodge, Fiat)",
+        "icon": "mdi:car-wrench",
+        "duties": [
+          {
+            "duty": "annual_service",
+            "shape": "life_low",
+            "keys": [
+              "days_to_service"
+            ],
+            "limit": 336
+          },
+          {
+            "duty": "check_tyres",
+            "shape": "alert",
+            "platform": "binary_sensor",
+            "keys": [
+              "wheel_front_left_pressure_warning",
+              "wheel_front_right_pressure_warning",
+              "wheel_rear_left_pressure_warning",
+              "wheel_rear_right_pressure_warning"
+            ],
+            "state": "on"
+          }
+        ]
+      },
+      {
+        "domain": "fordpass",
+        "brand": "FordPass",
+        "icon": "mdi:car-wrench",
+        "duties": [
+          {
+            "duty": "oil_service",
+            "shape": "percent_low",
+            "keys": [
+              "oil"
+            ],
+            "limit": 10
+          }
+        ]
+      },
+      {
+        "domain": "mazda_cs",
+        "brand": "Mazda Connected Services",
+        "icon": "mdi:car-wrench",
+        "duties": [
+          {
+            "duty": "oil_service",
+            "shape": "percent_low",
+            "keys": [
+              "dr_oil_deteriorate_level"
+            ],
+            "limit": 10
+          },
+          {
+            "duty": "oil_service",
+            "shape": "alert",
+            "platform": "binary_sensor",
+            "keys": [
+              "oil_deteriorate_warning"
+            ],
+            "state": "on"
+          },
+          {
+            "duty": "check_fluid_levels",
+            "shape": "alert",
+            "platform": "binary_sensor",
+            "keys": [
+              "oil_level_warning"
+            ],
+            "state": "on"
+          },
+          {
+            "duty": "check_brake_fluid",
+            "shape": "alert",
+            "platform": "binary_sensor",
+            "keys": [
+              "brake_oil_level_warning"
+            ],
+            "state": "on"
+          },
+          {
+            "duty": "check_tyres",
+            "shape": "alert",
+            "platform": "binary_sensor",
+            "keys": [
+              "front_left_tire_pressure_warning",
+              "front_right_tire_pressure_warning",
+              "rear_left_tire_pressure_warning",
+              "rear_right_tire_pressure_warning",
+              "tpms_battery_warning"
+            ],
+            "state": "on"
+          }
+        ]
+      },
+      {
+        "domain": "kia_uvo",
+        "brand": "Kia Connect / Hyundai Bluelink",
+        "icon": "mdi:car-wrench",
+        "duties": [
+          {
+            "duty": "check_fluid_levels",
+            "shape": "alert",
+            "platform": "binary_sensor",
+            "keys": [
+              "oil_level_warning_is_on",
+              "washer_fluid_warning_is_on"
+            ],
+            "state": "on"
+          },
+          {
+            "duty": "check_brake_fluid",
+            "shape": "alert",
+            "platform": "binary_sensor",
+            "keys": [
+              "brake_fluid_warning_is_on"
+            ],
+            "state": "on"
+          },
+          {
+            "duty": "check_tyres",
+            "shape": "alert",
+            "platform": "binary_sensor",
+            "keys": [
+              "tire_pressure_all_warning_is_on",
+              "tire_pressure_front_left_warning_is_on",
+              "tire_pressure_front_right_warning_is_on",
+              "tire_pressure_rear_left_warning_is_on",
+              "tire_pressure_rear_right_warning_is_on"
+            ],
+            "state": "on"
+          },
+          {
+            "duty": "check_12v_battery",
+            "shape": "alert",
+            "platform": "binary_sensor",
+            "keys": [
+              "battery_auxiliary_fail_warning_is_on",
+              "auto_cut_battery_prewarning_on"
+            ],
+            "state": "on"
+          }
+        ]
+      },
+      {
+        "domain": "rivian",
+        "brand": "Rivian",
+        "icon": "mdi:car-wrench",
+        "duties": [
+          {
+            "duty": "check_brake_fluid",
+            "shape": "alert",
+            "keys": [
+              "brake_fluid_low"
+            ],
+            "state": "active"
+          },
+          {
+            "duty": "check_fluid_levels",
+            "shape": "alert",
+            "platform": "binary_sensor",
+            "keys": [
+              "wiper_fluid_state"
+            ],
+            "state": "on"
+          }
+        ]
+      },
+      {
+        "domain": "subaru",
+        "brand": "Subaru",
+        "icon": "mdi:car-wrench",
+        "duties": [
+          {
+            "duty": "check_warning_lamps",
+            "shape": "alert",
+            "platform": "binary_sensor",
+            "keys": [
+              "mil_eol",
+              "mil_opl",
+              "mil_tpms",
+              "mil_wash"
+            ],
+            "state": "on"
+          }
+        ]
+      },
+      {
+        "domain": "mbapi2020",
+        "brand": "Mercedes-Benz (MercedesME 2020)",
+        "icon": "mdi:car-wrench",
+        "duties": [
+          {
+            "duty": "check_fluid_levels",
+            "shape": "alert",
+            "platform": "binary_sensor",
+            "keys": [
+              "warningwashwater",
+              "warningcoolantlevellow"
+            ],
+            "state": "on"
+          },
+          {
+            "duty": "check_brake_fluid",
+            "shape": "alert",
+            "platform": "binary_sensor",
+            "keys": [
+              "warningbrakefluid"
+            ],
+            "state": "on"
+          },
+          {
+            "duty": "check_tyres",
+            "shape": "alert",
+            "platform": "binary_sensor",
+            "keys": [
+              "tirewarninglamp"
+            ],
+            "state": "on"
+          },
+          {
+            "duty": "check_warning_lamps",
+            "shape": "alert",
+            "platform": "binary_sensor",
+            "keys": [
+              "warningenginelight"
+            ],
+            "state": "on"
+          }
+        ]
+      },
+      {
+        "domain": "bm6_ha",
+        "brand": "BM6 battery monitor",
+        "icon": "mdi:car-wrench",
+        "duties": [
+          {
+            "duty": "check_12v_battery",
+            "shape": "alert",
+            "platform": "binary_sensor",
+            "keys": [
+              "low_battery",
+              "voltage_problem",
+              "crank_problem",
+              "charging_system_problem"
+            ],
+            "state": "on"
+          }
+        ]
+      },
+      {
+        "domain": "tesla_fleet",
+        "brand": "Tesla Fleet",
+        "icon": "mdi:car-wrench",
+        "duties": [
+          {
+            "duty": "check_tyres",
+            "shape": "alert",
+            "platform": "binary_sensor",
+            "keys": [
+              "vehicle_state_tpms_soft_warning_fl",
+              "vehicle_state_tpms_soft_warning_fr",
+              "vehicle_state_tpms_soft_warning_rl",
+              "vehicle_state_tpms_soft_warning_rr"
+            ],
+            "state": "on"
+          }
+        ]
+      },
+      {
+        "domain": "teslemetry",
+        "brand": "Teslemetry",
+        "icon": "mdi:car-wrench",
+        "duties": [
+          {
+            "duty": "check_tyres",
+            "shape": "alert",
+            "platform": "binary_sensor",
+            "keys": [
+              "vehicle_state_tpms_soft_warning_fl",
+              "vehicle_state_tpms_soft_warning_fr",
+              "vehicle_state_tpms_soft_warning_rl",
+              "vehicle_state_tpms_soft_warning_rr"
+            ],
+            "state": "on"
+          }
+        ]
+      }
+    ],
+    "duty_names": {
+      "check_12v_battery": {
+        "en": "Check the 12 V battery",
+        "ca": "Revisar la bateria de 12 V",
+        "cs": "Zkontrolovat 12V baterii",
+        "da": "Kontrollér 12 V-batteriet",
+        "de": "12-V-Batterie prüfen",
+        "es": "Revisar la batería de 12 V",
+        "fi": "Tarkista 12 V:n akku",
+        "fr": "Vérifier la batterie 12 V",
+        "it": "Controllare la batteria a 12 V",
+        "nb": "Sjekk 12 V-batteriet",
+        "nl": "12V-accu controleren",
+        "pl": "Sprawdź akumulator 12 V",
+        "pt-BR": "Verificar a bateria de 12 V",
+        "ru": "Проверить аккумулятор 12 В",
+        "sv": "Kontrollera 12 V-batteriet",
+        "uk": "Перевірити акумулятор 12 В",
+        "zh-Hans": "检查 12 V 蓄电池"
+      },
+      "check_brake_fluid": {
+        "en": "Check the brake fluid",
+        "ca": "Revisar el líquid de frens",
+        "cs": "Zkontrolovat brzdovou kapalinu",
+        "da": "Kontrollér bremsevæsken",
+        "de": "Bremsflüssigkeit prüfen",
+        "es": "Revisar el líquido de frenos",
+        "fi": "Tarkista jarruneste",
+        "fr": "Vérifier le liquide de frein",
+        "it": "Controllare il liquido dei freni",
+        "nb": "Sjekk bremsevæsken",
+        "nl": "Remvloeistof controleren",
+        "pl": "Sprawdź płyn hamulcowy",
+        "pt-BR": "Verificar o fluido de freio",
+        "ru": "Проверить тормозную жидкость",
+        "sv": "Kontrollera bromsvätskan",
+        "uk": "Перевірити гальмівну рідину",
+        "zh-Hans": "检查制动液"
+      },
+      "check_fluid_levels": {
+        "en": "Check the fluid levels",
+        "ca": "Comprovar els nivells de líquids",
+        "cs": "Zkontrolovat hladiny kapalin",
+        "da": "Kontrollér væskeniveauerne",
+        "de": "Flüssigkeitsstände prüfen",
+        "es": "Comprobar los niveles de líquidos",
+        "fi": "Tarkista nestemäärät",
+        "fr": "Vérifier les niveaux de liquides",
+        "it": "Controllare i livelli dei liquidi",
+        "nb": "Sjekk væskenivåene",
+        "nl": "Vloeistofniveaus controleren",
+        "pl": "Sprawdź poziomy płynów",
+        "pt-BR": "Verificar os níveis de fluidos",
+        "ru": "Проверить уровни жидкостей",
+        "sv": "Kontrollera vätskenivåerna",
+        "uk": "Перевірити рівні рідин",
+        "zh-Hans": "检查液位"
+      },
+      "check_tyres": {
+        "en": "Check the tyres",
+        "ca": "Revisar els pneumàtics",
+        "cs": "Zkontrolovat pneumatiky",
+        "da": "Kontrollér dækkene",
+        "de": "Reifen prüfen",
+        "es": "Revisar los neumáticos",
+        "fi": "Tarkista renkaat",
+        "fr": "Vérifier les pneus",
+        "it": "Controllare gli pneumatici",
+        "nb": "Sjekk dekkene",
+        "nl": "Banden controleren",
+        "pl": "Sprawdź opony",
+        "pt-BR": "Verificar os pneus",
+        "ru": "Проверить шины",
+        "sv": "Kontrollera däcken",
+        "uk": "Перевірити шини",
+        "zh-Hans": "检查轮胎"
+      },
+      "check_warning_lamps": {
+        "en": "Check the warning lamps",
+        "ca": "Revisar els llums d'avís",
+        "cs": "Zkontrolovat výstražné kontrolky",
+        "da": "Kontrollér advarselslamperne",
+        "de": "Warnleuchten prüfen",
+        "es": "Revisar los testigos de aviso",
+        "fi": "Tarkista varoitusvalot",
+        "fr": "Vérifier les voyants d'alerte",
+        "it": "Controllare le spie di avviso",
+        "nb": "Sjekk varsellampene",
+        "nl": "Waarschuwingslampjes controleren",
+        "pl": "Sprawdź kontrolki ostrzegawcze",
+        "pt-BR": "Verificar as luzes de aviso",
+        "ru": "Проверить сигнальные лампы",
+        "sv": "Kontrollera varningslamporna",
+        "uk": "Перевірити сигнальні лампи",
+        "zh-Hans": "检查警告灯"
+      }
+    }
+  },
+  "preset_ids": [
+    "car_keeper/volvo_life_low",
+    "car_keeper/volvo_alert_binary_sensor_on",
+    "car_keeper/polestar_api_life_low",
+    "car_keeper/uconnect_life_low",
+    "car_keeper/uconnect_alert_binary_sensor_on",
+    "car_keeper/fordpass_percent_low",
+    "car_keeper/mazda_cs_percent_low",
+    "car_keeper/mazda_cs_alert_binary_sensor_on",
+    "car_keeper/kia_uvo_alert_binary_sensor_on",
+    "car_keeper/rivian_alert_active",
+    "car_keeper/rivian_alert_binary_sensor_on",
+    "car_keeper/subaru_alert_binary_sensor_on",
+    "car_keeper/mbapi2020_alert_binary_sensor_on",
+    "car_keeper/bm6_ha_alert_binary_sensor_on",
+    "car_keeper/tesla_fleet_alert_binary_sensor_on",
+    "car_keeper/teslemetry_alert_binary_sensor_on"
+  ],
+  "sources": {
+    "volvo": {
+      "url": "https://raw.githubusercontent.com/home-assistant/core/dev/homeassistant/components/volvo/strings.json",
+      "ref": "927a468e1edb1639b3fbe0cf923b101af9944edc",
+      "date": "2026-11-24"
+    },
+    "polestar_api": {
+      "url": "https://raw.githubusercontent.com/pypolestar/polestar_api/main/custom_components/polestar_api/translations/en.json",
+      "ref": "98ee2823bda34869ba759e80f27d18bf8ac852f7",
+      "date": "2026-09-22"
+    },
+    "uconnect": {
+      "url": "https://raw.githubusercontent.com/hass-uconnect/hass-uconnect/main/custom_components/uconnect/translations/en.json",
+      "ref": "9037a6c6346568ce8e43a402b0dbb8f64c688a53",
+      "date": "2026-11-23"
+    },
+    "fordpass": {
+      "url": "https://raw.githubusercontent.com/marq24/ha-fordpass/main/custom_components/fordpass/translations/en.json",
+      "ref": "ac4ed3e32a8203ee83d94f82f80fab208ca7072a",
+      "date": "2026-11-23"
+    },
+    "mazda_cs": {
+      "url": "https://raw.githubusercontent.com/fano0001/home-assistant-mazda/main/custom_components/mazda_cs/translations/en.json",
+      "ref": "13a3d31845ab58ac1409799eadf83449fcc1b2dc",
+      "date": "2026-11-16"
+    },
+    "kia_uvo": {
+      "url": "https://raw.githubusercontent.com/Hyundai-Kia-Connect/kia_uvo/master/custom_components/kia_uvo/translations/en.json",
+      "ref": "f57cee7a390e6e190616b11e05733014b2be9dff",
+      "date": "2026-11-23"
+    },
+    "rivian": {
+      "url": "https://raw.githubusercontent.com/bretterer/home-assistant-rivian/main/custom_components/rivian/translations/en.json",
+      "ref": "ce6daf1a1a8beea5cab2917be0b99b2717493dae",
+      "date": "2026-11-16"
+    },
+    "subaru": {
+      "url": "https://raw.githubusercontent.com/home-assistant/core/dev/homeassistant/components/subaru/strings.json",
+      "ref": "927a468e1edb1639b3fbe0cf923b101af9944edc",
+      "date": "2026-11-24"
+    },
+    "mbapi2020": {
+      "url": "https://raw.githubusercontent.com/ReneNulschDE/mbapi2020/master/custom_components/mbapi2020/const.py",
+      "match": "text",
+      "ref": "6976c44e63d203708e60e987d2f8d76376e74f8a",
+      "date": "2026-11-16"
+    },
+    "bm6_ha": {
+      "url": "https://raw.githubusercontent.com/danfulton72/bm6_ha/main/custom_components/bm6_ha/translations/en.json",
+      "ref": "f2316edf7f47f185020a04e53728a9caf6051f0e",
+      "date": "2026-11-23"
+    },
+    "tesla_fleet": {
+      "url": "https://raw.githubusercontent.com/home-assistant/core/dev/homeassistant/components/tesla_fleet/strings.json",
+      "ref": "927a468e1edb1639b3fbe0cf923b101af9944edc",
+      "date": "2026-11-24"
+    },
+    "teslemetry": {
+      "url": "https://raw.githubusercontent.com/home-assistant/core/dev/homeassistant/components/teslemetry/strings.json",
+      "ref": "927a468e1edb1639b3fbe0cf923b101af9944edc",
+      "date": "2026-11-24"
+    }
+  }
+}

@@ -1,0 +1,731 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Car Keeper",
+        "description": "Angi avstandsenheten for en ny bil. Hver bil kan ha sin egen enhet.",
+        "data": {
+          "unit": "Avstandsenhet"
+        },
+        "data_description": {
+          "unit": "Kilometer eller miles."
+        }
+      }
+    },
+    "abort": {
+      "already_configured": "Car Keeper er allerede satt opp.",
+      "single_instance_allowed": "Car Keeper er allerede satt opp.",
+      "home_keeper_missing": "Car Keeper krever Home Keeper. Installer Home Keeper fra HACS, start Home Assistant på nytt, og legg deretter til Car Keeper igjen. Installasjonstrinn: {url}",
+      "home_keeper_not_set_up": "Legg til Home Keeper-integrasjonen først.",
+      "home_keeper_too_old": "Oppdater Home Keeper til versjon {version} eller nyere."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Car Keeper-alternativer",
+        "data": {
+          "unit": "Avstandsenhet"
+        },
+        "data_description": {
+          "unit": "Enheten for en ny bil. En bil du har lagt til, beholder sin enhet."
+        }
+      }
+    }
+  },
+  "selector": {
+    "unit": {
+      "options": {
+        "km": "Kilometer",
+        "mi": "Miles"
+      }
+    },
+    "fuel": {
+      "options": {
+        "petrol": "Bensin",
+        "diesel": "Diesel",
+        "hybrid": "Hybrid",
+        "plug_in_hybrid": "Ladbar hybrid",
+        "electric": "Elbil",
+        "other": "Annet"
+      }
+    },
+    "odometer_source": {
+      "options": {
+        "manual": "Skrevet inn",
+        "entity": "Sensor"
+      }
+    },
+    "kind": {
+      "options": {
+        "job": "Intervalljobb",
+        "date": "Dato"
+      }
+    },
+    "template": {
+      "options": {
+        "engine_oil": "Motorolje og filter",
+        "tyre_rotation": "Dekkrotasjon",
+        "tyre_check": "Dekktrykk og mønster",
+        "brake_fluid": "Bremsevæske",
+        "cabin_filter": "Kupéfilter",
+        "engine_air_filter": "Motorluftfilter",
+        "wipers": "Viskerblader",
+        "battery_12v": "Test av 12 V-batteri",
+        "coolant": "Kjølevæske",
+        "spark_plugs": "Tennplugger",
+        "adblue": "Påfylling av AdBlue",
+        "registration": "Registrering",
+        "insurance": "Forsikring",
+        "inspection": "EU-kontroll"
+      }
+    }
+  },
+  "issues": {
+    "home_keeper_missing": {
+      "title": "Home Keeper er ikke installert",
+      "description": "Fanen Biler og vedlikeholdsoppgavene krever Home Keeper. Kortene, entitetene og tjenestene virker nå. Installer Home Keeper fra HACS, og start Home Assistant på nytt. Installasjonstrinn: {url}"
+    },
+    "home_keeper_not_set_up": {
+      "title": "Home Keeper er ikke satt opp",
+      "description": "Fanen Biler og vedlikeholdsoppgavene krever en lastet Home Keeper-integrasjon. Kortene, entitetene og tjenestene virker nå. Legg til eller aktiver Home Keeper-integrasjonen."
+    },
+    "home_keeper_too_old": {
+      "title": "Home Keeper er for gammel",
+      "description": "Fanen Biler og vedlikeholdsoppgavene krever Home Keeper versjon {version} eller nyere. Kortene, entitetene og tjenestene virker nå. Oppdater Home Keeper."
+    },
+    "odometer_decreased": {
+      "title": "Kilometertelleren til {car} gikk ned",
+      "description": "Kilometertellersensoren til {car} rapporterte {value} {unit} 2 ganger, under den siste avlesningen på {current} {unit}. Car Keeper beholder den siste avlesningen. Hvis sensoren er feil, rett sensoren. Hvis bilen har nytt instrumentpanel, rett kilometertelleren til bilen og angi en forskyvning."
+    }
+  },
+  "services": {
+    "add_car": {
+      "name": "Legg til bil",
+      "description": "Legger til en bil med kilometerteller og de valgte startjobbene. Bare for administratorer.",
+      "fields": {
+        "name": {
+          "name": "Navn",
+          "description": "Navnet på bilen."
+        },
+        "make": {
+          "name": "Merke",
+          "description": "Produsenten av bilen."
+        },
+        "model": {
+          "name": "Modell",
+          "description": "Modellen av bilen."
+        },
+        "year": {
+          "name": "År",
+          "description": "Modellåret."
+        },
+        "trim": {
+          "name": "Utstyrsnivå",
+          "description": "Utstyrsnivået eller versjonen."
+        },
+        "fuel": {
+          "name": "Drivstoff",
+          "description": "Drivstofftypen. Den velger startjobbene."
+        },
+        "vin": {
+          "name": "Understellsnummer",
+          "description": "Kjøretøyets identifikasjonsnummer."
+        },
+        "plate": {
+          "name": "Skilt",
+          "description": "Registreringsskiltet."
+        },
+        "engine_code": {
+          "name": "Motorkode",
+          "description": "Produsentens motorkode."
+        },
+        "transmission_code": {
+          "name": "Girkassekode",
+          "description": "Produsentens girkassekode."
+        },
+        "first_registered": {
+          "name": "Første registrering",
+          "description": "Datoen for bilens første registrering."
+        },
+        "area_id": {
+          "name": "Område",
+          "description": "Bilens område i Home Assistant."
+        },
+        "notes": {
+          "name": "Notater",
+          "description": "Notater."
+        },
+        "lead_distance": {
+          "name": "Varselavstand",
+          "description": "Avstanden før en grense der en jobb er snart."
+        },
+        "lead_days": {
+          "name": "Varseldager",
+          "description": "Dagene før en grense der en jobb er snart."
+        },
+        "unit": {
+          "name": "Avstandsenhet",
+          "description": "km eller mi."
+        },
+        "odometer_source": {
+          "name": "Kilde for kilometerteller",
+          "description": "Skriv inn kilometertelleren, eller les den fra en sensor."
+        },
+        "odometer_entity_id": {
+          "name": "Kilometertellersensor",
+          "description": "Sensoren som rapporterer kilometertelleren."
+        },
+        "odometer": {
+          "name": "Kilometerteller",
+          "description": "Avlesningen nå, i enheten til bilen."
+        },
+        "starter_jobs": {
+          "name": "Startjobber",
+          "description": "ID-ene til startjobbene som skal legges til."
+        },
+        "due_dates": {
+          "name": "Forfallsdatoer",
+          "description": "Forfallsdatoen for hver startjobb med dato, etter ID."
+        }
+      }
+    },
+    "update_car": {
+      "name": "Oppdater bil",
+      "description": "Endrer feltene til en bil. En endring av enheten regner om hver verdi for bilen. Bare for administratorer.",
+      "fields": {
+        "car_id": {
+          "name": "Bil",
+          "description": "ID-en til bilen."
+        },
+        "name": {
+          "name": "Navn",
+          "description": "Navnet på bilen."
+        },
+        "make": {
+          "name": "Merke",
+          "description": "Produsenten av bilen."
+        },
+        "model": {
+          "name": "Modell",
+          "description": "Modellen av bilen."
+        },
+        "year": {
+          "name": "År",
+          "description": "Modellåret."
+        },
+        "trim": {
+          "name": "Utstyrsnivå",
+          "description": "Utstyrsnivået eller versjonen."
+        },
+        "fuel": {
+          "name": "Drivstoff",
+          "description": "Drivstofftypen. Den velger startjobbene."
+        },
+        "vin": {
+          "name": "Understellsnummer",
+          "description": "Kjøretøyets identifikasjonsnummer."
+        },
+        "plate": {
+          "name": "Skilt",
+          "description": "Registreringsskiltet."
+        },
+        "engine_code": {
+          "name": "Motorkode",
+          "description": "Produsentens motorkode."
+        },
+        "transmission_code": {
+          "name": "Girkassekode",
+          "description": "Produsentens girkassekode."
+        },
+        "first_registered": {
+          "name": "Første registrering",
+          "description": "Datoen for bilens første registrering."
+        },
+        "area_id": {
+          "name": "Område",
+          "description": "Bilens område i Home Assistant."
+        },
+        "notes": {
+          "name": "Notater",
+          "description": "Notater."
+        },
+        "lead_distance": {
+          "name": "Varselavstand",
+          "description": "Avstanden før en grense der en jobb er snart."
+        },
+        "lead_days": {
+          "name": "Varseldager",
+          "description": "Dagene før en grense der en jobb er snart."
+        },
+        "unit": {
+          "name": "Avstandsenhet",
+          "description": "km eller mi."
+        },
+        "odometer_source": {
+          "name": "Kilde for kilometerteller",
+          "description": "Skriv inn kilometertelleren, eller les den fra en sensor."
+        },
+        "odometer_entity_id": {
+          "name": "Kilometertellersensor",
+          "description": "Sensoren som rapporterer kilometertelleren."
+        }
+      }
+    },
+    "delete_car": {
+      "name": "Slett bil",
+      "description": "Sletter en bil med jobbene, serviceoppføringene og avlesningene. Bare for administratorer.",
+      "fields": {
+        "car_id": {
+          "name": "Bil",
+          "description": "ID-en til bilen."
+        }
+      }
+    },
+    "set_odometer": {
+      "name": "Angi kilometerteller",
+      "description": "Lagrer en kilometeravlesning. Verdien kan ikke være under den siste avlesningen.",
+      "fields": {
+        "car_id": {
+          "name": "Bil",
+          "description": "ID-en til bilen."
+        },
+        "value": {
+          "name": "Avlesning",
+          "description": "Kilometeravlesningen i enheten til bilen."
+        }
+      }
+    },
+    "correct_odometer": {
+      "name": "Rett kilometerteller",
+      "description": "Lagrer enhver avlesning, også en lavere, og en valgfri forskyvning for et nytt instrumentpanel. Bare for administratorer.",
+      "fields": {
+        "car_id": {
+          "name": "Bil",
+          "description": "ID-en til bilen."
+        },
+        "value": {
+          "name": "Avlesning",
+          "description": "Kilometeravlesningen i enheten til bilen."
+        },
+        "offset": {
+          "name": "Forskyvning",
+          "description": "Legges til hver senere sensorverdi, for et nytt instrumentpanel."
+        }
+      }
+    },
+    "add_item": {
+      "name": "Legg til jobb",
+      "description": "Legger til en vedlikeholdsjobb for en bil. Bare for administratorer.",
+      "fields": {
+        "car_id": {
+          "name": "Bil",
+          "description": "ID-en til bilen."
+        },
+        "name": {
+          "name": "Navn",
+          "description": "Navnet på jobben."
+        },
+        "kind": {
+          "name": "Type",
+          "description": "En jobb med intervall, eller en dato som en registrering."
+        },
+        "interval_distance": {
+          "name": "Avstandsintervall",
+          "description": "Avstanden mellom 2 servicer, i enheten til bilen."
+        },
+        "interval_months": {
+          "name": "Tidsintervall",
+          "description": "Månedene mellom 2 servicer."
+        },
+        "due_date": {
+          "name": "Forfallsdato",
+          "description": "Forfallsdatoen for en jobb med dato."
+        },
+        "lead_distance": {
+          "name": "Varselavstand",
+          "description": "Avstanden før en grense der en jobb er snart."
+        },
+        "lead_days": {
+          "name": "Varseldager",
+          "description": "Dagene før en grense der en jobb er snart."
+        },
+        "notes": {
+          "name": "Notater",
+          "description": "Notater."
+        },
+        "enabled": {
+          "name": "På",
+          "description": "Av beholder jobben og stopper forfallsstatusen."
+        },
+        "add_task": {
+          "name": "Home Keeper-oppgave",
+          "description": "Opprett en Home Keeper-oppgave for jobben."
+        },
+        "parts": {
+          "name": "Deler",
+          "description": "Home Keeper-delene som jobben bruker hver gang. Home Keeper trekker dem fra lageret."
+        },
+        "last_date": {
+          "name": "Sist utført",
+          "description": "Datoen for siste service, hvis du vet den."
+        },
+        "last_reading": {
+          "name": "Sist utført ved",
+          "description": "Kilometertelleren ved siste service, hvis du vet den."
+        }
+      }
+    },
+    "update_item": {
+      "name": "Oppdater jobb",
+      "description": "Endrer feltene til en vedlikeholdsjobb. Bare for administratorer.",
+      "fields": {
+        "item_id": {
+          "name": "Jobb",
+          "description": "ID-en til jobben."
+        },
+        "name": {
+          "name": "Navn",
+          "description": "Navnet på jobben."
+        },
+        "kind": {
+          "name": "Type",
+          "description": "En jobb med intervall, eller en dato som en registrering."
+        },
+        "interval_distance": {
+          "name": "Avstandsintervall",
+          "description": "Avstanden mellom 2 servicer, i enheten til bilen."
+        },
+        "interval_months": {
+          "name": "Tidsintervall",
+          "description": "Månedene mellom 2 servicer."
+        },
+        "due_date": {
+          "name": "Forfallsdato",
+          "description": "Forfallsdatoen for en jobb med dato."
+        },
+        "lead_distance": {
+          "name": "Varselavstand",
+          "description": "Avstanden før en grense der en jobb er snart."
+        },
+        "lead_days": {
+          "name": "Varseldager",
+          "description": "Dagene før en grense der en jobb er snart."
+        },
+        "notes": {
+          "name": "Notater",
+          "description": "Notater."
+        },
+        "enabled": {
+          "name": "På",
+          "description": "Av beholder jobben og stopper forfallsstatusen."
+        },
+        "add_task": {
+          "name": "Home Keeper-oppgave",
+          "description": "Opprett en Home Keeper-oppgave for jobben."
+        },
+        "parts": {
+          "name": "Deler",
+          "description": "Home Keeper-delene som jobben bruker hver gang. Home Keeper trekker dem fra lageret."
+        }
+      }
+    },
+    "delete_item": {
+      "name": "Slett jobb",
+      "description": "Sletter en vedlikeholdsjobb. Serviceoppføringene blir. Bare for administratorer.",
+      "fields": {
+        "item_id": {
+          "name": "Jobb",
+          "description": "ID-en til jobben."
+        }
+      }
+    },
+    "apply_templates": {
+      "name": "Legg til startjobber",
+      "description": "Legger til de valgte startjobbene for en bil. Bare for administratorer.",
+      "fields": {
+        "car_id": {
+          "name": "Bil",
+          "description": "ID-en til bilen."
+        },
+        "starter_jobs": {
+          "name": "Startjobber",
+          "description": "Startjobbene som skal legges til."
+        },
+        "due_dates": {
+          "name": "Forfallsdatoer",
+          "description": "Forfallsdatoen for hver startjobb med dato, etter ID."
+        }
+      }
+    },
+    "log_service": {
+      "name": "Registrer service",
+      "description": "Legger til en serviceoppføring og markerer jobbene som utført.",
+      "fields": {
+        "car_id": {
+          "name": "Bil",
+          "description": "ID-en til bilen."
+        },
+        "date": {
+          "name": "Dato",
+          "description": "Datoen for servicen. Standard er i dag."
+        },
+        "reading": {
+          "name": "Avlesning",
+          "description": "Kilometertelleren ved servicen."
+        },
+        "items": {
+          "name": "Jobber",
+          "description": "ID-ene til jobbene som servicen utførte."
+        },
+        "shop": {
+          "name": "Verksted",
+          "description": "Verkstedet, eller tomt for en jobb hjemme."
+        },
+        "notes": {
+          "name": "Notater",
+          "description": "Notater."
+        },
+        "who": {
+          "name": "Hvem",
+          "description": "Hvem som utførte jobben."
+        },
+        "cost": {
+          "name": "Kostnad",
+          "description": "Kostnaden for besøket, i valutaen til Home Assistant."
+        },
+        "parts_used": {
+          "name": "Brukte deler",
+          "description": "En liste over Home Keeper-delene som servicen brukte."
+        }
+      }
+    },
+    "update_service": {
+      "name": "Oppdater serviceoppføring",
+      "description": "Endrer en serviceoppføring. Bare for administratorer.",
+      "fields": {
+        "service_id": {
+          "name": "Serviceoppføring",
+          "description": "ID-en til serviceoppføringen."
+        },
+        "date": {
+          "name": "Dato",
+          "description": "Datoen for servicen. Standard er i dag."
+        },
+        "reading": {
+          "name": "Avlesning",
+          "description": "Kilometertelleren ved servicen."
+        },
+        "items": {
+          "name": "Jobber",
+          "description": "ID-ene til jobbene som servicen utførte."
+        },
+        "shop": {
+          "name": "Verksted",
+          "description": "Verkstedet, eller tomt for en jobb hjemme."
+        },
+        "notes": {
+          "name": "Notater",
+          "description": "Notater."
+        },
+        "who": {
+          "name": "Hvem",
+          "description": "Hvem som utførte jobben."
+        },
+        "cost": {
+          "name": "Kostnad",
+          "description": "Kostnaden for besøket, i valutaen til Home Assistant."
+        },
+        "parts_used": {
+          "name": "Brukte deler",
+          "description": "En liste over Home Keeper-delene som servicen brukte."
+        }
+      }
+    },
+    "delete_service": {
+      "name": "Slett serviceoppføring",
+      "description": "Sletter en serviceoppføring. Bare for administratorer.",
+      "fields": {
+        "service_id": {
+          "name": "Serviceoppføring",
+          "description": "ID-en til serviceoppføringen."
+        }
+      }
+    },
+    "set_settings": {
+      "name": "Angi innstillinger",
+      "description": "Endrer innstillingene for Car Keeper. Bare for administratorer.",
+      "fields": {
+        "unit": {
+          "name": "Avstandsenhet",
+          "description": "Enheten for en ny bil: km eller mi."
+        },
+        "templates": {
+          "name": "Startjobber",
+          "description": "Endringer av startjobbene etter ID: km, måneder og aktivert."
+        }
+      }
+    },
+    "export_data": {
+      "name": "Eksporter data",
+      "description": "Returnerer alle Car Keeper-data for Home Keeper-eksporten. Bare for administratorer.",
+      "fields": {
+        "files_dir": {
+          "name": "Filmappe",
+          "description": "Angis av Home Keeper for en pakkeeksport eller -import."
+        }
+      }
+    },
+    "import_data": {
+      "name": "Importer data",
+      "description": "Legger til og oppdaterer Car Keeper-data fra en eksport. Den sletter ingen oppføring. Bare for administratorer.",
+      "fields": {
+        "document": {
+          "name": "Dokument",
+          "description": "Car Keeper-delen av en eksport."
+        },
+        "dry_run": {
+          "name": "Forhåndsvisning",
+          "description": "Rapporter hva som ville endres, og skriv ingen data."
+        },
+        "files_dir": {
+          "name": "Filmappe",
+          "description": "Angis av Home Keeper for en pakkeeksport eller -import."
+        }
+      }
+    },
+    "list_cars": {
+      "name": "List biler",
+      "description": "Returnerer hver bil med status og neste jobb."
+    },
+    "get_car": {
+      "name": "Hent bil",
+      "description": "Returnerer 1 bil med jobbene, serviceoppføringene og avlesningene.",
+      "fields": {
+        "car_id": {
+          "name": "Bil",
+          "description": "ID-en til bilen."
+        }
+      }
+    },
+    "list_items": {
+      "name": "List jobber",
+      "description": "Returnerer jobbene med grensene og statusen.",
+      "fields": {
+        "car_id": {
+          "name": "Bil",
+          "description": "Bare jobbene til denne bilen."
+        }
+      }
+    },
+    "list_services": {
+      "name": "List serviceoppføringer",
+      "description": "Returnerer serviceoppføringene, den nyeste først.",
+      "fields": {
+        "car_id": {
+          "name": "Bil",
+          "description": "Bare oppføringene til denne bilen."
+        }
+      }
+    }
+  },
+  "exceptions": {
+    "not_loaded": {
+      "message": "Car Keeper er ikke lastet. Prøv igjen når den har startet."
+    },
+    "car_not_found": {
+      "message": "Ingen bil har ID-en {id}."
+    },
+    "item_not_found": {
+      "message": "Ingen jobb har ID-en {id}."
+    },
+    "service_not_found": {
+      "message": "Ingen serviceoppføring har ID-en {id}."
+    },
+    "template_not_found": {
+      "message": "Ingen startjobb har ID-en {id}."
+    },
+    "field_required": {
+      "message": "Angi en verdi for {field}."
+    },
+    "field_too_long": {
+      "message": "Verdien av {field} er lengre enn {limit} tegn."
+    },
+    "invalid_field": {
+      "message": "Verdien av {field} er ugyldig."
+    },
+    "out_of_range": {
+      "message": "Verdien av {field} må være mellom {low} og {high}."
+    },
+    "invalid_date": {
+      "message": "Datoen {value} i {field} er ikke en dato i formatet ÅÅÅÅ-MM-DD."
+    },
+    "interval_required": {
+      "message": "Angi et avstandsintervall, et tidsintervall eller begge."
+    },
+    "invalid_reading": {
+      "message": "Avlesningen {value} er ugyldig."
+    },
+    "odometer_decreased": {
+      "message": "Avlesningen {value} er under den siste avlesningen {current}. En administrator kan rette kilometertelleren."
+    },
+    "todo_only_check": {
+      "message": "Kryss av jobben for å registrere service. Listen har ingen annen endring."
+    },
+    "import_not_a_document": {
+      "message": "Dokumentet er ikke en Car Keeper-eksport."
+    },
+    "import_format_too_new": {
+      "message": "Eksportformatet {format} er nyere enn denne Car Keeper. Oppdater Car Keeper."
+    },
+    "import_missing_field": {
+      "message": "Feltet {field} mangler eller er tomt."
+    },
+    "import_bad_value": {
+      "message": "Verdien av {field} er ugyldig."
+    },
+    "import_not_a_record": {
+      "message": "Oppføringen er ugyldig."
+    },
+    "import_unknown_car": {
+      "message": "Oppføringen nevner en bil som ikke er i importen eller i Car Keeper."
+    },
+    "import_unknown_item": {
+      "message": "Serviceoppføringen nevner en jobb som ikke er i importen eller i Car Keeper."
+    },
+    "import_entity_missing": {
+      "message": "Kilometertellersensoren {entity_id} finnes ikke i denne Home Assistant. Bilen får en innskrevet kilometerteller."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "odometer": {
+        "name": "Kilometerteller"
+      },
+      "next_due_distance": {
+        "name": "Neste forfall i avstand"
+      },
+      "next_due_date": {
+        "name": "Neste forfallsdato"
+      },
+      "status": {
+        "name": "Vedlikeholdsstatus",
+        "state": {
+          "ok": "OK",
+          "soon": "Snart",
+          "overdue": "Forfalt"
+        }
+      }
+    },
+    "binary_sensor": {
+      "overdue": {
+        "name": "Vedlikehold forfalt"
+      }
+    },
+    "todo": {
+      "jobs": {
+        "name": "Vedlikeholdsjobber"
+      }
+    }
+  }
+}

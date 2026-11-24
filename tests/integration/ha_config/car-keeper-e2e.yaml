@@ -1,0 +1,11 @@
+# YAML dashboard for the Playwright e2e suite. It holds the cards of Car Keeper, so
+# the e2e tests can check that they render against a real Home Assistant.
+title: Car Keeper E2E
+views:
+  - title: Cars
+    path: cars
+    cards:
+      - type: custom:car-keeper-garage-card
+      - type: custom:car-keeper-car-card
+        car_id: civic
+        max_height: 320

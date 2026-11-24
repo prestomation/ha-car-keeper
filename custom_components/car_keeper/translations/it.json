@@ -1,0 +1,731 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Car Keeper",
+        "description": "Imposta l'unità di distanza di una nuova auto. Ogni auto può avere la propria unità.",
+        "data": {
+          "unit": "Unità di distanza"
+        },
+        "data_description": {
+          "unit": "Chilometri o miglia."
+        }
+      }
+    },
+    "abort": {
+      "already_configured": "Car Keeper è già configurato.",
+      "single_instance_allowed": "Car Keeper è già configurato.",
+      "home_keeper_missing": "Car Keeper richiede Home Keeper. Installa Home Keeper da HACS, riavvia Home Assistant e poi aggiungi di nuovo Car Keeper. Passaggi di installazione: {url}",
+      "home_keeper_not_set_up": "Aggiungi prima l'integrazione Home Keeper.",
+      "home_keeper_too_old": "Aggiorna Home Keeper alla versione {version} o successiva."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Opzioni di Car Keeper",
+        "data": {
+          "unit": "Unità di distanza"
+        },
+        "data_description": {
+          "unit": "L'unità di una nuova auto. Un'auto già aggiunta mantiene la sua unità."
+        }
+      }
+    }
+  },
+  "selector": {
+    "unit": {
+      "options": {
+        "km": "Chilometri",
+        "mi": "Miglia"
+      }
+    },
+    "fuel": {
+      "options": {
+        "petrol": "Benzina",
+        "diesel": "Diesel",
+        "hybrid": "Ibrida",
+        "plug_in_hybrid": "Ibrida plug-in",
+        "electric": "Elettrica",
+        "other": "Altro"
+      }
+    },
+    "odometer_source": {
+      "options": {
+        "manual": "Inserito",
+        "entity": "Sensore"
+      }
+    },
+    "kind": {
+      "options": {
+        "job": "Intervento periodico",
+        "date": "Data"
+      }
+    },
+    "template": {
+      "options": {
+        "engine_oil": "Olio motore e filtro",
+        "tyre_rotation": "Rotazione pneumatici",
+        "tyre_check": "Pressione e battistrada",
+        "brake_fluid": "Liquido freni",
+        "cabin_filter": "Filtro abitacolo",
+        "engine_air_filter": "Filtro aria motore",
+        "wipers": "Spazzole tergicristallo",
+        "battery_12v": "Test batteria 12 V",
+        "coolant": "Liquido refrigerante",
+        "spark_plugs": "Candele",
+        "adblue": "Rabbocco AdBlue",
+        "registration": "Immatricolazione",
+        "insurance": "Assicurazione",
+        "inspection": "Revisione"
+      }
+    }
+  },
+  "issues": {
+    "home_keeper_missing": {
+      "title": "Home Keeper non è installato",
+      "description": "La scheda Auto e le attività di manutenzione richiedono Home Keeper. Le schede, le entità e i servizi funzionano già. Installa Home Keeper da HACS e riavvia Home Assistant. Passaggi di installazione: {url}"
+    },
+    "home_keeper_not_set_up": {
+      "title": "Home Keeper non è configurato",
+      "description": "La scheda Auto e le attività di manutenzione richiedono un'integrazione Home Keeper caricata. Le schede, le entità e i servizi funzionano già. Aggiungi o abilita l'integrazione Home Keeper."
+    },
+    "home_keeper_too_old": {
+      "title": "Home Keeper è troppo vecchio",
+      "description": "La scheda Auto e le attività di manutenzione richiedono Home Keeper versione {version} o successiva. Le schede, le entità e i servizi funzionano già. Aggiorna Home Keeper."
+    },
+    "odometer_decreased": {
+      "title": "Il contachilometri di {car} è sceso",
+      "description": "Il sensore del contachilometri di {car} ha riportato {value} {unit} 2 volte, sotto l'ultima lettura di {current} {unit}. Car Keeper mantiene l'ultima lettura. Se il sensore è errato, correggi il sensore. Se l'auto ha un nuovo quadro strumenti, correggi il contachilometri dell'auto e imposta uno scostamento."
+    }
+  },
+  "services": {
+    "add_car": {
+      "name": "Aggiungi auto",
+      "description": "Aggiunge un'auto con il contachilometri e gli interventi iniziali scelti. Solo amministratori.",
+      "fields": {
+        "name": {
+          "name": "Nome",
+          "description": "Il nome dell'auto."
+        },
+        "make": {
+          "name": "Marca",
+          "description": "Il produttore dell'auto."
+        },
+        "model": {
+          "name": "Modello",
+          "description": "Il modello dell'auto."
+        },
+        "year": {
+          "name": "Anno",
+          "description": "L'anno del modello."
+        },
+        "trim": {
+          "name": "Allestimento",
+          "description": "L'allestimento o la versione."
+        },
+        "fuel": {
+          "name": "Alimentazione",
+          "description": "Il tipo di alimentazione. Sceglie gli interventi iniziali."
+        },
+        "vin": {
+          "name": "Numero di telaio",
+          "description": "Il numero di identificazione del veicolo."
+        },
+        "plate": {
+          "name": "Targa",
+          "description": "La targa."
+        },
+        "engine_code": {
+          "name": "Codice motore",
+          "description": "Il codice motore del costruttore."
+        },
+        "transmission_code": {
+          "name": "Codice cambio",
+          "description": "Il codice del cambio del costruttore."
+        },
+        "first_registered": {
+          "name": "Prima immatricolazione",
+          "description": "La data della prima immatricolazione dell'auto."
+        },
+        "area_id": {
+          "name": "Area",
+          "description": "L'area dell'auto in Home Assistant."
+        },
+        "notes": {
+          "name": "Note",
+          "description": "Note."
+        },
+        "lead_distance": {
+          "name": "Distanza di avviso",
+          "description": "La distanza prima di un limite in cui un intervento è vicino."
+        },
+        "lead_days": {
+          "name": "Giorni di avviso",
+          "description": "I giorni prima di un limite in cui un intervento è vicino."
+        },
+        "unit": {
+          "name": "Unità di distanza",
+          "description": "km o mi."
+        },
+        "odometer_source": {
+          "name": "Origine del contachilometri",
+          "description": "Inserisci il contachilometri o leggilo da un sensore."
+        },
+        "odometer_entity_id": {
+          "name": "Sensore del contachilometri",
+          "description": "Il sensore che riporta il contachilometri."
+        },
+        "odometer": {
+          "name": "Contachilometri",
+          "description": "La lettura attuale, nell'unità dell'auto."
+        },
+        "starter_jobs": {
+          "name": "Interventi iniziali",
+          "description": "Gli ID degli interventi iniziali da aggiungere."
+        },
+        "due_dates": {
+          "name": "Date di scadenza",
+          "description": "La data di scadenza di ogni intervento iniziale a data, per ID."
+        }
+      }
+    },
+    "update_car": {
+      "name": "Aggiorna auto",
+      "description": "Modifica i campi di un'auto. Un cambio di unità converte ogni valore dell'auto. Solo amministratori.",
+      "fields": {
+        "car_id": {
+          "name": "Auto",
+          "description": "L'ID dell'auto."
+        },
+        "name": {
+          "name": "Nome",
+          "description": "Il nome dell'auto."
+        },
+        "make": {
+          "name": "Marca",
+          "description": "Il produttore dell'auto."
+        },
+        "model": {
+          "name": "Modello",
+          "description": "Il modello dell'auto."
+        },
+        "year": {
+          "name": "Anno",
+          "description": "L'anno del modello."
+        },
+        "trim": {
+          "name": "Allestimento",
+          "description": "L'allestimento o la versione."
+        },
+        "fuel": {
+          "name": "Alimentazione",
+          "description": "Il tipo di alimentazione. Sceglie gli interventi iniziali."
+        },
+        "vin": {
+          "name": "Numero di telaio",
+          "description": "Il numero di identificazione del veicolo."
+        },
+        "plate": {
+          "name": "Targa",
+          "description": "La targa."
+        },
+        "engine_code": {
+          "name": "Codice motore",
+          "description": "Il codice motore del costruttore."
+        },
+        "transmission_code": {
+          "name": "Codice cambio",
+          "description": "Il codice del cambio del costruttore."
+        },
+        "first_registered": {
+          "name": "Prima immatricolazione",
+          "description": "La data della prima immatricolazione dell'auto."
+        },
+        "area_id": {
+          "name": "Area",
+          "description": "L'area dell'auto in Home Assistant."
+        },
+        "notes": {
+          "name": "Note",
+          "description": "Note."
+        },
+        "lead_distance": {
+          "name": "Distanza di avviso",
+          "description": "La distanza prima di un limite in cui un intervento è vicino."
+        },
+        "lead_days": {
+          "name": "Giorni di avviso",
+          "description": "I giorni prima di un limite in cui un intervento è vicino."
+        },
+        "unit": {
+          "name": "Unità di distanza",
+          "description": "km o mi."
+        },
+        "odometer_source": {
+          "name": "Origine del contachilometri",
+          "description": "Inserisci il contachilometri o leggilo da un sensore."
+        },
+        "odometer_entity_id": {
+          "name": "Sensore del contachilometri",
+          "description": "Il sensore che riporta il contachilometri."
+        }
+      }
+    },
+    "delete_car": {
+      "name": "Elimina auto",
+      "description": "Elimina un'auto con i suoi interventi, tagliandi e letture. Solo amministratori.",
+      "fields": {
+        "car_id": {
+          "name": "Auto",
+          "description": "L'ID dell'auto."
+        }
+      }
+    },
+    "set_odometer": {
+      "name": "Imposta contachilometri",
+      "description": "Salva una lettura del contachilometri. Il valore non può essere sotto l'ultima lettura.",
+      "fields": {
+        "car_id": {
+          "name": "Auto",
+          "description": "L'ID dell'auto."
+        },
+        "value": {
+          "name": "Lettura",
+          "description": "La lettura del contachilometri, nell'unità dell'auto."
+        }
+      }
+    },
+    "correct_odometer": {
+      "name": "Correggi contachilometri",
+      "description": "Salva qualsiasi lettura, anche più bassa, e uno scostamento facoltativo per un nuovo quadro strumenti. Solo amministratori.",
+      "fields": {
+        "car_id": {
+          "name": "Auto",
+          "description": "L'ID dell'auto."
+        },
+        "value": {
+          "name": "Lettura",
+          "description": "La lettura del contachilometri, nell'unità dell'auto."
+        },
+        "offset": {
+          "name": "Scostamento",
+          "description": "Aggiunto a ogni valore successivo del sensore, per un nuovo quadro strumenti."
+        }
+      }
+    },
+    "add_item": {
+      "name": "Aggiungi intervento",
+      "description": "Aggiunge un intervento di manutenzione a un'auto. Solo amministratori.",
+      "fields": {
+        "car_id": {
+          "name": "Auto",
+          "description": "L'ID dell'auto."
+        },
+        "name": {
+          "name": "Nome",
+          "description": "Il nome dell'intervento."
+        },
+        "kind": {
+          "name": "Tipo",
+          "description": "Un intervento con intervallo, o una data come un'immatricolazione."
+        },
+        "interval_distance": {
+          "name": "Intervallo di distanza",
+          "description": "La distanza tra 2 tagliandi, nell'unità dell'auto."
+        },
+        "interval_months": {
+          "name": "Intervallo di tempo",
+          "description": "I mesi tra 2 tagliandi."
+        },
+        "due_date": {
+          "name": "Data di scadenza",
+          "description": "La data di scadenza di un intervento a data."
+        },
+        "lead_distance": {
+          "name": "Distanza di avviso",
+          "description": "La distanza prima di un limite in cui un intervento è vicino."
+        },
+        "lead_days": {
+          "name": "Giorni di avviso",
+          "description": "I giorni prima di un limite in cui un intervento è vicino."
+        },
+        "notes": {
+          "name": "Note",
+          "description": "Note."
+        },
+        "enabled": {
+          "name": "Attivo",
+          "description": "Disattivo mantiene l'intervento e ferma il suo stato di scadenza."
+        },
+        "add_task": {
+          "name": "Attività Home Keeper",
+          "description": "Crea un'attività Home Keeper per l'intervento."
+        },
+        "parts": {
+          "name": "Ricambi",
+          "description": "I ricambi di Home Keeper che il lavoro usa ogni volta. Home Keeper li toglie dalle scorte."
+        },
+        "last_date": {
+          "name": "Ultima volta il",
+          "description": "La data dell'ultimo tagliando, se la conosci."
+        },
+        "last_reading": {
+          "name": "Ultima volta a",
+          "description": "Il contachilometri all'ultimo tagliando, se lo conosci."
+        }
+      }
+    },
+    "update_item": {
+      "name": "Aggiorna intervento",
+      "description": "Modifica i campi di un intervento di manutenzione. Solo amministratori.",
+      "fields": {
+        "item_id": {
+          "name": "Intervento",
+          "description": "L'ID dell'intervento."
+        },
+        "name": {
+          "name": "Nome",
+          "description": "Il nome dell'intervento."
+        },
+        "kind": {
+          "name": "Tipo",
+          "description": "Un intervento con intervallo, o una data come un'immatricolazione."
+        },
+        "interval_distance": {
+          "name": "Intervallo di distanza",
+          "description": "La distanza tra 2 tagliandi, nell'unità dell'auto."
+        },
+        "interval_months": {
+          "name": "Intervallo di tempo",
+          "description": "I mesi tra 2 tagliandi."
+        },
+        "due_date": {
+          "name": "Data di scadenza",
+          "description": "La data di scadenza di un intervento a data."
+        },
+        "lead_distance": {
+          "name": "Distanza di avviso",
+          "description": "La distanza prima di un limite in cui un intervento è vicino."
+        },
+        "lead_days": {
+          "name": "Giorni di avviso",
+          "description": "I giorni prima di un limite in cui un intervento è vicino."
+        },
+        "notes": {
+          "name": "Note",
+          "description": "Note."
+        },
+        "enabled": {
+          "name": "Attivo",
+          "description": "Disattivo mantiene l'intervento e ferma il suo stato di scadenza."
+        },
+        "add_task": {
+          "name": "Attività Home Keeper",
+          "description": "Crea un'attività Home Keeper per l'intervento."
+        },
+        "parts": {
+          "name": "Ricambi",
+          "description": "I ricambi di Home Keeper che il lavoro usa ogni volta. Home Keeper li toglie dalle scorte."
+        }
+      }
+    },
+    "delete_item": {
+      "name": "Elimina intervento",
+      "description": "Elimina un intervento di manutenzione. I tagliandi restano. Solo amministratori.",
+      "fields": {
+        "item_id": {
+          "name": "Intervento",
+          "description": "L'ID dell'intervento."
+        }
+      }
+    },
+    "apply_templates": {
+      "name": "Aggiungi interventi iniziali",
+      "description": "Aggiunge gli interventi iniziali scelti a un'auto. Solo amministratori.",
+      "fields": {
+        "car_id": {
+          "name": "Auto",
+          "description": "L'ID dell'auto."
+        },
+        "starter_jobs": {
+          "name": "Interventi iniziali",
+          "description": "Gli interventi iniziali da aggiungere."
+        },
+        "due_dates": {
+          "name": "Date di scadenza",
+          "description": "La data di scadenza di ogni intervento iniziale a data, per ID."
+        }
+      }
+    },
+    "log_service": {
+      "name": "Registra tagliando",
+      "description": "Aggiunge un tagliando e segna i suoi interventi come fatti.",
+      "fields": {
+        "car_id": {
+          "name": "Auto",
+          "description": "L'ID dell'auto."
+        },
+        "date": {
+          "name": "Data",
+          "description": "La data del tagliando. Il valore predefinito è oggi."
+        },
+        "reading": {
+          "name": "Lettura",
+          "description": "Il contachilometri al tagliando."
+        },
+        "items": {
+          "name": "Interventi",
+          "description": "Gli ID degli interventi fatti dal tagliando."
+        },
+        "shop": {
+          "name": "Officina",
+          "description": "L'officina, o vuoto per un intervento a casa."
+        },
+        "notes": {
+          "name": "Note",
+          "description": "Note."
+        },
+        "who": {
+          "name": "Chi",
+          "description": "Chi ha fatto l'intervento."
+        },
+        "cost": {
+          "name": "Costo",
+          "description": "Il costo della visita, nella valuta di Home Assistant."
+        },
+        "parts_used": {
+          "name": "Ricambi usati",
+          "description": "Un elenco dei ricambi Home Keeper usati dal tagliando."
+        }
+      }
+    },
+    "update_service": {
+      "name": "Aggiorna tagliando",
+      "description": "Modifica un tagliando. Solo amministratori.",
+      "fields": {
+        "service_id": {
+          "name": "Tagliando",
+          "description": "L'ID del tagliando."
+        },
+        "date": {
+          "name": "Data",
+          "description": "La data del tagliando. Il valore predefinito è oggi."
+        },
+        "reading": {
+          "name": "Lettura",
+          "description": "Il contachilometri al tagliando."
+        },
+        "items": {
+          "name": "Interventi",
+          "description": "Gli ID degli interventi fatti dal tagliando."
+        },
+        "shop": {
+          "name": "Officina",
+          "description": "L'officina, o vuoto per un intervento a casa."
+        },
+        "notes": {
+          "name": "Note",
+          "description": "Note."
+        },
+        "who": {
+          "name": "Chi",
+          "description": "Chi ha fatto l'intervento."
+        },
+        "cost": {
+          "name": "Costo",
+          "description": "Il costo della visita, nella valuta di Home Assistant."
+        },
+        "parts_used": {
+          "name": "Ricambi usati",
+          "description": "Un elenco dei ricambi Home Keeper usati dal tagliando."
+        }
+      }
+    },
+    "delete_service": {
+      "name": "Elimina tagliando",
+      "description": "Elimina un tagliando. Solo amministratori.",
+      "fields": {
+        "service_id": {
+          "name": "Tagliando",
+          "description": "L'ID del tagliando."
+        }
+      }
+    },
+    "set_settings": {
+      "name": "Imposta le impostazioni",
+      "description": "Modifica le impostazioni di Car Keeper. Solo amministratori.",
+      "fields": {
+        "unit": {
+          "name": "Unità di distanza",
+          "description": "L'unità di una nuova auto: km o mi."
+        },
+        "templates": {
+          "name": "Interventi iniziali",
+          "description": "Modifiche degli interventi iniziali, per ID: km, mesi e attivo."
+        }
+      }
+    },
+    "export_data": {
+      "name": "Esporta dati",
+      "description": "Restituisce tutti i dati di Car Keeper per l'esportazione di Home Keeper. Solo amministratori.",
+      "fields": {
+        "files_dir": {
+          "name": "Cartella dei file",
+          "description": "Impostato da Home Keeper per un'esportazione o importazione di pacchetto."
+        }
+      }
+    },
+    "import_data": {
+      "name": "Importa dati",
+      "description": "Aggiunge e aggiorna i dati di Car Keeper da un'esportazione. Non elimina nessun record. Solo amministratori.",
+      "fields": {
+        "document": {
+          "name": "Documento",
+          "description": "La sezione Car Keeper di un'esportazione."
+        },
+        "dry_run": {
+          "name": "Anteprima",
+          "description": "Riporta cosa cambierebbe e non scrive dati."
+        },
+        "files_dir": {
+          "name": "Cartella dei file",
+          "description": "Impostato da Home Keeper per un'esportazione o importazione di pacchetto."
+        }
+      }
+    },
+    "list_cars": {
+      "name": "Elenca auto",
+      "description": "Restituisce ogni auto con il suo stato e il prossimo intervento."
+    },
+    "get_car": {
+      "name": "Ottieni auto",
+      "description": "Restituisce 1 auto con i suoi interventi, tagliandi e letture.",
+      "fields": {
+        "car_id": {
+          "name": "Auto",
+          "description": "L'ID dell'auto."
+        }
+      }
+    },
+    "list_items": {
+      "name": "Elenca interventi",
+      "description": "Restituisce gli interventi con i loro limiti e lo stato.",
+      "fields": {
+        "car_id": {
+          "name": "Auto",
+          "description": "Solo gli interventi di questa auto."
+        }
+      }
+    },
+    "list_services": {
+      "name": "Elenca tagliandi",
+      "description": "Restituisce i tagliandi, il più recente per primo.",
+      "fields": {
+        "car_id": {
+          "name": "Auto",
+          "description": "Solo i tagliandi di questa auto."
+        }
+      }
+    }
+  },
+  "exceptions": {
+    "not_loaded": {
+      "message": "Car Keeper non è caricato. Riprova dopo l'avvio."
+    },
+    "car_not_found": {
+      "message": "Nessuna auto ha l'ID {id}."
+    },
+    "item_not_found": {
+      "message": "Nessun intervento ha l'ID {id}."
+    },
+    "service_not_found": {
+      "message": "Nessun tagliando ha l'ID {id}."
+    },
+    "template_not_found": {
+      "message": "Nessun intervento iniziale ha l'ID {id}."
+    },
+    "field_required": {
+      "message": "Inserisci un valore per {field}."
+    },
+    "field_too_long": {
+      "message": "Il valore di {field} supera {limit} caratteri."
+    },
+    "invalid_field": {
+      "message": "Il valore di {field} non è valido."
+    },
+    "out_of_range": {
+      "message": "Il valore di {field} deve essere tra {low} e {high}."
+    },
+    "invalid_date": {
+      "message": "La data {value} di {field} non è una data nel formato AAAA-MM-GG."
+    },
+    "interval_required": {
+      "message": "Inserisci un intervallo di distanza, un intervallo di tempo o entrambi."
+    },
+    "invalid_reading": {
+      "message": "La lettura {value} non è valida."
+    },
+    "odometer_decreased": {
+      "message": "La lettura {value} è sotto l'ultima lettura {current}. Un amministratore può correggere il contachilometri."
+    },
+    "todo_only_check": {
+      "message": "Spunta l'intervento per registrare un tagliando. L'elenco non ha altre modifiche."
+    },
+    "import_not_a_document": {
+      "message": "Il documento non è un'esportazione di Car Keeper."
+    },
+    "import_format_too_new": {
+      "message": "Il formato di esportazione {format} è più recente di questo Car Keeper. Aggiorna Car Keeper."
+    },
+    "import_missing_field": {
+      "message": "Il campo {field} manca o è vuoto."
+    },
+    "import_bad_value": {
+      "message": "Il valore di {field} non è valido."
+    },
+    "import_not_a_record": {
+      "message": "Il record non è valido."
+    },
+    "import_unknown_car": {
+      "message": "Il record cita un'auto che non è nell'importazione né in Car Keeper."
+    },
+    "import_unknown_item": {
+      "message": "Il tagliando cita un intervento che non è nell'importazione né in Car Keeper."
+    },
+    "import_entity_missing": {
+      "message": "Il sensore del contachilometri {entity_id} non è in questo Home Assistant. L'auto avrà un contachilometri inserito."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "odometer": {
+        "name": "Contachilometri"
+      },
+      "next_due_distance": {
+        "name": "Prossima scadenza in distanza"
+      },
+      "next_due_date": {
+        "name": "Prossima data di scadenza"
+      },
+      "status": {
+        "name": "Stato della manutenzione",
+        "state": {
+          "ok": "OK",
+          "soon": "Presto",
+          "overdue": "Scaduto"
+        }
+      }
+    },
+    "binary_sensor": {
+      "overdue": {
+        "name": "Manutenzione scaduta"
+      }
+    },
+    "todo": {
+      "jobs": {
+        "name": "Interventi di manutenzione"
+      }
+    }
+  }
+}

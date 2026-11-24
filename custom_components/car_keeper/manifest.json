@@ -1,0 +1,23 @@
+{
+  "domain": "car_keeper",
+  "name": "Car Keeper",
+  "after_dependencies": [
+    "home_keeper",
+    "lovelace"
+  ],
+  "codeowners": [
+    "@prestomation"
+  ],
+  "config_flow": true,
+  "dependencies": [
+    "frontend",
+    "http"
+  ],
+  "documentation": "https://github.com/prestomation/ha-car-keeper",
+  "integration_type": "service",
+  "iot_class": "local_push",
+  "issue_tracker": "https://github.com/prestomation/ha-car-keeper/issues",
+  "requirements": [],
+  "single_config_entry": true,
+  "version": "0.1.0b1"
+}

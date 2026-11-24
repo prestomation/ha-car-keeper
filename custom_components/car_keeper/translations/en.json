@@ -1,0 +1,731 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Car Keeper",
+        "description": "Set the distance unit of a new car. Each car can have its own unit.",
+        "data": {
+          "unit": "Distance unit"
+        },
+        "data_description": {
+          "unit": "Kilometers or miles."
+        }
+      }
+    },
+    "abort": {
+      "already_configured": "Car Keeper is already set up.",
+      "single_instance_allowed": "Car Keeper is already set up.",
+      "home_keeper_missing": "Car Keeper requires Home Keeper. Install Home Keeper from HACS, restart Home Assistant, then add Car Keeper again. Installation steps: {url}",
+      "home_keeper_not_set_up": "Add the Home Keeper integration first.",
+      "home_keeper_too_old": "Update Home Keeper to version {version} or later."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Car Keeper options",
+        "data": {
+          "unit": "Distance unit"
+        },
+        "data_description": {
+          "unit": "The unit of a new car. A car that you added keeps its unit."
+        }
+      }
+    }
+  },
+  "selector": {
+    "unit": {
+      "options": {
+        "km": "Kilometers",
+        "mi": "Miles"
+      }
+    },
+    "fuel": {
+      "options": {
+        "petrol": "Petrol",
+        "diesel": "Diesel",
+        "hybrid": "Hybrid",
+        "plug_in_hybrid": "Plug-in hybrid",
+        "electric": "Electric",
+        "other": "Other"
+      }
+    },
+    "odometer_source": {
+      "options": {
+        "manual": "Typed",
+        "entity": "Sensor"
+      }
+    },
+    "kind": {
+      "options": {
+        "job": "Interval job",
+        "date": "Date"
+      }
+    },
+    "template": {
+      "options": {
+        "engine_oil": "Engine oil and filter",
+        "tyre_rotation": "Tyre rotation",
+        "tyre_check": "Tyre pressure and tread",
+        "brake_fluid": "Brake fluid",
+        "cabin_filter": "Cabin air filter",
+        "engine_air_filter": "Engine air filter",
+        "wipers": "Wiper blades",
+        "battery_12v": "12 V battery test",
+        "coolant": "Coolant",
+        "spark_plugs": "Spark plugs",
+        "adblue": "AdBlue refill",
+        "registration": "Registration",
+        "insurance": "Insurance",
+        "inspection": "Inspection"
+      }
+    }
+  },
+  "issues": {
+    "home_keeper_missing": {
+      "title": "Home Keeper is not installed",
+      "description": "The Cars tab and the maintenance tasks need Home Keeper. The cards, the entities and the services work now. Install Home Keeper from HACS and restart Home Assistant. Installation steps: {url}"
+    },
+    "home_keeper_not_set_up": {
+      "title": "Home Keeper is not set up",
+      "description": "The Cars tab and the maintenance tasks need a loaded Home Keeper integration. The cards, the entities and the services work now. Add or enable the Home Keeper integration."
+    },
+    "home_keeper_too_old": {
+      "title": "Home Keeper is too old",
+      "description": "The Cars tab and the maintenance tasks need Home Keeper version {version} or later. The cards, the entities and the services work now. Update Home Keeper."
+    },
+    "odometer_decreased": {
+      "title": "The odometer of {car} went down",
+      "description": "The odometer sensor of {car} reported {value} {unit} 2 times, below the last reading of {current} {unit}. Car Keeper keeps the last reading. If the sensor is wrong, fix the sensor. If the car has a new instrument cluster, correct the odometer of the car and set an offset."
+    }
+  },
+  "services": {
+    "add_car": {
+      "name": "Add car",
+      "description": "Adds a car, with its odometer and the selected starter jobs. Admin only.",
+      "fields": {
+        "name": {
+          "name": "Name",
+          "description": "The name of the car."
+        },
+        "make": {
+          "name": "Make",
+          "description": "The maker of the car."
+        },
+        "model": {
+          "name": "Model",
+          "description": "The model of the car."
+        },
+        "year": {
+          "name": "Year",
+          "description": "The model year."
+        },
+        "trim": {
+          "name": "Trim",
+          "description": "The trim or the version."
+        },
+        "fuel": {
+          "name": "Fuel",
+          "description": "The fuel type. It selects the starter jobs."
+        },
+        "vin": {
+          "name": "VIN",
+          "description": "The vehicle identification number."
+        },
+        "plate": {
+          "name": "Plate",
+          "description": "The license plate."
+        },
+        "engine_code": {
+          "name": "Engine code",
+          "description": "The engine code of the maker."
+        },
+        "transmission_code": {
+          "name": "Transmission code",
+          "description": "The gearbox code of the maker."
+        },
+        "first_registered": {
+          "name": "First registration",
+          "description": "The date of the first registration of the car."
+        },
+        "area_id": {
+          "name": "Area",
+          "description": "The area of the car in Home Assistant."
+        },
+        "notes": {
+          "name": "Notes",
+          "description": "Notes."
+        },
+        "lead_distance": {
+          "name": "Warning distance",
+          "description": "The distance before a limit when a job is soon."
+        },
+        "lead_days": {
+          "name": "Warning days",
+          "description": "The days before a limit when a job is soon."
+        },
+        "unit": {
+          "name": "Distance unit",
+          "description": "km or mi."
+        },
+        "odometer_source": {
+          "name": "Odometer source",
+          "description": "Type the odometer, or read it from a sensor."
+        },
+        "odometer_entity_id": {
+          "name": "Odometer sensor",
+          "description": "The sensor that reports the odometer."
+        },
+        "odometer": {
+          "name": "Odometer",
+          "description": "The reading now, in the unit of the car."
+        },
+        "starter_jobs": {
+          "name": "Starter jobs",
+          "description": "The IDs of the starter jobs to add."
+        },
+        "due_dates": {
+          "name": "Due dates",
+          "description": "The due date of each starter date job, by its ID."
+        }
+      }
+    },
+    "update_car": {
+      "name": "Update car",
+      "description": "Changes the fields of a car. A change of the unit converts each value of the car. Admin only.",
+      "fields": {
+        "car_id": {
+          "name": "Car",
+          "description": "The ID of the car."
+        },
+        "name": {
+          "name": "Name",
+          "description": "The name of the car."
+        },
+        "make": {
+          "name": "Make",
+          "description": "The maker of the car."
+        },
+        "model": {
+          "name": "Model",
+          "description": "The model of the car."
+        },
+        "year": {
+          "name": "Year",
+          "description": "The model year."
+        },
+        "trim": {
+          "name": "Trim",
+          "description": "The trim or the version."
+        },
+        "fuel": {
+          "name": "Fuel",
+          "description": "The fuel type. It selects the starter jobs."
+        },
+        "vin": {
+          "name": "VIN",
+          "description": "The vehicle identification number."
+        },
+        "plate": {
+          "name": "Plate",
+          "description": "The license plate."
+        },
+        "engine_code": {
+          "name": "Engine code",
+          "description": "The engine code of the maker."
+        },
+        "transmission_code": {
+          "name": "Transmission code",
+          "description": "The gearbox code of the maker."
+        },
+        "first_registered": {
+          "name": "First registration",
+          "description": "The date of the first registration of the car."
+        },
+        "area_id": {
+          "name": "Area",
+          "description": "The area of the car in Home Assistant."
+        },
+        "notes": {
+          "name": "Notes",
+          "description": "Notes."
+        },
+        "lead_distance": {
+          "name": "Warning distance",
+          "description": "The distance before a limit when a job is soon."
+        },
+        "lead_days": {
+          "name": "Warning days",
+          "description": "The days before a limit when a job is soon."
+        },
+        "unit": {
+          "name": "Distance unit",
+          "description": "km or mi."
+        },
+        "odometer_source": {
+          "name": "Odometer source",
+          "description": "Type the odometer, or read it from a sensor."
+        },
+        "odometer_entity_id": {
+          "name": "Odometer sensor",
+          "description": "The sensor that reports the odometer."
+        }
+      }
+    },
+    "delete_car": {
+      "name": "Delete car",
+      "description": "Deletes a car with its jobs, service records and readings. Admin only.",
+      "fields": {
+        "car_id": {
+          "name": "Car",
+          "description": "The ID of the car."
+        }
+      }
+    },
+    "set_odometer": {
+      "name": "Set odometer",
+      "description": "Stores an odometer reading. The value cannot be below the last reading.",
+      "fields": {
+        "car_id": {
+          "name": "Car",
+          "description": "The ID of the car."
+        },
+        "value": {
+          "name": "Reading",
+          "description": "The odometer reading, in the unit of the car."
+        }
+      }
+    },
+    "correct_odometer": {
+      "name": "Correct odometer",
+      "description": "Stores any reading, also a lower one, and an optional offset for a new instrument cluster. Admin only.",
+      "fields": {
+        "car_id": {
+          "name": "Car",
+          "description": "The ID of the car."
+        },
+        "value": {
+          "name": "Reading",
+          "description": "The odometer reading, in the unit of the car."
+        },
+        "offset": {
+          "name": "Offset",
+          "description": "Added to each later sensor value, for a new instrument cluster."
+        }
+      }
+    },
+    "add_item": {
+      "name": "Add job",
+      "description": "Adds a maintenance job to a car. Admin only.",
+      "fields": {
+        "car_id": {
+          "name": "Car",
+          "description": "The ID of the car."
+        },
+        "name": {
+          "name": "Name",
+          "description": "The name of the job."
+        },
+        "kind": {
+          "name": "Kind",
+          "description": "A job with an interval, or a date such as a registration."
+        },
+        "interval_distance": {
+          "name": "Distance interval",
+          "description": "The distance between 2 services, in the unit of the car."
+        },
+        "interval_months": {
+          "name": "Time interval",
+          "description": "The months between 2 services."
+        },
+        "due_date": {
+          "name": "Due date",
+          "description": "The due date of a date job."
+        },
+        "lead_distance": {
+          "name": "Warning distance",
+          "description": "The distance before a limit when a job is soon."
+        },
+        "lead_days": {
+          "name": "Warning days",
+          "description": "The days before a limit when a job is soon."
+        },
+        "notes": {
+          "name": "Notes",
+          "description": "Notes."
+        },
+        "enabled": {
+          "name": "On",
+          "description": "Off keeps the job and stops its due status."
+        },
+        "add_task": {
+          "name": "Home Keeper task",
+          "description": "Make a Home Keeper task for the job."
+        },
+        "parts": {
+          "name": "Parts",
+          "description": "The Home Keeper parts that the job takes each time it is done. Home Keeper takes them off the stock."
+        },
+        "last_date": {
+          "name": "Last done on",
+          "description": "The date of the last service, if you know it."
+        },
+        "last_reading": {
+          "name": "Last done at",
+          "description": "The odometer at the last service, if you know it."
+        }
+      }
+    },
+    "update_item": {
+      "name": "Update job",
+      "description": "Changes the fields of a maintenance job. Admin only.",
+      "fields": {
+        "item_id": {
+          "name": "Job",
+          "description": "The ID of the job."
+        },
+        "name": {
+          "name": "Name",
+          "description": "The name of the job."
+        },
+        "kind": {
+          "name": "Kind",
+          "description": "A job with an interval, or a date such as a registration."
+        },
+        "interval_distance": {
+          "name": "Distance interval",
+          "description": "The distance between 2 services, in the unit of the car."
+        },
+        "interval_months": {
+          "name": "Time interval",
+          "description": "The months between 2 services."
+        },
+        "due_date": {
+          "name": "Due date",
+          "description": "The due date of a date job."
+        },
+        "lead_distance": {
+          "name": "Warning distance",
+          "description": "The distance before a limit when a job is soon."
+        },
+        "lead_days": {
+          "name": "Warning days",
+          "description": "The days before a limit when a job is soon."
+        },
+        "notes": {
+          "name": "Notes",
+          "description": "Notes."
+        },
+        "enabled": {
+          "name": "On",
+          "description": "Off keeps the job and stops its due status."
+        },
+        "add_task": {
+          "name": "Home Keeper task",
+          "description": "Make a Home Keeper task for the job."
+        },
+        "parts": {
+          "name": "Parts",
+          "description": "The Home Keeper parts that the job takes each time it is done. Home Keeper takes them off the stock."
+        }
+      }
+    },
+    "delete_item": {
+      "name": "Delete job",
+      "description": "Deletes a maintenance job. The service records stay. Admin only.",
+      "fields": {
+        "item_id": {
+          "name": "Job",
+          "description": "The ID of the job."
+        }
+      }
+    },
+    "apply_templates": {
+      "name": "Add starter jobs",
+      "description": "Adds the selected starter jobs to a car. Admin only.",
+      "fields": {
+        "car_id": {
+          "name": "Car",
+          "description": "The ID of the car."
+        },
+        "starter_jobs": {
+          "name": "Starter jobs",
+          "description": "The starter jobs to add."
+        },
+        "due_dates": {
+          "name": "Due dates",
+          "description": "The due date of each starter date job, by its ID."
+        }
+      }
+    },
+    "log_service": {
+      "name": "Log service",
+      "description": "Adds a service record and marks its jobs done.",
+      "fields": {
+        "car_id": {
+          "name": "Car",
+          "description": "The ID of the car."
+        },
+        "date": {
+          "name": "Date",
+          "description": "The date of the service. The default is today."
+        },
+        "reading": {
+          "name": "Reading",
+          "description": "The odometer at the service."
+        },
+        "items": {
+          "name": "Jobs",
+          "description": "The IDs of the jobs that the service did."
+        },
+        "shop": {
+          "name": "Shop",
+          "description": "The shop, or empty for a job at home."
+        },
+        "notes": {
+          "name": "Notes",
+          "description": "Notes."
+        },
+        "who": {
+          "name": "Who",
+          "description": "Who did the job."
+        },
+        "cost": {
+          "name": "Cost",
+          "description": "The cost of the visit, in the currency of Home Assistant."
+        },
+        "parts_used": {
+          "name": "Parts used",
+          "description": "A list of the Home Keeper parts that the service used."
+        }
+      }
+    },
+    "update_service": {
+      "name": "Update service record",
+      "description": "Changes a service record. Admin only.",
+      "fields": {
+        "service_id": {
+          "name": "Service record",
+          "description": "The ID of the service record."
+        },
+        "date": {
+          "name": "Date",
+          "description": "The date of the service. The default is today."
+        },
+        "reading": {
+          "name": "Reading",
+          "description": "The odometer at the service."
+        },
+        "items": {
+          "name": "Jobs",
+          "description": "The IDs of the jobs that the service did."
+        },
+        "shop": {
+          "name": "Shop",
+          "description": "The shop, or empty for a job at home."
+        },
+        "notes": {
+          "name": "Notes",
+          "description": "Notes."
+        },
+        "who": {
+          "name": "Who",
+          "description": "Who did the job."
+        },
+        "cost": {
+          "name": "Cost",
+          "description": "The cost of the visit, in the currency of Home Assistant."
+        },
+        "parts_used": {
+          "name": "Parts used",
+          "description": "A list of the Home Keeper parts that the service used."
+        }
+      }
+    },
+    "delete_service": {
+      "name": "Delete service record",
+      "description": "Deletes a service record. Admin only.",
+      "fields": {
+        "service_id": {
+          "name": "Service record",
+          "description": "The ID of the service record."
+        }
+      }
+    },
+    "set_settings": {
+      "name": "Set settings",
+      "description": "Changes the settings of Car Keeper. Admin only.",
+      "fields": {
+        "unit": {
+          "name": "Distance unit",
+          "description": "The unit of a new car: km or mi."
+        },
+        "templates": {
+          "name": "Starter jobs",
+          "description": "Overrides of the starter jobs, by ID: km, months and enabled."
+        }
+      }
+    },
+    "export_data": {
+      "name": "Export data",
+      "description": "Only an admin can get all Car Keeper data for the Home Keeper export.",
+      "fields": {
+        "files_dir": {
+          "name": "Files folder",
+          "description": "Set by Home Keeper for a bundle export or import."
+        }
+      }
+    },
+    "import_data": {
+      "name": "Import data",
+      "description": "Adds and updates Car Keeper data from an export. It deletes no record. Admin only.",
+      "fields": {
+        "document": {
+          "name": "Document",
+          "description": "The Car Keeper section of an export."
+        },
+        "dry_run": {
+          "name": "Preview",
+          "description": "Report what would change and write no data."
+        },
+        "files_dir": {
+          "name": "Files folder",
+          "description": "Set by Home Keeper for a bundle export or import."
+        }
+      }
+    },
+    "list_cars": {
+      "name": "List cars",
+      "description": "Returns each car with its status and its next job."
+    },
+    "get_car": {
+      "name": "Get car",
+      "description": "Returns 1 car with its jobs, service records and readings.",
+      "fields": {
+        "car_id": {
+          "name": "Car",
+          "description": "The ID of the car."
+        }
+      }
+    },
+    "list_items": {
+      "name": "List jobs",
+      "description": "Returns the jobs with their limits and status.",
+      "fields": {
+        "car_id": {
+          "name": "Car",
+          "description": "Only the jobs of this car."
+        }
+      }
+    },
+    "list_services": {
+      "name": "List service records",
+      "description": "Returns the service records, the latest first.",
+      "fields": {
+        "car_id": {
+          "name": "Car",
+          "description": "Only the records of this car."
+        }
+      }
+    }
+  },
+  "exceptions": {
+    "not_loaded": {
+      "message": "Car Keeper is not loaded. Try again after it starts."
+    },
+    "car_not_found": {
+      "message": "No car has the ID {id}."
+    },
+    "item_not_found": {
+      "message": "No job has the ID {id}."
+    },
+    "service_not_found": {
+      "message": "No service record has the ID {id}."
+    },
+    "template_not_found": {
+      "message": "No starter job has the ID {id}."
+    },
+    "field_required": {
+      "message": "Enter a value for {field}."
+    },
+    "field_too_long": {
+      "message": "The value of {field} is longer than {limit} characters."
+    },
+    "invalid_field": {
+      "message": "The value of {field} is not valid."
+    },
+    "out_of_range": {
+      "message": "The value of {field} must be between {low} and {high}."
+    },
+    "invalid_date": {
+      "message": "The date {value} of {field} is not a date in the format YYYY-MM-DD."
+    },
+    "interval_required": {
+      "message": "Enter a distance interval, a time interval or both."
+    },
+    "invalid_reading": {
+      "message": "The reading {value} is not valid."
+    },
+    "odometer_decreased": {
+      "message": "The reading {value} is below the last reading {current}. An admin can correct the odometer."
+    },
+    "todo_only_check": {
+      "message": "Check the job to log a service. The list has no other change."
+    },
+    "import_not_a_document": {
+      "message": "The document is not a Car Keeper export."
+    },
+    "import_format_too_new": {
+      "message": "The export format {format} is newer than this Car Keeper. Update Car Keeper."
+    },
+    "import_missing_field": {
+      "message": "The field {field} is missing or empty."
+    },
+    "import_bad_value": {
+      "message": "The value of {field} is not valid."
+    },
+    "import_not_a_record": {
+      "message": "The record is not valid."
+    },
+    "import_unknown_car": {
+      "message": "The record names a car that is not in the import or in Car Keeper."
+    },
+    "import_unknown_item": {
+      "message": "The service record names a job that is not in the import or in Car Keeper."
+    },
+    "import_entity_missing": {
+      "message": "The odometer sensor {entity_id} is not in this Home Assistant. The car gets a typed odometer."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "odometer": {
+        "name": "Odometer"
+      },
+      "next_due_distance": {
+        "name": "Next due distance"
+      },
+      "next_due_date": {
+        "name": "Next due date"
+      },
+      "status": {
+        "name": "Maintenance status",
+        "state": {
+          "ok": "OK",
+          "soon": "Soon",
+          "overdue": "Overdue"
+        }
+      }
+    },
+    "binary_sensor": {
+      "overdue": {
+        "name": "Maintenance overdue"
+      }
+    },
+    "todo": {
+      "jobs": {
+        "name": "Maintenance jobs"
+      }
+    }
+  }
+}

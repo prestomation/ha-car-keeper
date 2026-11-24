@@ -1,0 +1,25 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "nohup bash ci/setup-ci-deps.sh >/tmp/setup-ci-deps.log 2>&1 & disown; echo 'Car Keeper: installing the CI dependencies in the background (see /tmp/setup-ci-deps.log). This includes Docker and Playwright Chromium. Run e2e with: bash ci/e2e-up.sh'"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 ci/docs.py hook 2>/dev/null || true"
+          }
+        ]
+      }
+    ]
+  }
+}

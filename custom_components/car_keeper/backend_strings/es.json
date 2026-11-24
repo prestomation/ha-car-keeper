@@ -1,0 +1,20 @@
+{
+  "tab.title": "Coches",
+  "companion.description": "Coches, cuentakilómetros, trabajos de mantenimiento e historial de servicio.",
+  "template.engine_oil": "Aceite y filtro del motor",
+  "template.tyre_rotation": "Rotación de neumáticos",
+  "template.tyre_check": "Presión y dibujo de neumáticos",
+  "template.brake_fluid": "Líquido de frenos",
+  "template.cabin_filter": "Filtro de habitáculo",
+  "template.engine_air_filter": "Filtro de aire del motor",
+  "template.wipers": "Escobillas",
+  "template.battery_12v": "Prueba de la batería de 12 V",
+  "template.coolant": "Refrigerante",
+  "template.spark_plugs": "Bujías",
+  "template.adblue": "Recarga de AdBlue",
+  "template.timing_belt": "Correa de distribución",
+  "template.gearbox_oil": "Aceite de la caja de cambios",
+  "template.registration": "Matriculación",
+  "template.insurance": "Seguro",
+  "template.inspection": "Inspección técnica"
+}

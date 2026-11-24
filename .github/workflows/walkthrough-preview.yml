@@ -1,0 +1,239 @@
+name: Walkthrough video — PR preview
+
+# Capture the panel and card video walkthrough in CI as a *build artifact* (never
+# committed) and show it INLINE on the PR in a sticky comment. The gif/mp4 are
+# published to an orphan `gh-pages` branch under `pr-preview-media/pr-<n>/` (by
+# rossjrw/pr-preview-action) and embedded through a raw.githubusercontent.com URL,
+# the same mechanism the screenshot gate uses for committed PNGs. So the gif shows
+# inline WITHOUT GitHub Pages, and `main`'s history stays small. The preview is
+# published again on each push and removed when the PR closes.
+#
+# Capture is a *hard* gate. The capture step itself keeps continue-on-error so the
+# log dump, the cleanup and the sticky comment all still run and say what went wrong;
+# the last step of the `walkthrough` job then fails the check. A soft gate lets a
+# broken tour sit across several PRs with every check green. The reviewable artifact
+# is the comment, not anything in the diff. If a UI change alters the tour, update
+# tests/e2e/walkthrough.capture.ts so this regenerates correctly.
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize, closed]
+
+# Read-only by default. Only the `publish` job gets a write token, and it runs no
+# code from the PR: it downloads the media the `walkthrough` job built and pushes it
+# to gh-pages. The `walkthrough` job runs `npm ci` and the PR's own capture scripts,
+# so it must never hold a write token. Dependabot PRs are same-repo PRs, so with a
+# workflow-wide write token a compromised dependency's install script could push or
+# cut a release before anyone reviewed the PR.
+permissions:
+  contents: read
+
+# The Home Keeper branch, tag or commit that ci/fetch-home-keeper.sh clones.
+env:
+  # The commit with register_presets (ci/home-keeper-presets.env).
+  HOME_KEEPER_REF: 9f1335ffc6385919f117cce7417158297bb2aaed
+  CK_EXPECT_PRESETS: "1"
+
+concurrency:
+  group: walkthrough-preview-${{ github.event.number }}
+  cancel-in-progress: true
+
+jobs:
+  # Build: capture the tour with a read-only token. The job name stays
+  # `walkthrough`, because it is the hard gate on the capture.
+  walkthrough:
+    runs-on: ubuntu-latest
+    # Forked PRs get no write token for `publish`, so skip them. A closed PR has
+    # nothing to capture; `publish` removes the preview.
+    if: >
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      github.event.action != 'closed'
+    permissions:
+      contents: read
+    timeout-minutes: 30
+    outputs:
+      capture: ${{ steps.capture.outcome }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "22"
+
+      # --ignore-scripts: no package in these lockfiles needs an install script
+      # (fsevents is macOS-only), so none gets to run.
+      - name: Install frontend deps
+        run: npm ci --ignore-scripts --prefix custom_components/car_keeper/frontend
+
+      - name: Install e2e deps
+        run: npm ci --ignore-scripts --prefix tests/e2e
+
+      - name: Install Playwright Chromium
+        working-directory: tests/e2e
+        run: npx playwright install --with-deps chromium
+
+      - name: Install ffmpeg
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+
+      # The same script as a local run: it builds the bundles, fetches and builds
+      # Home Keeper, seeds the config and starts the ck-e2e stack with both
+      # compose files (ci/e2e-compose.sh). It fails if Home Assistant does not start.
+      - name: Build, seed and start Home Assistant
+        env:
+          NO_TESTS: "1"
+          KEEP_UP: "1"
+          SKIP_BROWSER_ENV: "1"
+        run: bash ci/e2e-up.sh
+
+      - name: Capture walkthrough video
+        id: capture
+        continue-on-error: true
+        env:
+          # Output to a workspace dir, never docs/videos — nothing is committed.
+          VIDEO_DIR: ${{ github.workspace }}/_walkthrough_out
+        run: |
+          bash ci/capture-video.sh
+          # Publish only gif (inline embed) + mp4 (quality link) — drop the webm.
+          rm -f "$VIDEO_DIR"/*.webm
+
+      - name: Dump Home Assistant logs on capture failure
+        if: steps.capture.outcome == 'failure'
+        run: bash ci/e2e-compose.sh logs homeassistant
+
+      - name: Cleanup Home Assistant
+        if: always()
+        run: bash ci/e2e-compose.sh down -v
+
+      # Hand the media to `publish`. Only a good capture is uploaded, so `publish`
+      # never deploys a partial set.
+      - name: Upload the walkthrough media
+        if: steps.capture.outcome == 'success'
+        uses: actions/upload-artifact@v7
+        with:
+          name: walkthrough-media
+          path: _walkthrough_out
+          retention-days: 1
+          if-no-files-found: error
+
+      # The capture step above keeps `continue-on-error` so every diagnostic still
+      # runs: the Home Assistant log dump, the container cleanup, the upload, and (in
+      # `publish`) the sticky comment that says what failed. This step is what turns
+      # a failed capture into a red check, so "all checks green" cannot mean "the
+      # tour is broken". It stays in this job so the `walkthrough` check is the gate.
+      #
+      # A cancelled run is excluded: this job's concurrency group cancels in-progress
+      # runs, and a superseded run must not report a failure for a good capture.
+      #
+      # This reads `outcome == 'failure'`, so it only fires when the capture ran and
+      # failed. If the capture step ever gets an `if:` of its own, a skip makes
+      # `outcome` 'skipped', which passes this gate silently. Gate on the skip too.
+      - name: Fail the check when the capture failed
+        if: ${{ !cancelled() && steps.capture.outcome == 'failure' }}
+        run: |
+          echo "::error::The walkthrough capture failed. See the sticky PR comment and the Playwright output above."
+          exit 1
+
+  # Publish: deploy (or remove) the preview and write the sticky comment. This job
+  # holds the write token, so it runs no code from the PR: it checks out the base
+  # commit only because the deploy action needs a checkout to work in, and the
+  # media is the artifact `walkthrough` uploaded.
+  publish:
+    needs: walkthrough
+    runs-on: ubuntu-latest
+    # `!cancelled()` so this job runs when `walkthrough` failed (the comment says
+    # the capture failed) and when it was skipped on a closed PR (remove the
+    # preview). A run that a newer push cancelled stops here.
+    if: >
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      !cancelled()
+    permissions:
+      contents: write
+      pull-requests: write
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+          persist-credentials: false
+
+      - name: Download the walkthrough media
+        if: github.event.action != 'closed' && needs.walkthrough.outputs.capture == 'success'
+        uses: actions/download-artifact@v8
+        with:
+          name: walkthrough-media
+          path: _walkthrough_out
+
+      # Deploy on open/sync (when capture succeeded); remove on close. A separate
+      # umbrella from the docs preview so the two don't fight over pr-<n>/.
+      - name: Publish / remove preview
+        if: github.event.action == 'closed' || needs.walkthrough.outputs.capture == 'success'
+        uses: rossjrw/pr-preview-action@873417d2df72380da1f3978378fb58560bcde976 # v1
+        with:
+          source-dir: ./_walkthrough_out
+          preview-branch: gh-pages
+          umbrella-dir: pr-preview-media
+          # We post our own comment with the embedded gif below.
+          comment: false
+
+      - name: Sticky comment with the walkthrough
+        # `!cancelled()` rather than `always()`: this job's concurrency group cancels
+        # in-progress runs, so two quick pushes cancel the first one mid-capture.
+        # Under `always()` that cancelled run would overwrite a good embed with a
+        # "capture failed" note. The superseding run posts the real result.
+        if: ${{ !cancelled() }}
+        uses: actions/github-script@v9
+        env:
+          CAPTURE_OUTCOME: ${{ needs.walkthrough.outputs.capture }}
+          EVENT_ACTION: ${{ github.event.action }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        with:
+          script: |
+            const marker = '<!-- walkthrough-preview -->';
+            const { owner, repo } = context.repo;
+            const n = context.issue.number;
+            const action = process.env.EVENT_ACTION;
+            const outcome = process.env.CAPTURE_OUTCOME;
+            const sha = process.env.HEAD_SHA;
+
+            // Media is on the gh-pages branch (pr-preview-media/pr-<n>/). Embed via
+            // raw.githubusercontent.com so the gif renders inline without GitHub
+            // Pages. `?v=<sha>` busts the raw/camo cache so each push shows the
+            // fresh capture rather than a stale copy at the same path.
+            const base = `https://raw.githubusercontent.com/${owner}/${repo}/gh-pages/pr-preview-media/pr-${n}`;
+            const gif = `${base}/walkthrough.gif?v=${sha}`;
+            const mp4 = `${base}/walkthrough.mp4?v=${sha}`;
+
+            let body;
+            if (action === 'closed') {
+              // Preview was torn down; leave a tombstone rather than a broken image.
+              body = [marker, '### 🎥 Panel walkthrough', '', '_Preview removed — the PR is closed._'].join('\n');
+            } else if (outcome === 'success') {
+              body = [
+                marker,
+                '### 🎥 Panel walkthrough',
+                '',
+                `<img src="${gif}" alt="Car Keeper panel walkthrough" width="820">`,
+                '',
+                `▶️ [Higher-quality MP4](${mp4})`,
+                '',
+                'Auto-generated from this PR\'s HEAD by `walkthrough-preview.yml` — updated on every push, removed when the PR closes. Hosted on the `gh-pages` branch (not committed to `main`); the gif carries the motion and the mp4 is linked because GitHub strips a committed `<video>` tag.',
+              ].join('\n');
+            } else {
+              body = [
+                marker,
+                '### 🎥 Panel walkthrough',
+                '',
+                `⚠️ The walkthrough capture failed for this push — see the [run logs](${process.env.RUN_URL}). This check is red until the tour runs clean: fix the tour, or push again if it was a flake.`,
+              ].join('\n');
+            }
+
+            const { data: comments } = await github.rest.issues.listComments({ owner, repo, issue_number: n });
+            const existing = comments.find((c) => c.body && c.body.includes(marker));
+            if (existing) {
+              await github.rest.issues.updateComment({ owner, repo, comment_id: existing.id, body });
+            } else {
+              await github.rest.issues.createComment({ owner, repo, issue_number: n, body });
+            }

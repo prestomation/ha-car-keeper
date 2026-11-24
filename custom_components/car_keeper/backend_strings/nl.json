@@ -1,0 +1,20 @@
+{
+  "tab.title": "Auto's",
+  "companion.description": "Auto's, kilometertellers, onderhoudstaken en servicegeschiedenis.",
+  "template.engine_oil": "Motorolie en filter",
+  "template.tyre_rotation": "Banden wisselen",
+  "template.tyre_check": "Bandenspanning en profiel",
+  "template.brake_fluid": "Remvloeistof",
+  "template.cabin_filter": "Interieurfilter",
+  "template.engine_air_filter": "Motorluchtfilter",
+  "template.wipers": "Ruitenwisserbladen",
+  "template.battery_12v": "Test van de 12V-accu",
+  "template.coolant": "Koelvloeistof",
+  "template.spark_plugs": "Bougies",
+  "template.adblue": "AdBlue bijvullen",
+  "template.timing_belt": "Distributieriem",
+  "template.gearbox_oil": "Versnellingsbakolie",
+  "template.registration": "Registratie",
+  "template.insurance": "Verzekering",
+  "template.inspection": "APK-keuring"
+}

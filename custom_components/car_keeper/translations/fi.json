@@ -1,0 +1,731 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Car Keeper",
+        "description": "Aseta uuden auton matkan yksikkö. Jokaisella autolla voi olla oma yksikkö.",
+        "data": {
+          "unit": "Matkan yksikkö"
+        },
+        "data_description": {
+          "unit": "Kilometrit tai mailit."
+        }
+      }
+    },
+    "abort": {
+      "already_configured": "Car Keeper on jo määritetty.",
+      "single_instance_allowed": "Car Keeper on jo määritetty.",
+      "home_keeper_missing": "Car Keeper vaatii Home Keeperin. Asenna Home Keeper HACSista, käynnistä Home Assistant uudelleen ja lisää Car Keeper sitten uudelleen. Asennusohjeet: {url}",
+      "home_keeper_not_set_up": "Lisää ensin Home Keeper -integraatio.",
+      "home_keeper_too_old": "Päivitä Home Keeper versioon {version} tai uudempaan."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Car Keeperin asetukset",
+        "data": {
+          "unit": "Matkan yksikkö"
+        },
+        "data_description": {
+          "unit": "Uuden auton yksikkö. Jo lisätty auto säilyttää yksikkönsä."
+        }
+      }
+    }
+  },
+  "selector": {
+    "unit": {
+      "options": {
+        "km": "Kilometrit",
+        "mi": "Mailit"
+      }
+    },
+    "fuel": {
+      "options": {
+        "petrol": "Bensiini",
+        "diesel": "Diesel",
+        "hybrid": "Hybridi",
+        "plug_in_hybrid": "Ladattava hybridi",
+        "electric": "Sähkö",
+        "other": "Muu"
+      }
+    },
+    "odometer_source": {
+      "options": {
+        "manual": "Syötetty",
+        "entity": "Anturi"
+      }
+    },
+    "kind": {
+      "options": {
+        "job": "Määräväliajo",
+        "date": "Päivämäärä"
+      }
+    },
+    "template": {
+      "options": {
+        "engine_oil": "Moottoriöljy ja suodatin",
+        "tyre_rotation": "Renkaiden kierrätys",
+        "tyre_check": "Rengaspaineet ja kulutuspinta",
+        "brake_fluid": "Jarruneste",
+        "cabin_filter": "Raitisilmasuodatin",
+        "engine_air_filter": "Moottorin ilmansuodatin",
+        "wipers": "Pyyhkijänsulat",
+        "battery_12v": "12 V:n akun testi",
+        "coolant": "Jäähdytysneste",
+        "spark_plugs": "Sytytystulpat",
+        "adblue": "AdBluen lisäys",
+        "registration": "Rekisteröinti",
+        "insurance": "Vakuutus",
+        "inspection": "Katsastus"
+      }
+    }
+  },
+  "issues": {
+    "home_keeper_missing": {
+      "title": "Home Keeperiä ei ole asennettu",
+      "description": "Autot-välilehti ja huoltotehtävät tarvitsevat Home Keeperin. Kortit, entiteetit ja palvelut toimivat jo. Asenna Home Keeper HACSista ja käynnistä Home Assistant uudelleen. Asennusohjeet: {url}"
+    },
+    "home_keeper_not_set_up": {
+      "title": "Home Keeperiä ei ole määritetty",
+      "description": "Autot-välilehti ja huoltotehtävät tarvitsevat ladatun Home Keeper -integraation. Kortit, entiteetit ja palvelut toimivat jo. Lisää tai ota käyttöön Home Keeper -integraatio."
+    },
+    "home_keeper_too_old": {
+      "title": "Home Keeper on liian vanha",
+      "description": "Autot-välilehti ja huoltotehtävät tarvitsevat Home Keeperin version {version} tai uudemman. Kortit, entiteetit ja palvelut toimivat jo. Päivitä Home Keeper."
+    },
+    "odometer_decreased": {
+      "title": "Auton {car} matkamittari laski",
+      "description": "Auton {car} matkamittarin anturi ilmoitti 2 kertaa {value} {unit}, vähemmän kuin viimeinen lukema {current} {unit}. Car Keeper säilyttää viimeisen lukeman. Jos anturi on väärässä, korjaa anturi. Jos autossa on uusi mittaristo, korjaa auton matkamittari ja aseta siirtymä."
+    }
+  },
+  "services": {
+    "add_car": {
+      "name": "Lisää auto",
+      "description": "Lisää auton matkamittareineen ja valituine aloitustöineen. Vain ylläpitäjille.",
+      "fields": {
+        "name": {
+          "name": "Nimi",
+          "description": "Auton nimi."
+        },
+        "make": {
+          "name": "Merkki",
+          "description": "Auton valmistaja."
+        },
+        "model": {
+          "name": "Malli",
+          "description": "Auton malli."
+        },
+        "year": {
+          "name": "Vuosi",
+          "description": "Mallivuosi."
+        },
+        "trim": {
+          "name": "Varustetaso",
+          "description": "Varustetaso tai versio."
+        },
+        "fuel": {
+          "name": "Polttoaine",
+          "description": "Polttoainetyyppi. Se valitsee aloitustyöt."
+        },
+        "vin": {
+          "name": "Valmistenumero",
+          "description": "Ajoneuvon valmistenumero."
+        },
+        "plate": {
+          "name": "Rekisterikilpi",
+          "description": "Rekisterikilpi."
+        },
+        "engine_code": {
+          "name": "Moottorikoodi",
+          "description": "Valmistajan moottorikoodi."
+        },
+        "transmission_code": {
+          "name": "Vaihteistokoodi",
+          "description": "Valmistajan vaihteistokoodi."
+        },
+        "first_registered": {
+          "name": "Ensirekisteröinti",
+          "description": "Auton ensirekisteröinnin päivä."
+        },
+        "area_id": {
+          "name": "Alue",
+          "description": "Auton alue Home Assistantissa."
+        },
+        "notes": {
+          "name": "Muistiinpanot",
+          "description": "Muistiinpanot."
+        },
+        "lead_distance": {
+          "name": "Varoitusmatka",
+          "description": "Matka ennen rajaa, jolloin työ on pian."
+        },
+        "lead_days": {
+          "name": "Varoituspäivät",
+          "description": "Päivät ennen rajaa, jolloin työ on pian."
+        },
+        "unit": {
+          "name": "Matkan yksikkö",
+          "description": "km tai mi."
+        },
+        "odometer_source": {
+          "name": "Matkamittarin lähde",
+          "description": "Syötä matkamittarin lukema tai lue se anturista."
+        },
+        "odometer_entity_id": {
+          "name": "Matkamittarin anturi",
+          "description": "Anturi, joka ilmoittaa matkamittarin lukeman."
+        },
+        "odometer": {
+          "name": "Matkamittari",
+          "description": "Lukema nyt, auton yksikössä."
+        },
+        "starter_jobs": {
+          "name": "Aloitustyöt",
+          "description": "Lisättävien aloitustöiden tunnukset."
+        },
+        "due_dates": {
+          "name": "Eräpäivät",
+          "description": "Kunkin päivämäärään sidotun aloitustyön eräpäivä tunnuksen mukaan."
+        }
+      }
+    },
+    "update_car": {
+      "name": "Päivitä auto",
+      "description": "Muuttaa auton kenttiä. Yksikön vaihto muuntaa auton jokaisen arvon. Vain ylläpitäjille.",
+      "fields": {
+        "car_id": {
+          "name": "Auto",
+          "description": "Auton tunnus."
+        },
+        "name": {
+          "name": "Nimi",
+          "description": "Auton nimi."
+        },
+        "make": {
+          "name": "Merkki",
+          "description": "Auton valmistaja."
+        },
+        "model": {
+          "name": "Malli",
+          "description": "Auton malli."
+        },
+        "year": {
+          "name": "Vuosi",
+          "description": "Mallivuosi."
+        },
+        "trim": {
+          "name": "Varustetaso",
+          "description": "Varustetaso tai versio."
+        },
+        "fuel": {
+          "name": "Polttoaine",
+          "description": "Polttoainetyyppi. Se valitsee aloitustyöt."
+        },
+        "vin": {
+          "name": "Valmistenumero",
+          "description": "Ajoneuvon valmistenumero."
+        },
+        "plate": {
+          "name": "Rekisterikilpi",
+          "description": "Rekisterikilpi."
+        },
+        "engine_code": {
+          "name": "Moottorikoodi",
+          "description": "Valmistajan moottorikoodi."
+        },
+        "transmission_code": {
+          "name": "Vaihteistokoodi",
+          "description": "Valmistajan vaihteistokoodi."
+        },
+        "first_registered": {
+          "name": "Ensirekisteröinti",
+          "description": "Auton ensirekisteröinnin päivä."
+        },
+        "area_id": {
+          "name": "Alue",
+          "description": "Auton alue Home Assistantissa."
+        },
+        "notes": {
+          "name": "Muistiinpanot",
+          "description": "Muistiinpanot."
+        },
+        "lead_distance": {
+          "name": "Varoitusmatka",
+          "description": "Matka ennen rajaa, jolloin työ on pian."
+        },
+        "lead_days": {
+          "name": "Varoituspäivät",
+          "description": "Päivät ennen rajaa, jolloin työ on pian."
+        },
+        "unit": {
+          "name": "Matkan yksikkö",
+          "description": "km tai mi."
+        },
+        "odometer_source": {
+          "name": "Matkamittarin lähde",
+          "description": "Syötä matkamittarin lukema tai lue se anturista."
+        },
+        "odometer_entity_id": {
+          "name": "Matkamittarin anturi",
+          "description": "Anturi, joka ilmoittaa matkamittarin lukeman."
+        }
+      }
+    },
+    "delete_car": {
+      "name": "Poista auto",
+      "description": "Poistaa auton töineen, huoltokirjauksineen ja lukemineen. Vain ylläpitäjille.",
+      "fields": {
+        "car_id": {
+          "name": "Auto",
+          "description": "Auton tunnus."
+        }
+      }
+    },
+    "set_odometer": {
+      "name": "Aseta matkamittari",
+      "description": "Tallentaa matkamittarin lukeman. Arvo ei voi olla pienempi kuin viimeinen lukema.",
+      "fields": {
+        "car_id": {
+          "name": "Auto",
+          "description": "Auton tunnus."
+        },
+        "value": {
+          "name": "Lukema",
+          "description": "Matkamittarin lukema auton yksikössä."
+        }
+      }
+    },
+    "correct_odometer": {
+      "name": "Korjaa matkamittari",
+      "description": "Tallentaa minkä tahansa lukeman, myös pienemmän, ja valinnaisen siirtymän uudelle mittaristolle. Vain ylläpitäjille.",
+      "fields": {
+        "car_id": {
+          "name": "Auto",
+          "description": "Auton tunnus."
+        },
+        "value": {
+          "name": "Lukema",
+          "description": "Matkamittarin lukema auton yksikössä."
+        },
+        "offset": {
+          "name": "Siirtymä",
+          "description": "Lisätään jokaiseen myöhempään anturin arvoon uutta mittaristoa varten."
+        }
+      }
+    },
+    "add_item": {
+      "name": "Lisää työ",
+      "description": "Lisää autolle huoltotyön. Vain ylläpitäjille.",
+      "fields": {
+        "car_id": {
+          "name": "Auto",
+          "description": "Auton tunnus."
+        },
+        "name": {
+          "name": "Nimi",
+          "description": "Työn nimi."
+        },
+        "kind": {
+          "name": "Tyyppi",
+          "description": "Työ, jolla on väli, tai päivämäärä kuten rekisteröinti."
+        },
+        "interval_distance": {
+          "name": "Matkaväli",
+          "description": "Matka 2 huollon välillä auton yksikössä."
+        },
+        "interval_months": {
+          "name": "Aikaväli",
+          "description": "Kuukaudet 2 huollon välillä."
+        },
+        "due_date": {
+          "name": "Eräpäivä",
+          "description": "Päivämäärään sidotun työn eräpäivä."
+        },
+        "lead_distance": {
+          "name": "Varoitusmatka",
+          "description": "Matka ennen rajaa, jolloin työ on pian."
+        },
+        "lead_days": {
+          "name": "Varoituspäivät",
+          "description": "Päivät ennen rajaa, jolloin työ on pian."
+        },
+        "notes": {
+          "name": "Muistiinpanot",
+          "description": "Muistiinpanot."
+        },
+        "enabled": {
+          "name": "Päällä",
+          "description": "Pois päältä säilyttää työn ja lopettaa sen erääntymisen tilan."
+        },
+        "add_task": {
+          "name": "Home Keeper -tehtävä",
+          "description": "Luo työlle Home Keeper -tehtävä."
+        },
+        "parts": {
+          "name": "Osat",
+          "description": "Home Keeper -osat, jotka työ käyttää joka kerta. Home Keeper vähentää ne varastosta."
+        },
+        "last_date": {
+          "name": "Viimeksi tehty",
+          "description": "Viimeisimmän huollon päivämäärä, jos tiedät sen."
+        },
+        "last_reading": {
+          "name": "Viimeksi lukemalla",
+          "description": "Matkamittarin lukema viimeisimmässä huollossa, jos tiedät sen."
+        }
+      }
+    },
+    "update_item": {
+      "name": "Päivitä työ",
+      "description": "Muuttaa huoltotyön kenttiä. Vain ylläpitäjille.",
+      "fields": {
+        "item_id": {
+          "name": "Työ",
+          "description": "Työn tunnus."
+        },
+        "name": {
+          "name": "Nimi",
+          "description": "Työn nimi."
+        },
+        "kind": {
+          "name": "Tyyppi",
+          "description": "Työ, jolla on väli, tai päivämäärä kuten rekisteröinti."
+        },
+        "interval_distance": {
+          "name": "Matkaväli",
+          "description": "Matka 2 huollon välillä auton yksikössä."
+        },
+        "interval_months": {
+          "name": "Aikaväli",
+          "description": "Kuukaudet 2 huollon välillä."
+        },
+        "due_date": {
+          "name": "Eräpäivä",
+          "description": "Päivämäärään sidotun työn eräpäivä."
+        },
+        "lead_distance": {
+          "name": "Varoitusmatka",
+          "description": "Matka ennen rajaa, jolloin työ on pian."
+        },
+        "lead_days": {
+          "name": "Varoituspäivät",
+          "description": "Päivät ennen rajaa, jolloin työ on pian."
+        },
+        "notes": {
+          "name": "Muistiinpanot",
+          "description": "Muistiinpanot."
+        },
+        "enabled": {
+          "name": "Päällä",
+          "description": "Pois päältä säilyttää työn ja lopettaa sen erääntymisen tilan."
+        },
+        "add_task": {
+          "name": "Home Keeper -tehtävä",
+          "description": "Luo työlle Home Keeper -tehtävä."
+        },
+        "parts": {
+          "name": "Osat",
+          "description": "Home Keeper -osat, jotka työ käyttää joka kerta. Home Keeper vähentää ne varastosta."
+        }
+      }
+    },
+    "delete_item": {
+      "name": "Poista työ",
+      "description": "Poistaa huoltotyön. Huoltokirjaukset säilyvät. Vain ylläpitäjille.",
+      "fields": {
+        "item_id": {
+          "name": "Työ",
+          "description": "Työn tunnus."
+        }
+      }
+    },
+    "apply_templates": {
+      "name": "Lisää aloitustyöt",
+      "description": "Lisää valitut aloitustyöt autolle. Vain ylläpitäjille.",
+      "fields": {
+        "car_id": {
+          "name": "Auto",
+          "description": "Auton tunnus."
+        },
+        "starter_jobs": {
+          "name": "Aloitustyöt",
+          "description": "Lisättävät aloitustyöt."
+        },
+        "due_dates": {
+          "name": "Eräpäivät",
+          "description": "Kunkin päivämäärään sidotun aloitustyön eräpäivä tunnuksen mukaan."
+        }
+      }
+    },
+    "log_service": {
+      "name": "Kirjaa huolto",
+      "description": "Lisää huoltokirjauksen ja merkitsee sen työt tehdyiksi.",
+      "fields": {
+        "car_id": {
+          "name": "Auto",
+          "description": "Auton tunnus."
+        },
+        "date": {
+          "name": "Päivämäärä",
+          "description": "Huollon päivämäärä. Oletus on tänään."
+        },
+        "reading": {
+          "name": "Lukema",
+          "description": "Matkamittarin lukema huollossa."
+        },
+        "items": {
+          "name": "Työt",
+          "description": "Huollossa tehtyjen töiden tunnukset."
+        },
+        "shop": {
+          "name": "Korjaamo",
+          "description": "Korjaamo, tai tyhjä kotona tehdylle työlle."
+        },
+        "notes": {
+          "name": "Muistiinpanot",
+          "description": "Muistiinpanot."
+        },
+        "who": {
+          "name": "Kuka",
+          "description": "Kuka teki työn."
+        },
+        "cost": {
+          "name": "Hinta",
+          "description": "Käynnin hinta Home Assistantin valuutassa."
+        },
+        "parts_used": {
+          "name": "Käytetyt osat",
+          "description": "Luettelo huollossa käytetyistä Home Keeper -osista."
+        }
+      }
+    },
+    "update_service": {
+      "name": "Päivitä huoltokirjaus",
+      "description": "Muuttaa huoltokirjausta. Vain ylläpitäjille.",
+      "fields": {
+        "service_id": {
+          "name": "Huoltokirjaus",
+          "description": "Huoltokirjauksen tunnus."
+        },
+        "date": {
+          "name": "Päivämäärä",
+          "description": "Huollon päivämäärä. Oletus on tänään."
+        },
+        "reading": {
+          "name": "Lukema",
+          "description": "Matkamittarin lukema huollossa."
+        },
+        "items": {
+          "name": "Työt",
+          "description": "Huollossa tehtyjen töiden tunnukset."
+        },
+        "shop": {
+          "name": "Korjaamo",
+          "description": "Korjaamo, tai tyhjä kotona tehdylle työlle."
+        },
+        "notes": {
+          "name": "Muistiinpanot",
+          "description": "Muistiinpanot."
+        },
+        "who": {
+          "name": "Kuka",
+          "description": "Kuka teki työn."
+        },
+        "cost": {
+          "name": "Hinta",
+          "description": "Käynnin hinta Home Assistantin valuutassa."
+        },
+        "parts_used": {
+          "name": "Käytetyt osat",
+          "description": "Luettelo huollossa käytetyistä Home Keeper -osista."
+        }
+      }
+    },
+    "delete_service": {
+      "name": "Poista huoltokirjaus",
+      "description": "Poistaa huoltokirjauksen. Vain ylläpitäjille.",
+      "fields": {
+        "service_id": {
+          "name": "Huoltokirjaus",
+          "description": "Huoltokirjauksen tunnus."
+        }
+      }
+    },
+    "set_settings": {
+      "name": "Aseta asetukset",
+      "description": "Muuttaa Car Keeperin asetuksia. Vain ylläpitäjille.",
+      "fields": {
+        "unit": {
+          "name": "Matkan yksikkö",
+          "description": "Uuden auton yksikkö: km tai mi."
+        },
+        "templates": {
+          "name": "Aloitustyöt",
+          "description": "Aloitustöiden muutokset tunnuksen mukaan: km, kuukaudet ja käytössä."
+        }
+      }
+    },
+    "export_data": {
+      "name": "Vie tiedot",
+      "description": "Palauttaa kaikki Car Keeperin tiedot Home Keeperin vientiä varten. Vain ylläpitäjille.",
+      "fields": {
+        "files_dir": {
+          "name": "Tiedostokansio",
+          "description": "Home Keeper asettaa sen paketin vientiä tai tuontia varten."
+        }
+      }
+    },
+    "import_data": {
+      "name": "Tuo tiedot",
+      "description": "Lisää ja päivittää Car Keeperin tietoja viennistä. Se ei poista yhtään tietuetta. Vain ylläpitäjille.",
+      "fields": {
+        "document": {
+          "name": "Asiakirja",
+          "description": "Viennin Car Keeper -osio."
+        },
+        "dry_run": {
+          "name": "Esikatselu",
+          "description": "Ilmoita, mikä muuttuisi, äläkä kirjoita tietoja."
+        },
+        "files_dir": {
+          "name": "Tiedostokansio",
+          "description": "Home Keeper asettaa sen paketin vientiä tai tuontia varten."
+        }
+      }
+    },
+    "list_cars": {
+      "name": "Luettele autot",
+      "description": "Palauttaa jokaisen auton tilan ja seuraavan työn kanssa."
+    },
+    "get_car": {
+      "name": "Hae auto",
+      "description": "Palauttaa 1 auton töineen, huoltokirjauksineen ja lukemineen.",
+      "fields": {
+        "car_id": {
+          "name": "Auto",
+          "description": "Auton tunnus."
+        }
+      }
+    },
+    "list_items": {
+      "name": "Luettele työt",
+      "description": "Palauttaa työt rajoineen ja tiloineen.",
+      "fields": {
+        "car_id": {
+          "name": "Auto",
+          "description": "Vain tämän auton työt."
+        }
+      }
+    },
+    "list_services": {
+      "name": "Luettele huoltokirjaukset",
+      "description": "Palauttaa huoltokirjaukset uusin ensin.",
+      "fields": {
+        "car_id": {
+          "name": "Auto",
+          "description": "Vain tämän auton kirjaukset."
+        }
+      }
+    }
+  },
+  "exceptions": {
+    "not_loaded": {
+      "message": "Car Keeperiä ei ole ladattu. Yritä uudelleen, kun se on käynnistynyt."
+    },
+    "car_not_found": {
+      "message": "Millään autolla ei ole tunnusta {id}."
+    },
+    "item_not_found": {
+      "message": "Millään työllä ei ole tunnusta {id}."
+    },
+    "service_not_found": {
+      "message": "Millään huoltokirjauksella ei ole tunnusta {id}."
+    },
+    "template_not_found": {
+      "message": "Millään aloitustyöllä ei ole tunnusta {id}."
+    },
+    "field_required": {
+      "message": "Anna arvo kentälle {field}."
+    },
+    "field_too_long": {
+      "message": "Kentän {field} arvo on pidempi kuin {limit} merkkiä."
+    },
+    "invalid_field": {
+      "message": "Kentän {field} arvo ei ole kelvollinen."
+    },
+    "out_of_range": {
+      "message": "Kentän {field} arvon on oltava välillä {low}–{high}."
+    },
+    "invalid_date": {
+      "message": "Kentän {field} päivämäärä {value} ei ole muodossa VVVV-KK-PP."
+    },
+    "interval_required": {
+      "message": "Anna matkaväli, aikaväli tai molemmat."
+    },
+    "invalid_reading": {
+      "message": "Lukema {value} ei ole kelvollinen."
+    },
+    "odometer_decreased": {
+      "message": "Lukema {value} on pienempi kuin viimeinen lukema {current}. Ylläpitäjä voi korjata matkamittarin."
+    },
+    "todo_only_check": {
+      "message": "Merkitse työ kirjataksesi huollon. Luettelossa ei ole muuta muutosta."
+    },
+    "import_not_a_document": {
+      "message": "Asiakirja ei ole Car Keeperin vienti."
+    },
+    "import_format_too_new": {
+      "message": "Vientimuoto {format} on uudempi kuin tämä Car Keeper. Päivitä Car Keeper."
+    },
+    "import_missing_field": {
+      "message": "Kenttä {field} puuttuu tai on tyhjä."
+    },
+    "import_bad_value": {
+      "message": "Kentän {field} arvo ei ole kelvollinen."
+    },
+    "import_not_a_record": {
+      "message": "Tietue ei ole kelvollinen."
+    },
+    "import_unknown_car": {
+      "message": "Tietue mainitsee auton, jota ei ole tuonnissa eikä Car Keeperissä."
+    },
+    "import_unknown_item": {
+      "message": "Huoltokirjaus mainitsee työn, jota ei ole tuonnissa eikä Car Keeperissä."
+    },
+    "import_entity_missing": {
+      "message": "Matkamittarin anturia {entity_id} ei ole tässä Home Assistantissa. Auto saa syötettävän matkamittarin."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "odometer": {
+        "name": "Matkamittari"
+      },
+      "next_due_distance": {
+        "name": "Seuraava erääntyminen matkana"
+      },
+      "next_due_date": {
+        "name": "Seuraava eräpäivä"
+      },
+      "status": {
+        "name": "Huollon tila",
+        "state": {
+          "ok": "Kunnossa",
+          "soon": "Pian",
+          "overdue": "Myöhässä"
+        }
+      }
+    },
+    "binary_sensor": {
+      "overdue": {
+        "name": "Huolto myöhässä"
+      }
+    },
+    "todo": {
+      "jobs": {
+        "name": "Huoltotyöt"
+      }
+    }
+  }
+}
