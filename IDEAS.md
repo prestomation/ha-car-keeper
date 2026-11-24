@@ -1,63 +1,82 @@
 ---
 title: Ideas
-summary: The roadmap of Car Keeper, what comes after the first release, the risks, the one-way doors and the open questions.
+summary: The work of Car Keeper that is not built yet, the decisions for the first release, the risks and the one-way doors.
 ---
 
 # Ideas
 
-Nothing in this file is built. The design of the first release is in
-[docs/design/](docs/design/architecture.md).
+Nothing in this file is built. The design of the parts that are built is in
+[docs/design/](docs/design/architecture.md). The approved design of the first release is in
+[docs/research/first-release/](docs/research/first-release/architecture.md).
 
-## Roadmap
+## First release
 
-### Phase 0: repository
-
-1. Scaffold from the integration template and copy the Library parts
-   ([repository](docs/design/repository.md)).
-2. Get every test tier and every CI job green with an empty integration.
-
-### Phase 1: first release
+The first release is `0.1.0b1`. These parts are not built yet:
 
 1. Cars with a typed or bound odometer, and the odometer sensor of each car.
 2. Jobs with a distance and a time interval, the due rule, and the starter jobs.
 3. Log service with many jobs, the reading, the shop and the cost.
-4. The Home Keeper link: the tab, the repair issue, a managed appliance for each car and a managed
-   task for each job, with the sync both ways.
-5. The Cars tab: garage, car detail, Add car with entity detection, Log service, settings.
-6. The 2 cards, the summary entities and the to-do list of each car.
-7. Private fields and the projection tests.
-8. Export and import through Home Keeper, diagnostics, 17 languages, a guide and screenshots.
+4. The sensors, the binary sensor and the to-do list of each car.
+5. A managed Home Keeper appliance for each car and a managed task for each job, with the
+   sync both ways.
+6. The Cars tab: garage, car detail, Add car, Log service, settings.
+7. The garage card and the car card, with `min_height` and `max_height`.
+8. Export and import through Home Keeper.
+9. The car presets through the Home Keeper `register_presets` service.
 
-### Phase 2: after the first release
+### Decisions
 
-1. Parts and stock in the tab, with parts used on a service.
-2. Documents with files, and receipt photos.
-3. Live-reading rules (tyre pressure, distance to service) and the preset review dialog.
-4. Car rows for the Home Keeper preset catalog, by pull request to Home Keeper
-   ([companion-presets](docs/research/companion-presets.md)).
-5. The Upcoming, History and Parts lists for all cars.
+| Question | Answer |
+|---|---|
+| Domain and tab | `car_keeper`, the tab "Cars" at `/home-keeper/cars`. |
+| Who owns the schedule | Car Keeper owns the jobs and the history. Each job is also a managed Home Keeper task. |
+| Distance jobs | A Home Keeper usage task on the odometer sensor of Car Keeper. |
+| Cars in Home Keeper | Each car is a managed Home Keeper appliance. |
+| Presets | The Home Keeper `register_presets` service. Car Keeper rules for what no preset shape can do. |
+| Units | 1 unit for each car. Values are stored in that unit, and converted 1 time on a change. |
+| Warning window | 1,000 km (600 miles) or 30 days, for each car. |
+| Privacy | Every read is open to every user. Record management is admin-only. `set_odometer` and `log_service` are open. |
+| Cost | On the Car Keeper service and on 1 Home Keeper completion. |
+| Starter intervals | Common intervals by fuel type, with a note to check the manual. |
+| Photo | Only from an upload of the user. |
 
-### Later
+## After the first release
+
+1. **Preset nudge.** A review dialog that offers the presets that match the device of a car.
+2. **Document files.** Receipts, photos and documents as files.
+3. **Live readings.** Tyre pressure and distance-to-service rules from the car integration.
+4. **The Upcoming, History and Parts lists** for all cars.
+
+## Later
 
 1. **Fuel log.** Fill-ups with the reading, the volume and the price. Consumption and cost per
    distance. A fill-up also feeds the odometer.
-2. **Trip log.** Business and private distance. It needs a strong privacy model first.
-3. **More meters.** Engine hours for a mower, a boat or a generator. This is the shared meter idea
-   of Home Keeper issue 598.
+2. **Trip log.** Business and private distance.
+3. **More meters.** Engine hours for a mower, a boat or a generator. This is the shared meter
+   idea of Home Keeper issue 598.
 4. **Other vehicles.** A type on the car record: motorbike, trailer, bike. Each has its own
    starter jobs.
 5. **Tyre sets.** Summer and winter sets with the distance of each, and a job to change them.
 6. **Model packs.** Starter jobs for 1 model, which a community keeps. Only with a clear source
    and license.
 7. **Import from logbook apps.** CSV files of LubeLogger, Fuelio, Drivvo and Spritmonitor.
-8. **Use the device of the car integration.** Put the Car Keeper entities and the appliance on the
-   device that Tesla or Volvo made, for 1 device page.
+8. **Use the device of the car integration.** Put the Car Keeper entities and the appliance on
+   the device that Tesla or Volvo made, for 1 device page.
 9. **Recall and inspection lookups** by VIN, from a public service. It sends the VIN out, so it
    must be an explicit choice.
-10. **A forecast date in the Home Keeper calendar** for a distance job. It needs a change in Home
-    Keeper.
-11. **A preset extension point in Home Keeper**, if a second companion needs it.
-12. **Shared cost reports** with the Home Keeper spend summary.
+10. **A forecast date in the Home Keeper calendar** for a distance job. It needs a change in
+    Home Keeper.
+11. **Shared cost reports** with the Home Keeper spend summary.
+
+## Quality scale ledger
+
+Car Keeper uses the practices of the Platinum quality scale, but `manifest.json` declares no
+tier. A tier needs a `quality_scale.yaml` with a reason for each rule.
+
+## Upgrade test tier
+
+The Docker tier boots 1 Home Assistant version. An upgrade test boots the oldest supported
+version on a seeded config directory, then the current version on the same directory.
 
 ## Risks
 
@@ -65,40 +84,11 @@ Nothing in this file is built. The design of the first release is in
    has a baseline and completions. A missed event makes them differ. The reconcile pass is the
    answer, and it needs strong tests.
 2. **The display unit of the odometer sensor.** A user can set a display unit on a sensor. The
-   Home Keeper tasks read the attribute `reading`, which does not change. I did not test that a
-   usage task reads an attribute.
-3. **An odometer from a car cloud can stop.** BMW stopped third-party access in 2025. A car must
-   go back to a typed odometer with no loss of data.
-4. **A wrong starter interval can harm an engine.** The tab must say that the defaults are not the
-   schedule of the maker, at the place where the user accepts them.
-5. **Private fields leak in small places**: an event payload, a log line, a diagnostics file, a
-   device field. The projection test must walk each of them.
-6. **Home Keeper changes.** The link uses `managed_by`, usage tasks, `set_task_meter` and the
+   Home Keeper tasks read the attribute `reading`, which does not change.
+3. **An odometer from a car cloud can stop.** A car must go back to a typed odometer with no
+   loss of data.
+4. **A wrong starter interval can harm an engine.** The tab must say that the defaults are not
+   the schedule of the maker, at the place where the user accepts them.
+5. **Home Keeper changes.** The link uses `managed_by`, usage tasks, `set_task_meter` and the
    panel tab API. A Docker tier against Home Keeper `main` finds a break early.
-7. **An appliance of the kind `existing` with `managed_by`.** I read that both exist. I did not
-   test them together.
-8. **The effort for 17 languages** for each new string, from the first release.
-
-## One-way doors
-
-The design docs list them where they apply. The ones to decide first:
-
-1. The domain `car_keeper` and the tab id `cars`.
-2. The storage document and the export format.
-3. The `source` namespace and the `managed_by` block that Home Keeper stores on each task and
-   appliance.
-4. The service and event names.
-5. The entity unique ids and the attribute `reading`.
-6. The values in the unit of the car, not in km.
-
-## Open questions
-
-1. Does the schedule live in Car Keeper with a mirror task, as designed, or only in Home Keeper
-   tasks?
-2. Is `log_service` open to every user, or admin-only?
-3. Is the cost on 1 Home Keeper completion, or divided across the jobs?
-4. Does a date job (registration, insurance) use a one-off task, or a yearly fixed task?
-5. What is the lowest Home Keeper version to support?
-6. Do the car preset rows go to Home Keeper before or after the first release of Car Keeper?
-7. Is the name of the tab "Cars" or "Vehicles"?
-8. Does a user who is not an admin see the shop and the notes of a service?
+6. **The effort for 17 languages** for each new string.

@@ -1,0 +1,56 @@
+homeassistant:
+  name: Test Home
+  unit_system: imperial
+  time_zone: America/New_York
+  latitude: 40.7128
+  longitude: -74.0060
+  elevation: 10
+
+# Enable the REST API
+api:
+
+# Enable frontend (required for the custom sidebar panel + Lovelace card resource)
+frontend:
+
+# Enable the recorder. A real HA install always has it (via default_config); this
+# minimal test config omits default_config, so without it the frontend's
+# recorder/info probe at load is rejected and surfaces as a console error. Enabling
+# it keeps the e2e environment representative and the console clean.
+recorder:
+
+# Dedicated YAML dashboard used by the Playwright e2e suite (the custom card is
+# placed here). The default storage-mode dashboard from onboarding is untouched.
+lovelace:
+  mode: storage
+  dashboards:
+    car-keeper-e2e:
+      mode: yaml
+      title: Cars
+      icon: mdi:car-wrench
+      show_in_sidebar: true
+      filename: car-keeper-e2e.yaml
+
+# Helper and automation for test_events. The automation records the payload of the
+# last event, so a REST test can check that the event fired with the right data.
+input_text:
+  ck_last_event:
+    name: Car Keeper last event
+    max: 255
+
+automation:
+  - alias: Capture Car Keeper settings updated
+    trigger:
+      - platform: event
+        event_type: car_keeper_settings_updated
+    action:
+      - service: input_text.set_value
+        target:
+          entity_id: input_text.ck_last_event
+        data:
+          value: "settings_updated:{{ trigger.event.data.changed_fields }}"
+
+# Minimal logging
+logger:
+  default: info
+  logs:
+    custom_components.car_keeper: debug

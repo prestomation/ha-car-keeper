@@ -1,0 +1,75 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Car Keeper",
+        "description": "设置新车辆的距离单位。每辆车可以有自己的单位。",
+        "data": {
+          "unit": "距离单位"
+        },
+        "data_description": {
+          "unit": "公里或英里。"
+        }
+      }
+    },
+    "abort": {
+      "already_configured": "Car Keeper 已设置。",
+      "single_instance_allowed": "Car Keeper 已设置。",
+      "home_keeper_missing": "Car Keeper 需要 Home Keeper。请从 HACS 安装 Home Keeper，重启 Home Assistant，然后再次添加 Car Keeper。安装步骤：{url}",
+      "home_keeper_not_set_up": "请先添加 Home Keeper 集成。",
+      "home_keeper_too_old": "请将 Home Keeper 更新到 {version} 或更高版本。"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Car Keeper 选项",
+        "data": {
+          "unit": "距离单位"
+        },
+        "data_description": {
+          "unit": "新车辆的单位。已添加的车辆保留其单位。"
+        }
+      }
+    }
+  },
+  "selector": {
+    "unit": {
+      "options": {
+        "km": "公里",
+        "mi": "英里"
+      }
+    }
+  },
+  "issues": {
+    "home_keeper_missing": {
+      "title": "未安装 Home Keeper",
+      "description": "“车辆”标签页和保养任务需要 Home Keeper。卡片、实体和服务现在已可使用。请从 HACS 安装 Home Keeper 并重启 Home Assistant。安装步骤：{url}"
+    },
+    "home_keeper_not_set_up": {
+      "title": "未设置 Home Keeper",
+      "description": "“车辆”标签页和保养任务需要已加载的 Home Keeper 集成。卡片、实体和服务现在已可使用。请添加或启用 Home Keeper 集成。"
+    },
+    "home_keeper_too_old": {
+      "title": "Home Keeper 版本过旧",
+      "description": "“车辆”标签页和保养任务需要 Home Keeper {version} 或更高版本。卡片、实体和服务现在已可使用。请更新 Home Keeper。"
+    }
+  },
+  "services": {
+    "set_settings": {
+      "name": "设置选项",
+      "description": "更改 Car Keeper 的设置。仅限管理员。",
+      "fields": {
+        "unit": {
+          "name": "距离单位",
+          "description": "新车辆的单位：km 或 mi。"
+        }
+      }
+    }
+  },
+  "exceptions": {
+    "not_loaded": {
+      "message": "Car Keeper 尚未加载。请在其启动后重试。"
+    }
+  }
+}

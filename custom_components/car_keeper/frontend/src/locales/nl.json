@@ -1,0 +1,11 @@
+{
+  "state.loading": "Laden",
+  "error.title": "Car Keeper is niet beschikbaar",
+  "garage.empty_title": "Geen auto's",
+  "garage.empty_text": "Voeg een auto toe om de kilometerteller en de onderhoudstaken bij te houden.",
+  "card.garage_name": "Car Keeper-garage",
+  "card.garage_description": "Toont elke auto met de kilometerteller en de volgende taak.",
+  "card.garage_title": "Garage",
+  "card.no_cars": "Geen auto's",
+  "card.invalid_config": "De kaartconfiguratie is ongeldig."
+}

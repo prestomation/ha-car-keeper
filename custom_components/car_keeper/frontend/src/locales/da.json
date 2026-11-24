@@ -1,0 +1,11 @@
+{
+  "state.loading": "Indlæser",
+  "error.title": "Car Keeper er ikke tilgængelig",
+  "garage.empty_title": "Ingen biler",
+  "garage.empty_text": "Tilføj en bil for at følge dens kilometertæller og vedligeholdelsesopgaver.",
+  "card.garage_name": "Car Keeper-garage",
+  "card.garage_description": "Viser hver bil med kilometertælleren og den næste opgave.",
+  "card.garage_title": "Garage",
+  "card.no_cars": "Ingen biler",
+  "card.invalid_config": "Kortets konfiguration er ugyldig."
+}

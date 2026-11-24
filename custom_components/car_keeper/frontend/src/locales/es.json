@@ -1,0 +1,11 @@
+{
+  "state.loading": "Cargando",
+  "error.title": "Car Keeper no está disponible",
+  "garage.empty_title": "Ningún coche",
+  "garage.empty_text": "Añade un coche para seguir su cuentakilómetros y sus trabajos de mantenimiento.",
+  "card.garage_name": "Garaje de Car Keeper",
+  "card.garage_description": "Muestra cada coche con su cuentakilómetros y el próximo trabajo.",
+  "card.garage_title": "Garaje",
+  "card.no_cars": "Ningún coche",
+  "card.invalid_config": "La configuración de la tarjeta no es válida."
+}

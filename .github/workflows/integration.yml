@@ -1,0 +1,189 @@
+name: Integration Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# A job that needs more asks for it in its own permissions block.
+permissions:
+  contents: read
+
+
+jobs:
+  integration:
+    # The stable lane keeps the name `integration`, so a required check still matches.
+    name: ${{ matrix.ha == 'stable' && 'integration' || format('integration (HA {0})', matrix.ha) }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        # The stable lane runs Home Keeper `main`. The oldest lane runs the oldest
+        # Home Assistant with the oldest Home Keeper (const.HOME_KEEPER_MIN_VERSION).
+        include:
+          - ha: stable
+            home_keeper: main
+          - ha: oldest
+            home_keeper: v0.35.0
+    env:
+      HOME_KEEPER_REF: ${{ matrix.home_keeper }}
+    steps:
+      - uses: actions/checkout@v7
+
+      # HA_TAG is the Docker image tag. The oldest lane reads ci/oldest-ha.env.
+      - name: Choose the Home Assistant version
+        run: |
+          if [ "${{ matrix.ha }}" = "oldest" ]; then
+            . ci/oldest-ha.env
+            echo "HA_TAG=$OLDEST_HA" >> "$GITHUB_ENV"
+          else
+            echo "HA_TAG=${{ matrix.ha }}" >> "$GITHUB_ENV"
+          fi
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+
+      # NOTE: deliberately NOT installing pytest-homeassistant-custom-component
+      # here — it pulls in pytest-socket, which blocks the real HTTP this tier
+      # needs. Only the lightweight REST deps are installed.
+      - name: Install integration test deps
+        run: pip install pytest requests websockets
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: custom_components/car_keeper/frontend/package-lock.json
+
+      - name: Install frontend deps
+        run: npm ci --prefix custom_components/car_keeper/frontend
+
+      - name: Build panel JS
+        run: bash ci/build-panel.sh
+
+      - name: Fetch Home Keeper
+        # Car Keeper needs a real Home Keeper for its tab and its tasks.
+        run: bash ci/fetch-home-keeper.sh
+
+      - name: Start Home Assistant
+        working-directory: tests/integration
+        run: docker compose up -d
+
+      - name: Wait for Home Assistant to start
+        run: |
+          echo "Waiting for Home Assistant..."
+          for i in $(seq 1 60); do
+            code=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8123/api/ 2>/dev/null || true)
+            if [ "$code" = "200" ] || [ "$code" = "401" ]; then
+              echo "Home Assistant is responding (HTTP $code, attempt $i)"
+              exit 0
+            fi
+            echo "Attempt $i/60 - HTTP $code - waiting..."
+            sleep 2
+          done
+          echo "Home Assistant failed to start within 120s"
+          (cd tests/integration && docker compose logs)
+          exit 1
+
+      - name: Show the Home Assistant version
+        continue-on-error: true
+        working-directory: tests/integration
+        run: docker compose exec -T homeassistant python -c "from homeassistant.const import __version__; print('HA', __version__)"
+
+      - name: Run integration tests
+        run: bash ci/test-python-integration.sh
+
+      - name: Dump Home Assistant logs on failure
+        if: failure()
+        working-directory: tests/integration
+        run: docker compose logs homeassistant
+
+      # The 3 steps below run even when the tests fail. The log has the records of
+      # Home Keeper too. The gate reads only the records of car_keeper.
+      # The file name has the lane, so the 2 lanes never share an artifact.
+      - name: Save the Home Assistant log
+        if: always()
+        working-directory: tests/integration
+        run: docker compose logs --no-color homeassistant > "$GITHUB_WORKSPACE/ha-${{ matrix.ha }}.log"
+
+      - name: Upload the Home Assistant log
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: ha-log-${{ matrix.ha }}
+          path: ha-${{ matrix.ha }}.log
+          retention-days: 7
+
+      - name: Check the Home Assistant log
+        if: always()
+        run: python ci/check-ha-log.py --domain car_keeper "ha-${{ matrix.ha }}.log"
+
+      - name: Cleanup
+        if: always()
+        working-directory: tests/integration
+        run: docker compose down -v
+
+  noise:
+    # The noise budget (tests/noise): how many logbook rows, unavailable flips,
+    # events, store writes and reloads each action makes, against
+    # tests/noise/baseline.json. It runs on its own Home Assistant with the real
+    # Home Keeper. It needs no panel build: it reads no frontend.
+    name: Noise budget
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      HOME_KEEPER_REF: main
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+
+      # No HA test harness: pytest-socket would block the real HTTP this tier needs.
+      - name: Install test dependencies
+        run: pip install pytest requests websockets
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "22"
+
+      - name: Fetch Home Keeper
+        run: bash ci/fetch-home-keeper.sh
+
+      # KEEP_UP=1 leaves the container up when the script ends, so the log step
+      # below can still read it. The cleanup step stops it.
+      - name: Run the noise-budget scenarios
+        env:
+          KEEP_UP: "1"
+        run: bash ci/test-noise.sh
+
+      # The project name and compose file are the ones ci/test-noise.sh uses.
+      - name: Dump Home Assistant logs on failure
+        if: failure()
+        run: docker compose --project-name ck-noise -f tests/integration/docker-compose.yml logs homeassistant
+
+      - name: Save Home Assistant log
+        if: always()
+        run: docker compose --project-name ck-noise -f tests/integration/docker-compose.yml logs --no-color homeassistant > ha-noise.log
+
+      - name: Upload Home Assistant log
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: ha-log-noise
+          path: ha-noise.log
+          if-no-files-found: warn
+
+      - name: Check Home Assistant log
+        if: always()
+        run: python ci/check-ha-log.py --domain car_keeper ha-noise.log
+
+      - name: Cleanup
+        if: always()
+        run: docker compose --project-name ck-noise -f tests/integration/docker-compose.yml down -v

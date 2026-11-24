@@ -1,0 +1,4 @@
+{
+  "about": "The rules that Python and TypeScript share. Each entry names its golden corpus, the Python test that writes and checks it, and the vitest file that replays it.",
+  "rules": []
+}

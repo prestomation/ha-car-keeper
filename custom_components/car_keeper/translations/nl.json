@@ -1,0 +1,75 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Car Keeper",
+        "description": "Stel de afstandseenheid van een nieuwe auto in. Elke auto kan een eigen eenheid hebben.",
+        "data": {
+          "unit": "Afstandseenheid"
+        },
+        "data_description": {
+          "unit": "Kilometers of mijlen."
+        }
+      }
+    },
+    "abort": {
+      "already_configured": "Car Keeper is al ingesteld.",
+      "single_instance_allowed": "Car Keeper is al ingesteld.",
+      "home_keeper_missing": "Car Keeper vereist Home Keeper. Installeer Home Keeper via HACS, herstart Home Assistant en voeg Car Keeper daarna opnieuw toe. Installatiestappen: {url}",
+      "home_keeper_not_set_up": "Voeg eerst de Home Keeper-integratie toe.",
+      "home_keeper_too_old": "Werk Home Keeper bij naar versie {version} of hoger."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Car Keeper-opties",
+        "data": {
+          "unit": "Afstandseenheid"
+        },
+        "data_description": {
+          "unit": "De eenheid van een nieuwe auto. Een auto die u al hebt toegevoegd, houdt zijn eenheid."
+        }
+      }
+    }
+  },
+  "selector": {
+    "unit": {
+      "options": {
+        "km": "Kilometer",
+        "mi": "Mijlen"
+      }
+    }
+  },
+  "issues": {
+    "home_keeper_missing": {
+      "title": "Home Keeper is niet geïnstalleerd",
+      "description": "Het tabblad Auto's en de onderhoudstaken vereisen Home Keeper. De kaarten, de entiteiten en de services werken al. Installeer Home Keeper via HACS en herstart Home Assistant. Installatiestappen: {url}"
+    },
+    "home_keeper_not_set_up": {
+      "title": "Home Keeper is niet ingesteld",
+      "description": "Het tabblad Auto's en de onderhoudstaken vereisen een geladen Home Keeper-integratie. De kaarten, de entiteiten en de services werken al. Voeg de Home Keeper-integratie toe of schakel deze in."
+    },
+    "home_keeper_too_old": {
+      "title": "Home Keeper is te oud",
+      "description": "Het tabblad Auto's en de onderhoudstaken vereisen Home Keeper versie {version} of hoger. De kaarten, de entiteiten en de services werken al. Werk Home Keeper bij."
+    }
+  },
+  "services": {
+    "set_settings": {
+      "name": "Instellingen opgeven",
+      "description": "Wijzigt de instellingen van Car Keeper. Alleen voor beheerders.",
+      "fields": {
+        "unit": {
+          "name": "Afstandseenheid",
+          "description": "De eenheid van een nieuwe auto: km of mi."
+        }
+      }
+    }
+  },
+  "exceptions": {
+    "not_loaded": {
+      "message": "Car Keeper is niet geladen. Probeer het opnieuw nadat het is gestart."
+    }
+  }
+}

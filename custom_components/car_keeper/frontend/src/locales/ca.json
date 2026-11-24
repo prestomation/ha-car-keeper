@@ -1,0 +1,11 @@
+{
+  "state.loading": "S'està carregant",
+  "error.title": "Car Keeper no està disponible",
+  "garage.empty_title": "Cap cotxe",
+  "garage.empty_text": "Afegeix un cotxe per seguir el comptaquilòmetres i les feines de manteniment.",
+  "card.garage_name": "Garatge de Car Keeper",
+  "card.garage_description": "Mostra cada cotxe amb el comptaquilòmetres i la propera feina.",
+  "card.garage_title": "Garatge",
+  "card.no_cars": "Cap cotxe",
+  "card.invalid_config": "La configuració de la targeta no és vàlida."
+}

@@ -1,0 +1,127 @@
+name: Test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# A job that needs more asks for it in its own permissions block.
+permissions:
+  contents: read
+
+jobs:
+  # The pure core needs no Home Assistant. This job proves it: it installs only the
+  # 3 packages of the unit tier, so a Home Assistant import in a pure module fails.
+  unit-no-ha:
+    name: unit (no Home Assistant)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.14"
+
+      - name: Install the unit tier only
+        run: pip install pytest PyYAML hypothesis
+
+      - name: Run Python unit tests (pure core)
+        env:
+          CK_STATEFUL_EXAMPLES: "1000"
+        run: bash ci/test-python-unit.sh
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      # The component tier installs Home Assistant through its test harness, so this
+      # Python is at or above the Python floor of Home Assistant. Below it, pip
+      # backtracks to an old harness and an old Home Assistant.
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.14"
+
+      - name: Install dependencies
+        run: bash ci/install-deps.sh
+
+      - name: Build panel JS
+        run: bash ci/build-panel.sh
+
+      - name: Run frontend tests
+        run: bash ci/test-frontend.sh
+
+      # The stateful model tests run many more examples in CI than in a local run.
+      - name: Run Python unit tests (pure core)
+        env:
+          CK_STATEFUL_EXAMPLES: "1000"
+        run: bash ci/test-python-unit.sh
+
+      - name: Run Python component tests (in-process HA harness)
+        run: bash ci/test-python-component.sh
+
+      - name: Translation coverage report
+        if: always()
+        run: python3 ci/i18n-coverage.py --markdown >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Clean node_modules before validation
+        run: rm -rf custom_components/car_keeper/frontend/node_modules
+
+      - name: HACS validation
+        uses: hacs/action@main
+        with:
+          category: integration
+
+      - name: Run hassfest
+        uses: "home-assistant/actions/hassfest@master"
+
+  # The oldest supported Home Assistant is named in ci/oldest-ha.env. A change that
+  # breaks it fails here, so dropping an old version is always a choice. The Docker
+  # lane for it is in integration.yml.
+  component-oldest:
+    name: component (HA oldest)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Read the oldest version
+        run: grep -E "^[A-Z_]+=" ci/oldest-ha.env >> "$GITHUB_ENV"
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: ${{ env.OLDEST_PYTHON }}
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Install dependencies
+        run: bash ci/install-deps.sh
+
+      # The test harness pins one Home Assistant version for each of its releases.
+      # An old aiodns breaks on pycares 5, so that package stays on version 4.
+      - name: Pin the oldest Home Assistant
+        run: pip install "pytest-homeassistant-custom-component==$OLDEST_PHCC" "pycares<5"
+
+      - name: Check the Home Assistant version
+        run: python ci/check-ha-version.py --expect "$OLDEST_HA"
+
+      - name: Build panel JS
+        run: bash ci/build-panel.sh
+
+      - name: Run Python component tests (in-process HA harness)
+        run: bash ci/test-python-component.sh

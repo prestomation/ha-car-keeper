@@ -1,0 +1,75 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Car Keeper",
+        "description": "Задайте одиницю відстані для нового автомобіля. Кожен автомобіль може мати власну одиницю.",
+        "data": {
+          "unit": "Одиниця відстані"
+        },
+        "data_description": {
+          "unit": "Кілометри або милі."
+        }
+      }
+    },
+    "abort": {
+      "already_configured": "Car Keeper уже налаштовано.",
+      "single_instance_allowed": "Car Keeper уже налаштовано.",
+      "home_keeper_missing": "Для Car Keeper потрібен Home Keeper. Встановіть Home Keeper з HACS, перезапустіть Home Assistant і знову додайте Car Keeper. Кроки встановлення: {url}",
+      "home_keeper_not_set_up": "Спочатку додайте інтеграцію Home Keeper.",
+      "home_keeper_too_old": "Оновіть Home Keeper до версії {version} або новішої."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Параметри Car Keeper",
+        "data": {
+          "unit": "Одиниця відстані"
+        },
+        "data_description": {
+          "unit": "Одиниця нового автомобіля. Уже доданий автомобіль зберігає свою одиницю."
+        }
+      }
+    }
+  },
+  "selector": {
+    "unit": {
+      "options": {
+        "km": "Кілометри",
+        "mi": "Милі"
+      }
+    }
+  },
+  "issues": {
+    "home_keeper_missing": {
+      "title": "Home Keeper не встановлено",
+      "description": "Вкладці «Автомобілі» та завданням обслуговування потрібен Home Keeper. Картки, сутності та служби вже працюють. Встановіть Home Keeper з HACS і перезапустіть Home Assistant. Кроки встановлення: {url}"
+    },
+    "home_keeper_not_set_up": {
+      "title": "Home Keeper не налаштовано",
+      "description": "Вкладці «Автомобілі» та завданням обслуговування потрібна завантажена інтеграція Home Keeper. Картки, сутності та служби вже працюють. Додайте або ввімкніть інтеграцію Home Keeper."
+    },
+    "home_keeper_too_old": {
+      "title": "Home Keeper застарілий",
+      "description": "Вкладці «Автомобілі» та завданням обслуговування потрібен Home Keeper версії {version} або новішої. Картки, сутності та служби вже працюють. Оновіть Home Keeper."
+    }
+  },
+  "services": {
+    "set_settings": {
+      "name": "Задати налаштування",
+      "description": "Змінює налаштування Car Keeper. Лише для адміністраторів.",
+      "fields": {
+        "unit": {
+          "name": "Одиниця відстані",
+          "description": "Одиниця нового автомобіля: km або mi."
+        }
+      }
+    }
+  },
+  "exceptions": {
+    "not_loaded": {
+      "message": "Car Keeper не завантажено. Спробуйте знову після його запуску."
+    }
+  }
+}

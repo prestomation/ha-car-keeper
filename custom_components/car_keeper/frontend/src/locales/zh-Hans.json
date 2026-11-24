@@ -1,0 +1,11 @@
+{
+  "state.loading": "正在加载",
+  "error.title": "Car Keeper 不可用",
+  "garage.empty_title": "没有车辆",
+  "garage.empty_text": "添加一辆车以跟踪其里程表和保养项目。",
+  "card.garage_name": "Car Keeper 车库",
+  "card.garage_description": "显示每辆车的里程表和下一个保养项目。",
+  "card.garage_title": "车库",
+  "card.no_cars": "没有车辆",
+  "card.invalid_config": "卡片配置无效。"
+}

@@ -1,0 +1,11 @@
+{
+  "state.loading": "Laster",
+  "error.title": "Car Keeper er ikke tilgjengelig",
+  "garage.empty_title": "Ingen biler",
+  "garage.empty_text": "Legg til en bil for å følge kilometertelleren og vedlikeholdsjobbene.",
+  "card.garage_name": "Car Keeper-garasje",
+  "card.garage_description": "Viser hver bil med kilometertelleren og den neste jobben.",
+  "card.garage_title": "Garasje",
+  "card.no_cars": "Ingen biler",
+  "card.invalid_config": "Kortkonfigurasjonen er ugyldig."
+}

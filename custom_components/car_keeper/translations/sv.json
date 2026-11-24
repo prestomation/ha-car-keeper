@@ -1,0 +1,75 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Car Keeper",
+        "description": "Ange avståndsenheten för en ny bil. Varje bil kan ha sin egen enhet.",
+        "data": {
+          "unit": "Avståndsenhet"
+        },
+        "data_description": {
+          "unit": "Kilometer eller miles."
+        }
+      }
+    },
+    "abort": {
+      "already_configured": "Car Keeper är redan konfigurerat.",
+      "single_instance_allowed": "Car Keeper är redan konfigurerat.",
+      "home_keeper_missing": "Car Keeper kräver Home Keeper. Installera Home Keeper från HACS, starta om Home Assistant och lägg sedan till Car Keeper igen. Installationssteg: {url}",
+      "home_keeper_not_set_up": "Lägg först till Home Keeper-integrationen.",
+      "home_keeper_too_old": "Uppdatera Home Keeper till version {version} eller senare."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Car Keeper-alternativ",
+        "data": {
+          "unit": "Avståndsenhet"
+        },
+        "data_description": {
+          "unit": "Enheten för en ny bil. En bil som du redan har lagt till behåller sin enhet."
+        }
+      }
+    }
+  },
+  "selector": {
+    "unit": {
+      "options": {
+        "km": "Kilometer",
+        "mi": "Miles"
+      }
+    }
+  },
+  "issues": {
+    "home_keeper_missing": {
+      "title": "Home Keeper är inte installerat",
+      "description": "Fliken Bilar och underhållsuppgifterna kräver Home Keeper. Korten, entiteterna och tjänsterna fungerar redan. Installera Home Keeper från HACS och starta om Home Assistant. Installationssteg: {url}"
+    },
+    "home_keeper_not_set_up": {
+      "title": "Home Keeper är inte konfigurerat",
+      "description": "Fliken Bilar och underhållsuppgifterna kräver en inläst Home Keeper-integration. Korten, entiteterna och tjänsterna fungerar redan. Lägg till eller aktivera Home Keeper-integrationen."
+    },
+    "home_keeper_too_old": {
+      "title": "Home Keeper är för gammalt",
+      "description": "Fliken Bilar och underhållsuppgifterna kräver Home Keeper version {version} eller senare. Korten, entiteterna och tjänsterna fungerar redan. Uppdatera Home Keeper."
+    }
+  },
+  "services": {
+    "set_settings": {
+      "name": "Ange inställningar",
+      "description": "Ändrar inställningarna för Car Keeper. Endast administratörer.",
+      "fields": {
+        "unit": {
+          "name": "Avståndsenhet",
+          "description": "Enheten för en ny bil: km eller mi."
+        }
+      }
+    }
+  },
+  "exceptions": {
+    "not_loaded": {
+      "message": "Car Keeper är inte inläst. Försök igen när det har startat."
+    }
+  }
+}

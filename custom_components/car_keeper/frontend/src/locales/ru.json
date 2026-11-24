@@ -1,0 +1,11 @@
+{
+  "state.loading": "Загрузка",
+  "error.title": "Car Keeper недоступен",
+  "garage.empty_title": "Нет автомобилей",
+  "garage.empty_text": "Добавьте автомобиль, чтобы следить за его одометром и работами по обслуживанию.",
+  "card.garage_name": "Гараж Car Keeper",
+  "card.garage_description": "Показывает каждый автомобиль с одометром и следующей работой.",
+  "card.garage_title": "Гараж",
+  "card.no_cars": "Нет автомобилей",
+  "card.invalid_config": "Конфигурация карточки недействительна."
+}

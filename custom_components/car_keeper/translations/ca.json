@@ -1,0 +1,75 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Car Keeper",
+        "description": "Defineix la unitat de distància d'un cotxe nou. Cada cotxe pot tenir la seva unitat.",
+        "data": {
+          "unit": "Unitat de distància"
+        },
+        "data_description": {
+          "unit": "Quilòmetres o milles."
+        }
+      }
+    },
+    "abort": {
+      "already_configured": "Car Keeper ja està configurat.",
+      "single_instance_allowed": "Car Keeper ja està configurat.",
+      "home_keeper_missing": "Car Keeper necessita Home Keeper. Instal·la Home Keeper des de HACS, reinicia Home Assistant i torna a afegir Car Keeper. Passos d'instal·lació: {url}",
+      "home_keeper_not_set_up": "Primer afegeix la integració Home Keeper.",
+      "home_keeper_too_old": "Actualitza Home Keeper a la versió {version} o posterior."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Opcions de Car Keeper",
+        "data": {
+          "unit": "Unitat de distància"
+        },
+        "data_description": {
+          "unit": "La unitat d'un cotxe nou. Un cotxe que ja has afegit manté la seva unitat."
+        }
+      }
+    }
+  },
+  "selector": {
+    "unit": {
+      "options": {
+        "km": "Quilòmetres",
+        "mi": "Milles"
+      }
+    }
+  },
+  "issues": {
+    "home_keeper_missing": {
+      "title": "Home Keeper no està instal·lat",
+      "description": "La pestanya Cotxes i les tasques de manteniment necessiten Home Keeper. Les targetes, les entitats i els serveis ja funcionen. Instal·la Home Keeper des de HACS i reinicia Home Assistant. Passos d'instal·lació: {url}"
+    },
+    "home_keeper_not_set_up": {
+      "title": "Home Keeper no està configurat",
+      "description": "La pestanya Cotxes i les tasques de manteniment necessiten una integració Home Keeper carregada. Les targetes, les entitats i els serveis ja funcionen. Afegeix o activa la integració Home Keeper."
+    },
+    "home_keeper_too_old": {
+      "title": "Home Keeper és massa antic",
+      "description": "La pestanya Cotxes i les tasques de manteniment necessiten Home Keeper versió {version} o posterior. Les targetes, les entitats i els serveis ja funcionen. Actualitza Home Keeper."
+    }
+  },
+  "services": {
+    "set_settings": {
+      "name": "Defineix la configuració",
+      "description": "Canvia la configuració de Car Keeper. Només administradors.",
+      "fields": {
+        "unit": {
+          "name": "Unitat de distància",
+          "description": "La unitat d'un cotxe nou: km o mi."
+        }
+      }
+    }
+  },
+  "exceptions": {
+    "not_loaded": {
+      "message": "Car Keeper no està carregat. Torna-ho a provar quan s'iniciï."
+    }
+  }
+}

@@ -1,35 +1,35 @@
 # Car Keeper
 
-Car Keeper is a planned Home Assistant integration for car maintenance. It is a companion of
-[Home Keeper](https://github.com/prestomation/ha-home-keeper), as
+[![HACS Validation][hacs-validation-shield]][hacs-validation]
+[![HA Version][ha-version-shield]][ha-version]
+[![License][license-shield]](LICENSE)
+
+Car Keeper is a Home Assistant integration for the maintenance of the cars of a household.
+It is a companion of [Home Keeper](https://github.com/prestomation/ha-home-keeper), as
 [Home Keeper Library](https://github.com/prestomation/ha-home-keeper-library) is.
 
-**Status: design.** No code exists yet. You cannot install it.
+**Status: beta.** The first release is in progress.
 
-## What it will do
+## Features
 
-- Keep a list of your cars, each with an odometer that comes from a sensor or that you type.
-- Track maintenance jobs that are due by distance, by time, or by the one that comes first.
-- Keep the service history: the reading, the shop, the cost and the receipt.
-- Make a Home Keeper task for each job, so Home Keeper does the to-do list, the calendar, the
+- Keeps a list of your cars, each with an odometer that comes from a sensor or that you type.
+- Tracks maintenance jobs that are due by distance, by time, or by the one that comes first.
+- Keeps the service history: the reading, the shop and the cost.
+- Makes a Home Keeper task for each job, so Home Keeper does the to-do list, the calendar, the
   notifications and the parts stock.
-- Show the cars in a **Cars** tab of the Home Keeper panel for admins, and on dashboard cards
+- Shows the cars in a **Cars** tab of the Home Keeper panel for admins, and on dashboard cards
   for every user.
 
-## Read the design
+## Documentation
 
 | Document | Subject |
 |---|---|
-| [docs/design/architecture.md](docs/design/architecture.md) | Purpose, goals, modules and the index of the design docs |
-| [docs/design/data-model.md](docs/design/data-model.md) | Cars, the odometer, jobs, services and the due rule |
-| [docs/design/home-keeper-link.md](docs/design/home-keeper-link.md) | How a car and its jobs live in Home Keeper |
-| [docs/design/services-events.md](docs/design/services-events.md) | Services, events, entities and privacy |
-| [docs/design/frontend.md](docs/design/frontend.md) | The Cars tab and the cards |
-| [docs/design/repository.md](docs/design/repository.md) | The scaffold, the tests and the CI |
-| [docs/research/car-integrations.md](docs/research/car-integrations.md) | What 79 car data sources can feed |
-| [docs/research/companion-presets.md](docs/research/companion-presets.md) | Can a companion add presets to Home Keeper |
-| [docs/mockups/car-keeper-mockup.html](docs/mockups/car-keeper-mockup.html) | The UI mockup: open the file in a browser |
-| [IDEAS.md](IDEAS.md) | The roadmap, the risks and the open questions |
+| [User guide](docs/guide/start/overview.md) | Installation and use |
+| [docs/INTEGRATING.md](docs/INTEGRATING.md) | Services and events for automations and integrations |
+| [docs/SECURITY.md](docs/SECURITY.md) | Who can read and write what |
+| [docs/DEVELOPING.md](docs/DEVELOPING.md) | Tests and guardrails for contributors |
+| [docs/design/architecture.md](docs/design/architecture.md) | The design docs |
+| [IDEAS.md](IDEAS.md) | The roadmap and the open questions |
 
 The idea comes from
 [Home Keeper issue 599](https://github.com/prestomation/ha-home-keeper/issues/599).
@@ -37,3 +37,9 @@ The idea comes from
 ## License
 
 MIT. See [LICENSE](LICENSE).
+
+[hacs-validation-shield]: https://img.shields.io/github/actions/workflow/status/prestomation/ha-car-keeper/hacs.yml?branch=main&label=HACS&style=for-the-badge
+[hacs-validation]: https://github.com/prestomation/ha-car-keeper/actions/workflows/hacs.yml
+[ha-version-shield]: https://img.shields.io/badge/Home%20Assistant-2026.1%2B-blue.svg?style=for-the-badge
+[ha-version]: https://www.home-assistant.io/
+[license-shield]: https://img.shields.io/github/license/prestomation/ha-car-keeper.svg?style=for-the-badge

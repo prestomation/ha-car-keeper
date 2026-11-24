@@ -1,0 +1,75 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Car Keeper",
+        "description": "Angiv afstandsenheden for en ny bil. Hver bil kan have sin egen enhed.",
+        "data": {
+          "unit": "Afstandsenhed"
+        },
+        "data_description": {
+          "unit": "Kilometer eller miles."
+        }
+      }
+    },
+    "abort": {
+      "already_configured": "Car Keeper er allerede sat op.",
+      "single_instance_allowed": "Car Keeper er allerede sat op.",
+      "home_keeper_missing": "Car Keeper kræver Home Keeper. Installer Home Keeper fra HACS, genstart Home Assistant, og tilføj derefter Car Keeper igen. Installationstrin: {url}",
+      "home_keeper_not_set_up": "Tilføj først Home Keeper-integrationen.",
+      "home_keeper_too_old": "Opdater Home Keeper til version {version} eller nyere."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Car Keeper-indstillinger",
+        "data": {
+          "unit": "Afstandsenhed"
+        },
+        "data_description": {
+          "unit": "Enheden for en ny bil. En bil, du har tilføjet, beholder sin enhed."
+        }
+      }
+    }
+  },
+  "selector": {
+    "unit": {
+      "options": {
+        "km": "Kilometer",
+        "mi": "Miles"
+      }
+    }
+  },
+  "issues": {
+    "home_keeper_missing": {
+      "title": "Home Keeper er ikke installeret",
+      "description": "Fanen Biler og vedligeholdelsesopgaverne kræver Home Keeper. Kortene, entiteterne og tjenesterne virker nu. Installer Home Keeper fra HACS, og genstart Home Assistant. Installationstrin: {url}"
+    },
+    "home_keeper_not_set_up": {
+      "title": "Home Keeper er ikke sat op",
+      "description": "Fanen Biler og vedligeholdelsesopgaverne kræver en indlæst Home Keeper-integration. Kortene, entiteterne og tjenesterne virker nu. Tilføj eller aktiver Home Keeper-integrationen."
+    },
+    "home_keeper_too_old": {
+      "title": "Home Keeper er for gammel",
+      "description": "Fanen Biler og vedligeholdelsesopgaverne kræver Home Keeper version {version} eller nyere. Kortene, entiteterne og tjenesterne virker nu. Opdater Home Keeper."
+    }
+  },
+  "services": {
+    "set_settings": {
+      "name": "Angiv indstillinger",
+      "description": "Ændrer indstillingerne for Car Keeper. Kun for administratorer.",
+      "fields": {
+        "unit": {
+          "name": "Afstandsenhed",
+          "description": "Enheden for en ny bil: km eller mi."
+        }
+      }
+    }
+  },
+  "exceptions": {
+    "not_loaded": {
+      "message": "Car Keeper er ikke indlæst. Prøv igen, når den er startet."
+    }
+  }
+}

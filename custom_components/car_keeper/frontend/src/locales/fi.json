@@ -1,0 +1,11 @@
+{
+  "state.loading": "Ladataan",
+  "error.title": "Car Keeper ei ole käytettävissä",
+  "garage.empty_title": "Ei autoja",
+  "garage.empty_text": "Lisää auto seurataksesi sen matkamittaria ja huoltotöitä.",
+  "card.garage_name": "Car Keeper -autotalli",
+  "card.garage_description": "Näyttää jokaisen auton matkamittarin ja seuraavan työn.",
+  "card.garage_title": "Autotalli",
+  "card.no_cars": "Ei autoja",
+  "card.invalid_config": "Kortin määritys ei ole kelvollinen."
+}

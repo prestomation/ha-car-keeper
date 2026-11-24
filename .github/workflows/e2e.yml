@@ -1,0 +1,67 @@
+name: E2E (browser)
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# A job that needs more asks for it in its own permissions block.
+permissions:
+  contents: read
+
+# The Home Keeper branch or tag that ci/fetch-home-keeper.sh clones.
+env:
+  HOME_KEEPER_REF: main
+
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "22"
+
+      - name: Install frontend deps
+        run: npm ci --prefix custom_components/car_keeper/frontend
+
+      - name: Install e2e deps
+        run: npm ci --prefix tests/e2e
+
+      - name: Install Playwright Chromium
+        working-directory: tests/e2e
+        run: npx playwright install --with-deps chromium
+
+      # The same script as a local run: it builds the bundles, fetches and builds
+      # Home Keeper, seeds the config and starts the ck-e2e stack with both
+      # compose files (ci/e2e-compose.sh). It fails if Home Assistant does not start.
+      - name: Build, seed and start Home Assistant
+        env:
+          NO_TESTS: "1"
+          KEEP_UP: "1"
+          SKIP_BROWSER_ENV: "1"
+        run: bash ci/e2e-up.sh
+
+      - name: Run Playwright e2e
+        run: bash ci/test-e2e.sh
+
+      - name: Upload Playwright report on failure
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: playwright-report
+          path: |
+            tests/e2e/playwright-report/
+            tests/e2e/test-results/
+          retention-days: 7
+
+      - name: Dump Home Assistant logs on failure
+        if: failure()
+        run: bash ci/e2e-compose.sh logs homeassistant
+
+      - name: Cleanup
+        if: always()
+        run: bash ci/e2e-compose.sh down -v

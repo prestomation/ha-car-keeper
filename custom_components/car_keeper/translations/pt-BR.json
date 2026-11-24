@@ -1,0 +1,75 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Car Keeper",
+        "description": "Defina a unidade de distância de um carro novo. Cada carro pode ter a sua própria unidade.",
+        "data": {
+          "unit": "Unidade de distância"
+        },
+        "data_description": {
+          "unit": "Quilómetros ou milhas."
+        }
+      }
+    },
+    "abort": {
+      "already_configured": "O Car Keeper já está configurado.",
+      "single_instance_allowed": "O Car Keeper já está configurado.",
+      "home_keeper_missing": "O Car Keeper requer o Home Keeper. Instale o Home Keeper a partir do HACS, reinicie o Home Assistant e adicione o Car Keeper novamente. Passos de instalação: {url}",
+      "home_keeper_not_set_up": "Adicione primeiro a integração Home Keeper.",
+      "home_keeper_too_old": "Atualize o Home Keeper para a versão {version} ou posterior."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Opções do Car Keeper",
+        "data": {
+          "unit": "Unidade de distância"
+        },
+        "data_description": {
+          "unit": "A unidade de um carro novo. Um carro que já adicionou mantém a sua unidade."
+        }
+      }
+    }
+  },
+  "selector": {
+    "unit": {
+      "options": {
+        "km": "Quilómetros",
+        "mi": "Milhas"
+      }
+    }
+  },
+  "issues": {
+    "home_keeper_missing": {
+      "title": "O Home Keeper não está instalado",
+      "description": "O separador Carros e as tarefas de manutenção precisam do Home Keeper. Os cartões, as entidades e os serviços já funcionam. Instale o Home Keeper a partir do HACS e reinicie o Home Assistant. Passos de instalação: {url}"
+    },
+    "home_keeper_not_set_up": {
+      "title": "O Home Keeper não está configurado",
+      "description": "O separador Carros e as tarefas de manutenção precisam de uma integração Home Keeper carregada. Os cartões, as entidades e os serviços já funcionam. Adicione ou ative a integração Home Keeper."
+    },
+    "home_keeper_too_old": {
+      "title": "O Home Keeper é demasiado antigo",
+      "description": "O separador Carros e as tarefas de manutenção precisam do Home Keeper versão {version} ou posterior. Os cartões, as entidades e os serviços já funcionam. Atualize o Home Keeper."
+    }
+  },
+  "services": {
+    "set_settings": {
+      "name": "Definir as definições",
+      "description": "Altera as definições do Car Keeper. Apenas administradores.",
+      "fields": {
+        "unit": {
+          "name": "Unidade de distância",
+          "description": "A unidade de um carro novo: km ou mi."
+        }
+      }
+    }
+  },
+  "exceptions": {
+    "not_loaded": {
+      "message": "O Car Keeper não está carregado. Tente novamente depois de iniciar."
+    }
+  }
+}

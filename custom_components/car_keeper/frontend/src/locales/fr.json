@@ -1,0 +1,11 @@
+{
+  "state.loading": "Chargement",
+  "error.title": "Car Keeper n'est pas disponible",
+  "garage.empty_title": "Aucune voiture",
+  "garage.empty_text": "Ajoutez une voiture pour suivre son compteur et ses travaux d'entretien.",
+  "card.garage_name": "Garage Car Keeper",
+  "card.garage_description": "Affiche chaque voiture avec son compteur et le prochain travail.",
+  "card.garage_title": "Garage",
+  "card.no_cars": "Aucune voiture",
+  "card.invalid_config": "La configuration de la carte n'est pas valide."
+}

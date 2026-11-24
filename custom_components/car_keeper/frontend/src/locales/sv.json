@@ -1,0 +1,11 @@
+{
+  "state.loading": "Läser in",
+  "error.title": "Car Keeper är inte tillgängligt",
+  "garage.empty_title": "Inga bilar",
+  "garage.empty_text": "Lägg till en bil för att följa dess vägmätare och underhållsjobb.",
+  "card.garage_name": "Car Keeper-garage",
+  "card.garage_description": "Visar varje bil med vägmätaren och nästa jobb.",
+  "card.garage_title": "Garage",
+  "card.no_cars": "Inga bilar",
+  "card.invalid_config": "Kortets konfiguration är ogiltig."
+}

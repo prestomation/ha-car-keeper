@@ -1,0 +1,75 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Car Keeper",
+        "description": "Ustaw jednostkę odległości nowego samochodu. Każdy samochód może mieć własną jednostkę.",
+        "data": {
+          "unit": "Jednostka odległości"
+        },
+        "data_description": {
+          "unit": "Kilometry lub mile."
+        }
+      }
+    },
+    "abort": {
+      "already_configured": "Car Keeper jest już skonfigurowany.",
+      "single_instance_allowed": "Car Keeper jest już skonfigurowany.",
+      "home_keeper_missing": "Car Keeper wymaga Home Keeper. Zainstaluj Home Keeper z HACS, uruchom ponownie Home Assistant, a następnie ponownie dodaj Car Keeper. Kroki instalacji: {url}",
+      "home_keeper_not_set_up": "Najpierw dodaj integrację Home Keeper.",
+      "home_keeper_too_old": "Zaktualizuj Home Keeper do wersji {version} lub nowszej."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Opcje Car Keeper",
+        "data": {
+          "unit": "Jednostka odległości"
+        },
+        "data_description": {
+          "unit": "Jednostka nowego samochodu. Dodany już samochód zachowuje swoją jednostkę."
+        }
+      }
+    }
+  },
+  "selector": {
+    "unit": {
+      "options": {
+        "km": "Kilometry",
+        "mi": "Mile"
+      }
+    }
+  },
+  "issues": {
+    "home_keeper_missing": {
+      "title": "Home Keeper nie jest zainstalowany",
+      "description": "Karta Samochody i zadania konserwacji wymagają Home Keeper. Karty, encje i usługi już działają. Zainstaluj Home Keeper z HACS i uruchom ponownie Home Assistant. Kroki instalacji: {url}"
+    },
+    "home_keeper_not_set_up": {
+      "title": "Home Keeper nie jest skonfigurowany",
+      "description": "Karta Samochody i zadania konserwacji wymagają załadowanej integracji Home Keeper. Karty, encje i usługi już działają. Dodaj lub włącz integrację Home Keeper."
+    },
+    "home_keeper_too_old": {
+      "title": "Home Keeper jest za stary",
+      "description": "Karta Samochody i zadania konserwacji wymagają Home Keeper w wersji {version} lub nowszej. Karty, encje i usługi już działają. Zaktualizuj Home Keeper."
+    }
+  },
+  "services": {
+    "set_settings": {
+      "name": "Ustaw ustawienia",
+      "description": "Zmienia ustawienia Car Keeper. Tylko dla administratorów.",
+      "fields": {
+        "unit": {
+          "name": "Jednostka odległości",
+          "description": "Jednostka nowego samochodu: km lub mi."
+        }
+      }
+    }
+  },
+  "exceptions": {
+    "not_loaded": {
+      "message": "Car Keeper nie jest załadowany. Spróbuj ponownie po jego uruchomieniu."
+    }
+  }
+}

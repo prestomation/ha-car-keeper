@@ -1,0 +1,11 @@
+{
+  "state.loading": "Loading",
+  "error.title": "Car Keeper is not available",
+  "garage.empty_title": "No cars",
+  "garage.empty_text": "Add a car to track its odometer and its maintenance jobs.",
+  "card.garage_name": "Car Keeper garage",
+  "card.garage_description": "Shows each car with its odometer and the next job.",
+  "card.garage_title": "Garage",
+  "card.no_cars": "No cars",
+  "card.invalid_config": "The card configuration is not valid."
+}

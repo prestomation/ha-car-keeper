@@ -1,0 +1,58 @@
+# Built frontend bundles (CI builds them; never commit).
+custom_components/car_keeper/frontend/dist/
+
+# Node
+node_modules/
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+.coverage
+htmlcov/
+*.egg-info/
+.venv/
+
+# Playwright
+tests/e2e/node_modules/
+tests/e2e/test-results/
+tests/e2e/playwright-report/
+tests/e2e/.auth/
+
+# HA runtime state from local Docker runs (restore seeded fixtures; never commit).
+tests/integration/ha_config/.storage/
+tests/integration/ha_config/home-assistant*.log*
+tests/integration/ha_config/.HA_VERSION
+tests/integration/ha_config/deps/
+tests/integration/ha_config/tts/
+
+# The video walkthrough (ci/capture-video.sh) is a CI build artifact, never
+# committed — it's captured per-PR and uploaded as a workflow artifact (see
+# walkthrough-preview.yml). Local runs still write here for debugging.
+docs/videos/
+
+# Vale style packages fetched by `vale sync` per .vale.ini. This is a synced
+# dependency, not source: vale-cli/vale-action fetches its own copy in CI.
+styles/*
+# The house style is source, not a synced package.
+!styles/STE/
+
+# Mutation testing scratch (mutmut copies the project into mutants/; Stryker
+# sandboxes into .stryker-tmp/ and writes its report into reports/).
+mutants/
+.mutmut-cache
+.stryker-tmp/
+stryker.log
+reports/
+
+# Build artifacts
+car_keeper.zip
+# The lock that ci/setup-ci-deps.sh takes while it runs.
+.setup-ci-deps.lock/
+
+# Hypothesis example database (tests/unit/test_csv_io.py).
+.hypothesis/
+
+# The Home Keeper copy that ci/fetch-home-keeper.sh puts there for the Docker tier.
+tests/integration/.home_keeper/
+ha-*.log

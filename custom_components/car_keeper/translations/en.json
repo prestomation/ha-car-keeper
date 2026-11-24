@@ -1,0 +1,75 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Car Keeper",
+        "description": "Set the distance unit of a new car. Each car can have its own unit.",
+        "data": {
+          "unit": "Distance unit"
+        },
+        "data_description": {
+          "unit": "Kilometers or miles."
+        }
+      }
+    },
+    "abort": {
+      "already_configured": "Car Keeper is already set up.",
+      "single_instance_allowed": "Car Keeper is already set up.",
+      "home_keeper_missing": "Car Keeper requires Home Keeper. Install Home Keeper from HACS, restart Home Assistant, then add Car Keeper again. Installation steps: {url}",
+      "home_keeper_not_set_up": "Add the Home Keeper integration first.",
+      "home_keeper_too_old": "Update Home Keeper to version {version} or later."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Car Keeper options",
+        "data": {
+          "unit": "Distance unit"
+        },
+        "data_description": {
+          "unit": "The unit of a new car. A car that you added keeps its unit."
+        }
+      }
+    }
+  },
+  "selector": {
+    "unit": {
+      "options": {
+        "km": "Kilometers",
+        "mi": "Miles"
+      }
+    }
+  },
+  "issues": {
+    "home_keeper_missing": {
+      "title": "Home Keeper is not installed",
+      "description": "The Cars tab and the maintenance tasks need Home Keeper. The cards, the entities and the services work now. Install Home Keeper from HACS and restart Home Assistant. Installation steps: {url}"
+    },
+    "home_keeper_not_set_up": {
+      "title": "Home Keeper is not set up",
+      "description": "The Cars tab and the maintenance tasks need a loaded Home Keeper integration. The cards, the entities and the services work now. Add or enable the Home Keeper integration."
+    },
+    "home_keeper_too_old": {
+      "title": "Home Keeper is too old",
+      "description": "The Cars tab and the maintenance tasks need Home Keeper version {version} or later. The cards, the entities and the services work now. Update Home Keeper."
+    }
+  },
+  "services": {
+    "set_settings": {
+      "name": "Set settings",
+      "description": "Changes the settings of Car Keeper. Admin only.",
+      "fields": {
+        "unit": {
+          "name": "Distance unit",
+          "description": "The unit of a new car: km or mi."
+        }
+      }
+    }
+  },
+  "exceptions": {
+    "not_loaded": {
+      "message": "Car Keeper is not loaded. Try again after it starts."
+    }
+  }
+}

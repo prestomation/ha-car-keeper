@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "minor_version": 1,
+  "key": "car_keeper",
+  "data": {
+    "cars": {},
+    "items": {},
+    "services": {},
+    "documents": {},
+    "readings": {},
+    "settings": {
+      "unit": "km"
+    }
+  }
+}

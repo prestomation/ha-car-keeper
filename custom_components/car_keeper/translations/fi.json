@@ -1,0 +1,75 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Car Keeper",
+        "description": "Aseta uuden auton matkan yksikkö. Jokaisella autolla voi olla oma yksikkö.",
+        "data": {
+          "unit": "Matkan yksikkö"
+        },
+        "data_description": {
+          "unit": "Kilometrit tai mailit."
+        }
+      }
+    },
+    "abort": {
+      "already_configured": "Car Keeper on jo määritetty.",
+      "single_instance_allowed": "Car Keeper on jo määritetty.",
+      "home_keeper_missing": "Car Keeper vaatii Home Keeperin. Asenna Home Keeper HACSista, käynnistä Home Assistant uudelleen ja lisää Car Keeper sitten uudelleen. Asennusohjeet: {url}",
+      "home_keeper_not_set_up": "Lisää ensin Home Keeper -integraatio.",
+      "home_keeper_too_old": "Päivitä Home Keeper versioon {version} tai uudempaan."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Car Keeperin asetukset",
+        "data": {
+          "unit": "Matkan yksikkö"
+        },
+        "data_description": {
+          "unit": "Uuden auton yksikkö. Jo lisätty auto säilyttää yksikkönsä."
+        }
+      }
+    }
+  },
+  "selector": {
+    "unit": {
+      "options": {
+        "km": "Kilometrit",
+        "mi": "Mailit"
+      }
+    }
+  },
+  "issues": {
+    "home_keeper_missing": {
+      "title": "Home Keeperiä ei ole asennettu",
+      "description": "Autot-välilehti ja huoltotehtävät tarvitsevat Home Keeperin. Kortit, entiteetit ja palvelut toimivat jo. Asenna Home Keeper HACSista ja käynnistä Home Assistant uudelleen. Asennusohjeet: {url}"
+    },
+    "home_keeper_not_set_up": {
+      "title": "Home Keeperiä ei ole määritetty",
+      "description": "Autot-välilehti ja huoltotehtävät tarvitsevat ladatun Home Keeper -integraation. Kortit, entiteetit ja palvelut toimivat jo. Lisää tai ota käyttöön Home Keeper -integraatio."
+    },
+    "home_keeper_too_old": {
+      "title": "Home Keeper on liian vanha",
+      "description": "Autot-välilehti ja huoltotehtävät tarvitsevat Home Keeperin version {version} tai uudemman. Kortit, entiteetit ja palvelut toimivat jo. Päivitä Home Keeper."
+    }
+  },
+  "services": {
+    "set_settings": {
+      "name": "Aseta asetukset",
+      "description": "Muuttaa Car Keeperin asetuksia. Vain ylläpitäjille.",
+      "fields": {
+        "unit": {
+          "name": "Matkan yksikkö",
+          "description": "Uuden auton yksikkö: km tai mi."
+        }
+      }
+    }
+  },
+  "exceptions": {
+    "not_loaded": {
+      "message": "Car Keeperiä ei ole ladattu. Yritä uudelleen, kun se on käynnistynyt."
+    }
+  }
+}

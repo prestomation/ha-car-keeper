@@ -1,0 +1,10 @@
+set_settings:
+  fields:
+    unit:
+      required: false
+      selector:
+        select:
+          options:
+            - "km"
+            - "mi"
+          translation_key: unit

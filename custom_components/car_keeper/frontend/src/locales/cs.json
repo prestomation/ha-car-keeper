@@ -1,0 +1,11 @@
+{
+  "state.loading": "Načítání",
+  "error.title": "Car Keeper není k dispozici",
+  "garage.empty_title": "Žádná auta",
+  "garage.empty_text": "Přidejte auto a sledujte jeho tachometr a úkony údržby.",
+  "card.garage_name": "Garáž Car Keeper",
+  "card.garage_description": "Zobrazí každé auto s tachometrem a dalším úkonem.",
+  "card.garage_title": "Garáž",
+  "card.no_cars": "Žádná auta",
+  "card.invalid_config": "Konfigurace karty není platná."
+}

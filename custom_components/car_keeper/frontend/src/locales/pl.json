@@ -1,0 +1,11 @@
+{
+  "state.loading": "Ładowanie",
+  "error.title": "Car Keeper jest niedostępny",
+  "garage.empty_title": "Brak samochodów",
+  "garage.empty_text": "Dodaj samochód, aby śledzić jego licznik przebiegu i prace konserwacyjne.",
+  "card.garage_name": "Garaż Car Keeper",
+  "card.garage_description": "Pokazuje każdy samochód z licznikiem przebiegu i następną pracą.",
+  "card.garage_title": "Garaż",
+  "card.no_cars": "Brak samochodów",
+  "card.invalid_config": "Konfiguracja karty jest nieprawidłowa."
+}

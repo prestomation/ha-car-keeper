@@ -1,0 +1,75 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Car Keeper",
+        "description": "Nastavte jednotku vzdálenosti nového auta. Každé auto může mít vlastní jednotku.",
+        "data": {
+          "unit": "Jednotka vzdálenosti"
+        },
+        "data_description": {
+          "unit": "Kilometry nebo míle."
+        }
+      }
+    },
+    "abort": {
+      "already_configured": "Car Keeper je již nastaven.",
+      "single_instance_allowed": "Car Keeper je již nastaven.",
+      "home_keeper_missing": "Car Keeper vyžaduje Home Keeper. Nainstalujte Home Keeper z HACS, restartujte Home Assistant a pak znovu přidejte Car Keeper. Postup instalace: {url}",
+      "home_keeper_not_set_up": "Nejprve přidejte integraci Home Keeper.",
+      "home_keeper_too_old": "Aktualizujte Home Keeper na verzi {version} nebo novější."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Možnosti Car Keeper",
+        "data": {
+          "unit": "Jednotka vzdálenosti"
+        },
+        "data_description": {
+          "unit": "Jednotka nového auta. Auto, které jste již přidali, si ponechá svou jednotku."
+        }
+      }
+    }
+  },
+  "selector": {
+    "unit": {
+      "options": {
+        "km": "Kilometry",
+        "mi": "Míle"
+      }
+    }
+  },
+  "issues": {
+    "home_keeper_missing": {
+      "title": "Home Keeper není nainstalován",
+      "description": "Karta Auta a úkoly údržby potřebují Home Keeper. Karty, entity a služby fungují už nyní. Nainstalujte Home Keeper z HACS a restartujte Home Assistant. Postup instalace: {url}"
+    },
+    "home_keeper_not_set_up": {
+      "title": "Home Keeper není nastaven",
+      "description": "Karta Auta a úkoly údržby potřebují načtenou integraci Home Keeper. Karty, entity a služby fungují už nyní. Přidejte nebo povolte integraci Home Keeper."
+    },
+    "home_keeper_too_old": {
+      "title": "Home Keeper je příliš starý",
+      "description": "Karta Auta a úkoly údržby potřebují Home Keeper verze {version} nebo novější. Karty, entity a služby fungují už nyní. Aktualizujte Home Keeper."
+    }
+  },
+  "services": {
+    "set_settings": {
+      "name": "Nastavit nastavení",
+      "description": "Změní nastavení Car Keeper. Pouze pro správce.",
+      "fields": {
+        "unit": {
+          "name": "Jednotka vzdálenosti",
+          "description": "Jednotka nového auta: km nebo mi."
+        }
+      }
+    }
+  },
+  "exceptions": {
+    "not_loaded": {
+      "message": "Car Keeper není načten. Zkuste to znovu po jeho spuštění."
+    }
+  }
+}
