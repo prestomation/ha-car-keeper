@@ -12,6 +12,8 @@
   "template.coolant": "Охлаждающая жидкость",
   "template.spark_plugs": "Свечи зажигания",
   "template.adblue": "Долив AdBlue",
+  "template.timing_belt": "Ремень ГРМ",
+  "template.gearbox_oil": "Масло в КПП",
   "template.registration": "Регистрация",
   "template.insurance": "Страховка",
   "template.inspection": "Техосмотр"

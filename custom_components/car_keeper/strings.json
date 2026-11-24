@@ -136,6 +136,18 @@
           "name": "Plate",
           "description": "The license plate."
         },
+        "engine_code": {
+          "name": "Engine code",
+          "description": "The engine code of the maker."
+        },
+        "transmission_code": {
+          "name": "Transmission code",
+          "description": "The gearbox code of the maker."
+        },
+        "first_registered": {
+          "name": "First registration",
+          "description": "The date of the first registration of the car."
+        },
         "area_id": {
           "name": "Area",
           "description": "The area of the car in Home Assistant."
@@ -217,6 +229,18 @@
         "plate": {
           "name": "Plate",
           "description": "The license plate."
+        },
+        "engine_code": {
+          "name": "Engine code",
+          "description": "The engine code of the maker."
+        },
+        "transmission_code": {
+          "name": "Transmission code",
+          "description": "The gearbox code of the maker."
+        },
+        "first_registered": {
+          "name": "First registration",
+          "description": "The date of the first registration of the car."
         },
         "area_id": {
           "name": "Area",

@@ -12,6 +12,8 @@
   "template.coolant": "Охолоджувальна рідина",
   "template.spark_plugs": "Свічки запалювання",
   "template.adblue": "Доливання AdBlue",
+  "template.timing_belt": "Ремінь ГРМ",
+  "template.gearbox_oil": "Олива в КПП",
   "template.registration": "Реєстрація",
   "template.insurance": "Страхування",
   "template.inspection": "Техогляд"

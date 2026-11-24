@@ -43,6 +43,18 @@ add_car:
       required: false
       selector:
         text:
+    engine_code:
+      required: false
+      selector:
+        text:
+    transmission_code:
+      required: false
+      selector:
+        text:
+    first_registered:
+      required: false
+      selector:
+        date:
     area_id:
       required: false
       selector:
@@ -152,6 +164,18 @@ update_car:
       required: false
       selector:
         text:
+    engine_code:
+      required: false
+      selector:
+        text:
+    transmission_code:
+      required: false
+      selector:
+        text:
+    first_registered:
+      required: false
+      selector:
+        date:
     area_id:
       required: false
       selector:

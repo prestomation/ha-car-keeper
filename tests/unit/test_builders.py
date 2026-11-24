@@ -30,6 +30,9 @@ def test_build_car_shape() -> None:
         "fuel": "petrol",
         "vin": "",
         "plate": "",
+        "engine_code": "",
+        "transmission_code": "",
+        "first_registered": None,
         "area_id": None,
         "notes": "",
         "lead_distance": 1000,
@@ -220,3 +223,26 @@ def test_field_helpers() -> None:
     }
     assert m.date_field({"d": "2026-01-02T10:00"}, "d") == "2026-01-02"
     assert m.choice({}, "k", ("a",), "a") == "a"
+
+
+def test_the_car_codes_and_the_first_registration() -> None:
+    car = m.build_car(
+        {
+            "name": "Golf",
+            "engine_code": "CJZA",
+            "transmission_code": "DQ200",
+            "first_registered": "2015-04-01",
+        },
+        car_id="c",
+        today="2026-01-01",
+        default_unit="km",
+    )
+    assert car["engine_code"] == "CJZA" and car["transmission_code"] == "DQ200"
+    assert car["first_registered"] == "2015-04-01"
+    with pytest.raises(m.CarKeeperError):
+        m.build_car(
+            {"name": "Golf", "first_registered": "April"},
+            car_id="c",
+            today="2026-01-01",
+            default_unit="km",
+        )

@@ -40,7 +40,8 @@ class Template:
     kind: str = "job"
 
 
-#: The built-in starter jobs. The names are ``template.<id>`` in backend_strings.
+#: The built-in starter jobs. A car with a timing chain has no belt: the user leaves
+#: that job out. The names are ``template.<id>`` in backend_strings.
 TEMPLATES: tuple[Template, ...] = (
     Template("engine_oil", ICE, 15000, 12),
     Template("tyre_rotation", ALL, 10000, 12),
@@ -53,6 +54,10 @@ TEMPLATES: tuple[Template, ...] = (
     Template("coolant", ALL, 100000, 60),
     Template("spark_plugs", ("petrol", "hybrid", "plug_in_hybrid"), 60000, 60),
     Template("adblue", ("diesel",), 10000, None),
+    Template(
+        "timing_belt", ("petrol", "diesel", "hybrid", "plug_in_hybrid"), 100000, 72
+    ),
+    Template("gearbox_oil", ICE, 60000, 48),
     Template("registration", ALL, None, 12, "date"),
     Template("insurance", ALL, None, 12, "date"),
     Template("inspection", ALL, None, 12, "date"),

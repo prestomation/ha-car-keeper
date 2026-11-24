@@ -136,6 +136,18 @@
           "name": "Kennzeichen",
           "description": "Das Kennzeichen."
         },
+        "engine_code": {
+          "name": "Motorcode",
+          "description": "Der Motorcode des Herstellers."
+        },
+        "transmission_code": {
+          "name": "Getriebecode",
+          "description": "Der Getriebecode des Herstellers."
+        },
+        "first_registered": {
+          "name": "Erstzulassung",
+          "description": "Das Datum der Erstzulassung des Autos."
+        },
         "area_id": {
           "name": "Bereich",
           "description": "Der Bereich des Autos in Home Assistant."
@@ -217,6 +229,18 @@
         "plate": {
           "name": "Kennzeichen",
           "description": "Das Kennzeichen."
+        },
+        "engine_code": {
+          "name": "Motorcode",
+          "description": "Der Motorcode des Herstellers."
+        },
+        "transmission_code": {
+          "name": "Getriebecode",
+          "description": "Der Getriebecode des Herstellers."
+        },
+        "first_registered": {
+          "name": "Erstzulassung",
+          "description": "Das Datum der Erstzulassung des Autos."
         },
         "area_id": {
           "name": "Bereich",

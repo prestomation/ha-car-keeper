@@ -136,6 +136,18 @@
           "name": "Kenteken",
           "description": "Het kenteken."
         },
+        "engine_code": {
+          "name": "Motorcode",
+          "description": "De motorcode van de fabrikant."
+        },
+        "transmission_code": {
+          "name": "Versnellingsbakcode",
+          "description": "De versnellingsbakcode van de fabrikant."
+        },
+        "first_registered": {
+          "name": "Eerste toelating",
+          "description": "De datum van de eerste toelating van de auto."
+        },
         "area_id": {
           "name": "Ruimte",
           "description": "De ruimte van de auto in Home Assistant."
@@ -217,6 +229,18 @@
         "plate": {
           "name": "Kenteken",
           "description": "Het kenteken."
+        },
+        "engine_code": {
+          "name": "Motorcode",
+          "description": "De motorcode van de fabrikant."
+        },
+        "transmission_code": {
+          "name": "Versnellingsbakcode",
+          "description": "De versnellingsbakcode van de fabrikant."
+        },
+        "first_registered": {
+          "name": "Eerste toelating",
+          "description": "De datum van de eerste toelating van de auto."
         },
         "area_id": {
           "name": "Ruimte",

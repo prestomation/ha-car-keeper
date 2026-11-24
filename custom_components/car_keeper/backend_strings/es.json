@@ -12,6 +12,8 @@
   "template.coolant": "Refrigerante",
   "template.spark_plugs": "Bujías",
   "template.adblue": "Recarga de AdBlue",
+  "template.timing_belt": "Correa de distribución",
+  "template.gearbox_oil": "Aceite de la caja de cambios",
   "template.registration": "Matriculación",
   "template.insurance": "Seguro",
   "template.inspection": "Inspección técnica"

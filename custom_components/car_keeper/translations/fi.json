@@ -136,6 +136,18 @@
           "name": "Rekisterikilpi",
           "description": "Rekisterikilpi."
         },
+        "engine_code": {
+          "name": "Moottorikoodi",
+          "description": "Valmistajan moottorikoodi."
+        },
+        "transmission_code": {
+          "name": "Vaihteistokoodi",
+          "description": "Valmistajan vaihteistokoodi."
+        },
+        "first_registered": {
+          "name": "Ensirekisteröinti",
+          "description": "Auton ensirekisteröinnin päivä."
+        },
         "area_id": {
           "name": "Alue",
           "description": "Auton alue Home Assistantissa."
@@ -217,6 +229,18 @@
         "plate": {
           "name": "Rekisterikilpi",
           "description": "Rekisterikilpi."
+        },
+        "engine_code": {
+          "name": "Moottorikoodi",
+          "description": "Valmistajan moottorikoodi."
+        },
+        "transmission_code": {
+          "name": "Vaihteistokoodi",
+          "description": "Valmistajan vaihteistokoodi."
+        },
+        "first_registered": {
+          "name": "Ensirekisteröinti",
+          "description": "Auton ensirekisteröinnin päivä."
         },
         "area_id": {
           "name": "Alue",

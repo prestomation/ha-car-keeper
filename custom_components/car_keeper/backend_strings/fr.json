@@ -12,6 +12,8 @@
   "template.coolant": "Liquide de refroidissement",
   "template.spark_plugs": "Bougies",
   "template.adblue": "Appoint d'AdBlue",
+  "template.timing_belt": "Courroie de distribution",
+  "template.gearbox_oil": "Huile de boîte de vitesses",
   "template.registration": "Immatriculation",
   "template.insurance": "Assurance",
   "template.inspection": "Contrôle technique"

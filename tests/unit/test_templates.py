@@ -22,6 +22,8 @@ def test_ids_are_unique_and_stable() -> None:
         "coolant",
         "spark_plugs",
         "adblue",
+        "timing_belt",
+        "gearbox_oil",
         "registration",
         "insurance",
         "inspection",

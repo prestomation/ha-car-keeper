@@ -136,6 +136,18 @@
           "name": "Tablica rejestracyjna",
           "description": "Tablica rejestracyjna."
         },
+        "engine_code": {
+          "name": "Kod silnika",
+          "description": "Kod silnika producenta."
+        },
+        "transmission_code": {
+          "name": "Kod skrzyni biegów",
+          "description": "Kod skrzyni biegów producenta."
+        },
+        "first_registered": {
+          "name": "Pierwsza rejestracja",
+          "description": "Data pierwszej rejestracji samochodu."
+        },
         "area_id": {
           "name": "Obszar",
           "description": "Obszar samochodu w Home Assistant."
@@ -217,6 +229,18 @@
         "plate": {
           "name": "Tablica rejestracyjna",
           "description": "Tablica rejestracyjna."
+        },
+        "engine_code": {
+          "name": "Kod silnika",
+          "description": "Kod silnika producenta."
+        },
+        "transmission_code": {
+          "name": "Kod skrzyni biegów",
+          "description": "Kod skrzyni biegów producenta."
+        },
+        "first_registered": {
+          "name": "Pierwsza rejestracja",
+          "description": "Data pierwszej rejestracji samochodu."
         },
         "area_id": {
           "name": "Obszar",

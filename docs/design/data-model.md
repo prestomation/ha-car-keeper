@@ -6,7 +6,7 @@ implements:
   - custom_components/car_keeper/store.py
   - custom_components/car_keeper/import_export.py
 related: [architecture, odometer-schedule, services-events]
-source_hash: eb77b9769d1d
+source_hash: 0c28347071ac
 ---
 
 # Data model
@@ -47,7 +47,7 @@ value of the wrong type with the empty value.
 
 | Record | Fields |
 |---|---|
-| Car | `name`, `make`, `model`, `year`, `trim`, `fuel`, `unit`, `vin`, `plate`, `area_id`, `notes`, `lead_distance`, `lead_days`, `odometer`, `photo`, `created`, `hk_asset_id` |
+| Car | `name`, `make`, `model`, `year`, `trim`, `fuel`, `unit`, `vin`, `plate`, `engine_code`, `transmission_code`, `first_registered`, `area_id`, `notes`, `lead_distance`, `lead_days`, `odometer`, `photo`, `created`, `hk_asset_id` |
 | Item | `car_id`, `name`, `kind` (`job` or `date`), `interval_distance`, `interval_months`, `due_date`, `lead_distance`, `lead_days`, `notes`, `enabled`, `add_task`, `parts`, `template_id`, `start`, `last_done`, `hk_task_id`, `notified` |
 | Service record | `car_id`, `date`, `reading`, `items`, `shop`, `notes`, `who`, `cost`, `parts_used`, `logged`, `origin`, `hk_completions` |
 | Reading | `ts`, `value`, `source` (`manual`, `entity`, `service`, `correction`), `by` |

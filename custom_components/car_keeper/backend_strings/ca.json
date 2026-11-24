@@ -12,6 +12,8 @@
   "template.coolant": "Refrigerant",
   "template.spark_plugs": "Bugies",
   "template.adblue": "Recàrrega d'AdBlue",
+  "template.timing_belt": "Corretja de distribució",
+  "template.gearbox_oil": "Oli de la caixa de canvis",
   "template.registration": "Matriculació",
   "template.insurance": "Assegurança",
   "template.inspection": "Inspecció tècnica"

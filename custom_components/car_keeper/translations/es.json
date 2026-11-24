@@ -136,6 +136,18 @@
           "name": "Matrícula",
           "description": "La matrícula."
         },
+        "engine_code": {
+          "name": "Código de motor",
+          "description": "El código de motor del fabricante."
+        },
+        "transmission_code": {
+          "name": "Código de transmisión",
+          "description": "El código de la caja de cambios del fabricante."
+        },
+        "first_registered": {
+          "name": "Primera matriculación",
+          "description": "La fecha de la primera matriculación del coche."
+        },
         "area_id": {
           "name": "Área",
           "description": "El área del coche en Home Assistant."
@@ -217,6 +229,18 @@
         "plate": {
           "name": "Matrícula",
           "description": "La matrícula."
+        },
+        "engine_code": {
+          "name": "Código de motor",
+          "description": "El código de motor del fabricante."
+        },
+        "transmission_code": {
+          "name": "Código de transmisión",
+          "description": "El código de la caja de cambios del fabricante."
+        },
+        "first_registered": {
+          "name": "Primera matriculación",
+          "description": "La fecha de la primera matriculación del coche."
         },
         "area_id": {
           "name": "Área",

@@ -136,6 +136,18 @@
           "name": "车牌",
           "description": "车牌号码。"
         },
+        "engine_code": {
+          "name": "发动机代码",
+          "description": "制造商的发动机代码。"
+        },
+        "transmission_code": {
+          "name": "变速箱代码",
+          "description": "制造商的变速箱代码。"
+        },
+        "first_registered": {
+          "name": "首次登记",
+          "description": "车辆首次登记的日期。"
+        },
         "area_id": {
           "name": "区域",
           "description": "车辆在 Home Assistant 中的区域。"
@@ -217,6 +229,18 @@
         "plate": {
           "name": "车牌",
           "description": "车牌号码。"
+        },
+        "engine_code": {
+          "name": "发动机代码",
+          "description": "制造商的发动机代码。"
+        },
+        "transmission_code": {
+          "name": "变速箱代码",
+          "description": "制造商的变速箱代码。"
+        },
+        "first_registered": {
+          "name": "首次登记",
+          "description": "车辆首次登记的日期。"
         },
         "area_id": {
           "name": "区域",

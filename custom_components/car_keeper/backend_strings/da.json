@@ -12,6 +12,8 @@
   "template.coolant": "Kølervæske",
   "template.spark_plugs": "Tændrør",
   "template.adblue": "Påfyldning af AdBlue",
+  "template.timing_belt": "Tandrem",
+  "template.gearbox_oil": "Gearolie",
   "template.registration": "Registrering",
   "template.insurance": "Forsikring",
   "template.inspection": "Syn"

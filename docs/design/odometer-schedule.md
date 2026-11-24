@@ -9,7 +9,7 @@ implements:
   - custom_components/car_keeper/templates.py
   - custom_components/car_keeper/odometer.py
 related: [data-model, entities, frontend]
-source_hash: 584fca633503
+source_hash: 97cbaf4c1932
 ---
 
 # Odometer and due rule
@@ -84,10 +84,11 @@ parts back.
 
 ### Starter jobs
 
-`templates.TEMPLATES` holds 14 common jobs with the fuel types that need them, a distance in
-km and a number of months. Registration, insurance and inspection are date jobs. The
-`templates` setting changes an interval or turns a job off. `templates.items_for` converts
-the distance to the unit of the car and rounds it to 100.
+`templates.TEMPLATES` holds 16 common jobs with the fuel types that need them, a distance in
+km and a number of months. Registration, insurance and inspection are date jobs. A car with
+a timing chain leaves the timing belt out. The `templates` setting changes an interval or
+turns a job off. `templates.items_for` converts the distance to the unit of the car and
+rounds it to 100.
 
 ### Tests
 

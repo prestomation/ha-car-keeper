@@ -136,6 +136,18 @@
           "name": "Targa",
           "description": "La targa."
         },
+        "engine_code": {
+          "name": "Codice motore",
+          "description": "Il codice motore del costruttore."
+        },
+        "transmission_code": {
+          "name": "Codice cambio",
+          "description": "Il codice del cambio del costruttore."
+        },
+        "first_registered": {
+          "name": "Prima immatricolazione",
+          "description": "La data della prima immatricolazione dell'auto."
+        },
         "area_id": {
           "name": "Area",
           "description": "L'area dell'auto in Home Assistant."
@@ -217,6 +229,18 @@
         "plate": {
           "name": "Targa",
           "description": "La targa."
+        },
+        "engine_code": {
+          "name": "Codice motore",
+          "description": "Il codice motore del costruttore."
+        },
+        "transmission_code": {
+          "name": "Codice cambio",
+          "description": "Il codice del cambio del costruttore."
+        },
+        "first_registered": {
+          "name": "Prima immatricolazione",
+          "description": "La data della prima immatricolazione dell'auto."
         },
         "area_id": {
           "name": "Area",

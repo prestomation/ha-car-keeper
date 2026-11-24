@@ -136,6 +136,18 @@
           "name": "Номерний знак",
           "description": "Номерний знак."
         },
+        "engine_code": {
+          "name": "Код двигуна",
+          "description": "Код двигуна виробника."
+        },
+        "transmission_code": {
+          "name": "Код КПП",
+          "description": "Код коробки передач виробника."
+        },
+        "first_registered": {
+          "name": "Перша реєстрація",
+          "description": "Дата першої реєстрації автомобіля."
+        },
         "area_id": {
           "name": "Простір",
           "description": "Простір автомобіля в Home Assistant."
@@ -217,6 +229,18 @@
         "plate": {
           "name": "Номерний знак",
           "description": "Номерний знак."
+        },
+        "engine_code": {
+          "name": "Код двигуна",
+          "description": "Код двигуна виробника."
+        },
+        "transmission_code": {
+          "name": "Код КПП",
+          "description": "Код коробки передач виробника."
+        },
+        "first_registered": {
+          "name": "Перша реєстрація",
+          "description": "Дата першої реєстрації автомобіля."
         },
         "area_id": {
           "name": "Простір",

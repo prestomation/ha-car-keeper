@@ -136,6 +136,18 @@
           "name": "Skilt",
           "description": "Registreringsskiltet."
         },
+        "engine_code": {
+          "name": "Motorkode",
+          "description": "Produsentens motorkode."
+        },
+        "transmission_code": {
+          "name": "Girkassekode",
+          "description": "Produsentens girkassekode."
+        },
+        "first_registered": {
+          "name": "Første registrering",
+          "description": "Datoen for bilens første registrering."
+        },
         "area_id": {
           "name": "Område",
           "description": "Bilens område i Home Assistant."
@@ -217,6 +229,18 @@
         "plate": {
           "name": "Skilt",
           "description": "Registreringsskiltet."
+        },
+        "engine_code": {
+          "name": "Motorkode",
+          "description": "Produsentens motorkode."
+        },
+        "transmission_code": {
+          "name": "Girkassekode",
+          "description": "Produsentens girkassekode."
+        },
+        "first_registered": {
+          "name": "Første registrering",
+          "description": "Datoen for bilens første registrering."
         },
         "area_id": {
           "name": "Område",
