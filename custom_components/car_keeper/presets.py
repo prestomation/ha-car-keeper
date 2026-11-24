@@ -535,20 +535,18 @@ def preset_ids(rows: list[dict[str, Any]], companion: str) -> list[str]:
     """
     out: list[str] = []
     for row in rows:
-        seen: list[tuple[str, str, str, str]] = []
         for duty in row["duties"]:
-            group = (
+            # No platform part for a sensor, the default platform.
+            platform = duty.get("platform")
+            parts = (
+                row["domain"],
                 duty["shape"],
-                duty.get("platform", "sensor"),
-                duty.get("state", ""),
-                duty.get("device_class", ""),
+                None if platform == "sensor" else platform,
+                duty.get("state"),
             )
-            if group not in seen:
-                seen.append(group)
-        for shape, platform, state, _device_class in seen:
-            parts = [row["domain"], shape, "" if platform == "sensor" else platform]
-            parts.append(state)
-            out.append(companion + ID_SEPARATOR + "_".join(p for p in parts if p))
+            preset_id = companion + ID_SEPARATOR + "_".join(p for p in parts if p)
+            if preset_id not in out:
+                out.append(preset_id)
     return out
 
 

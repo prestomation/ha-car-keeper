@@ -16,14 +16,14 @@ const PLURAL = /^(.*)\.(zero|one|two|few|many|other)$/;
 const IDENTICAL = new Set(['car.vin', 'status.ok']);
 
 // Words that are the same as English in one language, reviewed one by one.
-// "Garage" and "Integration" are the native words in the languages listed.
+// "Garage" is the native word in the languages listed.
 const COGNATES = {
-  da: ['card.garage_title', 'presets.integration'],
-  de: ['card.garage_title', 'presets.integration'],
+  da: ['card.garage_title'],
+  de: ['card.garage_title'],
   fr: ['card.garage_title'],
   it: ['card.garage_title'],
   nl: ['card.garage_title'],
-  sv: ['card.garage_title', 'presets.integration'],
+  sv: ['card.garage_title'],
 };
 
 const tokens = (s) => [...new Set(String(s).match(/\{\w+\}/g) ?? [])].sort();

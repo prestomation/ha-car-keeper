@@ -54,7 +54,7 @@ test('record the Car Keeper walkthrough', async ({ browser }) => {
     await beat(page, 2);
     // 5. Add car offers the starter jobs of the fuel type.
     await openTab(page, '/settings');
-    await tab.locator('[data-view="presets"]').evaluate((el) => el.scrollIntoView({ block: 'start', behavior: 'smooth' }));
+    await tab.locator('[data-section="presets"]').evaluate((el) => el.scrollIntoView({ block: 'start', behavior: 'smooth' }));
     await beat(page, 2);
 
     await openTab(page, '/add');

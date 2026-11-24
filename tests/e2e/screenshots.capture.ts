@@ -40,7 +40,7 @@ async function surfaces(page: Page, suffix: string): Promise<void> {
   await openTab(page, '/settings');
   await shot(page, `settings-${suffix}`);
   // The Home Keeper presets section, at the top of the view.
-  await carsTab(page).locator('[data-view="presets"]').evaluate((el) => el.scrollIntoView({ block: 'start' }));
+  await carsTab(page).locator('[data-section="presets"]').evaluate((el) => el.scrollIntoView({ block: 'start' }));
   await shot(page, `presets-${suffix}`);
   await openCarCard(page);
   await shot(page, `cards-${suffix}`);

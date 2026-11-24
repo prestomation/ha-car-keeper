@@ -5,7 +5,7 @@ implements:
   - custom_components/car_keeper/presets.py
   - custom_components/car_keeper/hk_presets.py
 related: [home-keeper-link, frontend, services-events]
-source_hash: 173580d3ba3c
+source_hash: 13641684bc7e
 ---
 
 # Car presets in Home Keeper

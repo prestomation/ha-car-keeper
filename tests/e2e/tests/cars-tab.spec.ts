@@ -82,7 +82,7 @@ test.describe('Cars tab', () => {
 
   test('lists the car presets and their status in Home Keeper', async ({ page }) => {
     const tab = await openTab(page, '/settings');
-    const section = tab.locator('[data-view="presets"]');
+    const section = tab.locator('[data-section="presets"]');
     await expect(section.locator('[data-preset="volvo"]')).toContainText('Volvo Cars');
     const status = section.locator('[data-k="presets-status"]');
     // The lanes with the Home Keeper presets pin (CK_EXPECT_PRESETS=1) must register.

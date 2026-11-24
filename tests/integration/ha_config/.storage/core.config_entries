@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "minor_version": 5,
+  "minor_version": 1,
   "key": "core.config_entries",
   "data": {
     "entries": [
@@ -16,11 +16,7 @@
         "pref_disable_polling": false,
         "source": "user",
         "unique_id": "home_keeper_local",
-        "disabled_by": null,
-        "created_at": "1970-01-01T00:00:00+00:00",
-        "modified_at": "1970-01-01T00:00:00+00:00",
-        "discovery_keys": {},
-        "subentries": {}
+        "disabled_by": null
       },
       {
         "entry_id": "car_keeper_test_entry",
@@ -29,18 +25,12 @@
         "domain": "car_keeper",
         "title": "Car Keeper",
         "data": {},
-        "options": {
-          "unit": "km"
-        },
+        "options": {"unit": "km"},
         "pref_disable_new_entities": false,
         "pref_disable_polling": false,
         "source": "user",
         "unique_id": "car_keeper",
-        "disabled_by": null,
-        "created_at": "1970-01-01T00:00:00+00:00",
-        "modified_at": "1970-01-01T00:00:00+00:00",
-        "discovery_keys": {},
-        "subentries": {}
+        "disabled_by": null
       }
     ]
   }

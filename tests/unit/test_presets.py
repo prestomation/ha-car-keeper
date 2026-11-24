@@ -149,22 +149,27 @@ def test_preset_ids_follow_the_home_keeper_rule() -> None:
                     "state": "on",
                     "keys": ["w"],
                 },
+                # An explicit sensor platform is the same group as no platform.
                 {
                     "duty": "e",
                     "shape": "percent_low",
-                    "device_class": "x",
+                    "platform": "sensor",
                     "keys": ["v"],
                 },
                 {"duty": "f", "shape": "percent_low", "keys": ["u"]},
             ],
-        }
+        },
+        {
+            "domain": "van",
+            "duties": [{"duty": "a", "shape": "life_low", "keys": ["x"]}],
+        },
     ]
     assert presets.preset_ids(rows, "ck") == [
         "ck/car_life_low",
         "ck/car_alert_on",
         "ck/car_alert_binary_sensor_on",
         "ck/car_percent_low",
-        "ck/car_percent_low",
+        "ck/van_life_low",
     ]
 
 

@@ -381,17 +381,16 @@ export function presetStatus(presets: Presets): string {
 export function presetsSection(presets: Presets): string {
   const rows = (presets.rows ?? [])
     .map(
-      (row) => `<tr data-preset="${e(row.domain)}"><td>${e(row.brand)}</td>
-      <td>${e(row.duties.map((duty) => t(`duty.${duty}`)).join(', '))}</td></tr>`,
+      (row) => `<li data-preset="${e(row.domain)}"><span class="ck-preset-brand">${e(row.brand)}</span>
+      <span class="ck-muted">${e(row.duties.map((duty) => t(`duty.${duty}`)).join(', '))}</span></li>`,
     )
     .join('');
-  return `<section class="ck-card" data-view="presets">
+  return `<section class="ck-card" data-section="presets">
       <h2>${e(t('presets.title'))}</h2>
       <p>${e(t('presets.intro'))}</p>
       <p class="ck-note" data-k="presets-status" data-status="${e(presets.status ?? 'waiting')}">${e(
         presetStatus(presets),
       )}</p>
-      <div class="ck-table-wrap"><table class="ck-table"><thead><tr><th>${e(t('presets.integration'))}</th>
-        <th>${e(t('presets.tasks'))}</th></tr></thead><tbody>${rows}</tbody></table></div>
+      <ul class="ck-presets" aria-label="${e(t('presets.title'))}">${rows}</ul>
     </section>`;
 }

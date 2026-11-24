@@ -8,7 +8,7 @@ implements:
   - custom_components/car_keeper/frontend/src/*.ts
   - custom_components/car_keeper/frontend/src/locales/*.ts
 related: [architecture, home-keeper-link]
-source_hash: 7393c5a62886
+source_hash: ff098878ff57
 ---
 
 # Cars tab and cards

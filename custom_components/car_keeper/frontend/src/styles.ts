@@ -89,6 +89,10 @@ export const TAB_STYLES = `${TOKENS}${SHARED}
   .ck-table th, .ck-table td { text-align: left; padding: 6px; border-top: 1px solid var(--ck-divider); }
   .ck-table input[type='number'] { width: 84px; }
   .ck-table td:first-child { width: 100%; }
+  .ck-presets { list-style: none; margin: 0; padding: 0; }
+  .ck-presets li { display: grid; grid-template-columns: minmax(10rem, 18rem) minmax(0, 1fr);
+    gap: 4px 16px; padding: 8px 0; border-top: 1px solid var(--ck-divider); }
+  .ck-preset-brand { font-weight: 500; }
   .ck-modal { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.45); display: flex;
     align-items: center; justify-content: center; z-index: 10; padding: 16px; }
   .ck-dialog { background: var(--ck-surface); color: var(--ck-text); border-radius: var(--ck-radius);
@@ -99,6 +103,7 @@ export const TAB_STYLES = `${TOKENS}${SHARED}
     .ck-page { padding: 8px 16px; }
     .ck-columns { grid-template-columns: minmax(0, 1fr); }
     .ck-head h1 { font-size: 20px; }
+    .ck-presets li { grid-template-columns: minmax(0, 1fr); }
   }
 `;
 

@@ -47,6 +47,11 @@ def test_state_reply() -> None:
         m.empty_state(), today="2026-10-01", tab=True, revision=1, presets=presets
     )
     assert reply["presets"] == presets
+    state = m.empty_state()
+    state["settings"]["templates"] = {"wipers": {"enabled": False}}
+    reply = pr.project_state(state, today="2026-10-01", tab=True, revision=1)
+    wipers = next(j for j in reply["starter_jobs"] if j["id"] == "wipers")
+    assert wipers["enabled"] is False
 
 
 def test_normalize_keeps_the_sync_queue() -> None:

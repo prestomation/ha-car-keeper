@@ -4,7 +4,9 @@ These are common intervals, not the schedule of a car maker. The tab tells the
 user to check the manual of the car where the user accepts them. Each starter job
 has an id, the fuel types that need it, a distance in km and a number of months.
 A date job (registration, insurance, inspection) has a due date that the user
-gives, and repeats every 12 months.
+gives, and repeats every 12 months. For the inspection, 12 months is the shortest
+common rule (the UK MOT, many US states). The country and the age of the car decide
+the real interval, such as 24 months for the German HU, and the tab says so.
 
 An admin can change the interval of a starter job, or turn it off, with the
 ``templates`` setting (:func:`effective`). :func:`items_for` turns the selected

@@ -22,6 +22,9 @@ of its jobs:
 3. Type the odometer reading now. You can connect a sensor later. Select **Next**.
 4. Select the starter jobs. Car Keeper offers the common jobs of the fuel type. Check the
    manual of your car, because these are common intervals, not the schedule of the maker.
+   The inspection repeats every 12 months, the shortest common rule. Your country and the
+   age of the car decide the real interval, such as 24 months in Germany. Change it in
+   **Settings** or on the job.
 5. Select **Add car**.
 
 ![The starter jobs of a new car](../../images/add-car-desktop.png)
