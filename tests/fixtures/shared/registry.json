@@ -1,4 +1,21 @@
 {
   "about": "The rules that Python and TypeScript share. Each entry names its golden corpus, the Python test that writes and checks it, and the vitest file that replays it.",
-  "rules": []
+  "rules": [
+    {
+      "name": "units",
+      "corpus": "tests/fixtures/shared/units.json",
+      "python": "custom_components/car_keeper/units.py",
+      "typescript": "custom_components/car_keeper/frontend/src/units.ts",
+      "pytest": "tests/unit/test_units.py",
+      "vitest": "custom_components/car_keeper/frontend/test/shared-corpus.test.js"
+    },
+    {
+      "name": "schedule",
+      "corpus": "tests/fixtures/shared/schedule.json",
+      "python": "custom_components/car_keeper/schedule.py",
+      "typescript": "custom_components/car_keeper/frontend/src/schedule.ts",
+      "pytest": "tests/unit/test_schedule.py",
+      "vitest": "custom_components/car_keeper/frontend/test/shared-corpus.test.js"
+    }
+  ]
 }

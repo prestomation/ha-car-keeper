@@ -16,7 +16,7 @@ test.describe('Cars tab', () => {
   test('a user who is not an admin reads the same state', async () => {
     const state = await userState();
     expect(state.tab).toBe(true);
-    expect(state.settings).toEqual({ unit: 'km' });
+    expect(state.settings).toEqual({ unit: 'km', templates: {} });
   });
 
   test('the tab element is the only Car Keeper element in the panel', async ({ page }) => {

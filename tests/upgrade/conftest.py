@@ -181,8 +181,17 @@ def upgraded() -> Iterator[dict[str, Any]]:
     try:
         _compose(config, OLD_HA_TAG, old_hk, "up", "-d")
         client.wait()
-        before = client.ws("car_keeper/get_state")
         written = client.call("set_settings", {"unit": "mi"})
+        car = client.call(
+            "add_car",
+            {"name": "Upgrade car", "odometer": 12000, "starter_jobs": ["engine_oil"]},
+        )["car"]
+        items = client.call("list_items", {"car_id": car["id"]})["items"]
+        client.call(
+            "log_service",
+            {"car_id": car["id"], "items": [items[0]["id"]], "reading": 12100},
+        )
+        before = client.ws("car_keeper/get_state")
         _compose(config, OLD_HA_TAG, old_hk, "stop")
         _compose(config, NEW_HA_TAG, new_hk, "up", "-d", "--force-recreate")
         client.wait()

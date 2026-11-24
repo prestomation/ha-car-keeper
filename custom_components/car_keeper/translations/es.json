@@ -39,6 +39,46 @@
         "km": "Kilómetros",
         "mi": "Millas"
       }
+    },
+    "fuel": {
+      "options": {
+        "petrol": "Gasolina",
+        "diesel": "Diésel",
+        "hybrid": "Híbrido",
+        "plug_in_hybrid": "Híbrido enchufable",
+        "electric": "Eléctrico",
+        "other": "Otro"
+      }
+    },
+    "odometer_source": {
+      "options": {
+        "manual": "Introducido",
+        "entity": "Sensor"
+      }
+    },
+    "kind": {
+      "options": {
+        "job": "Trabajo periódico",
+        "date": "Fecha"
+      }
+    },
+    "template": {
+      "options": {
+        "engine_oil": "Aceite y filtro del motor",
+        "tyre_rotation": "Rotación de neumáticos",
+        "tyre_check": "Presión y dibujo de neumáticos",
+        "brake_fluid": "Líquido de frenos",
+        "cabin_filter": "Filtro de habitáculo",
+        "engine_air_filter": "Filtro de aire del motor",
+        "wipers": "Escobillas",
+        "battery_12v": "Prueba de la batería de 12 V",
+        "coolant": "Refrigerante",
+        "spark_plugs": "Bujías",
+        "adblue": "Recarga de AdBlue",
+        "registration": "Matriculación",
+        "insurance": "Seguro",
+        "inspection": "Inspección técnica"
+      }
     }
   },
   "issues": {
@@ -53,9 +93,429 @@
     "home_keeper_too_old": {
       "title": "Home Keeper es demasiado antiguo",
       "description": "La pestaña Coches y las tareas de mantenimiento necesitan Home Keeper versión {version} o posterior. Las tarjetas, las entidades y los servicios ya funcionan. Actualiza Home Keeper."
+    },
+    "odometer_decreased": {
+      "title": "El cuentakilómetros de {car} ha bajado",
+      "description": "El sensor del cuentakilómetros de {car} informó {value} {unit} 2 veces, por debajo de la última lectura de {current} {unit}. Car Keeper mantiene la última lectura. Si el sensor es erróneo, corrige el sensor. Si el coche tiene un cuadro de instrumentos nuevo, corrige el cuentakilómetros del coche y define un desplazamiento."
     }
   },
   "services": {
+    "add_car": {
+      "name": "Añadir coche",
+      "description": "Añade un coche con su cuentakilómetros y los trabajos iniciales seleccionados. Solo administradores.",
+      "fields": {
+        "name": {
+          "name": "Nombre",
+          "description": "El nombre del coche."
+        },
+        "make": {
+          "name": "Marca",
+          "description": "El fabricante del coche."
+        },
+        "model": {
+          "name": "Modelo",
+          "description": "El modelo del coche."
+        },
+        "year": {
+          "name": "Año",
+          "description": "El año del modelo."
+        },
+        "trim": {
+          "name": "Acabado",
+          "description": "El acabado o la versión."
+        },
+        "fuel": {
+          "name": "Combustible",
+          "description": "El tipo de combustible. Selecciona los trabajos iniciales."
+        },
+        "vin": {
+          "name": "VIN",
+          "description": "El número de identificación del vehículo."
+        },
+        "plate": {
+          "name": "Matrícula",
+          "description": "La matrícula."
+        },
+        "area_id": {
+          "name": "Área",
+          "description": "El área del coche en Home Assistant."
+        },
+        "notes": {
+          "name": "Notas",
+          "description": "Notas."
+        },
+        "lead_distance": {
+          "name": "Distancia de aviso",
+          "description": "La distancia antes de un límite en la que un trabajo está próximo."
+        },
+        "lead_days": {
+          "name": "Días de aviso",
+          "description": "Los días antes de un límite en los que un trabajo está próximo."
+        },
+        "unit": {
+          "name": "Unidad de distancia",
+          "description": "km o mi."
+        },
+        "odometer_source": {
+          "name": "Origen del cuentakilómetros",
+          "description": "Introduce el cuentakilómetros o léelo de un sensor."
+        },
+        "odometer_entity_id": {
+          "name": "Sensor del cuentakilómetros",
+          "description": "El sensor que informa del cuentakilómetros."
+        },
+        "odometer": {
+          "name": "Cuentakilómetros",
+          "description": "La lectura actual, en la unidad del coche."
+        },
+        "starter_jobs": {
+          "name": "Trabajos iniciales",
+          "description": "Los ID de los trabajos iniciales que se añaden."
+        },
+        "due_dates": {
+          "name": "Fechas de vencimiento",
+          "description": "La fecha de vencimiento de cada trabajo inicial con fecha, por su ID."
+        }
+      }
+    },
+    "update_car": {
+      "name": "Actualizar coche",
+      "description": "Cambia los campos de un coche. Un cambio de unidad convierte cada valor del coche. Solo administradores.",
+      "fields": {
+        "car_id": {
+          "name": "Coche",
+          "description": "El ID del coche."
+        },
+        "name": {
+          "name": "Nombre",
+          "description": "El nombre del coche."
+        },
+        "make": {
+          "name": "Marca",
+          "description": "El fabricante del coche."
+        },
+        "model": {
+          "name": "Modelo",
+          "description": "El modelo del coche."
+        },
+        "year": {
+          "name": "Año",
+          "description": "El año del modelo."
+        },
+        "trim": {
+          "name": "Acabado",
+          "description": "El acabado o la versión."
+        },
+        "fuel": {
+          "name": "Combustible",
+          "description": "El tipo de combustible. Selecciona los trabajos iniciales."
+        },
+        "vin": {
+          "name": "VIN",
+          "description": "El número de identificación del vehículo."
+        },
+        "plate": {
+          "name": "Matrícula",
+          "description": "La matrícula."
+        },
+        "area_id": {
+          "name": "Área",
+          "description": "El área del coche en Home Assistant."
+        },
+        "notes": {
+          "name": "Notas",
+          "description": "Notas."
+        },
+        "lead_distance": {
+          "name": "Distancia de aviso",
+          "description": "La distancia antes de un límite en la que un trabajo está próximo."
+        },
+        "lead_days": {
+          "name": "Días de aviso",
+          "description": "Los días antes de un límite en los que un trabajo está próximo."
+        },
+        "unit": {
+          "name": "Unidad de distancia",
+          "description": "km o mi."
+        },
+        "odometer_source": {
+          "name": "Origen del cuentakilómetros",
+          "description": "Introduce el cuentakilómetros o léelo de un sensor."
+        },
+        "odometer_entity_id": {
+          "name": "Sensor del cuentakilómetros",
+          "description": "El sensor que informa del cuentakilómetros."
+        }
+      }
+    },
+    "delete_car": {
+      "name": "Eliminar coche",
+      "description": "Elimina un coche con sus trabajos, registros de servicio y lecturas. Solo administradores.",
+      "fields": {
+        "car_id": {
+          "name": "Coche",
+          "description": "El ID del coche."
+        }
+      }
+    },
+    "set_odometer": {
+      "name": "Definir cuentakilómetros",
+      "description": "Guarda una lectura del cuentakilómetros. El valor no puede ser inferior a la última lectura.",
+      "fields": {
+        "car_id": {
+          "name": "Coche",
+          "description": "El ID del coche."
+        },
+        "value": {
+          "name": "Lectura",
+          "description": "La lectura del cuentakilómetros, en la unidad del coche."
+        }
+      }
+    },
+    "correct_odometer": {
+      "name": "Corregir cuentakilómetros",
+      "description": "Guarda cualquier lectura, también una inferior, y un desplazamiento opcional para un cuadro de instrumentos nuevo. Solo administradores.",
+      "fields": {
+        "car_id": {
+          "name": "Coche",
+          "description": "El ID del coche."
+        },
+        "value": {
+          "name": "Lectura",
+          "description": "La lectura del cuentakilómetros, en la unidad del coche."
+        },
+        "offset": {
+          "name": "Desplazamiento",
+          "description": "Se suma a cada valor posterior del sensor, para un cuadro de instrumentos nuevo."
+        }
+      }
+    },
+    "add_item": {
+      "name": "Añadir trabajo",
+      "description": "Añade un trabajo de mantenimiento a un coche. Solo administradores.",
+      "fields": {
+        "car_id": {
+          "name": "Coche",
+          "description": "El ID del coche."
+        },
+        "name": {
+          "name": "Nombre",
+          "description": "El nombre del trabajo."
+        },
+        "kind": {
+          "name": "Tipo",
+          "description": "Un trabajo con intervalo, o una fecha como una matriculación."
+        },
+        "interval_distance": {
+          "name": "Intervalo de distancia",
+          "description": "La distancia entre 2 servicios, en la unidad del coche."
+        },
+        "interval_months": {
+          "name": "Intervalo de tiempo",
+          "description": "Los meses entre 2 servicios."
+        },
+        "due_date": {
+          "name": "Fecha de vencimiento",
+          "description": "La fecha de vencimiento de un trabajo con fecha."
+        },
+        "lead_distance": {
+          "name": "Distancia de aviso",
+          "description": "La distancia antes de un límite en la que un trabajo está próximo."
+        },
+        "lead_days": {
+          "name": "Días de aviso",
+          "description": "Los días antes de un límite en los que un trabajo está próximo."
+        },
+        "notes": {
+          "name": "Notas",
+          "description": "Notas."
+        },
+        "enabled": {
+          "name": "Activo",
+          "description": "Inactivo mantiene el trabajo y detiene su estado de vencimiento."
+        },
+        "add_task": {
+          "name": "Tarea de Home Keeper",
+          "description": "Crear una tarea de Home Keeper para el trabajo."
+        },
+        "last_date": {
+          "name": "Última vez el",
+          "description": "La fecha del último servicio, si la conoces."
+        },
+        "last_reading": {
+          "name": "Última vez a los",
+          "description": "El cuentakilómetros en el último servicio, si lo conoces."
+        }
+      }
+    },
+    "update_item": {
+      "name": "Actualizar trabajo",
+      "description": "Cambia los campos de un trabajo de mantenimiento. Solo administradores.",
+      "fields": {
+        "item_id": {
+          "name": "Trabajo",
+          "description": "El ID del trabajo."
+        },
+        "name": {
+          "name": "Nombre",
+          "description": "El nombre del trabajo."
+        },
+        "kind": {
+          "name": "Tipo",
+          "description": "Un trabajo con intervalo, o una fecha como una matriculación."
+        },
+        "interval_distance": {
+          "name": "Intervalo de distancia",
+          "description": "La distancia entre 2 servicios, en la unidad del coche."
+        },
+        "interval_months": {
+          "name": "Intervalo de tiempo",
+          "description": "Los meses entre 2 servicios."
+        },
+        "due_date": {
+          "name": "Fecha de vencimiento",
+          "description": "La fecha de vencimiento de un trabajo con fecha."
+        },
+        "lead_distance": {
+          "name": "Distancia de aviso",
+          "description": "La distancia antes de un límite en la que un trabajo está próximo."
+        },
+        "lead_days": {
+          "name": "Días de aviso",
+          "description": "Los días antes de un límite en los que un trabajo está próximo."
+        },
+        "notes": {
+          "name": "Notas",
+          "description": "Notas."
+        },
+        "enabled": {
+          "name": "Activo",
+          "description": "Inactivo mantiene el trabajo y detiene su estado de vencimiento."
+        },
+        "add_task": {
+          "name": "Tarea de Home Keeper",
+          "description": "Crear una tarea de Home Keeper para el trabajo."
+        }
+      }
+    },
+    "delete_item": {
+      "name": "Eliminar trabajo",
+      "description": "Elimina un trabajo de mantenimiento. Los registros de servicio se mantienen. Solo administradores.",
+      "fields": {
+        "item_id": {
+          "name": "Trabajo",
+          "description": "El ID del trabajo."
+        }
+      }
+    },
+    "apply_templates": {
+      "name": "Añadir trabajos iniciales",
+      "description": "Añade los trabajos iniciales seleccionados a un coche. Solo administradores.",
+      "fields": {
+        "car_id": {
+          "name": "Coche",
+          "description": "El ID del coche."
+        },
+        "starter_jobs": {
+          "name": "Trabajos iniciales",
+          "description": "Los trabajos iniciales que se añaden."
+        },
+        "due_dates": {
+          "name": "Fechas de vencimiento",
+          "description": "La fecha de vencimiento de cada trabajo inicial con fecha, por su ID."
+        }
+      }
+    },
+    "log_service": {
+      "name": "Registrar servicio",
+      "description": "Añade un registro de servicio y marca sus trabajos como hechos.",
+      "fields": {
+        "car_id": {
+          "name": "Coche",
+          "description": "El ID del coche."
+        },
+        "date": {
+          "name": "Fecha",
+          "description": "La fecha del servicio. Por defecto es hoy."
+        },
+        "reading": {
+          "name": "Lectura",
+          "description": "El cuentakilómetros en el servicio."
+        },
+        "items": {
+          "name": "Trabajos",
+          "description": "Los ID de los trabajos que hizo el servicio."
+        },
+        "shop": {
+          "name": "Taller",
+          "description": "El taller, o vacío para un trabajo en casa."
+        },
+        "notes": {
+          "name": "Notas",
+          "description": "Notas."
+        },
+        "who": {
+          "name": "Quién",
+          "description": "Quién hizo el trabajo."
+        },
+        "cost": {
+          "name": "Coste",
+          "description": "El coste de la visita, en la moneda de Home Assistant."
+        }
+      }
+    },
+    "update_service": {
+      "name": "Actualizar registro de servicio",
+      "description": "Cambia un registro de servicio. Solo administradores.",
+      "fields": {
+        "service_id": {
+          "name": "Registro de servicio",
+          "description": "El ID del registro de servicio."
+        },
+        "date": {
+          "name": "Fecha",
+          "description": "La fecha del servicio. Por defecto es hoy."
+        },
+        "reading": {
+          "name": "Lectura",
+          "description": "El cuentakilómetros en el servicio."
+        },
+        "items": {
+          "name": "Trabajos",
+          "description": "Los ID de los trabajos que hizo el servicio."
+        },
+        "shop": {
+          "name": "Taller",
+          "description": "El taller, o vacío para un trabajo en casa."
+        },
+        "notes": {
+          "name": "Notas",
+          "description": "Notas."
+        },
+        "who": {
+          "name": "Quién",
+          "description": "Quién hizo el trabajo."
+        },
+        "cost": {
+          "name": "Coste",
+          "description": "El coste de la visita, en la moneda de Home Assistant."
+        },
+        "parts_used": {
+          "name": "Piezas usadas",
+          "description": "Una lista de las piezas de Home Keeper que usó el servicio."
+        }
+      }
+    },
+    "delete_service": {
+      "name": "Eliminar registro de servicio",
+      "description": "Elimina un registro de servicio. Solo administradores.",
+      "fields": {
+        "service_id": {
+          "name": "Registro de servicio",
+          "description": "El ID del registro de servicio."
+        }
+      }
+    },
     "set_settings": {
       "name": "Establecer la configuración",
       "description": "Cambia la configuración de Car Keeper. Solo administradores.",
@@ -63,6 +523,72 @@
         "unit": {
           "name": "Unidad de distancia",
           "description": "La unidad de un coche nuevo: km o mi."
+        },
+        "templates": {
+          "name": "Trabajos iniciales",
+          "description": "Cambios de los trabajos iniciales, por ID: km, meses y activo."
+        }
+      }
+    },
+    "export_data": {
+      "name": "Exportar datos",
+      "description": "Devuelve todos los datos de Car Keeper para la exportación de Home Keeper. Solo administradores.",
+      "fields": {
+        "files_dir": {
+          "name": "Carpeta de archivos",
+          "description": "Lo define Home Keeper para una exportación o importación de paquete."
+        }
+      }
+    },
+    "import_data": {
+      "name": "Importar datos",
+      "description": "Añade y actualiza datos de Car Keeper desde una exportación. No elimina ningún registro. Solo administradores.",
+      "fields": {
+        "document": {
+          "name": "Documento",
+          "description": "La sección de Car Keeper de una exportación."
+        },
+        "dry_run": {
+          "name": "Vista previa",
+          "description": "Informa de lo que cambiaría y no escribe datos."
+        },
+        "files_dir": {
+          "name": "Carpeta de archivos",
+          "description": "Lo define Home Keeper para una exportación o importación de paquete."
+        }
+      }
+    },
+    "list_cars": {
+      "name": "Listar coches",
+      "description": "Devuelve cada coche con su estado y su próximo trabajo."
+    },
+    "get_car": {
+      "name": "Obtener coche",
+      "description": "Devuelve 1 coche con sus trabajos, registros de servicio y lecturas.",
+      "fields": {
+        "car_id": {
+          "name": "Coche",
+          "description": "El ID del coche."
+        }
+      }
+    },
+    "list_items": {
+      "name": "Listar trabajos",
+      "description": "Devuelve los trabajos con sus límites y su estado.",
+      "fields": {
+        "car_id": {
+          "name": "Coche",
+          "description": "Solo los trabajos de este coche."
+        }
+      }
+    },
+    "list_services": {
+      "name": "Listar registros de servicio",
+      "description": "Devuelve los registros de servicio, el más reciente primero.",
+      "fields": {
+        "car_id": {
+          "name": "Coche",
+          "description": "Solo los registros de este coche."
         }
       }
     }
@@ -70,6 +596,100 @@
   "exceptions": {
     "not_loaded": {
       "message": "Car Keeper no está cargado. Inténtalo de nuevo cuando se inicie."
+    },
+    "car_not_found": {
+      "message": "Ningún coche tiene el ID {id}."
+    },
+    "item_not_found": {
+      "message": "Ningún trabajo tiene el ID {id}."
+    },
+    "service_not_found": {
+      "message": "Ningún registro de servicio tiene el ID {id}."
+    },
+    "template_not_found": {
+      "message": "Ningún trabajo inicial tiene el ID {id}."
+    },
+    "field_required": {
+      "message": "Introduce un valor para {field}."
+    },
+    "field_too_long": {
+      "message": "El valor de {field} tiene más de {limit} caracteres."
+    },
+    "invalid_field": {
+      "message": "El valor de {field} no es válido."
+    },
+    "out_of_range": {
+      "message": "El valor de {field} debe estar entre {low} y {high}."
+    },
+    "invalid_date": {
+      "message": "La fecha {value} de {field} no es una fecha en el formato AAAA-MM-DD."
+    },
+    "interval_required": {
+      "message": "Introduce un intervalo de distancia, un intervalo de tiempo o ambos."
+    },
+    "invalid_reading": {
+      "message": "La lectura {value} no es válida."
+    },
+    "odometer_decreased": {
+      "message": "La lectura {value} es inferior a la última lectura {current}. Un administrador puede corregir el cuentakilómetros."
+    },
+    "todo_only_check": {
+      "message": "Marca el trabajo para registrar un servicio. La lista no tiene otro cambio."
+    },
+    "import_not_a_document": {
+      "message": "El documento no es una exportación de Car Keeper."
+    },
+    "import_format_too_new": {
+      "message": "El formato de exportación {format} es más nuevo que este Car Keeper. Actualiza Car Keeper."
+    },
+    "import_missing_field": {
+      "message": "Falta el campo {field} o está vacío."
+    },
+    "import_bad_value": {
+      "message": "El valor de {field} no es válido."
+    },
+    "import_not_a_record": {
+      "message": "El registro no es válido."
+    },
+    "import_unknown_car": {
+      "message": "El registro nombra un coche que no está en la importación ni en Car Keeper."
+    },
+    "import_unknown_item": {
+      "message": "El registro de servicio nombra un trabajo que no está en la importación ni en Car Keeper."
+    },
+    "import_entity_missing": {
+      "message": "El sensor del cuentakilómetros {entity_id} no está en este Home Assistant. El coche tendrá un cuentakilómetros introducido."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "odometer": {
+        "name": "Cuentakilómetros"
+      },
+      "next_due_distance": {
+        "name": "Próximo vencimiento por distancia"
+      },
+      "next_due_date": {
+        "name": "Próxima fecha de vencimiento"
+      },
+      "status": {
+        "name": "Estado del mantenimiento",
+        "state": {
+          "ok": "Correcto",
+          "soon": "Pronto",
+          "overdue": "Vencido"
+        }
+      }
+    },
+    "binary_sensor": {
+      "overdue": {
+        "name": "Mantenimiento vencido"
+      }
+    },
+    "todo": {
+      "jobs": {
+        "name": "Trabajos de mantenimiento"
+      }
     }
   }
 }

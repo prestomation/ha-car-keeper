@@ -27,7 +27,40 @@ def test_services_registered(api):
     assert resp.status_code == 200
     domains = {block["domain"]: block for block in resp.json()}
     assert DOMAIN in domains
-    assert "set_settings" in domains[DOMAIN]["services"]
+    assert {"set_settings", "add_car", "log_service", "list_cars"} <= set(
+        domains[DOMAIN]["services"]
+    )
+
+
+def test_a_car_gets_its_entities(api):
+    resp = api.post(
+        "/api/services/car_keeper/add_car?return_response",
+        json={"name": "Entity car", "odometer": 4321},
+    )
+    assert resp.status_code == 200, resp.text
+    car_id = resp.json()["service_response"]["car"]["id"]
+    try:
+        states = api.get("/api/states").json()
+        ours = {
+            s["entity_id"]: s
+            for s in states
+            if str(s["attributes"].get("friendly_name", "")).startswith("Entity car")
+        }
+        domains = sorted({e.split(".")[0] for e in ours})
+        assert domains == ["binary_sensor", "sensor", "todo"], ours
+        odometer = next(s for s in ours.values() if "reading" in s["attributes"])
+        # Home Assistant shows the state in its own unit. `reading` is in the car unit.
+        assert odometer["attributes"]["reading"] == 4321.0
+    finally:
+        api.post("/api/services/car_keeper/delete_car", json={"car_id": car_id})
+    states = api.get("/api/states").json()
+    left = [
+        s["entity_id"]
+        for s in states
+        if str(s["attributes"].get("friendly_name", "")).startswith("Entity car")
+        and s["state"] != "unavailable"
+    ]
+    assert left == []
 
 
 def test_get_state_and_the_tab(ws):

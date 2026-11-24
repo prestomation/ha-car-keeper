@@ -24,18 +24,55 @@ Each operation of the tab is a `car_keeper.*` service.
 
 | Group | Services |
 |---|---|
+| Cars | `add_car`, `update_car`, `delete_car` |
+| Odometer | `set_odometer`, `correct_odometer` |
+| Jobs | `add_item`, `update_item`, `delete_item`, `apply_templates` |
+| Service records | `log_service`, `update_service`, `delete_service` |
 | Settings | `set_settings` |
+| Files | `export_data`, `import_data` |
+| Reads | `list_cars`, `get_car`, `list_items`, `list_services` |
 
-A service that changes data returns its record when the call asks for a response.
+A service that changes data returns its record when the call asks for a response. A read
+service always returns a response. Use `car_id` to name a car, because 2 cars can have the
+same name.
 
-### Change the unit of a new car
+### Feed the odometer from another sensor
+
+```yaml
+automation:
+  - alias: Copy the trip computer to Car Keeper
+    trigger:
+      - platform: state
+        entity_id: sensor.my_car_total_distance
+    action:
+      - action: car_keeper.set_odometer
+        data:
+          car_id: 0a1b2c3d4e5f
+          value: "{{ trigger.to_state.state | float }}"
+```
+
+A car can also read its odometer sensor itself: set `odometer_source` to `entity` and
+`odometer_entity_id` to the sensor with `update_car`.
+
+### Log a service
 
 ```yaml
 action:
-  - action: car_keeper.set_settings
+  - action: car_keeper.log_service
     data:
-      unit: mi
+      car_id: 0a1b2c3d4e5f
+      items: [9f8e7d6c5b4a]
+      reading: 42150
+      shop: Main Street Garage
+      cost: 84.50
+    response_variable: result
 ```
+
+## Entities
+
+Each car has a device with an odometer sensor, the next due distance and date, a status
+sensor, an overdue binary sensor and a to-do list of the jobs that are due. The odometer
+sensor has the attribute `reading`, in the unit of the car.
 
 ## Events
 

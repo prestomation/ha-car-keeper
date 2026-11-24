@@ -1,4 +1,18 @@
 {
   "tab.title": "Автомобілі",
-  "companion.description": "Автомобілі, одометри, роботи з обслуговування та історія сервісу."
+  "companion.description": "Автомобілі, одометри, роботи з обслуговування та історія сервісу.",
+  "template.engine_oil": "Моторна олива та фільтр",
+  "template.tyre_rotation": "Перестановка шин",
+  "template.tyre_check": "Тиск і протектор шин",
+  "template.brake_fluid": "Гальмівна рідина",
+  "template.cabin_filter": "Салонний фільтр",
+  "template.engine_air_filter": "Повітряний фільтр двигуна",
+  "template.wipers": "Щітки склоочисника",
+  "template.battery_12v": "Перевірка акумулятора 12 В",
+  "template.coolant": "Охолоджувальна рідина",
+  "template.spark_plugs": "Свічки запалювання",
+  "template.adblue": "Доливання AdBlue",
+  "template.registration": "Реєстрація",
+  "template.insurance": "Страхування",
+  "template.inspection": "Техогляд"
 }

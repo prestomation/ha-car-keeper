@@ -39,6 +39,46 @@
         "km": "Kilometer",
         "mi": "Miles"
       }
+    },
+    "fuel": {
+      "options": {
+        "petrol": "Benzin",
+        "diesel": "Diesel",
+        "hybrid": "Hybrid",
+        "plug_in_hybrid": "Plug-in-hybrid",
+        "electric": "Elbil",
+        "other": "Andet"
+      }
+    },
+    "odometer_source": {
+      "options": {
+        "manual": "Indtastet",
+        "entity": "Sensor"
+      }
+    },
+    "kind": {
+      "options": {
+        "job": "Interval-opgave",
+        "date": "Dato"
+      }
+    },
+    "template": {
+      "options": {
+        "engine_oil": "Motorolie og filter",
+        "tyre_rotation": "Dækrotation",
+        "tyre_check": "Dæktryk og mønster",
+        "brake_fluid": "Bremsevæske",
+        "cabin_filter": "Kabinefilter",
+        "engine_air_filter": "Motorluftfilter",
+        "wipers": "Viskerblade",
+        "battery_12v": "Test af 12 V-batteri",
+        "coolant": "Kølervæske",
+        "spark_plugs": "Tændrør",
+        "adblue": "Påfyldning af AdBlue",
+        "registration": "Registrering",
+        "insurance": "Forsikring",
+        "inspection": "Syn"
+      }
     }
   },
   "issues": {
@@ -53,9 +93,429 @@
     "home_keeper_too_old": {
       "title": "Home Keeper er for gammel",
       "description": "Fanen Biler og vedligeholdelsesopgaverne kræver Home Keeper version {version} eller nyere. Kortene, entiteterne og tjenesterne virker nu. Opdater Home Keeper."
+    },
+    "odometer_decreased": {
+      "title": "Kilometertælleren for {car} gik ned",
+      "description": "Kilometertællersensoren for {car} rapporterede {value} {unit} 2 gange, under den seneste aflæsning på {current} {unit}. Car Keeper beholder den seneste aflæsning. Hvis sensoren er forkert, så ret sensoren. Hvis bilen har et nyt instrumentbræt, så ret bilens kilometertæller og angiv en forskydning."
     }
   },
   "services": {
+    "add_car": {
+      "name": "Tilføj bil",
+      "description": "Tilføjer en bil med kilometertæller og de valgte startopgaver. Kun for administratorer.",
+      "fields": {
+        "name": {
+          "name": "Navn",
+          "description": "Bilens navn."
+        },
+        "make": {
+          "name": "Mærke",
+          "description": "Bilens producent."
+        },
+        "model": {
+          "name": "Model",
+          "description": "Bilens model."
+        },
+        "year": {
+          "name": "År",
+          "description": "Modelåret."
+        },
+        "trim": {
+          "name": "Udstyrsniveau",
+          "description": "Udstyrsniveauet eller versionen."
+        },
+        "fuel": {
+          "name": "Brændstof",
+          "description": "Brændstoftypen. Den vælger startopgaverne."
+        },
+        "vin": {
+          "name": "Stelnummer",
+          "description": "Køretøjets stelnummer."
+        },
+        "plate": {
+          "name": "Nummerplade",
+          "description": "Nummerpladen."
+        },
+        "area_id": {
+          "name": "Område",
+          "description": "Bilens område i Home Assistant."
+        },
+        "notes": {
+          "name": "Noter",
+          "description": "Noter."
+        },
+        "lead_distance": {
+          "name": "Varselafstand",
+          "description": "Afstanden før en grænse, hvor en opgave er snart."
+        },
+        "lead_days": {
+          "name": "Varseldage",
+          "description": "Dagene før en grænse, hvor en opgave er snart."
+        },
+        "unit": {
+          "name": "Afstandsenhed",
+          "description": "km eller mi."
+        },
+        "odometer_source": {
+          "name": "Kilometertællerens kilde",
+          "description": "Indtast kilometertælleren, eller læs den fra en sensor."
+        },
+        "odometer_entity_id": {
+          "name": "Kilometertællersensor",
+          "description": "Sensoren, der rapporterer kilometertælleren."
+        },
+        "odometer": {
+          "name": "Kilometertæller",
+          "description": "Aflæsningen nu, i bilens enhed."
+        },
+        "starter_jobs": {
+          "name": "Startopgaver",
+          "description": "Id'erne for de startopgaver, der skal tilføjes."
+        },
+        "due_dates": {
+          "name": "Forfaldsdatoer",
+          "description": "Forfaldsdatoen for hver startopgave med dato, efter dens id."
+        }
+      }
+    },
+    "update_car": {
+      "name": "Opdater bil",
+      "description": "Ændrer felterne for en bil. En ændring af enheden omregner hver værdi for bilen. Kun for administratorer.",
+      "fields": {
+        "car_id": {
+          "name": "Bil",
+          "description": "Bilens id."
+        },
+        "name": {
+          "name": "Navn",
+          "description": "Bilens navn."
+        },
+        "make": {
+          "name": "Mærke",
+          "description": "Bilens producent."
+        },
+        "model": {
+          "name": "Model",
+          "description": "Bilens model."
+        },
+        "year": {
+          "name": "År",
+          "description": "Modelåret."
+        },
+        "trim": {
+          "name": "Udstyrsniveau",
+          "description": "Udstyrsniveauet eller versionen."
+        },
+        "fuel": {
+          "name": "Brændstof",
+          "description": "Brændstoftypen. Den vælger startopgaverne."
+        },
+        "vin": {
+          "name": "Stelnummer",
+          "description": "Køretøjets stelnummer."
+        },
+        "plate": {
+          "name": "Nummerplade",
+          "description": "Nummerpladen."
+        },
+        "area_id": {
+          "name": "Område",
+          "description": "Bilens område i Home Assistant."
+        },
+        "notes": {
+          "name": "Noter",
+          "description": "Noter."
+        },
+        "lead_distance": {
+          "name": "Varselafstand",
+          "description": "Afstanden før en grænse, hvor en opgave er snart."
+        },
+        "lead_days": {
+          "name": "Varseldage",
+          "description": "Dagene før en grænse, hvor en opgave er snart."
+        },
+        "unit": {
+          "name": "Afstandsenhed",
+          "description": "km eller mi."
+        },
+        "odometer_source": {
+          "name": "Kilometertællerens kilde",
+          "description": "Indtast kilometertælleren, eller læs den fra en sensor."
+        },
+        "odometer_entity_id": {
+          "name": "Kilometertællersensor",
+          "description": "Sensoren, der rapporterer kilometertælleren."
+        }
+      }
+    },
+    "delete_car": {
+      "name": "Slet bil",
+      "description": "Sletter en bil med dens opgaver, servicejournaler og aflæsninger. Kun for administratorer.",
+      "fields": {
+        "car_id": {
+          "name": "Bil",
+          "description": "Bilens id."
+        }
+      }
+    },
+    "set_odometer": {
+      "name": "Angiv kilometertæller",
+      "description": "Gemmer en kilometeraflæsning. Værdien kan ikke være under den seneste aflæsning.",
+      "fields": {
+        "car_id": {
+          "name": "Bil",
+          "description": "Bilens id."
+        },
+        "value": {
+          "name": "Aflæsning",
+          "description": "Kilometeraflæsningen i bilens enhed."
+        }
+      }
+    },
+    "correct_odometer": {
+      "name": "Ret kilometertæller",
+      "description": "Gemmer enhver aflæsning, også en lavere, og en valgfri forskydning for et nyt instrumentbræt. Kun for administratorer.",
+      "fields": {
+        "car_id": {
+          "name": "Bil",
+          "description": "Bilens id."
+        },
+        "value": {
+          "name": "Aflæsning",
+          "description": "Kilometeraflæsningen i bilens enhed."
+        },
+        "offset": {
+          "name": "Forskydning",
+          "description": "Lægges til hver senere sensorværdi, for et nyt instrumentbræt."
+        }
+      }
+    },
+    "add_item": {
+      "name": "Tilføj opgave",
+      "description": "Tilføjer en vedligeholdelsesopgave til en bil. Kun for administratorer.",
+      "fields": {
+        "car_id": {
+          "name": "Bil",
+          "description": "Bilens id."
+        },
+        "name": {
+          "name": "Navn",
+          "description": "Opgavens navn."
+        },
+        "kind": {
+          "name": "Type",
+          "description": "En opgave med et interval, eller en dato som en registrering."
+        },
+        "interval_distance": {
+          "name": "Afstandsinterval",
+          "description": "Afstanden mellem 2 serviceeftersyn i bilens enhed."
+        },
+        "interval_months": {
+          "name": "Tidsinterval",
+          "description": "Månederne mellem 2 serviceeftersyn."
+        },
+        "due_date": {
+          "name": "Forfaldsdato",
+          "description": "Forfaldsdatoen for en opgave med dato."
+        },
+        "lead_distance": {
+          "name": "Varselafstand",
+          "description": "Afstanden før en grænse, hvor en opgave er snart."
+        },
+        "lead_days": {
+          "name": "Varseldage",
+          "description": "Dagene før en grænse, hvor en opgave er snart."
+        },
+        "notes": {
+          "name": "Noter",
+          "description": "Noter."
+        },
+        "enabled": {
+          "name": "Til",
+          "description": "Fra beholder opgaven og stopper dens forfaldsstatus."
+        },
+        "add_task": {
+          "name": "Home Keeper-opgave",
+          "description": "Opret en Home Keeper-opgave til opgaven."
+        },
+        "last_date": {
+          "name": "Sidst udført den",
+          "description": "Datoen for det seneste serviceeftersyn, hvis du kender den."
+        },
+        "last_reading": {
+          "name": "Sidst udført ved",
+          "description": "Kilometertælleren ved det seneste serviceeftersyn, hvis du kender den."
+        }
+      }
+    },
+    "update_item": {
+      "name": "Opdater opgave",
+      "description": "Ændrer felterne for en vedligeholdelsesopgave. Kun for administratorer.",
+      "fields": {
+        "item_id": {
+          "name": "Opgave",
+          "description": "Opgavens id."
+        },
+        "name": {
+          "name": "Navn",
+          "description": "Opgavens navn."
+        },
+        "kind": {
+          "name": "Type",
+          "description": "En opgave med et interval, eller en dato som en registrering."
+        },
+        "interval_distance": {
+          "name": "Afstandsinterval",
+          "description": "Afstanden mellem 2 serviceeftersyn i bilens enhed."
+        },
+        "interval_months": {
+          "name": "Tidsinterval",
+          "description": "Månederne mellem 2 serviceeftersyn."
+        },
+        "due_date": {
+          "name": "Forfaldsdato",
+          "description": "Forfaldsdatoen for en opgave med dato."
+        },
+        "lead_distance": {
+          "name": "Varselafstand",
+          "description": "Afstanden før en grænse, hvor en opgave er snart."
+        },
+        "lead_days": {
+          "name": "Varseldage",
+          "description": "Dagene før en grænse, hvor en opgave er snart."
+        },
+        "notes": {
+          "name": "Noter",
+          "description": "Noter."
+        },
+        "enabled": {
+          "name": "Til",
+          "description": "Fra beholder opgaven og stopper dens forfaldsstatus."
+        },
+        "add_task": {
+          "name": "Home Keeper-opgave",
+          "description": "Opret en Home Keeper-opgave til opgaven."
+        }
+      }
+    },
+    "delete_item": {
+      "name": "Slet opgave",
+      "description": "Sletter en vedligeholdelsesopgave. Servicejournalerne bliver. Kun for administratorer.",
+      "fields": {
+        "item_id": {
+          "name": "Opgave",
+          "description": "Opgavens id."
+        }
+      }
+    },
+    "apply_templates": {
+      "name": "Tilføj startopgaver",
+      "description": "Tilføjer de valgte startopgaver til en bil. Kun for administratorer.",
+      "fields": {
+        "car_id": {
+          "name": "Bil",
+          "description": "Bilens id."
+        },
+        "starter_jobs": {
+          "name": "Startopgaver",
+          "description": "De startopgaver, der skal tilføjes."
+        },
+        "due_dates": {
+          "name": "Forfaldsdatoer",
+          "description": "Forfaldsdatoen for hver startopgave med dato, efter dens id."
+        }
+      }
+    },
+    "log_service": {
+      "name": "Registrer service",
+      "description": "Tilføjer en servicejournal og markerer dens opgaver som udført.",
+      "fields": {
+        "car_id": {
+          "name": "Bil",
+          "description": "Bilens id."
+        },
+        "date": {
+          "name": "Dato",
+          "description": "Datoen for serviceeftersynet. Standard er i dag."
+        },
+        "reading": {
+          "name": "Aflæsning",
+          "description": "Kilometertælleren ved serviceeftersynet."
+        },
+        "items": {
+          "name": "Opgaver",
+          "description": "Id'erne for de opgaver, som serviceeftersynet udførte."
+        },
+        "shop": {
+          "name": "Værksted",
+          "description": "Værkstedet, eller tomt for en opgave derhjemme."
+        },
+        "notes": {
+          "name": "Noter",
+          "description": "Noter."
+        },
+        "who": {
+          "name": "Hvem",
+          "description": "Hvem der udførte opgaven."
+        },
+        "cost": {
+          "name": "Pris",
+          "description": "Prisen for besøget i Home Assistants valuta."
+        }
+      }
+    },
+    "update_service": {
+      "name": "Opdater servicejournal",
+      "description": "Ændrer en servicejournal. Kun for administratorer.",
+      "fields": {
+        "service_id": {
+          "name": "Servicejournal",
+          "description": "Servicejournalens id."
+        },
+        "date": {
+          "name": "Dato",
+          "description": "Datoen for serviceeftersynet. Standard er i dag."
+        },
+        "reading": {
+          "name": "Aflæsning",
+          "description": "Kilometertælleren ved serviceeftersynet."
+        },
+        "items": {
+          "name": "Opgaver",
+          "description": "Id'erne for de opgaver, som serviceeftersynet udførte."
+        },
+        "shop": {
+          "name": "Værksted",
+          "description": "Værkstedet, eller tomt for en opgave derhjemme."
+        },
+        "notes": {
+          "name": "Noter",
+          "description": "Noter."
+        },
+        "who": {
+          "name": "Hvem",
+          "description": "Hvem der udførte opgaven."
+        },
+        "cost": {
+          "name": "Pris",
+          "description": "Prisen for besøget i Home Assistants valuta."
+        },
+        "parts_used": {
+          "name": "Brugte dele",
+          "description": "En liste over de Home Keeper-dele, som serviceeftersynet brugte."
+        }
+      }
+    },
+    "delete_service": {
+      "name": "Slet servicejournal",
+      "description": "Sletter en servicejournal. Kun for administratorer.",
+      "fields": {
+        "service_id": {
+          "name": "Servicejournal",
+          "description": "Servicejournalens id."
+        }
+      }
+    },
     "set_settings": {
       "name": "Angiv indstillinger",
       "description": "Ændrer indstillingerne for Car Keeper. Kun for administratorer.",
@@ -63,6 +523,72 @@
         "unit": {
           "name": "Afstandsenhed",
           "description": "Enheden for en ny bil: km eller mi."
+        },
+        "templates": {
+          "name": "Startopgaver",
+          "description": "Ændringer af startopgaverne efter id: km, måneder og aktiveret."
+        }
+      }
+    },
+    "export_data": {
+      "name": "Eksportér data",
+      "description": "Returnerer alle Car Keeper-data til Home Keeper-eksporten. Kun for administratorer.",
+      "fields": {
+        "files_dir": {
+          "name": "Filmappe",
+          "description": "Angives af Home Keeper for en pakkeeksport eller -import."
+        }
+      }
+    },
+    "import_data": {
+      "name": "Importér data",
+      "description": "Tilføjer og opdaterer Car Keeper-data fra en eksport. Den sletter ingen post. Kun for administratorer.",
+      "fields": {
+        "document": {
+          "name": "Dokument",
+          "description": "Car Keeper-afsnittet i en eksport."
+        },
+        "dry_run": {
+          "name": "Forhåndsvisning",
+          "description": "Rapportér, hvad der ville ændre sig, og skriv ingen data."
+        },
+        "files_dir": {
+          "name": "Filmappe",
+          "description": "Angives af Home Keeper for en pakkeeksport eller -import."
+        }
+      }
+    },
+    "list_cars": {
+      "name": "Vis biler",
+      "description": "Returnerer hver bil med dens status og næste opgave."
+    },
+    "get_car": {
+      "name": "Hent bil",
+      "description": "Returnerer 1 bil med dens opgaver, servicejournaler og aflæsninger.",
+      "fields": {
+        "car_id": {
+          "name": "Bil",
+          "description": "Bilens id."
+        }
+      }
+    },
+    "list_items": {
+      "name": "Vis opgaver",
+      "description": "Returnerer opgaverne med deres grænser og status.",
+      "fields": {
+        "car_id": {
+          "name": "Bil",
+          "description": "Kun opgaverne for denne bil."
+        }
+      }
+    },
+    "list_services": {
+      "name": "Vis servicejournaler",
+      "description": "Returnerer servicejournalerne, den nyeste først.",
+      "fields": {
+        "car_id": {
+          "name": "Bil",
+          "description": "Kun journalerne for denne bil."
         }
       }
     }
@@ -70,6 +596,100 @@
   "exceptions": {
     "not_loaded": {
       "message": "Car Keeper er ikke indlæst. Prøv igen, når den er startet."
+    },
+    "car_not_found": {
+      "message": "Ingen bil har id'et {id}."
+    },
+    "item_not_found": {
+      "message": "Ingen opgave har id'et {id}."
+    },
+    "service_not_found": {
+      "message": "Ingen servicejournal har id'et {id}."
+    },
+    "template_not_found": {
+      "message": "Ingen startopgave har id'et {id}."
+    },
+    "field_required": {
+      "message": "Angiv en værdi for {field}."
+    },
+    "field_too_long": {
+      "message": "Værdien af {field} er længere end {limit} tegn."
+    },
+    "invalid_field": {
+      "message": "Værdien af {field} er ugyldig."
+    },
+    "out_of_range": {
+      "message": "Værdien af {field} skal være mellem {low} og {high}."
+    },
+    "invalid_date": {
+      "message": "Datoen {value} i {field} er ikke en dato i formatet ÅÅÅÅ-MM-DD."
+    },
+    "interval_required": {
+      "message": "Angiv et afstandsinterval, et tidsinterval eller begge."
+    },
+    "invalid_reading": {
+      "message": "Aflæsningen {value} er ugyldig."
+    },
+    "odometer_decreased": {
+      "message": "Aflæsningen {value} er under den seneste aflæsning {current}. En administrator kan rette kilometertælleren."
+    },
+    "todo_only_check": {
+      "message": "Markér opgaven for at registrere en service. Listen har ingen anden ændring."
+    },
+    "import_not_a_document": {
+      "message": "Dokumentet er ikke en Car Keeper-eksport."
+    },
+    "import_format_too_new": {
+      "message": "Eksportformatet {format} er nyere end denne Car Keeper. Opdater Car Keeper."
+    },
+    "import_missing_field": {
+      "message": "Feltet {field} mangler eller er tomt."
+    },
+    "import_bad_value": {
+      "message": "Værdien af {field} er ugyldig."
+    },
+    "import_not_a_record": {
+      "message": "Posten er ugyldig."
+    },
+    "import_unknown_car": {
+      "message": "Posten nævner en bil, der ikke er i importen eller i Car Keeper."
+    },
+    "import_unknown_item": {
+      "message": "Servicejournalen nævner en opgave, der ikke er i importen eller i Car Keeper."
+    },
+    "import_entity_missing": {
+      "message": "Kilometertællersensoren {entity_id} findes ikke i denne Home Assistant. Bilen får en indtastet kilometertæller."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "odometer": {
+        "name": "Kilometertæller"
+      },
+      "next_due_distance": {
+        "name": "Næste forfald i afstand"
+      },
+      "next_due_date": {
+        "name": "Næste forfaldsdato"
+      },
+      "status": {
+        "name": "Vedligeholdelsesstatus",
+        "state": {
+          "ok": "OK",
+          "soon": "Snart",
+          "overdue": "Forfalden"
+        }
+      }
+    },
+    "binary_sensor": {
+      "overdue": {
+        "name": "Vedligeholdelse forfalden"
+      }
+    },
+    "todo": {
+      "jobs": {
+        "name": "Vedligeholdelsesopgaver"
+      }
     }
   }
 }

@@ -1,6 +1,6 @@
 ---
 title: Services, events and the API surface
-summary: How Car Keeper registers its services and their websocket twins from 1 model, the gate, the events and the read projection.
+summary: The services and their gates, the websocket twins from 1 model, the bus events, and the open read projection.
 implements:
   - custom_components/car_keeper/services.py
   - custom_components/car_keeper/services.yaml
@@ -8,8 +8,8 @@ implements:
   - custom_components/car_keeper/api_surface.py
   - custom_components/car_keeper/events.py
   - custom_components/car_keeper/projections.py
-related: [architecture, data-model]
-source_hash: f78006d58ba9
+related: [architecture, data-model, entities]
+source_hash: faa7b560e96b
 ---
 
 # Services, events and the API surface
@@ -23,58 +23,77 @@ Every surface that another integration, an automation or the frontend can use is
   never replaces it.
 - **G2. One gate.** `services.async_run` applies the admin gate for the service and for its
   websocket twin.
-- **G3. Every read is open.** A read returns every field to every user.
+- **G3. Every read is open.** A read returns every field to every user, also the VIN, the
+  plate, the cost, the shop and the notes.
 - **G4. Every state change fires an event** from the store, named `car_keeper_<noun>_<verb>`.
 
 ## Non-goals
 
 - A REST API of its own.
-- A field that a user who is not an admin cannot read.
+- A field that a user who is not an admin cannot read. Diagnostics redact the VIN and the
+  plate for a support file, which is not access control.
 
 ## Design
 
 ### Services
 
 `api_surface.SERVICES` is the model. `services.async_register_services` registers each
-service with its field schema from `SERVICE_FIELDS` and its handler from
-`SERVICE_HANDLERS`. `async_unload_entry` removes each name of `SERVICE_NAMES`.
+service with its schema from `SERVICE_FIELDS` and its handler from `SERVICE_HANDLERS`.
 
-| Service | Access | Does |
-|---|---|---|
-| `set_settings` | Admin | Changes the `unit` setting. |
+| Access | Services |
+|---|---|
+| Admin: record management | `add_car`, `update_car`, `delete_car`, `correct_odometer`, `add_item`, `update_item`, `delete_item`, `apply_templates`, `update_service`, `delete_service`, `set_settings` |
+| Admin: whole-store | `export_data`, `import_data` |
+| Every user: the use of a car | `set_odometer`, `log_service` |
+| Every user: reads | `list_cars`, `get_car`, `list_items`, `list_services` |
 
-`services.async_run` refuses a user who is not an admin for an `admin_only` service with
-`Unauthorized`. A call with no user comes from an automation or the core, and it passes.
+- A call with no user comes from an automation or the core, and it passes the gate.
+- A mutation returns its record, with the computed values, when the call asks for it.
+- `add_car` takes `starter_jobs` and `due_dates`. `set_settings` takes `templates`, the
+  overrides of the starter jobs.
+- `import_data` answers `{ok, dry_run, counts, records, problems}` with each problem as a
+  message in the language of Home Assistant, as the Home Keeper import needs.
 
 ### Websocket commands
 
-- `car_keeper/get_state` returns the document from `projections.project_state`, with the
-  tab state and the revision. Every user can call it.
-- `car_keeper/subscribe` sends `changed` with the revision after each store change.
+- `car_keeper/get_state` returns `projections.project_state`. `car_keeper/subscribe` sends
+  `changed` with the revision after each store change. Both are open.
 - Each service that is not a read has a twin `car_keeper/<service>` with the same fields.
-  The twin calls `async_run`, so its gate is the gate of the service.
+  The twin calls `async_run` with the admin flag of the connection user.
 
 ### Events
 
-| Event | Fires when |
+| Event | Payload |
 |---|---|
-| `car_keeper_settings_updated` | A setting changes. Payload: `changed_fields`, `origin`. |
+| `car_added`, `car_updated`, `car_removed` | `car_id`, `name`, `origin`; `changed_fields` on update |
+| `odometer_updated` | `car_id`, `name`, `value`, `unit`, `source`, `origin` |
+| `item_added`, `item_updated`, `item_removed` | `car_id`, `item_id`, `name`, `origin`; `changed_fields` on update |
+| `item_due_soon`, `item_overdue` | the car, the job, `status`, `first`, the limits and the days and distance left |
+| `service_logged`, `service_updated`, `service_removed` | `car_id`, `service_id`, `date`, `reading`, `items`, `shop`, `cost`, `origin` |
+| `settings_updated` | `changed_fields`, `origin` |
+| `data_imported` | `counts`, `origin` |
 
-A pure builder in `events.py` makes each payload, and the store fires it after the save.
-The payload catalog for integrators is in [EVENTS.md](../EVENTS.md).
+Each name has the prefix `car_keeper_`. A pure builder in `events.py` makes each payload,
+and the store fires it after the save. The catalog for integrators is
+[EVENTS.md](../EVENTS.md).
 
 ### The read projection
 
-`projections.project_state` copies the document, so a reader cannot change the stored
-document, and adds the values that a reader needs. It hides no field.
+`projections.project_state` copies the document and adds `summary` to each car and `due` to
+each item. `projections.project_car` gives 1 car with its items in due order, its service
+records and its readings. The projection hides no field. `tests/unit/test_projections.py`
+and `tests/component/test_services.py` read as a user who is not an admin and fail if a
+field is missing.
 
 ## Trade-offs
 
-- **1 model for the runtime and the tests** over **lists in each module**: a new service
-  needs 1 spec, and the drift test finds a missing part.
+- **Every read open** over **private fields for admins**: the household shares its cars,
+  and 1 projection serves every reader. A guest account can read the VIN and the plate.
+- **`log_service` open** over **admin-only**: the person who drives the car to the shop
+  records the visit. An admin can change or delete a wrong record.
 
 ## One-way doors
 
-- The service name `set_settings` and its field `unit`.
-- The event `car_keeper_settings_updated` and its payload keys.
-- The websocket command names `get_state` and `subscribe`.
+- Each service name and field, each event name and payload key.
+- The websocket command names `get_state` and `subscribe`, and each twin name.
+- The `summary` and `due` keys of a read reply.

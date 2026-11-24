@@ -51,6 +51,18 @@ automation:
           entity_id: input_text.ck_last_event
         data:
           value: "settings_updated:{{ trigger.event.data.changed_fields }}"
+  - alias: Capture Car Keeper odometer updated
+    trigger:
+      - platform: event
+        event_type: car_keeper_odometer_updated
+    action:
+      - service: input_text.set_value
+        target:
+          entity_id: input_text.ck_last_event
+        data:
+          value: >-
+            odometer_updated:{{ trigger.event.data.name }}:{{ trigger.event.data.value }}:{{
+            trigger.event.data.unit }}:{{ trigger.event.data.source }}
 
 # Minimal logging
 logger:

@@ -29,6 +29,7 @@ from .const import DOMAIN, SIGNAL_STORE_CHANGED
 from .coordinator import find_coordinator
 from .models import CarKeeperError
 from .services import SERVICE_FIELDS, Actor, async_run
+from .store import today
 
 _SPECS = {spec.name: spec for spec in SERVICES}
 
@@ -112,6 +113,7 @@ def ws_get_state(
         msg["id"],
         projections.project_state(
             coordinator.store.state,
+            today=today(),
             tab=coordinator.tab_registered,
             revision=coordinator.store.revision,
         ),

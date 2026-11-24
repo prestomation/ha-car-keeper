@@ -10,7 +10,7 @@ implements:
   - custom_components/car_keeper/coordinator.py
   - custom_components/car_keeper/manifest.json
 related: [data-model, home-keeper-link, services-events, frontend]
-source_hash: 0b2f910dbb1d
+source_hash: a6b0a26e7b0a
 ---
 
 # Architecture
@@ -61,9 +61,10 @@ Do not mix the 2. A card never edits a car. Each data action of the tab is also 
 
 | Layer | Modules | Rule |
 |---|---|---|
-| Pure core | `const.py`, `models.py`, `events.py`, `projections.py`, `card_resource.py`, `backend_i18n.py`, `api_surface.py` | No Home Assistant import. |
-| Boundary | `store.py`, `coordinator.py` | Talks to storage and the bus. |
+| Pure core | `const.py`, `units.py`, `models.py`, `readings.py`, `schedule.py`, `history.py`, `templates.py`, `events.py`, `projections.py`, `import_export.py`, `card_resource.py`, `backend_i18n.py`, `api_surface.py` | No Home Assistant import. |
+| Boundary | `store.py`, `coordinator.py`, `odometer.py` | Talks to storage, the bus and the state machine. |
 | Glue | `__init__.py`, `services.py`, `websocket_api.py`, `home_keeper.py`, `frontend_assets.py`, `card.py`, `config_flow.py`, `diagnostics.py` | Registers and connects, with no rules of its own. |
+| Platforms | `sensor.py`, `binary_sensor.py`, `todo.py`, with `entity.py` | `const.PLATFORMS` lists them. |
 
 `tests/unit/test_pure_core.py` checks the pure core row against the code.
 
@@ -75,11 +76,13 @@ Do not mix the 2. A card never edits a car. Each data action of the tab is also 
 2. Make the coordinator and store it as `entry.runtime_data`.
 3. Register the static path, the card resource and the websocket commands.
 4. Forward the platforms and register the services.
-5. Start `home_keeper.HomeKeeperLink`. It adds the tab and the companion row, or shows a
+5. Start the odometer follower and the due check, which runs after each change and each
+   hour.
+6. Start `home_keeper.HomeKeeperLink`. It adds the tab and the companion row, or shows a
    repair issue.
 
-`async_unload_entry` unloads the platforms and removes each service. The static path and
-the card resource stay, because most unloads are half of a reload.
+`async_unload_entry` unloads the platforms, removes each service and stops the follower.
+The static path and the card resource stay, because most unloads are half of a reload.
 
 ### Config entry and options
 
@@ -109,7 +112,9 @@ the VIN and the plate. That rule is for the support file. It is not access contr
 
 | Doc | Subject |
 |---|---|
-| [data-model](data-model.md) | The storage document and the store |
+| [data-model](data-model.md) | The storage document, the records, the store, the export and import |
+| [odometer-schedule](odometer-schedule.md) | The odometer, the units, the due rule, the history, the starter jobs |
+| [entities](entities.md) | The device, the sensors and the to-do list of each car |
 | [home-keeper-link](home-keeper-link.md) | The check, the tab, the companion and the repair issue |
 | [services-events](services-events.md) | Services, events, websocket commands and the API surface |
 | [frontend](frontend.md) | The Cars tab, the cards and the delivery of the bundles |

@@ -69,7 +69,7 @@ def main() -> None:
         )
         + "\n"
     )
-    reply = projections.project_state(state, tab=True, revision=1)
+    reply = projections.project_state(state, today="2026-10-15", tab=True, revision=1)
     STATE_OUT.write_text(json.dumps(reply, indent=2) + "\n")
     print(f"wrote {STORE_OUT.relative_to(ROOT)} and {STATE_OUT.relative_to(ROOT)}")
 

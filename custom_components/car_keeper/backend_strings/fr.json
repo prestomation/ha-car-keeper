@@ -1,4 +1,18 @@
 {
   "tab.title": "Voitures",
-  "companion.description": "Voitures, compteurs kilométriques, travaux d'entretien et historique d'entretien."
+  "companion.description": "Voitures, compteurs kilométriques, travaux d'entretien et historique d'entretien.",
+  "template.engine_oil": "Huile moteur et filtre",
+  "template.tyre_rotation": "Permutation des pneus",
+  "template.tyre_check": "Pression et usure des pneus",
+  "template.brake_fluid": "Liquide de frein",
+  "template.cabin_filter": "Filtre d'habitacle",
+  "template.engine_air_filter": "Filtre à air moteur",
+  "template.wipers": "Balais d'essuie-glace",
+  "template.battery_12v": "Test de la batterie 12 V",
+  "template.coolant": "Liquide de refroidissement",
+  "template.spark_plugs": "Bougies",
+  "template.adblue": "Appoint d'AdBlue",
+  "template.registration": "Immatriculation",
+  "template.insurance": "Assurance",
+  "template.inspection": "Contrôle technique"
 }

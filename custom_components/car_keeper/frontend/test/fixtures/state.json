@@ -2,11 +2,12 @@
   "cars": {},
   "items": {},
   "services": {},
-  "documents": {},
   "readings": {},
   "settings": {
-    "unit": "km"
+    "unit": "km",
+    "templates": {}
   },
   "tab": true,
-  "revision": 1
+  "revision": 1,
+  "today": "2026-10-15"
 }

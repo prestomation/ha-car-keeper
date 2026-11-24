@@ -23,14 +23,95 @@ _STRINGS = _COMPONENT / "strings.json"
 _TRANSLATIONS = _COMPONENT / "translations"
 
 # Keys whose value is the same word in English and in the language (reviewed
-# cognates). Keyed by locale, as ``fnmatch`` patterns of dotted key paths.
+# cognates such as Diesel, Hybrid, Sensor, Model, Name and OK). Keyed by locale, as
+# ``fnmatch`` patterns of dotted key paths.
 _COGNATE_IDENTICAL: dict[str, set[str]] = {
-    # "Miles" is the native word for the unit in these languages.
-    lang: {"selector.unit.options.mi"}
-    for lang in ("da", "fr", "nb", "nl", "sv")
+    "ca": {
+        "selector.odometer_source.options.entity",
+        "services.*.fields.cost.name",
+        "services.*.fields.document.name",
+        "services.*.fields.model.name",
+        "services.*.fields.notes.description",
+        "services.*.fields.notes.name",
+    },
+    "cs": {
+        "selector.fuel.options.hybrid",
+        "selector.fuel.options.plug_in_hybrid",
+        "services.*.fields.model.name",
+    },
+    "da": {
+        "entity.sensor.status.state.ok",
+        "selector.fuel.options.diesel",
+        "selector.fuel.options.hybrid",
+        "selector.odometer_source.options.entity",
+        "selector.unit.options.mi",
+        "services.*.fields.model.name",
+    },
+    "de": {
+        "entity.sensor.status.state.ok",
+        "selector.fuel.options.diesel",
+        "selector.fuel.options.hybrid",
+        "selector.odometer_source.options.entity",
+        "services.*.fields.name.name",
+    },
+    "es": {
+        "selector.odometer_source.options.entity",
+    },
+    "fi": {
+        "selector.fuel.options.diesel",
+    },
+    "fr": {
+        "entity.sensor.status.state.ok",
+        "selector.fuel.options.diesel",
+        "selector.kind.options.date",
+        "selector.unit.options.mi",
+        "services.*.fields.date.name",
+        "services.*.fields.document.name",
+        "services.*.fields.notes.name",
+    },
+    "it": {
+        "entity.sensor.status.state.ok",
+        "selector.fuel.options.diesel",
+        "services.*.fields.area_id.name",
+    },
+    "nb": {
+        "entity.sensor.status.state.ok",
+        "selector.fuel.options.diesel",
+        "selector.fuel.options.hybrid",
+        "selector.odometer_source.options.entity",
+        "selector.unit.options.mi",
+    },
+    "nl": {
+        "entity.sensor.status.state.ok",
+        "selector.fuel.options.diesel",
+        "selector.odometer_source.options.entity",
+        "services.*.fields.document.name",
+        "services.*.fields.model.name",
+    },
+    "pl": {
+        "entity.sensor.status.state.ok",
+        "selector.fuel.options.diesel",
+        "services.*.fields.model.name",
+    },
+    "pt-BR": {
+        "entity.sensor.status.state.ok",
+        "selector.fuel.options.diesel",
+        "selector.odometer_source.options.entity",
+    },
+    "sv": {
+        "entity.sensor.status.state.ok",
+        "selector.fuel.options.diesel",
+        "selector.fuel.options.hybrid",
+        "selector.odometer_source.options.entity",
+        "selector.unit.options.mi",
+    },
 }
-# Values that are the same in each language: the product name.
-_INTENTIONALLY_IDENTICAL: set[str] = {"config.step.user.title"}
+# Values that are the same in each language: the product name, and VIN, which is a
+# standard code name.
+_INTENTIONALLY_IDENTICAL: set[str] = {
+    "config.step.user.title",
+    "services.*.fields.vin.name",
+}
 
 
 def _allowed(key: str, patterns: set[str]) -> bool:

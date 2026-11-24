@@ -1,4 +1,18 @@
 {
   "tab.title": "Auta",
-  "companion.description": "Auta, tachometry, úkony údržby a historie servisu."
+  "companion.description": "Auta, tachometry, úkony údržby a historie servisu.",
+  "template.engine_oil": "Motorový olej a filtr",
+  "template.tyre_rotation": "Přehození pneumatik",
+  "template.tyre_check": "Tlak a dezén pneumatik",
+  "template.brake_fluid": "Brzdová kapalina",
+  "template.cabin_filter": "Kabinový filtr",
+  "template.engine_air_filter": "Vzduchový filtr motoru",
+  "template.wipers": "Stěrače",
+  "template.battery_12v": "Test 12V baterie",
+  "template.coolant": "Chladicí kapalina",
+  "template.spark_plugs": "Zapalovací svíčky",
+  "template.adblue": "Doplnění AdBlue",
+  "template.registration": "Registrace",
+  "template.insurance": "Pojištění",
+  "template.inspection": "Technická kontrola"
 }

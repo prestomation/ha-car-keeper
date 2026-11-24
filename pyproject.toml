@@ -66,9 +66,15 @@ also_copy = [
 # api_surface against the real registrations. backend_i18n.py is a file reader
 # that the parity tests cover. card_resource.py is the pure half of card.py.
 only_mutate = [
+    "custom_components/car_keeper/units.py",
     "custom_components/car_keeper/models.py",
+    "custom_components/car_keeper/readings.py",
+    "custom_components/car_keeper/schedule.py",
+    "custom_components/car_keeper/history.py",
+    "custom_components/car_keeper/templates.py",
     "custom_components/car_keeper/events.py",
     "custom_components/car_keeper/projections.py",
+    "custom_components/car_keeper/import_export.py",
     "custom_components/car_keeper/card_resource.py",
 ]
 pytest_add_cli_args_test_selection = ["tests/unit"]

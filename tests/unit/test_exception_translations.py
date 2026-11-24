@@ -91,7 +91,7 @@ def _literal_keys(func_names: set[str]) -> set[str]:
             if name in ("resolve_exception", "_error") and len(node.args) >= 2:
                 arg = node.args[1] if name == "resolve_exception" else node.args[3]
             # An import problem is ``(level, path, key, ...)``.
-            if name in ("problem", "Problem") and len(node.args) >= 3:
+            if name in ("_problem",) and len(node.args) >= 3:
                 arg = node.args[2]
             if isinstance(arg, ast.Constant) and isinstance(arg.value, str):
                 keys.add(arg.value)
@@ -109,7 +109,7 @@ def test_car_keeper_error_keys_exist_in_strings() -> None:
     strings = json.loads((_COMPONENT / "strings.json").read_text(encoding="utf-8"))
     defined = set(strings["exceptions"])
     used = _literal_keys(
-        {"CarKeeperError", "resolve_exception", "_error"} | {"problem", "Problem"}
+        {"CarKeeperError", "resolve_exception", "_error"} | {"_problem"}
     )
     # A raise with a constant ``translation_key`` uses its key too.
     used |= {
@@ -117,6 +117,8 @@ def test_car_keeper_error_keys_exist_in_strings() -> None:
         for _, _, call in _raise_calls()
         if isinstance((key := _kwarg(call, "translation_key")), ast.Constant)
     }
+    # ``store._get`` builds ``<kind>_not_found`` for these kinds.
+    used |= {f"{kind}_not_found" for kind in ("car", "item", "service")}
     assert "not_loaded" in used
     assert not used - defined, f"keys missing from strings.json: {used - defined}"
     unused = defined - used

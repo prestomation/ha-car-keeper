@@ -6,10 +6,10 @@
     "cars": {},
     "items": {},
     "services": {},
-    "documents": {},
     "readings": {},
     "settings": {
-      "unit": "km"
+      "unit": "km",
+      "templates": {}
     }
   }
 }

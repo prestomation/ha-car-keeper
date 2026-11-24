@@ -31,3 +31,24 @@ def test_set_settings_fires_the_settings_updated_event(api):
         assert resp.status_code == 200, resp.text
         assert resp.json()["service_response"]["settings"]["unit"] == unit
     assert _wait_for(api, "settings_updated:") == "settings_updated:['unit']"
+
+
+def test_set_odometer_fires_the_odometer_updated_event(api):
+    resp = api.post(
+        "/api/services/car_keeper/add_car?return_response",
+        json={"name": "Event car", "odometer": 500},
+    )
+    assert resp.status_code == 200, resp.text
+    car_id = resp.json()["service_response"]["car"]["id"]
+    try:
+        resp = api.post(
+            "/api/services/car_keeper/set_odometer",
+            json={"car_id": car_id, "value": 750},
+        )
+        assert resp.status_code == 200, resp.text
+        assert (
+            _wait_for(api, "odometer_updated:Event car:750")
+            == "odometer_updated:Event car:750.0:km:manual"
+        )
+    finally:
+        api.post("/api/services/car_keeper/delete_car", json={"car_id": car_id})

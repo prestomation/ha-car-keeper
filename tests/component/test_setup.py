@@ -174,7 +174,7 @@ async def test_missing_home_keeper(hass, persons, monkeypatch) -> None:
     reply = await hass.services.async_call(
         DOMAIN, "set_settings", {"unit": "mi"}, blocking=True, return_response=True
     )
-    assert reply == {"settings": {"unit": "mi"}}
+    assert reply == {"settings": {"unit": "mi", "templates": {}}}
     issue = ir.async_get(hass).async_get_issue(DOMAIN, "home_keeper_missing")
     assert issue.translation_placeholders == {
         "url": "https://github.com/prestomation/ha-home-keeper#installation"

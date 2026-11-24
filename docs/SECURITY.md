@@ -28,9 +28,20 @@ trusts a call with no user, as Home Assistant does. An automation makes that kin
 
 ## Services
 
-| Service | Access |
-|---|---|
-| `set_settings` | Admin |
+| Service | Access | Rule |
+|---|---|---|
+| `add_car`, `update_car`, `delete_car` | Admin | Record management |
+| `add_item`, `update_item`, `delete_item`, `apply_templates` | Admin | Record management |
+| `update_service`, `delete_service` | Admin | Record management |
+| `correct_odometer` | Admin | Record management: a correction can lower the odometer |
+| `set_settings` | Admin | Record management |
+| `export_data`, `import_data` | Admin | Whole-store operation |
+| `set_odometer` | Every user | The use of a car. The value cannot go down. |
+| `log_service` | Every user | The use of a car |
+| `list_cars`, `get_car`, `list_items`, `list_services` | Every user | Every read is open |
+
+The to-do list of a car follows `log_service`: every user who can use the list can check a
+job.
 
 ## Websocket commands
 

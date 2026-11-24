@@ -39,6 +39,46 @@
         "km": "Quilòmetres",
         "mi": "Milles"
       }
+    },
+    "fuel": {
+      "options": {
+        "petrol": "Gasolina",
+        "diesel": "Dièsel",
+        "hybrid": "Híbrid",
+        "plug_in_hybrid": "Híbrid endollable",
+        "electric": "Elèctric",
+        "other": "Altre"
+      }
+    },
+    "odometer_source": {
+      "options": {
+        "manual": "Introduït",
+        "entity": "Sensor"
+      }
+    },
+    "kind": {
+      "options": {
+        "job": "Feina periòdica",
+        "date": "Data"
+      }
+    },
+    "template": {
+      "options": {
+        "engine_oil": "Oli i filtre del motor",
+        "tyre_rotation": "Rotació de pneumàtics",
+        "tyre_check": "Pressió i dibuix dels pneumàtics",
+        "brake_fluid": "Líquid de frens",
+        "cabin_filter": "Filtre d'habitacle",
+        "engine_air_filter": "Filtre d'aire del motor",
+        "wipers": "Escombretes",
+        "battery_12v": "Prova de la bateria de 12 V",
+        "coolant": "Refrigerant",
+        "spark_plugs": "Bugies",
+        "adblue": "Recàrrega d'AdBlue",
+        "registration": "Matriculació",
+        "insurance": "Assegurança",
+        "inspection": "Inspecció tècnica"
+      }
     }
   },
   "issues": {
@@ -53,9 +93,429 @@
     "home_keeper_too_old": {
       "title": "Home Keeper és massa antic",
       "description": "La pestanya Cotxes i les tasques de manteniment necessiten Home Keeper versió {version} o posterior. Les targetes, les entitats i els serveis ja funcionen. Actualitza Home Keeper."
+    },
+    "odometer_decreased": {
+      "title": "El comptaquilòmetres de {car} ha baixat",
+      "description": "El sensor del comptaquilòmetres de {car} ha informat {value} {unit} 2 vegades, per sota de l'última lectura de {current} {unit}. Car Keeper manté l'última lectura. Si el sensor és erroni, corregeix el sensor. Si el cotxe té un quadre d'instruments nou, corregeix el comptaquilòmetres del cotxe i defineix un desplaçament."
     }
   },
   "services": {
+    "add_car": {
+      "name": "Afegeix un cotxe",
+      "description": "Afegeix un cotxe amb el comptaquilòmetres i les feines inicials seleccionades. Només administradors.",
+      "fields": {
+        "name": {
+          "name": "Nom",
+          "description": "El nom del cotxe."
+        },
+        "make": {
+          "name": "Marca",
+          "description": "El fabricant del cotxe."
+        },
+        "model": {
+          "name": "Model",
+          "description": "El model del cotxe."
+        },
+        "year": {
+          "name": "Any",
+          "description": "L'any del model."
+        },
+        "trim": {
+          "name": "Acabat",
+          "description": "L'acabat o la versió."
+        },
+        "fuel": {
+          "name": "Combustible",
+          "description": "El tipus de combustible. Selecciona les feines inicials."
+        },
+        "vin": {
+          "name": "VIN",
+          "description": "El número d'identificació del vehicle."
+        },
+        "plate": {
+          "name": "Matrícula",
+          "description": "La matrícula."
+        },
+        "area_id": {
+          "name": "Àrea",
+          "description": "L'àrea del cotxe a Home Assistant."
+        },
+        "notes": {
+          "name": "Notes",
+          "description": "Notes."
+        },
+        "lead_distance": {
+          "name": "Distància d'avís",
+          "description": "La distància abans d'un límit en què una feina és propera."
+        },
+        "lead_days": {
+          "name": "Dies d'avís",
+          "description": "Els dies abans d'un límit en què una feina és propera."
+        },
+        "unit": {
+          "name": "Unitat de distància",
+          "description": "km o mi."
+        },
+        "odometer_source": {
+          "name": "Origen del comptaquilòmetres",
+          "description": "Introdueix el comptaquilòmetres o llegeix-lo d'un sensor."
+        },
+        "odometer_entity_id": {
+          "name": "Sensor del comptaquilòmetres",
+          "description": "El sensor que informa del comptaquilòmetres."
+        },
+        "odometer": {
+          "name": "Comptaquilòmetres",
+          "description": "La lectura actual, en la unitat del cotxe."
+        },
+        "starter_jobs": {
+          "name": "Feines inicials",
+          "description": "Els identificadors de les feines inicials que cal afegir."
+        },
+        "due_dates": {
+          "name": "Dates de venciment",
+          "description": "La data de venciment de cada feina inicial amb data, per identificador."
+        }
+      }
+    },
+    "update_car": {
+      "name": "Actualitza el cotxe",
+      "description": "Canvia els camps d'un cotxe. Un canvi d'unitat converteix cada valor del cotxe. Només administradors.",
+      "fields": {
+        "car_id": {
+          "name": "Cotxe",
+          "description": "L'identificador del cotxe."
+        },
+        "name": {
+          "name": "Nom",
+          "description": "El nom del cotxe."
+        },
+        "make": {
+          "name": "Marca",
+          "description": "El fabricant del cotxe."
+        },
+        "model": {
+          "name": "Model",
+          "description": "El model del cotxe."
+        },
+        "year": {
+          "name": "Any",
+          "description": "L'any del model."
+        },
+        "trim": {
+          "name": "Acabat",
+          "description": "L'acabat o la versió."
+        },
+        "fuel": {
+          "name": "Combustible",
+          "description": "El tipus de combustible. Selecciona les feines inicials."
+        },
+        "vin": {
+          "name": "VIN",
+          "description": "El número d'identificació del vehicle."
+        },
+        "plate": {
+          "name": "Matrícula",
+          "description": "La matrícula."
+        },
+        "area_id": {
+          "name": "Àrea",
+          "description": "L'àrea del cotxe a Home Assistant."
+        },
+        "notes": {
+          "name": "Notes",
+          "description": "Notes."
+        },
+        "lead_distance": {
+          "name": "Distància d'avís",
+          "description": "La distància abans d'un límit en què una feina és propera."
+        },
+        "lead_days": {
+          "name": "Dies d'avís",
+          "description": "Els dies abans d'un límit en què una feina és propera."
+        },
+        "unit": {
+          "name": "Unitat de distància",
+          "description": "km o mi."
+        },
+        "odometer_source": {
+          "name": "Origen del comptaquilòmetres",
+          "description": "Introdueix el comptaquilòmetres o llegeix-lo d'un sensor."
+        },
+        "odometer_entity_id": {
+          "name": "Sensor del comptaquilòmetres",
+          "description": "El sensor que informa del comptaquilòmetres."
+        }
+      }
+    },
+    "delete_car": {
+      "name": "Suprimeix el cotxe",
+      "description": "Suprimeix un cotxe amb les seves feines, registres de servei i lectures. Només administradors.",
+      "fields": {
+        "car_id": {
+          "name": "Cotxe",
+          "description": "L'identificador del cotxe."
+        }
+      }
+    },
+    "set_odometer": {
+      "name": "Defineix el comptaquilòmetres",
+      "description": "Desa una lectura del comptaquilòmetres. El valor no pot ser inferior a l'última lectura.",
+      "fields": {
+        "car_id": {
+          "name": "Cotxe",
+          "description": "L'identificador del cotxe."
+        },
+        "value": {
+          "name": "Lectura",
+          "description": "La lectura del comptaquilòmetres, en la unitat del cotxe."
+        }
+      }
+    },
+    "correct_odometer": {
+      "name": "Corregeix el comptaquilòmetres",
+      "description": "Desa qualsevol lectura, també una d'inferior, i un desplaçament opcional per a un quadre d'instruments nou. Només administradors.",
+      "fields": {
+        "car_id": {
+          "name": "Cotxe",
+          "description": "L'identificador del cotxe."
+        },
+        "value": {
+          "name": "Lectura",
+          "description": "La lectura del comptaquilòmetres, en la unitat del cotxe."
+        },
+        "offset": {
+          "name": "Desplaçament",
+          "description": "S'afegeix a cada valor posterior del sensor, per a un quadre d'instruments nou."
+        }
+      }
+    },
+    "add_item": {
+      "name": "Afegeix una feina",
+      "description": "Afegeix una feina de manteniment a un cotxe. Només administradors.",
+      "fields": {
+        "car_id": {
+          "name": "Cotxe",
+          "description": "L'identificador del cotxe."
+        },
+        "name": {
+          "name": "Nom",
+          "description": "El nom de la feina."
+        },
+        "kind": {
+          "name": "Tipus",
+          "description": "Una feina amb interval, o una data com una matriculació."
+        },
+        "interval_distance": {
+          "name": "Interval de distància",
+          "description": "La distància entre 2 serveis, en la unitat del cotxe."
+        },
+        "interval_months": {
+          "name": "Interval de temps",
+          "description": "Els mesos entre 2 serveis."
+        },
+        "due_date": {
+          "name": "Data de venciment",
+          "description": "La data de venciment d'una feina amb data."
+        },
+        "lead_distance": {
+          "name": "Distància d'avís",
+          "description": "La distància abans d'un límit en què una feina és propera."
+        },
+        "lead_days": {
+          "name": "Dies d'avís",
+          "description": "Els dies abans d'un límit en què una feina és propera."
+        },
+        "notes": {
+          "name": "Notes",
+          "description": "Notes."
+        },
+        "enabled": {
+          "name": "Activa",
+          "description": "Desactivada manté la feina i n'atura l'estat de venciment."
+        },
+        "add_task": {
+          "name": "Tasca de Home Keeper",
+          "description": "Crea una tasca de Home Keeper per a la feina."
+        },
+        "last_date": {
+          "name": "Última vegada el",
+          "description": "La data de l'últim servei, si la saps."
+        },
+        "last_reading": {
+          "name": "Última vegada a",
+          "description": "El comptaquilòmetres a l'últim servei, si el saps."
+        }
+      }
+    },
+    "update_item": {
+      "name": "Actualitza la feina",
+      "description": "Canvia els camps d'una feina de manteniment. Només administradors.",
+      "fields": {
+        "item_id": {
+          "name": "Feina",
+          "description": "L'identificador de la feina."
+        },
+        "name": {
+          "name": "Nom",
+          "description": "El nom de la feina."
+        },
+        "kind": {
+          "name": "Tipus",
+          "description": "Una feina amb interval, o una data com una matriculació."
+        },
+        "interval_distance": {
+          "name": "Interval de distància",
+          "description": "La distància entre 2 serveis, en la unitat del cotxe."
+        },
+        "interval_months": {
+          "name": "Interval de temps",
+          "description": "Els mesos entre 2 serveis."
+        },
+        "due_date": {
+          "name": "Data de venciment",
+          "description": "La data de venciment d'una feina amb data."
+        },
+        "lead_distance": {
+          "name": "Distància d'avís",
+          "description": "La distància abans d'un límit en què una feina és propera."
+        },
+        "lead_days": {
+          "name": "Dies d'avís",
+          "description": "Els dies abans d'un límit en què una feina és propera."
+        },
+        "notes": {
+          "name": "Notes",
+          "description": "Notes."
+        },
+        "enabled": {
+          "name": "Activa",
+          "description": "Desactivada manté la feina i n'atura l'estat de venciment."
+        },
+        "add_task": {
+          "name": "Tasca de Home Keeper",
+          "description": "Crea una tasca de Home Keeper per a la feina."
+        }
+      }
+    },
+    "delete_item": {
+      "name": "Suprimeix la feina",
+      "description": "Suprimeix una feina de manteniment. Els registres de servei es mantenen. Només administradors.",
+      "fields": {
+        "item_id": {
+          "name": "Feina",
+          "description": "L'identificador de la feina."
+        }
+      }
+    },
+    "apply_templates": {
+      "name": "Afegeix feines inicials",
+      "description": "Afegeix les feines inicials seleccionades a un cotxe. Només administradors.",
+      "fields": {
+        "car_id": {
+          "name": "Cotxe",
+          "description": "L'identificador del cotxe."
+        },
+        "starter_jobs": {
+          "name": "Feines inicials",
+          "description": "Les feines inicials que cal afegir."
+        },
+        "due_dates": {
+          "name": "Dates de venciment",
+          "description": "La data de venciment de cada feina inicial amb data, per identificador."
+        }
+      }
+    },
+    "log_service": {
+      "name": "Registra un servei",
+      "description": "Afegeix un registre de servei i marca les seves feines com a fetes.",
+      "fields": {
+        "car_id": {
+          "name": "Cotxe",
+          "description": "L'identificador del cotxe."
+        },
+        "date": {
+          "name": "Data",
+          "description": "La data del servei. Per defecte és avui."
+        },
+        "reading": {
+          "name": "Lectura",
+          "description": "El comptaquilòmetres al servei."
+        },
+        "items": {
+          "name": "Feines",
+          "description": "Els identificadors de les feines que ha fet el servei."
+        },
+        "shop": {
+          "name": "Taller",
+          "description": "El taller, o buit per a una feina a casa."
+        },
+        "notes": {
+          "name": "Notes",
+          "description": "Notes."
+        },
+        "who": {
+          "name": "Qui",
+          "description": "Qui ha fet la feina."
+        },
+        "cost": {
+          "name": "Cost",
+          "description": "El cost de la visita, en la moneda de Home Assistant."
+        }
+      }
+    },
+    "update_service": {
+      "name": "Actualitza el registre de servei",
+      "description": "Canvia un registre de servei. Només administradors.",
+      "fields": {
+        "service_id": {
+          "name": "Registre de servei",
+          "description": "L'identificador del registre de servei."
+        },
+        "date": {
+          "name": "Data",
+          "description": "La data del servei. Per defecte és avui."
+        },
+        "reading": {
+          "name": "Lectura",
+          "description": "El comptaquilòmetres al servei."
+        },
+        "items": {
+          "name": "Feines",
+          "description": "Els identificadors de les feines que ha fet el servei."
+        },
+        "shop": {
+          "name": "Taller",
+          "description": "El taller, o buit per a una feina a casa."
+        },
+        "notes": {
+          "name": "Notes",
+          "description": "Notes."
+        },
+        "who": {
+          "name": "Qui",
+          "description": "Qui ha fet la feina."
+        },
+        "cost": {
+          "name": "Cost",
+          "description": "El cost de la visita, en la moneda de Home Assistant."
+        },
+        "parts_used": {
+          "name": "Peces utilitzades",
+          "description": "Una llista de les peces de Home Keeper que ha fet servir el servei."
+        }
+      }
+    },
+    "delete_service": {
+      "name": "Suprimeix el registre de servei",
+      "description": "Suprimeix un registre de servei. Només administradors.",
+      "fields": {
+        "service_id": {
+          "name": "Registre de servei",
+          "description": "L'identificador del registre de servei."
+        }
+      }
+    },
     "set_settings": {
       "name": "Defineix la configuració",
       "description": "Canvia la configuració de Car Keeper. Només administradors.",
@@ -63,6 +523,72 @@
         "unit": {
           "name": "Unitat de distància",
           "description": "La unitat d'un cotxe nou: km o mi."
+        },
+        "templates": {
+          "name": "Feines inicials",
+          "description": "Canvis de les feines inicials, per identificador: km, mesos i activada."
+        }
+      }
+    },
+    "export_data": {
+      "name": "Exporta les dades",
+      "description": "Retorna totes les dades de Car Keeper per a l'exportació de Home Keeper. Només administradors.",
+      "fields": {
+        "files_dir": {
+          "name": "Carpeta de fitxers",
+          "description": "Home Keeper el defineix per a una exportació o importació de paquet."
+        }
+      }
+    },
+    "import_data": {
+      "name": "Importa les dades",
+      "description": "Afegeix i actualitza dades de Car Keeper des d'una exportació. No suprimeix cap registre. Només administradors.",
+      "fields": {
+        "document": {
+          "name": "Document",
+          "description": "La secció de Car Keeper d'una exportació."
+        },
+        "dry_run": {
+          "name": "Previsualització",
+          "description": "Informa del que canviaria i no escriu cap dada."
+        },
+        "files_dir": {
+          "name": "Carpeta de fitxers",
+          "description": "Home Keeper el defineix per a una exportació o importació de paquet."
+        }
+      }
+    },
+    "list_cars": {
+      "name": "Llista els cotxes",
+      "description": "Retorna cada cotxe amb el seu estat i la seva propera feina."
+    },
+    "get_car": {
+      "name": "Obtén el cotxe",
+      "description": "Retorna 1 cotxe amb les seves feines, registres de servei i lectures.",
+      "fields": {
+        "car_id": {
+          "name": "Cotxe",
+          "description": "L'identificador del cotxe."
+        }
+      }
+    },
+    "list_items": {
+      "name": "Llista les feines",
+      "description": "Retorna les feines amb els seus límits i estat.",
+      "fields": {
+        "car_id": {
+          "name": "Cotxe",
+          "description": "Només les feines d'aquest cotxe."
+        }
+      }
+    },
+    "list_services": {
+      "name": "Llista els registres de servei",
+      "description": "Retorna els registres de servei, el més recent primer.",
+      "fields": {
+        "car_id": {
+          "name": "Cotxe",
+          "description": "Només els registres d'aquest cotxe."
         }
       }
     }
@@ -70,6 +596,100 @@
   "exceptions": {
     "not_loaded": {
       "message": "Car Keeper no està carregat. Torna-ho a provar quan s'iniciï."
+    },
+    "car_not_found": {
+      "message": "Cap cotxe té l'identificador {id}."
+    },
+    "item_not_found": {
+      "message": "Cap feina té l'identificador {id}."
+    },
+    "service_not_found": {
+      "message": "Cap registre de servei té l'identificador {id}."
+    },
+    "template_not_found": {
+      "message": "Cap feina inicial té l'identificador {id}."
+    },
+    "field_required": {
+      "message": "Introdueix un valor per a {field}."
+    },
+    "field_too_long": {
+      "message": "El valor de {field} té més de {limit} caràcters."
+    },
+    "invalid_field": {
+      "message": "El valor de {field} no és vàlid."
+    },
+    "out_of_range": {
+      "message": "El valor de {field} ha d'estar entre {low} i {high}."
+    },
+    "invalid_date": {
+      "message": "La data {value} de {field} no és una data en el format AAAA-MM-DD."
+    },
+    "interval_required": {
+      "message": "Introdueix un interval de distància, un interval de temps o tots dos."
+    },
+    "invalid_reading": {
+      "message": "La lectura {value} no és vàlida."
+    },
+    "odometer_decreased": {
+      "message": "La lectura {value} és inferior a l'última lectura {current}. Un administrador pot corregir el comptaquilòmetres."
+    },
+    "todo_only_check": {
+      "message": "Marca la feina per registrar un servei. La llista no té cap altre canvi."
+    },
+    "import_not_a_document": {
+      "message": "El document no és una exportació de Car Keeper."
+    },
+    "import_format_too_new": {
+      "message": "El format d'exportació {format} és més nou que aquest Car Keeper. Actualitza Car Keeper."
+    },
+    "import_missing_field": {
+      "message": "Falta el camp {field} o és buit."
+    },
+    "import_bad_value": {
+      "message": "El valor de {field} no és vàlid."
+    },
+    "import_not_a_record": {
+      "message": "El registre no és vàlid."
+    },
+    "import_unknown_car": {
+      "message": "El registre esmenta un cotxe que no és a la importació ni a Car Keeper."
+    },
+    "import_unknown_item": {
+      "message": "El registre de servei esmenta una feina que no és a la importació ni a Car Keeper."
+    },
+    "import_entity_missing": {
+      "message": "El sensor del comptaquilòmetres {entity_id} no és en aquest Home Assistant. El cotxe tindrà un comptaquilòmetres introduït."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "odometer": {
+        "name": "Comptaquilòmetres"
+      },
+      "next_due_distance": {
+        "name": "Propera distància de venciment"
+      },
+      "next_due_date": {
+        "name": "Propera data de venciment"
+      },
+      "status": {
+        "name": "Estat del manteniment",
+        "state": {
+          "ok": "D'acord",
+          "soon": "Aviat",
+          "overdue": "Vençuda"
+        }
+      }
+    },
+    "binary_sensor": {
+      "overdue": {
+        "name": "Manteniment vençut"
+      }
+    },
+    "todo": {
+      "jobs": {
+        "name": "Feines de manteniment"
+      }
     }
   }
 }

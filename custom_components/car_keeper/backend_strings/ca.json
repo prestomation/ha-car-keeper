@@ -1,4 +1,18 @@
 {
   "tab.title": "Cotxes",
-  "companion.description": "Cotxes, comptaquilòmetres, feines de manteniment i historial de servei."
+  "companion.description": "Cotxes, comptaquilòmetres, feines de manteniment i historial de servei.",
+  "template.engine_oil": "Oli i filtre del motor",
+  "template.tyre_rotation": "Rotació de pneumàtics",
+  "template.tyre_check": "Pressió i dibuix dels pneumàtics",
+  "template.brake_fluid": "Líquid de frens",
+  "template.cabin_filter": "Filtre d'habitacle",
+  "template.engine_air_filter": "Filtre d'aire del motor",
+  "template.wipers": "Escombretes",
+  "template.battery_12v": "Prova de la bateria de 12 V",
+  "template.coolant": "Refrigerant",
+  "template.spark_plugs": "Bugies",
+  "template.adblue": "Recàrrega d'AdBlue",
+  "template.registration": "Matriculació",
+  "template.insurance": "Assegurança",
+  "template.inspection": "Inspecció tècnica"
 }

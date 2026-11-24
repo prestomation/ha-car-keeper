@@ -39,9 +39,15 @@ _COMPONENT_DIR = _CUSTOM_COMPONENTS_DIR / "car_keeper"
 _PKG = "custom_components.car_keeper"
 _PURE_MODULES = (
     "const",
+    "units",
     "models",
+    "readings",
+    "schedule",
+    "history",
+    "templates",
     "events",
     "projections",
+    "import_export",
     "card_resource",
     "backend_i18n",
     "api_surface",

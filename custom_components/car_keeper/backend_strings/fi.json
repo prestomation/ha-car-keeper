@@ -1,4 +1,18 @@
 {
   "tab.title": "Autot",
-  "companion.description": "Autot, matkamittarit, huoltotyöt ja huoltohistoria."
+  "companion.description": "Autot, matkamittarit, huoltotyöt ja huoltohistoria.",
+  "template.engine_oil": "Moottoriöljy ja suodatin",
+  "template.tyre_rotation": "Renkaiden kierrätys",
+  "template.tyre_check": "Rengaspaineet ja kulutuspinta",
+  "template.brake_fluid": "Jarruneste",
+  "template.cabin_filter": "Raitisilmasuodatin",
+  "template.engine_air_filter": "Moottorin ilmansuodatin",
+  "template.wipers": "Pyyhkijänsulat",
+  "template.battery_12v": "12 V:n akun testi",
+  "template.coolant": "Jäähdytysneste",
+  "template.spark_plugs": "Sytytystulpat",
+  "template.adblue": "AdBluen lisäys",
+  "template.registration": "Rekisteröinti",
+  "template.insurance": "Vakuutus",
+  "template.inspection": "Katsastus"
 }

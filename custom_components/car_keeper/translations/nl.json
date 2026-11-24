@@ -39,6 +39,46 @@
         "km": "Kilometer",
         "mi": "Mijlen"
       }
+    },
+    "fuel": {
+      "options": {
+        "petrol": "Benzine",
+        "diesel": "Diesel",
+        "hybrid": "Hybride",
+        "plug_in_hybrid": "Plug-in hybride",
+        "electric": "Elektrisch",
+        "other": "Anders"
+      }
+    },
+    "odometer_source": {
+      "options": {
+        "manual": "Ingevoerd",
+        "entity": "Sensor"
+      }
+    },
+    "kind": {
+      "options": {
+        "job": "Intervaltaak",
+        "date": "Datum"
+      }
+    },
+    "template": {
+      "options": {
+        "engine_oil": "Motorolie en filter",
+        "tyre_rotation": "Banden wisselen",
+        "tyre_check": "Bandenspanning en profiel",
+        "brake_fluid": "Remvloeistof",
+        "cabin_filter": "Interieurfilter",
+        "engine_air_filter": "Motorluchtfilter",
+        "wipers": "Ruitenwisserbladen",
+        "battery_12v": "Test van de 12V-accu",
+        "coolant": "Koelvloeistof",
+        "spark_plugs": "Bougies",
+        "adblue": "AdBlue bijvullen",
+        "registration": "Registratie",
+        "insurance": "Verzekering",
+        "inspection": "APK-keuring"
+      }
     }
   },
   "issues": {
@@ -53,9 +93,429 @@
     "home_keeper_too_old": {
       "title": "Home Keeper is te oud",
       "description": "Het tabblad Auto's en de onderhoudstaken vereisen Home Keeper versie {version} of hoger. De kaarten, de entiteiten en de services werken al. Werk Home Keeper bij."
+    },
+    "odometer_decreased": {
+      "title": "De kilometerteller van {car} is gedaald",
+      "description": "De kilometertellersensor van {car} meldde 2 keer {value} {unit}, onder de laatste stand van {current} {unit}. Car Keeper houdt de laatste stand. Als de sensor fout is, herstel dan de sensor. Als de auto een nieuw instrumentenpaneel heeft, corrigeer dan de kilometerteller van de auto en stel een verschuiving in."
     }
   },
   "services": {
+    "add_car": {
+      "name": "Auto toevoegen",
+      "description": "Voegt een auto toe met de kilometerteller en de gekozen starttaken. Alleen voor beheerders.",
+      "fields": {
+        "name": {
+          "name": "Naam",
+          "description": "De naam van de auto."
+        },
+        "make": {
+          "name": "Merk",
+          "description": "De fabrikant van de auto."
+        },
+        "model": {
+          "name": "Model",
+          "description": "Het model van de auto."
+        },
+        "year": {
+          "name": "Jaar",
+          "description": "Het modeljaar."
+        },
+        "trim": {
+          "name": "Uitvoering",
+          "description": "De uitvoering of de versie."
+        },
+        "fuel": {
+          "name": "Brandstof",
+          "description": "Het brandstoftype. Het kiest de starttaken."
+        },
+        "vin": {
+          "name": "VIN",
+          "description": "Het voertuigidentificatienummer."
+        },
+        "plate": {
+          "name": "Kenteken",
+          "description": "Het kenteken."
+        },
+        "area_id": {
+          "name": "Ruimte",
+          "description": "De ruimte van de auto in Home Assistant."
+        },
+        "notes": {
+          "name": "Notities",
+          "description": "Notities."
+        },
+        "lead_distance": {
+          "name": "Waarschuwingsafstand",
+          "description": "De afstand voor een grens waarop een taak binnenkort is."
+        },
+        "lead_days": {
+          "name": "Waarschuwingsdagen",
+          "description": "De dagen voor een grens waarop een taak binnenkort is."
+        },
+        "unit": {
+          "name": "Afstandseenheid",
+          "description": "km of mi."
+        },
+        "odometer_source": {
+          "name": "Bron van de kilometerteller",
+          "description": "Voer de kilometerstand in of lees die uit een sensor."
+        },
+        "odometer_entity_id": {
+          "name": "Kilometertellersensor",
+          "description": "De sensor die de kilometerstand meldt."
+        },
+        "odometer": {
+          "name": "Kilometerstand",
+          "description": "De stand nu, in de eenheid van de auto."
+        },
+        "starter_jobs": {
+          "name": "Starttaken",
+          "description": "De ID's van de toe te voegen starttaken."
+        },
+        "due_dates": {
+          "name": "Vervaldatums",
+          "description": "De vervaldatum van elke starttaak met datum, per ID."
+        }
+      }
+    },
+    "update_car": {
+      "name": "Auto bijwerken",
+      "description": "Wijzigt de velden van een auto. Een wijziging van de eenheid rekent elke waarde van de auto om. Alleen voor beheerders.",
+      "fields": {
+        "car_id": {
+          "name": "Auto",
+          "description": "De ID van de auto."
+        },
+        "name": {
+          "name": "Naam",
+          "description": "De naam van de auto."
+        },
+        "make": {
+          "name": "Merk",
+          "description": "De fabrikant van de auto."
+        },
+        "model": {
+          "name": "Model",
+          "description": "Het model van de auto."
+        },
+        "year": {
+          "name": "Jaar",
+          "description": "Het modeljaar."
+        },
+        "trim": {
+          "name": "Uitvoering",
+          "description": "De uitvoering of de versie."
+        },
+        "fuel": {
+          "name": "Brandstof",
+          "description": "Het brandstoftype. Het kiest de starttaken."
+        },
+        "vin": {
+          "name": "VIN",
+          "description": "Het voertuigidentificatienummer."
+        },
+        "plate": {
+          "name": "Kenteken",
+          "description": "Het kenteken."
+        },
+        "area_id": {
+          "name": "Ruimte",
+          "description": "De ruimte van de auto in Home Assistant."
+        },
+        "notes": {
+          "name": "Notities",
+          "description": "Notities."
+        },
+        "lead_distance": {
+          "name": "Waarschuwingsafstand",
+          "description": "De afstand voor een grens waarop een taak binnenkort is."
+        },
+        "lead_days": {
+          "name": "Waarschuwingsdagen",
+          "description": "De dagen voor een grens waarop een taak binnenkort is."
+        },
+        "unit": {
+          "name": "Afstandseenheid",
+          "description": "km of mi."
+        },
+        "odometer_source": {
+          "name": "Bron van de kilometerteller",
+          "description": "Voer de kilometerstand in of lees die uit een sensor."
+        },
+        "odometer_entity_id": {
+          "name": "Kilometertellersensor",
+          "description": "De sensor die de kilometerstand meldt."
+        }
+      }
+    },
+    "delete_car": {
+      "name": "Auto verwijderen",
+      "description": "Verwijdert een auto met de taken, onderhoudsregels en standen. Alleen voor beheerders.",
+      "fields": {
+        "car_id": {
+          "name": "Auto",
+          "description": "De ID van de auto."
+        }
+      }
+    },
+    "set_odometer": {
+      "name": "Kilometerstand opgeven",
+      "description": "Slaat een kilometerstand op. De waarde kan niet onder de laatste stand liggen.",
+      "fields": {
+        "car_id": {
+          "name": "Auto",
+          "description": "De ID van de auto."
+        },
+        "value": {
+          "name": "Stand",
+          "description": "De kilometerstand in de eenheid van de auto."
+        }
+      }
+    },
+    "correct_odometer": {
+      "name": "Kilometerstand corrigeren",
+      "description": "Slaat elke stand op, ook een lagere, en een optionele verschuiving voor een nieuw instrumentenpaneel. Alleen voor beheerders.",
+      "fields": {
+        "car_id": {
+          "name": "Auto",
+          "description": "De ID van de auto."
+        },
+        "value": {
+          "name": "Stand",
+          "description": "De kilometerstand in de eenheid van de auto."
+        },
+        "offset": {
+          "name": "Verschuiving",
+          "description": "Wordt opgeteld bij elke latere sensorwaarde, voor een nieuw instrumentenpaneel."
+        }
+      }
+    },
+    "add_item": {
+      "name": "Taak toevoegen",
+      "description": "Voegt een onderhoudstaak toe aan een auto. Alleen voor beheerders.",
+      "fields": {
+        "car_id": {
+          "name": "Auto",
+          "description": "De ID van de auto."
+        },
+        "name": {
+          "name": "Naam",
+          "description": "De naam van de taak."
+        },
+        "kind": {
+          "name": "Soort",
+          "description": "Een taak met een interval, of een datum zoals een registratie."
+        },
+        "interval_distance": {
+          "name": "Afstandsinterval",
+          "description": "De afstand tussen 2 onderhoudsbeurten, in de eenheid van de auto."
+        },
+        "interval_months": {
+          "name": "Tijdsinterval",
+          "description": "De maanden tussen 2 onderhoudsbeurten."
+        },
+        "due_date": {
+          "name": "Vervaldatum",
+          "description": "De vervaldatum van een taak met datum."
+        },
+        "lead_distance": {
+          "name": "Waarschuwingsafstand",
+          "description": "De afstand voor een grens waarop een taak binnenkort is."
+        },
+        "lead_days": {
+          "name": "Waarschuwingsdagen",
+          "description": "De dagen voor een grens waarop een taak binnenkort is."
+        },
+        "notes": {
+          "name": "Notities",
+          "description": "Notities."
+        },
+        "enabled": {
+          "name": "Aan",
+          "description": "Uit houdt de taak en stopt de vervalstatus."
+        },
+        "add_task": {
+          "name": "Home Keeper-taak",
+          "description": "Een Home Keeper-taak voor de taak maken."
+        },
+        "last_date": {
+          "name": "Laatst gedaan op",
+          "description": "De datum van de laatste beurt, als u die weet."
+        },
+        "last_reading": {
+          "name": "Laatst gedaan bij",
+          "description": "De kilometerstand bij de laatste beurt, als u die weet."
+        }
+      }
+    },
+    "update_item": {
+      "name": "Taak bijwerken",
+      "description": "Wijzigt de velden van een onderhoudstaak. Alleen voor beheerders.",
+      "fields": {
+        "item_id": {
+          "name": "Taak",
+          "description": "De ID van de taak."
+        },
+        "name": {
+          "name": "Naam",
+          "description": "De naam van de taak."
+        },
+        "kind": {
+          "name": "Soort",
+          "description": "Een taak met een interval, of een datum zoals een registratie."
+        },
+        "interval_distance": {
+          "name": "Afstandsinterval",
+          "description": "De afstand tussen 2 onderhoudsbeurten, in de eenheid van de auto."
+        },
+        "interval_months": {
+          "name": "Tijdsinterval",
+          "description": "De maanden tussen 2 onderhoudsbeurten."
+        },
+        "due_date": {
+          "name": "Vervaldatum",
+          "description": "De vervaldatum van een taak met datum."
+        },
+        "lead_distance": {
+          "name": "Waarschuwingsafstand",
+          "description": "De afstand voor een grens waarop een taak binnenkort is."
+        },
+        "lead_days": {
+          "name": "Waarschuwingsdagen",
+          "description": "De dagen voor een grens waarop een taak binnenkort is."
+        },
+        "notes": {
+          "name": "Notities",
+          "description": "Notities."
+        },
+        "enabled": {
+          "name": "Aan",
+          "description": "Uit houdt de taak en stopt de vervalstatus."
+        },
+        "add_task": {
+          "name": "Home Keeper-taak",
+          "description": "Een Home Keeper-taak voor de taak maken."
+        }
+      }
+    },
+    "delete_item": {
+      "name": "Taak verwijderen",
+      "description": "Verwijdert een onderhoudstaak. De onderhoudsregels blijven. Alleen voor beheerders.",
+      "fields": {
+        "item_id": {
+          "name": "Taak",
+          "description": "De ID van de taak."
+        }
+      }
+    },
+    "apply_templates": {
+      "name": "Starttaken toevoegen",
+      "description": "Voegt de gekozen starttaken toe aan een auto. Alleen voor beheerders.",
+      "fields": {
+        "car_id": {
+          "name": "Auto",
+          "description": "De ID van de auto."
+        },
+        "starter_jobs": {
+          "name": "Starttaken",
+          "description": "De toe te voegen starttaken."
+        },
+        "due_dates": {
+          "name": "Vervaldatums",
+          "description": "De vervaldatum van elke starttaak met datum, per ID."
+        }
+      }
+    },
+    "log_service": {
+      "name": "Onderhoud registreren",
+      "description": "Voegt een onderhoudsregel toe en markeert de taken als gedaan.",
+      "fields": {
+        "car_id": {
+          "name": "Auto",
+          "description": "De ID van de auto."
+        },
+        "date": {
+          "name": "Datum",
+          "description": "De datum van de beurt. Standaard is vandaag."
+        },
+        "reading": {
+          "name": "Stand",
+          "description": "De kilometerstand bij de beurt."
+        },
+        "items": {
+          "name": "Taken",
+          "description": "De ID's van de taken die de beurt deed."
+        },
+        "shop": {
+          "name": "Garage",
+          "description": "De garage, of leeg voor een taak thuis."
+        },
+        "notes": {
+          "name": "Notities",
+          "description": "Notities."
+        },
+        "who": {
+          "name": "Wie",
+          "description": "Wie de taak deed."
+        },
+        "cost": {
+          "name": "Kosten",
+          "description": "De kosten van het bezoek, in de valuta van Home Assistant."
+        }
+      }
+    },
+    "update_service": {
+      "name": "Onderhoudsregel bijwerken",
+      "description": "Wijzigt een onderhoudsregel. Alleen voor beheerders.",
+      "fields": {
+        "service_id": {
+          "name": "Onderhoudsregel",
+          "description": "De ID van de onderhoudsregel."
+        },
+        "date": {
+          "name": "Datum",
+          "description": "De datum van de beurt. Standaard is vandaag."
+        },
+        "reading": {
+          "name": "Stand",
+          "description": "De kilometerstand bij de beurt."
+        },
+        "items": {
+          "name": "Taken",
+          "description": "De ID's van de taken die de beurt deed."
+        },
+        "shop": {
+          "name": "Garage",
+          "description": "De garage, of leeg voor een taak thuis."
+        },
+        "notes": {
+          "name": "Notities",
+          "description": "Notities."
+        },
+        "who": {
+          "name": "Wie",
+          "description": "Wie de taak deed."
+        },
+        "cost": {
+          "name": "Kosten",
+          "description": "De kosten van het bezoek, in de valuta van Home Assistant."
+        },
+        "parts_used": {
+          "name": "Gebruikte onderdelen",
+          "description": "Een lijst van de Home Keeper-onderdelen die de beurt gebruikte."
+        }
+      }
+    },
+    "delete_service": {
+      "name": "Onderhoudsregel verwijderen",
+      "description": "Verwijdert een onderhoudsregel. Alleen voor beheerders.",
+      "fields": {
+        "service_id": {
+          "name": "Onderhoudsregel",
+          "description": "De ID van de onderhoudsregel."
+        }
+      }
+    },
     "set_settings": {
       "name": "Instellingen opgeven",
       "description": "Wijzigt de instellingen van Car Keeper. Alleen voor beheerders.",
@@ -63,6 +523,72 @@
         "unit": {
           "name": "Afstandseenheid",
           "description": "De eenheid van een nieuwe auto: km of mi."
+        },
+        "templates": {
+          "name": "Starttaken",
+          "description": "Wijzigingen van de starttaken, per ID: km, maanden en ingeschakeld."
+        }
+      }
+    },
+    "export_data": {
+      "name": "Gegevens exporteren",
+      "description": "Geeft alle Car Keeper-gegevens voor de Home Keeper-export. Alleen voor beheerders.",
+      "fields": {
+        "files_dir": {
+          "name": "Bestandsmap",
+          "description": "Ingesteld door Home Keeper voor een bundelexport of -import."
+        }
+      }
+    },
+    "import_data": {
+      "name": "Gegevens importeren",
+      "description": "Voegt Car Keeper-gegevens uit een export toe en werkt ze bij. Er wordt geen record verwijderd. Alleen voor beheerders.",
+      "fields": {
+        "document": {
+          "name": "Document",
+          "description": "Het Car Keeper-gedeelte van een export."
+        },
+        "dry_run": {
+          "name": "Voorbeeld",
+          "description": "Meld wat er zou veranderen en schrijf geen gegevens."
+        },
+        "files_dir": {
+          "name": "Bestandsmap",
+          "description": "Ingesteld door Home Keeper voor een bundelexport of -import."
+        }
+      }
+    },
+    "list_cars": {
+      "name": "Auto's weergeven",
+      "description": "Geeft elke auto met de status en de volgende taak."
+    },
+    "get_car": {
+      "name": "Auto ophalen",
+      "description": "Geeft 1 auto met de taken, onderhoudsregels en standen.",
+      "fields": {
+        "car_id": {
+          "name": "Auto",
+          "description": "De ID van de auto."
+        }
+      }
+    },
+    "list_items": {
+      "name": "Taken weergeven",
+      "description": "Geeft de taken met hun grenzen en status.",
+      "fields": {
+        "car_id": {
+          "name": "Auto",
+          "description": "Alleen de taken van deze auto."
+        }
+      }
+    },
+    "list_services": {
+      "name": "Onderhoudsregels weergeven",
+      "description": "Geeft de onderhoudsregels, de nieuwste eerst.",
+      "fields": {
+        "car_id": {
+          "name": "Auto",
+          "description": "Alleen de regels van deze auto."
         }
       }
     }
@@ -70,6 +596,100 @@
   "exceptions": {
     "not_loaded": {
       "message": "Car Keeper is niet geladen. Probeer het opnieuw nadat het is gestart."
+    },
+    "car_not_found": {
+      "message": "Geen auto heeft de ID {id}."
+    },
+    "item_not_found": {
+      "message": "Geen taak heeft de ID {id}."
+    },
+    "service_not_found": {
+      "message": "Geen onderhoudsregel heeft de ID {id}."
+    },
+    "template_not_found": {
+      "message": "Geen starttaak heeft de ID {id}."
+    },
+    "field_required": {
+      "message": "Voer een waarde in voor {field}."
+    },
+    "field_too_long": {
+      "message": "De waarde van {field} is langer dan {limit} tekens."
+    },
+    "invalid_field": {
+      "message": "De waarde van {field} is ongeldig."
+    },
+    "out_of_range": {
+      "message": "De waarde van {field} moet tussen {low} en {high} liggen."
+    },
+    "invalid_date": {
+      "message": "De datum {value} van {field} is geen datum in de notatie JJJJ-MM-DD."
+    },
+    "interval_required": {
+      "message": "Voer een afstandsinterval, een tijdsinterval of beide in."
+    },
+    "invalid_reading": {
+      "message": "De stand {value} is ongeldig."
+    },
+    "odometer_decreased": {
+      "message": "De stand {value} ligt onder de laatste stand {current}. Een beheerder kan de kilometerteller corrigeren."
+    },
+    "todo_only_check": {
+      "message": "Vink de taak aan om onderhoud te registreren. De lijst heeft geen andere wijziging."
+    },
+    "import_not_a_document": {
+      "message": "Het document is geen Car Keeper-export."
+    },
+    "import_format_too_new": {
+      "message": "Het exportformaat {format} is nieuwer dan deze Car Keeper. Werk Car Keeper bij."
+    },
+    "import_missing_field": {
+      "message": "Het veld {field} ontbreekt of is leeg."
+    },
+    "import_bad_value": {
+      "message": "De waarde van {field} is ongeldig."
+    },
+    "import_not_a_record": {
+      "message": "Het record is ongeldig."
+    },
+    "import_unknown_car": {
+      "message": "Het record noemt een auto die niet in de import of in Car Keeper staat."
+    },
+    "import_unknown_item": {
+      "message": "De onderhoudsregel noemt een taak die niet in de import of in Car Keeper staat."
+    },
+    "import_entity_missing": {
+      "message": "De kilometertellersensor {entity_id} staat niet in deze Home Assistant. De auto krijgt een ingevoerde kilometerstand."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "odometer": {
+        "name": "Kilometerstand"
+      },
+      "next_due_distance": {
+        "name": "Volgende vervaldatum in afstand"
+      },
+      "next_due_date": {
+        "name": "Volgende vervaldatum"
+      },
+      "status": {
+        "name": "Onderhoudsstatus",
+        "state": {
+          "ok": "OK",
+          "soon": "Binnenkort",
+          "overdue": "Achterstallig"
+        }
+      }
+    },
+    "binary_sensor": {
+      "overdue": {
+        "name": "Onderhoud achterstallig"
+      }
+    },
+    "todo": {
+      "jobs": {
+        "name": "Onderhoudstaken"
+      }
     }
   }
 }

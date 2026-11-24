@@ -54,3 +54,83 @@ def test_set_settings_unit(ha: HomeAssistantClient, baseline: Baseline) -> None:
         ha.call(CK, "set_settings", {"unit": "km"})
 
     _run(ha, baseline, "set_settings_unit", action)
+
+
+# --- Cars, odometer and service records -----------------------------------------------
+
+
+def test_add_car(
+    ha: HomeAssistantClient, baseline: Baseline, shared: dict[str, Any]
+) -> None:
+    def action() -> Any:
+        return ha.call(
+            CK,
+            "add_car",
+            {"name": "Noise car", "odometer": 10000, "starter_jobs": ["engine_oil"]},
+        )
+
+    shared["car"] = _run(ha, baseline, "add_car", action)["car"]
+
+
+def test_idle_with_a_car(ha: HomeAssistantClient, baseline: Baseline) -> None:
+    _run(ha, baseline, "idle_with_a_car", lambda: None)
+
+
+def test_noop_update_car(
+    ha: HomeAssistantClient, baseline: Baseline, shared: dict[str, Any]
+) -> None:
+    car = shared["car"]
+
+    def action() -> None:
+        ha.call(CK, "update_car", {"car_id": car["id"], "name": car["name"]})
+
+    _run(ha, baseline, "noop_update_car", action)
+
+
+def test_set_odometer(
+    ha: HomeAssistantClient, baseline: Baseline, shared: dict[str, Any]
+) -> None:
+    def action() -> None:
+        ha.call(CK, "set_odometer", {"car_id": shared["car"]["id"], "value": 10500})
+
+    _run(ha, baseline, "set_odometer", action)
+
+
+def test_log_service(
+    ha: HomeAssistantClient, baseline: Baseline, shared: dict[str, Any]
+) -> None:
+    car_id = shared["car"]["id"]
+    items = ha.call(CK, "list_items", {"car_id": car_id})["items"]
+
+    def action() -> None:
+        ha.call(
+            CK,
+            "log_service",
+            {"car_id": car_id, "items": [i["id"] for i in items], "reading": 10600},
+        )
+
+    _run(ha, baseline, "log_service", action)
+
+
+def test_reads_are_silent(
+    ha: HomeAssistantClient, baseline: Baseline, shared: dict[str, Any]
+) -> None:
+    car_id = shared["car"]["id"]
+
+    def action() -> None:
+        ha.call(CK, "list_cars")
+        ha.call(CK, "get_car", {"car_id": car_id})
+        ha.call(CK, "list_items", {"car_id": car_id})
+        ha.call(CK, "list_services", {"car_id": car_id})
+        ha.ws({"type": "car_keeper/get_state"})
+
+    _run(ha, baseline, "reads_are_silent", action)
+
+
+def test_delete_car(
+    ha: HomeAssistantClient, baseline: Baseline, shared: dict[str, Any]
+) -> None:
+    def action() -> None:
+        ha.call(CK, "delete_car", {"car_id": shared["car"]["id"]})
+
+    _run(ha, baseline, "delete_car", action)

@@ -39,6 +39,46 @@
         "km": "Kilomètres",
         "mi": "Miles"
       }
+    },
+    "fuel": {
+      "options": {
+        "petrol": "Essence",
+        "diesel": "Diesel",
+        "hybrid": "Hybride",
+        "plug_in_hybrid": "Hybride rechargeable",
+        "electric": "Électrique",
+        "other": "Autre"
+      }
+    },
+    "odometer_source": {
+      "options": {
+        "manual": "Saisi",
+        "entity": "Capteur"
+      }
+    },
+    "kind": {
+      "options": {
+        "job": "Travail périodique",
+        "date": "Date"
+      }
+    },
+    "template": {
+      "options": {
+        "engine_oil": "Huile moteur et filtre",
+        "tyre_rotation": "Permutation des pneus",
+        "tyre_check": "Pression et usure des pneus",
+        "brake_fluid": "Liquide de frein",
+        "cabin_filter": "Filtre d'habitacle",
+        "engine_air_filter": "Filtre à air moteur",
+        "wipers": "Balais d'essuie-glace",
+        "battery_12v": "Test de la batterie 12 V",
+        "coolant": "Liquide de refroidissement",
+        "spark_plugs": "Bougies",
+        "adblue": "Appoint d'AdBlue",
+        "registration": "Immatriculation",
+        "insurance": "Assurance",
+        "inspection": "Contrôle technique"
+      }
     }
   },
   "issues": {
@@ -53,9 +93,429 @@
     "home_keeper_too_old": {
       "title": "Home Keeper est trop ancien",
       "description": "L'onglet Voitures et les tâches d'entretien nécessitent Home Keeper version {version} ou ultérieure. Les cartes, les entités et les services fonctionnent déjà. Mettez à jour Home Keeper."
+    },
+    "odometer_decreased": {
+      "title": "Le compteur de {car} a baissé",
+      "description": "Le capteur du compteur de {car} a signalé {value} {unit} 2 fois, sous le dernier relevé de {current} {unit}. Car Keeper garde le dernier relevé. Si le capteur est faux, corrigez le capteur. Si la voiture a un nouveau combiné d'instruments, corrigez le compteur de la voiture et définissez un décalage."
     }
   },
   "services": {
+    "add_car": {
+      "name": "Ajouter une voiture",
+      "description": "Ajoute une voiture avec son compteur et les travaux de départ choisis. Administrateurs uniquement.",
+      "fields": {
+        "name": {
+          "name": "Nom",
+          "description": "Le nom de la voiture."
+        },
+        "make": {
+          "name": "Marque",
+          "description": "Le constructeur de la voiture."
+        },
+        "model": {
+          "name": "Modèle",
+          "description": "Le modèle de la voiture."
+        },
+        "year": {
+          "name": "Année",
+          "description": "L'année du modèle."
+        },
+        "trim": {
+          "name": "Finition",
+          "description": "La finition ou la version."
+        },
+        "fuel": {
+          "name": "Carburant",
+          "description": "Le type de carburant. Il choisit les travaux de départ."
+        },
+        "vin": {
+          "name": "VIN",
+          "description": "Le numéro d'identification du véhicule."
+        },
+        "plate": {
+          "name": "Plaque",
+          "description": "La plaque d'immatriculation."
+        },
+        "area_id": {
+          "name": "Pièce",
+          "description": "La pièce de la voiture dans Home Assistant."
+        },
+        "notes": {
+          "name": "Notes",
+          "description": "Remarques."
+        },
+        "lead_distance": {
+          "name": "Distance d'alerte",
+          "description": "La distance avant une limite où un travail est proche."
+        },
+        "lead_days": {
+          "name": "Jours d'alerte",
+          "description": "Les jours avant une limite où un travail est proche."
+        },
+        "unit": {
+          "name": "Unité de distance",
+          "description": "km ou mi."
+        },
+        "odometer_source": {
+          "name": "Source du compteur",
+          "description": "Saisissez le compteur ou lisez-le depuis un capteur."
+        },
+        "odometer_entity_id": {
+          "name": "Capteur du compteur",
+          "description": "Le capteur qui indique le compteur."
+        },
+        "odometer": {
+          "name": "Compteur kilométrique",
+          "description": "Le relevé actuel, dans l'unité de la voiture."
+        },
+        "starter_jobs": {
+          "name": "Travaux de départ",
+          "description": "Les identifiants des travaux de départ à ajouter."
+        },
+        "due_dates": {
+          "name": "Dates d'échéance",
+          "description": "La date d'échéance de chaque travail de départ à date, par son identifiant."
+        }
+      }
+    },
+    "update_car": {
+      "name": "Modifier la voiture",
+      "description": "Modifie les champs d'une voiture. Un changement d'unité convertit chaque valeur de la voiture. Administrateurs uniquement.",
+      "fields": {
+        "car_id": {
+          "name": "Voiture",
+          "description": "L'identifiant de la voiture."
+        },
+        "name": {
+          "name": "Nom",
+          "description": "Le nom de la voiture."
+        },
+        "make": {
+          "name": "Marque",
+          "description": "Le constructeur de la voiture."
+        },
+        "model": {
+          "name": "Modèle",
+          "description": "Le modèle de la voiture."
+        },
+        "year": {
+          "name": "Année",
+          "description": "L'année du modèle."
+        },
+        "trim": {
+          "name": "Finition",
+          "description": "La finition ou la version."
+        },
+        "fuel": {
+          "name": "Carburant",
+          "description": "Le type de carburant. Il choisit les travaux de départ."
+        },
+        "vin": {
+          "name": "VIN",
+          "description": "Le numéro d'identification du véhicule."
+        },
+        "plate": {
+          "name": "Plaque",
+          "description": "La plaque d'immatriculation."
+        },
+        "area_id": {
+          "name": "Pièce",
+          "description": "La pièce de la voiture dans Home Assistant."
+        },
+        "notes": {
+          "name": "Notes",
+          "description": "Remarques."
+        },
+        "lead_distance": {
+          "name": "Distance d'alerte",
+          "description": "La distance avant une limite où un travail est proche."
+        },
+        "lead_days": {
+          "name": "Jours d'alerte",
+          "description": "Les jours avant une limite où un travail est proche."
+        },
+        "unit": {
+          "name": "Unité de distance",
+          "description": "km ou mi."
+        },
+        "odometer_source": {
+          "name": "Source du compteur",
+          "description": "Saisissez le compteur ou lisez-le depuis un capteur."
+        },
+        "odometer_entity_id": {
+          "name": "Capteur du compteur",
+          "description": "Le capteur qui indique le compteur."
+        }
+      }
+    },
+    "delete_car": {
+      "name": "Supprimer la voiture",
+      "description": "Supprime une voiture avec ses travaux, ses entretiens et ses relevés. Administrateurs uniquement.",
+      "fields": {
+        "car_id": {
+          "name": "Voiture",
+          "description": "L'identifiant de la voiture."
+        }
+      }
+    },
+    "set_odometer": {
+      "name": "Saisir le compteur",
+      "description": "Enregistre un relevé du compteur. La valeur ne peut pas être sous le dernier relevé.",
+      "fields": {
+        "car_id": {
+          "name": "Voiture",
+          "description": "L'identifiant de la voiture."
+        },
+        "value": {
+          "name": "Relevé",
+          "description": "Le relevé du compteur, dans l'unité de la voiture."
+        }
+      }
+    },
+    "correct_odometer": {
+      "name": "Corriger le compteur",
+      "description": "Enregistre n'importe quel relevé, même plus bas, et un décalage facultatif pour un nouveau combiné d'instruments. Administrateurs uniquement.",
+      "fields": {
+        "car_id": {
+          "name": "Voiture",
+          "description": "L'identifiant de la voiture."
+        },
+        "value": {
+          "name": "Relevé",
+          "description": "Le relevé du compteur, dans l'unité de la voiture."
+        },
+        "offset": {
+          "name": "Décalage",
+          "description": "Ajouté à chaque valeur suivante du capteur, pour un nouveau combiné d'instruments."
+        }
+      }
+    },
+    "add_item": {
+      "name": "Ajouter un travail",
+      "description": "Ajoute un travail d'entretien à une voiture. Administrateurs uniquement.",
+      "fields": {
+        "car_id": {
+          "name": "Voiture",
+          "description": "L'identifiant de la voiture."
+        },
+        "name": {
+          "name": "Nom",
+          "description": "Le nom du travail."
+        },
+        "kind": {
+          "name": "Type",
+          "description": "Un travail avec un intervalle, ou une date comme une immatriculation."
+        },
+        "interval_distance": {
+          "name": "Intervalle de distance",
+          "description": "La distance entre 2 entretiens, dans l'unité de la voiture."
+        },
+        "interval_months": {
+          "name": "Intervalle de temps",
+          "description": "Les mois entre 2 entretiens."
+        },
+        "due_date": {
+          "name": "Date d'échéance",
+          "description": "La date d'échéance d'un travail à date."
+        },
+        "lead_distance": {
+          "name": "Distance d'alerte",
+          "description": "La distance avant une limite où un travail est proche."
+        },
+        "lead_days": {
+          "name": "Jours d'alerte",
+          "description": "Les jours avant une limite où un travail est proche."
+        },
+        "notes": {
+          "name": "Notes",
+          "description": "Remarques."
+        },
+        "enabled": {
+          "name": "Activé",
+          "description": "Désactivé garde le travail et arrête son état d'échéance."
+        },
+        "add_task": {
+          "name": "Tâche Home Keeper",
+          "description": "Créer une tâche Home Keeper pour le travail."
+        },
+        "last_date": {
+          "name": "Fait la dernière fois le",
+          "description": "La date du dernier entretien, si vous la connaissez."
+        },
+        "last_reading": {
+          "name": "Fait la dernière fois à",
+          "description": "Le compteur au dernier entretien, si vous le connaissez."
+        }
+      }
+    },
+    "update_item": {
+      "name": "Modifier le travail",
+      "description": "Modifie les champs d'un travail d'entretien. Administrateurs uniquement.",
+      "fields": {
+        "item_id": {
+          "name": "Travail",
+          "description": "L'identifiant du travail."
+        },
+        "name": {
+          "name": "Nom",
+          "description": "Le nom du travail."
+        },
+        "kind": {
+          "name": "Type",
+          "description": "Un travail avec un intervalle, ou une date comme une immatriculation."
+        },
+        "interval_distance": {
+          "name": "Intervalle de distance",
+          "description": "La distance entre 2 entretiens, dans l'unité de la voiture."
+        },
+        "interval_months": {
+          "name": "Intervalle de temps",
+          "description": "Les mois entre 2 entretiens."
+        },
+        "due_date": {
+          "name": "Date d'échéance",
+          "description": "La date d'échéance d'un travail à date."
+        },
+        "lead_distance": {
+          "name": "Distance d'alerte",
+          "description": "La distance avant une limite où un travail est proche."
+        },
+        "lead_days": {
+          "name": "Jours d'alerte",
+          "description": "Les jours avant une limite où un travail est proche."
+        },
+        "notes": {
+          "name": "Notes",
+          "description": "Remarques."
+        },
+        "enabled": {
+          "name": "Activé",
+          "description": "Désactivé garde le travail et arrête son état d'échéance."
+        },
+        "add_task": {
+          "name": "Tâche Home Keeper",
+          "description": "Créer une tâche Home Keeper pour le travail."
+        }
+      }
+    },
+    "delete_item": {
+      "name": "Supprimer le travail",
+      "description": "Supprime un travail d'entretien. Les entretiens restent. Administrateurs uniquement.",
+      "fields": {
+        "item_id": {
+          "name": "Travail",
+          "description": "L'identifiant du travail."
+        }
+      }
+    },
+    "apply_templates": {
+      "name": "Ajouter des travaux de départ",
+      "description": "Ajoute les travaux de départ choisis à une voiture. Administrateurs uniquement.",
+      "fields": {
+        "car_id": {
+          "name": "Voiture",
+          "description": "L'identifiant de la voiture."
+        },
+        "starter_jobs": {
+          "name": "Travaux de départ",
+          "description": "Les travaux de départ à ajouter."
+        },
+        "due_dates": {
+          "name": "Dates d'échéance",
+          "description": "La date d'échéance de chaque travail de départ à date, par son identifiant."
+        }
+      }
+    },
+    "log_service": {
+      "name": "Enregistrer un entretien",
+      "description": "Ajoute un entretien et marque ses travaux comme faits.",
+      "fields": {
+        "car_id": {
+          "name": "Voiture",
+          "description": "L'identifiant de la voiture."
+        },
+        "date": {
+          "name": "Date",
+          "description": "La date de l'entretien. Par défaut, aujourd'hui."
+        },
+        "reading": {
+          "name": "Relevé",
+          "description": "Le compteur à l'entretien."
+        },
+        "items": {
+          "name": "Travaux",
+          "description": "Les identifiants des travaux faits par l'entretien."
+        },
+        "shop": {
+          "name": "Garage",
+          "description": "Le garage, ou vide pour un travail à la maison."
+        },
+        "notes": {
+          "name": "Notes",
+          "description": "Remarques."
+        },
+        "who": {
+          "name": "Qui",
+          "description": "Qui a fait le travail."
+        },
+        "cost": {
+          "name": "Coût",
+          "description": "Le coût de la visite, dans la devise de Home Assistant."
+        }
+      }
+    },
+    "update_service": {
+      "name": "Modifier l'entretien",
+      "description": "Modifie un entretien. Administrateurs uniquement.",
+      "fields": {
+        "service_id": {
+          "name": "Entretien",
+          "description": "L'identifiant de l'entretien."
+        },
+        "date": {
+          "name": "Date",
+          "description": "La date de l'entretien. Par défaut, aujourd'hui."
+        },
+        "reading": {
+          "name": "Relevé",
+          "description": "Le compteur à l'entretien."
+        },
+        "items": {
+          "name": "Travaux",
+          "description": "Les identifiants des travaux faits par l'entretien."
+        },
+        "shop": {
+          "name": "Garage",
+          "description": "Le garage, ou vide pour un travail à la maison."
+        },
+        "notes": {
+          "name": "Notes",
+          "description": "Remarques."
+        },
+        "who": {
+          "name": "Qui",
+          "description": "Qui a fait le travail."
+        },
+        "cost": {
+          "name": "Coût",
+          "description": "Le coût de la visite, dans la devise de Home Assistant."
+        },
+        "parts_used": {
+          "name": "Pièces utilisées",
+          "description": "Une liste des pièces Home Keeper utilisées par l'entretien."
+        }
+      }
+    },
+    "delete_service": {
+      "name": "Supprimer l'entretien",
+      "description": "Supprime un entretien. Administrateurs uniquement.",
+      "fields": {
+        "service_id": {
+          "name": "Entretien",
+          "description": "L'identifiant de l'entretien."
+        }
+      }
+    },
     "set_settings": {
       "name": "Définir les paramètres",
       "description": "Modifie les paramètres de Car Keeper. Administrateurs uniquement.",
@@ -63,6 +523,72 @@
         "unit": {
           "name": "Unité de distance",
           "description": "L'unité d'une nouvelle voiture : km ou mi."
+        },
+        "templates": {
+          "name": "Travaux de départ",
+          "description": "Modifications des travaux de départ, par identifiant : km, mois et activé."
+        }
+      }
+    },
+    "export_data": {
+      "name": "Exporter les données",
+      "description": "Renvoie toutes les données de Car Keeper pour l'export de Home Keeper. Administrateurs uniquement.",
+      "fields": {
+        "files_dir": {
+          "name": "Dossier des fichiers",
+          "description": "Défini par Home Keeper pour un export ou un import de paquet."
+        }
+      }
+    },
+    "import_data": {
+      "name": "Importer les données",
+      "description": "Ajoute et met à jour les données de Car Keeper depuis un export. Il ne supprime aucun enregistrement. Administrateurs uniquement.",
+      "fields": {
+        "document": {
+          "name": "Document",
+          "description": "La section Car Keeper d'un export."
+        },
+        "dry_run": {
+          "name": "Aperçu",
+          "description": "Indique ce qui changerait et n'écrit aucune donnée."
+        },
+        "files_dir": {
+          "name": "Dossier des fichiers",
+          "description": "Défini par Home Keeper pour un export ou un import de paquet."
+        }
+      }
+    },
+    "list_cars": {
+      "name": "Lister les voitures",
+      "description": "Renvoie chaque voiture avec son état et son prochain travail."
+    },
+    "get_car": {
+      "name": "Obtenir la voiture",
+      "description": "Renvoie 1 voiture avec ses travaux, ses entretiens et ses relevés.",
+      "fields": {
+        "car_id": {
+          "name": "Voiture",
+          "description": "L'identifiant de la voiture."
+        }
+      }
+    },
+    "list_items": {
+      "name": "Lister les travaux",
+      "description": "Renvoie les travaux avec leurs limites et leur état.",
+      "fields": {
+        "car_id": {
+          "name": "Voiture",
+          "description": "Seulement les travaux de cette voiture."
+        }
+      }
+    },
+    "list_services": {
+      "name": "Lister les entretiens",
+      "description": "Renvoie les entretiens, le plus récent d'abord.",
+      "fields": {
+        "car_id": {
+          "name": "Voiture",
+          "description": "Seulement les entretiens de cette voiture."
         }
       }
     }
@@ -70,6 +596,100 @@
   "exceptions": {
     "not_loaded": {
       "message": "Car Keeper n'est pas chargé. Réessayez après son démarrage."
+    },
+    "car_not_found": {
+      "message": "Aucune voiture n'a l'identifiant {id}."
+    },
+    "item_not_found": {
+      "message": "Aucun travail n'a l'identifiant {id}."
+    },
+    "service_not_found": {
+      "message": "Aucun entretien n'a l'identifiant {id}."
+    },
+    "template_not_found": {
+      "message": "Aucun travail de départ n'a l'identifiant {id}."
+    },
+    "field_required": {
+      "message": "Saisissez une valeur pour {field}."
+    },
+    "field_too_long": {
+      "message": "La valeur de {field} dépasse {limit} caractères."
+    },
+    "invalid_field": {
+      "message": "La valeur de {field} n'est pas valide."
+    },
+    "out_of_range": {
+      "message": "La valeur de {field} doit être entre {low} et {high}."
+    },
+    "invalid_date": {
+      "message": "La date {value} de {field} n'est pas une date au format AAAA-MM-JJ."
+    },
+    "interval_required": {
+      "message": "Saisissez un intervalle de distance, un intervalle de temps ou les deux."
+    },
+    "invalid_reading": {
+      "message": "Le relevé {value} n'est pas valide."
+    },
+    "odometer_decreased": {
+      "message": "Le relevé {value} est sous le dernier relevé {current}. Un administrateur peut corriger le compteur."
+    },
+    "todo_only_check": {
+      "message": "Cochez le travail pour enregistrer un entretien. La liste n'a pas d'autre modification."
+    },
+    "import_not_a_document": {
+      "message": "Le document n'est pas un export de Car Keeper."
+    },
+    "import_format_too_new": {
+      "message": "Le format d'export {format} est plus récent que ce Car Keeper. Mettez à jour Car Keeper."
+    },
+    "import_missing_field": {
+      "message": "Le champ {field} est absent ou vide."
+    },
+    "import_bad_value": {
+      "message": "La valeur de {field} n'est pas valide."
+    },
+    "import_not_a_record": {
+      "message": "L'enregistrement n'est pas valide."
+    },
+    "import_unknown_car": {
+      "message": "L'enregistrement cite une voiture absente de l'import et de Car Keeper."
+    },
+    "import_unknown_item": {
+      "message": "L'entretien cite un travail absent de l'import et de Car Keeper."
+    },
+    "import_entity_missing": {
+      "message": "Le capteur du compteur {entity_id} n'est pas dans ce Home Assistant. La voiture aura un compteur saisi."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "odometer": {
+        "name": "Compteur kilométrique"
+      },
+      "next_due_distance": {
+        "name": "Prochaine échéance en distance"
+      },
+      "next_due_date": {
+        "name": "Prochaine date d'échéance"
+      },
+      "status": {
+        "name": "État de l'entretien",
+        "state": {
+          "ok": "OK",
+          "soon": "Bientôt",
+          "overdue": "En retard"
+        }
+      }
+    },
+    "binary_sensor": {
+      "overdue": {
+        "name": "Entretien en retard"
+      }
+    },
+    "todo": {
+      "jobs": {
+        "name": "Travaux d'entretien"
+      }
     }
   }
 }

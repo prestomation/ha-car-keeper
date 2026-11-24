@@ -18,9 +18,10 @@ def test_car_keeper_loads_again(upgraded: dict[str, Any]) -> None:
 
 def test_the_document_stays(upgraded: dict[str, Any]) -> None:
     state = upgraded["client"].ws("car_keeper/get_state")
-    assert upgraded["written"]["settings"] == {"unit": "mi"}
-    assert state["settings"] == {"unit": "mi"}
-    for section in ("cars", "items", "services", "documents", "readings"):
+    assert upgraded["written"]["settings"] == {"unit": "mi", "templates": {}}
+    assert state["settings"] == {"unit": "mi", "templates": {}}
+    assert len(state["cars"]) == 1 and len(state["services"]) == 1
+    for section in ("cars", "items", "services", "readings"):
         assert state[section] == upgraded["before"][section], section
 
 

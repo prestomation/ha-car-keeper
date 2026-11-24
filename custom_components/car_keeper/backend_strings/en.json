@@ -1,4 +1,18 @@
 {
   "tab.title": "Cars",
-  "companion.description": "Cars, odometers, maintenance jobs and service history."
+  "companion.description": "Cars, odometers, maintenance jobs and service history.",
+  "template.engine_oil": "Engine oil and filter",
+  "template.tyre_rotation": "Tyre rotation",
+  "template.tyre_check": "Tyre pressure and tread",
+  "template.brake_fluid": "Brake fluid",
+  "template.cabin_filter": "Cabin air filter",
+  "template.engine_air_filter": "Engine air filter",
+  "template.wipers": "Wiper blades",
+  "template.battery_12v": "12 V battery test",
+  "template.coolant": "Coolant",
+  "template.spark_plugs": "Spark plugs",
+  "template.adblue": "AdBlue refill",
+  "template.registration": "Registration",
+  "template.insurance": "Insurance",
+  "template.inspection": "Inspection"
 }

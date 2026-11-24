@@ -1,4 +1,18 @@
 {
   "tab.title": "Автомобили",
-  "companion.description": "Автомобили, одометры, работы по обслуживанию и история сервиса."
+  "companion.description": "Автомобили, одометры, работы по обслуживанию и история сервиса.",
+  "template.engine_oil": "Моторное масло и фильтр",
+  "template.tyre_rotation": "Перестановка шин",
+  "template.tyre_check": "Давление и протектор шин",
+  "template.brake_fluid": "Тормозная жидкость",
+  "template.cabin_filter": "Салонный фильтр",
+  "template.engine_air_filter": "Воздушный фильтр двигателя",
+  "template.wipers": "Щётки стеклоочистителя",
+  "template.battery_12v": "Проверка аккумулятора 12 В",
+  "template.coolant": "Охлаждающая жидкость",
+  "template.spark_plugs": "Свечи зажигания",
+  "template.adblue": "Долив AdBlue",
+  "template.registration": "Регистрация",
+  "template.insurance": "Страховка",
+  "template.inspection": "Техосмотр"
 }

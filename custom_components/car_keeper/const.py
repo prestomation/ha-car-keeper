@@ -38,7 +38,7 @@ HOME_KEEPER_REASONS = (
 HOME_KEEPER_CAPABILITY_IMPORT_EXPORT = "import_export"
 
 # The entity platforms of the config entry.
-PLATFORMS: list[str] = []
+PLATFORMS: list[str] = ["sensor", "binary_sensor", "todo"]
 
 # PANEL_VERSION is the same string as the manifest version. release.yml checks it,
 # and rollup.config.mjs reads it.
@@ -73,7 +73,26 @@ ORIGIN = DOMAIN
 
 # The bus events. Each name is ``car_keeper_<noun>_<verb>``. The pure builders in
 # events.py make the payloads, and the store fires them.
+EVENT_CAR_ADDED = f"{DOMAIN}_car_added"
+EVENT_CAR_UPDATED = f"{DOMAIN}_car_updated"
+EVENT_CAR_REMOVED = f"{DOMAIN}_car_removed"
+EVENT_ODOMETER_UPDATED = f"{DOMAIN}_odometer_updated"
+EVENT_ITEM_ADDED = f"{DOMAIN}_item_added"
+EVENT_ITEM_UPDATED = f"{DOMAIN}_item_updated"
+EVENT_ITEM_REMOVED = f"{DOMAIN}_item_removed"
+EVENT_ITEM_DUE_SOON = f"{DOMAIN}_item_due_soon"
+EVENT_ITEM_OVERDUE = f"{DOMAIN}_item_overdue"
+EVENT_SERVICE_LOGGED = f"{DOMAIN}_service_logged"
+EVENT_SERVICE_UPDATED = f"{DOMAIN}_service_updated"
+EVENT_SERVICE_REMOVED = f"{DOMAIN}_service_removed"
 EVENT_SETTINGS_UPDATED = f"{DOMAIN}_settings_updated"
+EVENT_DATA_IMPORTED = f"{DOMAIN}_data_imported"
+
+# The repair issue of an odometer sensor that reports lower values. The issue id
+# is ``odometer_decreased_<car id>``.
+ISSUE_ODOMETER_DECREASED = "odometer_decreased"
+# The due check runs each hour, so a date limit changes status on the day.
+DUE_CHECK_INTERVAL_S = 60 * 60
 
 # The languages of every string table: strings.json, translations/ and
 # backend_strings/. The same 17 languages as Home Keeper.

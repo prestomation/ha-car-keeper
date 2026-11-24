@@ -50,6 +50,90 @@
         "storage_writes": 2,
         "entry_reloads": 0
       }
+    },
+    "add_car": {
+      "budget": {
+        "logbook_rows": 0,
+        "unavailable_flips": 0,
+        "events": 3,
+        "storage_writes": 1,
+        "entry_reloads": 0
+      }
+    },
+    "idle_with_a_car": {
+      "budget": {
+        "logbook_rows": 0,
+        "unavailable_flips": 0,
+        "events": 0,
+        "storage_writes": 0,
+        "entry_reloads": 0
+      },
+      "pinned": [
+        "logbook_rows",
+        "unavailable_flips",
+        "events",
+        "storage_writes",
+        "entry_reloads"
+      ]
+    },
+    "noop_update_car": {
+      "budget": {
+        "logbook_rows": 0,
+        "unavailable_flips": 0,
+        "events": 0,
+        "storage_writes": 0,
+        "entry_reloads": 0
+      },
+      "pinned": [
+        "logbook_rows",
+        "unavailable_flips",
+        "events",
+        "storage_writes",
+        "entry_reloads"
+      ]
+    },
+    "set_odometer": {
+      "budget": {
+        "logbook_rows": 0,
+        "unavailable_flips": 0,
+        "events": 1,
+        "storage_writes": 1,
+        "entry_reloads": 0
+      }
+    },
+    "log_service": {
+      "budget": {
+        "logbook_rows": 0,
+        "unavailable_flips": 0,
+        "events": 2,
+        "storage_writes": 1,
+        "entry_reloads": 0
+      }
+    },
+    "reads_are_silent": {
+      "budget": {
+        "logbook_rows": 0,
+        "unavailable_flips": 0,
+        "events": 0,
+        "storage_writes": 0,
+        "entry_reloads": 0
+      },
+      "pinned": [
+        "logbook_rows",
+        "unavailable_flips",
+        "events",
+        "storage_writes",
+        "entry_reloads"
+      ]
+    },
+    "delete_car": {
+      "budget": {
+        "logbook_rows": 0,
+        "unavailable_flips": 0,
+        "events": 2,
+        "storage_writes": 1,
+        "entry_reloads": 0
+      }
     }
   }
 }

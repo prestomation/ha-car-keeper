@@ -25,11 +25,20 @@ def test_normalize_keeps_known_settings_and_fixes_the_unit() -> None:
     assert m.normalize_state({"settings": {"unit": "mi", "x": 1}})["settings"] == {
         "unit": "mi",
         "x": 1,
+        "templates": {},
     }
     assert m.normalize_state({"settings": {"unit": "parsec"}})["settings"] == {
-        "unit": "km"
+        "unit": "km",
+        "templates": {},
     }
-    assert m.normalize_state({"settings": []})["settings"] == {"unit": "km"}
+    assert m.normalize_state({"settings": [], "readings": {"c": {}}}) == {
+        **m.empty_state(),
+        "readings": {"c": []},
+    }
+    assert m.normalize_state({"settings": {"templates": []}})["settings"] == {
+        "unit": "km",
+        "templates": {},
+    }
 
 
 def test_error_keeps_the_key_and_string_placeholders() -> None:

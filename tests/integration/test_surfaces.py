@@ -57,8 +57,47 @@ def test_options_flow_steps(api):
 
 
 def test_every_service_is_touched(api):
-    """Run each service once."""
-    _service(api, "set_settings", {"unit": "km"})
+    """Run each service once, in the order of the life of a car."""
+    _service(
+        api, "set_settings", {"unit": "km", "templates": {"wipers": {"months": 6}}}
+    )
+    car = _service(
+        api,
+        "add_car",
+        {
+            "name": "Surface car",
+            "fuel": "petrol",
+            "odometer": 1000,
+            "starter_jobs": ["engine_oil", "registration"],
+            "due_dates": {"registration": "2099-01-01"},
+        },
+    )["car"]
+    car_id = car["id"]
+    _service(api, "update_car", {"car_id": car_id, "make": "Test", "unit": "mi"})
+    _service(api, "update_car", {"car_id": car_id, "unit": "km"})
+    _service(api, "set_odometer", {"car_id": car_id, "value": 1200})
+    _service(api, "correct_odometer", {"car_id": car_id, "value": 1100, "offset": 0})
+    item = _service(
+        api, "add_item", {"car_id": car_id, "name": "Surface job", "interval_months": 6}
+    )["item"]
+    _service(api, "update_item", {"item_id": item["id"], "interval_months": 7})
+    _service(api, "apply_templates", {"car_id": car_id, "starter_jobs": ["wipers"]})
+    service = _service(
+        api,
+        "log_service",
+        {"car_id": car_id, "items": [item["id"]], "reading": 1300, "cost": 10},
+    )["service"]
+    _service(api, "update_service", {"service_id": service["id"], "shop": "Shop"})
+    _service(api, "list_cars")
+    _service(api, "get_car", {"car_id": car_id})
+    _service(api, "list_items", {"car_id": car_id})
+    _service(api, "list_services", {"car_id": car_id})
+    exported = _service(api, "export_data", {"files_dir": "/tmp/ck_surface"})
+    _service(api, "import_data", {"document": exported, "dry_run": True})
+    _service(api, "import_data", {"document": exported})
+    _service(api, "delete_service", {"service_id": service["id"]})
+    _service(api, "delete_item", {"item_id": item["id"]})
+    _service(api, "delete_car", {"car_id": car_id})
 
 
 def test_every_service_has_a_touch(api):

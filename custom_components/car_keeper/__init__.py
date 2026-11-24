@@ -6,23 +6,29 @@ Setup order:
 2. Make the coordinator.
 3. Register the frontend and the websocket commands.
 4. Set up the entity platforms and register the services.
-5. Link to Home Keeper: the tab and the companion, or a repair issue.
+5. Start the odometer follower and the due check.
+6. Link to Home Keeper: the tab and the companion, or a repair issue.
 """
 
 from __future__ import annotations
+
+from datetime import timedelta
+from typing import Any
 
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers import config_validation as cv
 from homeassistant.helpers.dispatcher import async_dispatcher_send
+from homeassistant.helpers.event import async_track_time_interval
 from homeassistant.helpers.typing import ConfigType
 
 from . import backend_i18n, card, frontend_assets, home_keeper, websocket_api
 from .api_surface import SERVICE_NAMES
-from .const import DOMAIN, PLATFORMS, SIGNAL_STORE_CHANGED
+from .const import DOMAIN, DUE_CHECK_INTERVAL_S, PLATFORMS, SIGNAL_STORE_CHANGED
 from .coordinator import CarCoordinator
+from .odometer import OdometerFollower
 from .services import async_register_services
-from .store import CarStore
+from .store import CarStore, today
 
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
@@ -57,6 +63,29 @@ async def async_setup_entry(hass: HomeAssistant, entry: CarKeeperConfigEntry) ->
     websocket_api.async_register(hass)
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
     async_register_services(hass)
+
+    follower = OdometerFollower(hass, coordinator)
+    follower.async_start()
+    entry.async_on_unload(follower.async_stop)
+
+    # The due check fires each due event 1 time. It runs after each change, and
+    # each hour, so a date limit changes status on the day.
+    @callback
+    def _check_due(*_args: Any) -> None:
+        entry.async_create_background_task(
+            hass, store.check_due(today()), "car_keeper due check"
+        )
+
+    entry.async_on_unload(store.async_add_listener(_check_due))
+    entry.async_on_unload(
+        async_track_time_interval(
+            hass,
+            _check_due,
+            timedelta(seconds=DUE_CHECK_INTERVAL_S),
+            cancel_on_shutdown=True,
+        )
+    )
+    _check_due()
 
     # The link checks Home Keeper now and when it changes. It adds the tab only
     # while Home Keeper can take it.

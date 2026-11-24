@@ -12,7 +12,7 @@ How the tab and the cards work is in [frontend](../../docs/design/frontend.md).
 - **The URL is the source of truth.** Every page of the tab maps to a path under
   `/home-keeper/cars`. The `route` setter is the only place that changes the view state.
 - **Navigate only with `host.navigate(path, {replace})`.** The Home Keeper panel owns
-  the browser history, so the tab never calls `history.pushState`. Opening a detail
+  the browser history, so the tab never calls `pushState` on the history. Opening a detail
   pushes. Closing a detail or deleting a car replaces, so Back moves inside the tab.
 - Keep `parseRoute` and `buildPath` pure in `utils.ts`, so they unit-test and round-trip.
   An unknown path falls back to the garage. A detail URL for a deleted car shows the

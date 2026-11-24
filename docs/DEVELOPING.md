@@ -57,6 +57,9 @@ conventions behind them are in [`AGENTS.md`](../AGENTS.md) and
 | **Confirmed deletes** | `frontend/test/destructive-scan-parity.test.js` | A delete or an import that runs with no `confirmDestructive` question. |
 | **Open reads** | `tests/unit/test_projections.py` | A read that hides a field from a user who is not an admin. |
 | **Home Assistant log gate** | `integration.yml`, `ci/check-ha-log.py` | A warning or an error from `custom_components.car_keeper`, a "Detected blocking call", a slow callback, a coroutine that nobody awaited or a deprecation notice in the log of the Docker container. Home Keeper's own records do not count. |
+| **State machines** | `tests/unit/test_*_stateful.py` | A transition of the odometer, the job status or the service history that breaks an invariant of its Hypothesis model. CI runs them with `CK_STATEFUL_EXAMPLES=1000`. |
+| **Fixed points** | `tests/unit/test_import_export.py` | An import of an export that loses or changes a field, and a second import that changes the data. |
+| **Shared rules** | `tests/fixtures/shared/`, `frontend/test/shared-corpus.test.js` | A TypeScript copy of a rule that gives another output than the Python rule for the same case. |
 | **Pure core** | `tests/unit/test_pure_core.py` | A Home Assistant import in a pure module, and a module map that does not match the code. |
 | **API-surface drift** | `tests/unit/test_api_surface.py` | A service, event, payload field, websocket command, entity platform or HTTP view added to 1 registry and not to `api_surface.py`. |
 | **Generated API reference** | `tests/unit/test_generate_api_docs.py` | A surface in `api_surface.py` that the reference page leaves out. |

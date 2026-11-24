@@ -1,4 +1,18 @@
 {
   "tab.title": "Biler",
-  "companion.description": "Biler, kilometertellere, vedlikeholdsjobber og servicehistorikk."
+  "companion.description": "Biler, kilometertellere, vedlikeholdsjobber og servicehistorikk.",
+  "template.engine_oil": "Motorolje og filter",
+  "template.tyre_rotation": "Dekkrotasjon",
+  "template.tyre_check": "Dekktrykk og mønster",
+  "template.brake_fluid": "Bremsevæske",
+  "template.cabin_filter": "Kupéfilter",
+  "template.engine_air_filter": "Motorluftfilter",
+  "template.wipers": "Viskerblader",
+  "template.battery_12v": "Test av 12 V-batteri",
+  "template.coolant": "Kjølevæske",
+  "template.spark_plugs": "Tennplugger",
+  "template.adblue": "Påfylling av AdBlue",
+  "template.registration": "Registrering",
+  "template.insurance": "Forsikring",
+  "template.inspection": "EU-kontroll"
 }

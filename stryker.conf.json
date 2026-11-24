@@ -6,7 +6,11 @@
     "configFile": "vitest.stryker.config.js"
   },
   "coverageAnalysis": "perTest",
-  "reporters": ["progress", "clear-text", "json"],
+  "reporters": [
+    "progress",
+    "clear-text",
+    "json"
+  ],
   "jsonReporter": {
     "fileName": "reports/mutation/mutation.json"
   },
@@ -28,7 +32,9 @@
   "disableTypeChecks": "custom_components/car_keeper/frontend/src/*.ts",
   "mutate": [
     "custom_components/car_keeper/frontend/src/utils.ts",
-    "custom_components/car_keeper/frontend/src/i18n.ts"
+    "custom_components/car_keeper/frontend/src/i18n.ts",
+    "custom_components/car_keeper/frontend/src/units.ts",
+    "custom_components/car_keeper/frontend/src/schedule.ts"
   ],
   "thresholds": {
     "high": 90,

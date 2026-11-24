@@ -207,10 +207,51 @@ def test_every_event_has_a_summary_and_a_known_payload() -> None:
         assert spec.payload == "none" or spec.payload in api_surface.PAYLOAD_SPINES
 
 
+_CAR = {"id": "c1", "name": "Civic", "unit": "km"}
+_ITEM = {"id": "i1", "car_id": "c1", "name": "Oil"}
+_SERVICE = {
+    "id": "s1",
+    "car_id": "c1",
+    "date": "2026-10-01",
+    "reading": 1000.0,
+    "items": ["i1"],
+    "shop": "",
+    "cost": None,
+}
+_READING = {"ts": "2026-10-01T10:00:00+00:00", "value": 1.0, "source": "manual"}
+_DUE = {
+    "status": "soon",
+    "first": "date",
+    "distance_limit": None,
+    "distance_left": None,
+    "date_limit": "2026-11-01",
+    "days_left": 3,
+}
+
+
 def _built() -> dict[str, dict[str, Any]]:
     """1 payload for each fired event, from the real builders."""
     return {
+        const.EVENT_CAR_ADDED: events.car_event_data(_CAR, None),
+        const.EVENT_CAR_UPDATED: events.changed_data(
+            events.car_event_data(_CAR, None), ["name"]
+        ),
+        const.EVENT_CAR_REMOVED: events.car_event_data(_CAR, None),
+        const.EVENT_ODOMETER_UPDATED: events.odometer_event_data(_CAR, _READING, None),
+        const.EVENT_ITEM_ADDED: events.item_event_data(_ITEM, None),
+        const.EVENT_ITEM_UPDATED: events.changed_data(
+            events.item_event_data(_ITEM, None), ["name"]
+        ),
+        const.EVENT_ITEM_REMOVED: events.item_event_data(_ITEM, None),
+        const.EVENT_ITEM_DUE_SOON: events.due_event_data(_CAR, _ITEM, _DUE),
+        const.EVENT_ITEM_OVERDUE: events.due_event_data(_CAR, _ITEM, _DUE),
+        const.EVENT_SERVICE_LOGGED: events.service_event_data(_SERVICE, None),
+        const.EVENT_SERVICE_UPDATED: events.changed_data(
+            events.service_event_data(_SERVICE, None), ["date"]
+        ),
+        const.EVENT_SERVICE_REMOVED: events.service_event_data(_SERVICE, None),
         const.EVENT_SETTINGS_UPDATED: events.settings_event_data(["unit"], None),
+        const.EVENT_DATA_IMPORTED: events.data_imported_event_data({}, None),
     }
 
 
@@ -228,8 +269,12 @@ def test_payloads_match_the_builders() -> None:
 
 
 def test_events_by_payload_keeps_declaration_order() -> None:
-    names = [spec.name for spec in api_surface.events_by_payload("settings")]
-    assert names == [const.EVENT_SETTINGS_UPDATED]
+    names = [spec.name for spec in api_surface.events_by_payload("car")]
+    assert names == [
+        const.EVENT_CAR_ADDED,
+        const.EVENT_CAR_UPDATED,
+        const.EVENT_CAR_REMOVED,
+    ]
 
 
 # ── Entity platforms ─────────────────────────────────────────────────────────
@@ -307,7 +352,24 @@ def test_websocket_types_are_unique() -> None:
 def test_frontend_command_names_stay_the_same() -> None:
     """The tab and the card use these names. A rename breaks the frontend."""
     types = {spec.type for spec in api_surface.WEBSOCKET_COMMANDS}
-    for name in ("get_state", "subscribe", "set_settings"):
+    for name in (
+        "get_state",
+        "subscribe",
+        "set_settings",
+        "add_car",
+        "update_car",
+        "delete_car",
+        "set_odometer",
+        "correct_odometer",
+        "add_item",
+        "update_item",
+        "delete_item",
+        "apply_templates",
+        "log_service",
+        "update_service",
+        "delete_service",
+        "import_data",
+    ):
         assert f"{const.DOMAIN}/{name}" in types, name
 
 

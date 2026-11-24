@@ -1,4 +1,18 @@
 {
   "tab.title": "Bilar",
-  "companion.description": "Bilar, vägmätare, underhållsjobb och servicehistorik."
+  "companion.description": "Bilar, vägmätare, underhållsjobb och servicehistorik.",
+  "template.engine_oil": "Motorolja och filter",
+  "template.tyre_rotation": "Däckrotation",
+  "template.tyre_check": "Däcktryck och mönster",
+  "template.brake_fluid": "Bromsvätska",
+  "template.cabin_filter": "Kupéfilter",
+  "template.engine_air_filter": "Motorluftfilter",
+  "template.wipers": "Torkarblad",
+  "template.battery_12v": "Test av 12 V-batteri",
+  "template.coolant": "Kylvätska",
+  "template.spark_plugs": "Tändstift",
+  "template.adblue": "Påfyllning av AdBlue",
+  "template.registration": "Registrering",
+  "template.insurance": "Försäkring",
+  "template.inspection": "Besiktning"
 }

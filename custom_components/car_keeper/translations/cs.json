@@ -39,6 +39,46 @@
         "km": "Kilometry",
         "mi": "Míle"
       }
+    },
+    "fuel": {
+      "options": {
+        "petrol": "Benzín",
+        "diesel": "Nafta",
+        "hybrid": "Hybrid",
+        "plug_in_hybrid": "Plug-in hybrid",
+        "electric": "Elektrický",
+        "other": "Jiné"
+      }
+    },
+    "odometer_source": {
+      "options": {
+        "manual": "Zadaný",
+        "entity": "Senzor"
+      }
+    },
+    "kind": {
+      "options": {
+        "job": "Pravidelný úkon",
+        "date": "Datum"
+      }
+    },
+    "template": {
+      "options": {
+        "engine_oil": "Motorový olej a filtr",
+        "tyre_rotation": "Přehození pneumatik",
+        "tyre_check": "Tlak a dezén pneumatik",
+        "brake_fluid": "Brzdová kapalina",
+        "cabin_filter": "Kabinový filtr",
+        "engine_air_filter": "Vzduchový filtr motoru",
+        "wipers": "Stěrače",
+        "battery_12v": "Test 12V baterie",
+        "coolant": "Chladicí kapalina",
+        "spark_plugs": "Zapalovací svíčky",
+        "adblue": "Doplnění AdBlue",
+        "registration": "Registrace",
+        "insurance": "Pojištění",
+        "inspection": "Technická kontrola"
+      }
     }
   },
   "issues": {
@@ -53,9 +93,429 @@
     "home_keeper_too_old": {
       "title": "Home Keeper je příliš starý",
       "description": "Karta Auta a úkoly údržby potřebují Home Keeper verze {version} nebo novější. Karty, entity a služby fungují už nyní. Aktualizujte Home Keeper."
+    },
+    "odometer_decreased": {
+      "title": "Tachometr vozu {car} klesl",
+      "description": "Senzor tachometru vozu {car} hlásil 2krát {value} {unit}, méně než poslední hodnota {current} {unit}. Car Keeper ponechá poslední hodnotu. Pokud je chybný senzor, opravte senzor. Pokud má auto nový přístrojový panel, opravte stav tachometru a nastavte posun."
     }
   },
   "services": {
+    "add_car": {
+      "name": "Přidat auto",
+      "description": "Přidá auto s tachometrem a vybranými výchozími úkony. Pouze pro správce.",
+      "fields": {
+        "name": {
+          "name": "Název",
+          "description": "Název auta."
+        },
+        "make": {
+          "name": "Značka",
+          "description": "Výrobce auta."
+        },
+        "model": {
+          "name": "Model",
+          "description": "Model auta."
+        },
+        "year": {
+          "name": "Rok",
+          "description": "Modelový rok."
+        },
+        "trim": {
+          "name": "Výbava",
+          "description": "Výbava nebo verze."
+        },
+        "fuel": {
+          "name": "Palivo",
+          "description": "Typ paliva. Vybírá výchozí úkony."
+        },
+        "vin": {
+          "name": "VIN",
+          "description": "Identifikační číslo vozidla."
+        },
+        "plate": {
+          "name": "SPZ",
+          "description": "Registrační značka."
+        },
+        "area_id": {
+          "name": "Oblast",
+          "description": "Oblast auta v Home Assistant."
+        },
+        "notes": {
+          "name": "Poznámky",
+          "description": "Poznámky."
+        },
+        "lead_distance": {
+          "name": "Vzdálenost upozornění",
+          "description": "Vzdálenost před limitem, kdy je úkon brzy."
+        },
+        "lead_days": {
+          "name": "Dny upozornění",
+          "description": "Dny před limitem, kdy je úkon brzy."
+        },
+        "unit": {
+          "name": "Jednotka vzdálenosti",
+          "description": "km nebo mi."
+        },
+        "odometer_source": {
+          "name": "Zdroj tachometru",
+          "description": "Zadejte stav tachometru, nebo ho čtěte ze senzoru."
+        },
+        "odometer_entity_id": {
+          "name": "Senzor tachometru",
+          "description": "Senzor, který hlásí stav tachometru."
+        },
+        "odometer": {
+          "name": "Tachometr",
+          "description": "Aktuální stav v jednotce auta."
+        },
+        "starter_jobs": {
+          "name": "Výchozí úkony",
+          "description": "ID výchozích úkonů k přidání."
+        },
+        "due_dates": {
+          "name": "Data splatnosti",
+          "description": "Datum splatnosti každého výchozího úkonu s datem podle jeho ID."
+        }
+      }
+    },
+    "update_car": {
+      "name": "Upravit auto",
+      "description": "Změní pole auta. Změna jednotky převede každou hodnotu auta. Pouze pro správce.",
+      "fields": {
+        "car_id": {
+          "name": "Auto",
+          "description": "ID auta."
+        },
+        "name": {
+          "name": "Název",
+          "description": "Název auta."
+        },
+        "make": {
+          "name": "Značka",
+          "description": "Výrobce auta."
+        },
+        "model": {
+          "name": "Model",
+          "description": "Model auta."
+        },
+        "year": {
+          "name": "Rok",
+          "description": "Modelový rok."
+        },
+        "trim": {
+          "name": "Výbava",
+          "description": "Výbava nebo verze."
+        },
+        "fuel": {
+          "name": "Palivo",
+          "description": "Typ paliva. Vybírá výchozí úkony."
+        },
+        "vin": {
+          "name": "VIN",
+          "description": "Identifikační číslo vozidla."
+        },
+        "plate": {
+          "name": "SPZ",
+          "description": "Registrační značka."
+        },
+        "area_id": {
+          "name": "Oblast",
+          "description": "Oblast auta v Home Assistant."
+        },
+        "notes": {
+          "name": "Poznámky",
+          "description": "Poznámky."
+        },
+        "lead_distance": {
+          "name": "Vzdálenost upozornění",
+          "description": "Vzdálenost před limitem, kdy je úkon brzy."
+        },
+        "lead_days": {
+          "name": "Dny upozornění",
+          "description": "Dny před limitem, kdy je úkon brzy."
+        },
+        "unit": {
+          "name": "Jednotka vzdálenosti",
+          "description": "km nebo mi."
+        },
+        "odometer_source": {
+          "name": "Zdroj tachometru",
+          "description": "Zadejte stav tachometru, nebo ho čtěte ze senzoru."
+        },
+        "odometer_entity_id": {
+          "name": "Senzor tachometru",
+          "description": "Senzor, který hlásí stav tachometru."
+        }
+      }
+    },
+    "delete_car": {
+      "name": "Smazat auto",
+      "description": "Smaže auto s jeho úkony, záznamy servisu a stavy tachometru. Pouze pro správce.",
+      "fields": {
+        "car_id": {
+          "name": "Auto",
+          "description": "ID auta."
+        }
+      }
+    },
+    "set_odometer": {
+      "name": "Nastavit tachometr",
+      "description": "Uloží stav tachometru. Hodnota nesmí být nižší než poslední stav.",
+      "fields": {
+        "car_id": {
+          "name": "Auto",
+          "description": "ID auta."
+        },
+        "value": {
+          "name": "Stav",
+          "description": "Stav tachometru v jednotce auta."
+        }
+      }
+    },
+    "correct_odometer": {
+      "name": "Opravit tachometr",
+      "description": "Uloží libovolný stav, i nižší, a volitelný posun pro nový přístrojový panel. Pouze pro správce.",
+      "fields": {
+        "car_id": {
+          "name": "Auto",
+          "description": "ID auta."
+        },
+        "value": {
+          "name": "Stav",
+          "description": "Stav tachometru v jednotce auta."
+        },
+        "offset": {
+          "name": "Posun",
+          "description": "Přičte se ke každé další hodnotě senzoru, pro nový přístrojový panel."
+        }
+      }
+    },
+    "add_item": {
+      "name": "Přidat úkon",
+      "description": "Přidá autu úkon údržby. Pouze pro správce.",
+      "fields": {
+        "car_id": {
+          "name": "Auto",
+          "description": "ID auta."
+        },
+        "name": {
+          "name": "Název",
+          "description": "Název úkonu."
+        },
+        "kind": {
+          "name": "Druh",
+          "description": "Úkon s intervalem, nebo datum jako registrace."
+        },
+        "interval_distance": {
+          "name": "Interval vzdálenosti",
+          "description": "Vzdálenost mezi 2 servisy v jednotce auta."
+        },
+        "interval_months": {
+          "name": "Časový interval",
+          "description": "Měsíce mezi 2 servisy."
+        },
+        "due_date": {
+          "name": "Datum splatnosti",
+          "description": "Datum splatnosti úkonu s datem."
+        },
+        "lead_distance": {
+          "name": "Vzdálenost upozornění",
+          "description": "Vzdálenost před limitem, kdy je úkon brzy."
+        },
+        "lead_days": {
+          "name": "Dny upozornění",
+          "description": "Dny před limitem, kdy je úkon brzy."
+        },
+        "notes": {
+          "name": "Poznámky",
+          "description": "Poznámky."
+        },
+        "enabled": {
+          "name": "Zapnuto",
+          "description": "Vypnuto ponechá úkon a zastaví jeho stav splatnosti."
+        },
+        "add_task": {
+          "name": "Úkol Home Keeper",
+          "description": "Vytvořit pro úkon úkol Home Keeper."
+        },
+        "last_date": {
+          "name": "Naposledy dne",
+          "description": "Datum posledního servisu, pokud ho znáte."
+        },
+        "last_reading": {
+          "name": "Naposledy při",
+          "description": "Stav tachometru při posledním servisu, pokud ho znáte."
+        }
+      }
+    },
+    "update_item": {
+      "name": "Upravit úkon",
+      "description": "Změní pole úkonu údržby. Pouze pro správce.",
+      "fields": {
+        "item_id": {
+          "name": "Úkon",
+          "description": "ID úkonu."
+        },
+        "name": {
+          "name": "Název",
+          "description": "Název úkonu."
+        },
+        "kind": {
+          "name": "Druh",
+          "description": "Úkon s intervalem, nebo datum jako registrace."
+        },
+        "interval_distance": {
+          "name": "Interval vzdálenosti",
+          "description": "Vzdálenost mezi 2 servisy v jednotce auta."
+        },
+        "interval_months": {
+          "name": "Časový interval",
+          "description": "Měsíce mezi 2 servisy."
+        },
+        "due_date": {
+          "name": "Datum splatnosti",
+          "description": "Datum splatnosti úkonu s datem."
+        },
+        "lead_distance": {
+          "name": "Vzdálenost upozornění",
+          "description": "Vzdálenost před limitem, kdy je úkon brzy."
+        },
+        "lead_days": {
+          "name": "Dny upozornění",
+          "description": "Dny před limitem, kdy je úkon brzy."
+        },
+        "notes": {
+          "name": "Poznámky",
+          "description": "Poznámky."
+        },
+        "enabled": {
+          "name": "Zapnuto",
+          "description": "Vypnuto ponechá úkon a zastaví jeho stav splatnosti."
+        },
+        "add_task": {
+          "name": "Úkol Home Keeper",
+          "description": "Vytvořit pro úkon úkol Home Keeper."
+        }
+      }
+    },
+    "delete_item": {
+      "name": "Smazat úkon",
+      "description": "Smaže úkon údržby. Záznamy servisu zůstanou. Pouze pro správce.",
+      "fields": {
+        "item_id": {
+          "name": "Úkon",
+          "description": "ID úkonu."
+        }
+      }
+    },
+    "apply_templates": {
+      "name": "Přidat výchozí úkony",
+      "description": "Přidá autu vybrané výchozí úkony. Pouze pro správce.",
+      "fields": {
+        "car_id": {
+          "name": "Auto",
+          "description": "ID auta."
+        },
+        "starter_jobs": {
+          "name": "Výchozí úkony",
+          "description": "Výchozí úkony k přidání."
+        },
+        "due_dates": {
+          "name": "Data splatnosti",
+          "description": "Datum splatnosti každého výchozího úkonu s datem podle jeho ID."
+        }
+      }
+    },
+    "log_service": {
+      "name": "Zapsat servis",
+      "description": "Přidá záznam servisu a označí jeho úkony jako hotové.",
+      "fields": {
+        "car_id": {
+          "name": "Auto",
+          "description": "ID auta."
+        },
+        "date": {
+          "name": "Datum",
+          "description": "Datum servisu. Výchozí je dnes."
+        },
+        "reading": {
+          "name": "Stav",
+          "description": "Stav tachometru při servisu."
+        },
+        "items": {
+          "name": "Úkony",
+          "description": "ID úkonů, které servis provedl."
+        },
+        "shop": {
+          "name": "Servis",
+          "description": "Servis, nebo prázdné pro úkon doma."
+        },
+        "notes": {
+          "name": "Poznámky",
+          "description": "Poznámky."
+        },
+        "who": {
+          "name": "Kdo",
+          "description": "Kdo úkon provedl."
+        },
+        "cost": {
+          "name": "Cena",
+          "description": "Cena návštěvy v měně Home Assistant."
+        }
+      }
+    },
+    "update_service": {
+      "name": "Upravit záznam servisu",
+      "description": "Změní záznam servisu. Pouze pro správce.",
+      "fields": {
+        "service_id": {
+          "name": "Záznam servisu",
+          "description": "ID záznamu servisu."
+        },
+        "date": {
+          "name": "Datum",
+          "description": "Datum servisu. Výchozí je dnes."
+        },
+        "reading": {
+          "name": "Stav",
+          "description": "Stav tachometru při servisu."
+        },
+        "items": {
+          "name": "Úkony",
+          "description": "ID úkonů, které servis provedl."
+        },
+        "shop": {
+          "name": "Servis",
+          "description": "Servis, nebo prázdné pro úkon doma."
+        },
+        "notes": {
+          "name": "Poznámky",
+          "description": "Poznámky."
+        },
+        "who": {
+          "name": "Kdo",
+          "description": "Kdo úkon provedl."
+        },
+        "cost": {
+          "name": "Cena",
+          "description": "Cena návštěvy v měně Home Assistant."
+        },
+        "parts_used": {
+          "name": "Použité díly",
+          "description": "Seznam dílů Home Keeper, které servis použil."
+        }
+      }
+    },
+    "delete_service": {
+      "name": "Smazat záznam servisu",
+      "description": "Smaže záznam servisu. Pouze pro správce.",
+      "fields": {
+        "service_id": {
+          "name": "Záznam servisu",
+          "description": "ID záznamu servisu."
+        }
+      }
+    },
     "set_settings": {
       "name": "Nastavit nastavení",
       "description": "Změní nastavení Car Keeper. Pouze pro správce.",
@@ -63,6 +523,72 @@
         "unit": {
           "name": "Jednotka vzdálenosti",
           "description": "Jednotka nového auta: km nebo mi."
+        },
+        "templates": {
+          "name": "Výchozí úkony",
+          "description": "Úpravy výchozích úkonů podle ID: km, měsíce a zapnuto."
+        }
+      }
+    },
+    "export_data": {
+      "name": "Exportovat data",
+      "description": "Vrátí všechna data Car Keeper pro export Home Keeper. Pouze pro správce.",
+      "fields": {
+        "files_dir": {
+          "name": "Složka souborů",
+          "description": "Nastavuje Home Keeper pro export nebo import balíčku."
+        }
+      }
+    },
+    "import_data": {
+      "name": "Importovat data",
+      "description": "Přidá a aktualizuje data Car Keeper z exportu. Žádný záznam nesmaže. Pouze pro správce.",
+      "fields": {
+        "document": {
+          "name": "Dokument",
+          "description": "Sekce Car Keeper z exportu."
+        },
+        "dry_run": {
+          "name": "Náhled",
+          "description": "Ohlásit, co by se změnilo, a nezapsat žádná data."
+        },
+        "files_dir": {
+          "name": "Složka souborů",
+          "description": "Nastavuje Home Keeper pro export nebo import balíčku."
+        }
+      }
+    },
+    "list_cars": {
+      "name": "Seznam aut",
+      "description": "Vrátí každé auto s jeho stavem a dalším úkonem."
+    },
+    "get_car": {
+      "name": "Získat auto",
+      "description": "Vrátí 1 auto s jeho úkony, záznamy servisu a stavy tachometru.",
+      "fields": {
+        "car_id": {
+          "name": "Auto",
+          "description": "ID auta."
+        }
+      }
+    },
+    "list_items": {
+      "name": "Seznam úkonů",
+      "description": "Vrátí úkony s jejich limity a stavem.",
+      "fields": {
+        "car_id": {
+          "name": "Auto",
+          "description": "Jen úkony tohoto auta."
+        }
+      }
+    },
+    "list_services": {
+      "name": "Seznam záznamů servisu",
+      "description": "Vrátí záznamy servisu, nejnovější první.",
+      "fields": {
+        "car_id": {
+          "name": "Auto",
+          "description": "Jen záznamy tohoto auta."
         }
       }
     }
@@ -70,6 +596,100 @@
   "exceptions": {
     "not_loaded": {
       "message": "Car Keeper není načten. Zkuste to znovu po jeho spuštění."
+    },
+    "car_not_found": {
+      "message": "Žádné auto nemá ID {id}."
+    },
+    "item_not_found": {
+      "message": "Žádný úkon nemá ID {id}."
+    },
+    "service_not_found": {
+      "message": "Žádný záznam servisu nemá ID {id}."
+    },
+    "template_not_found": {
+      "message": "Žádný výchozí úkon nemá ID {id}."
+    },
+    "field_required": {
+      "message": "Zadejte hodnotu pro {field}."
+    },
+    "field_too_long": {
+      "message": "Hodnota {field} je delší než {limit} znaků."
+    },
+    "invalid_field": {
+      "message": "Hodnota {field} není platná."
+    },
+    "out_of_range": {
+      "message": "Hodnota {field} musí být mezi {low} a {high}."
+    },
+    "invalid_date": {
+      "message": "Datum {value} v {field} není datum ve formátu RRRR-MM-DD."
+    },
+    "interval_required": {
+      "message": "Zadejte interval vzdálenosti, časový interval nebo obojí."
+    },
+    "invalid_reading": {
+      "message": "Stav {value} není platný."
+    },
+    "odometer_decreased": {
+      "message": "Stav {value} je nižší než poslední stav {current}. Správce může tachometr opravit."
+    },
+    "todo_only_check": {
+      "message": "Zaškrtněte úkon a zapíše se servis. Seznam nemá jinou změnu."
+    },
+    "import_not_a_document": {
+      "message": "Dokument není export Car Keeper."
+    },
+    "import_format_too_new": {
+      "message": "Formát exportu {format} je novější než tento Car Keeper. Aktualizujte Car Keeper."
+    },
+    "import_missing_field": {
+      "message": "Pole {field} chybí nebo je prázdné."
+    },
+    "import_bad_value": {
+      "message": "Hodnota {field} není platná."
+    },
+    "import_not_a_record": {
+      "message": "Záznam není platný."
+    },
+    "import_unknown_car": {
+      "message": "Záznam uvádí auto, které není v importu ani v Car Keeper."
+    },
+    "import_unknown_item": {
+      "message": "Záznam servisu uvádí úkon, který není v importu ani v Car Keeper."
+    },
+    "import_entity_missing": {
+      "message": "Senzor tachometru {entity_id} v tomto Home Assistant není. Auto dostane zadávaný tachometr."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "odometer": {
+        "name": "Tachometr"
+      },
+      "next_due_distance": {
+        "name": "Další splatnost podle vzdálenosti"
+      },
+      "next_due_date": {
+        "name": "Další datum splatnosti"
+      },
+      "status": {
+        "name": "Stav údržby",
+        "state": {
+          "ok": "V pořádku",
+          "soon": "Brzy",
+          "overdue": "Po termínu"
+        }
+      }
+    },
+    "binary_sensor": {
+      "overdue": {
+        "name": "Údržba po termínu"
+      }
+    },
+    "todo": {
+      "jobs": {
+        "name": "Úkony údržby"
+      }
     }
   }
 }

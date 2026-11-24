@@ -39,6 +39,46 @@
         "km": "Kilometer",
         "mi": "Miles"
       }
+    },
+    "fuel": {
+      "options": {
+        "petrol": "Bensin",
+        "diesel": "Diesel",
+        "hybrid": "Hybrid",
+        "plug_in_hybrid": "Laddhybrid",
+        "electric": "El",
+        "other": "Annat"
+      }
+    },
+    "odometer_source": {
+      "options": {
+        "manual": "Inmatad",
+        "entity": "Sensor"
+      }
+    },
+    "kind": {
+      "options": {
+        "job": "Intervalljobb",
+        "date": "Datum"
+      }
+    },
+    "template": {
+      "options": {
+        "engine_oil": "Motorolja och filter",
+        "tyre_rotation": "Däckrotation",
+        "tyre_check": "Däcktryck och mönster",
+        "brake_fluid": "Bromsvätska",
+        "cabin_filter": "Kupéfilter",
+        "engine_air_filter": "Motorluftfilter",
+        "wipers": "Torkarblad",
+        "battery_12v": "Test av 12 V-batteri",
+        "coolant": "Kylvätska",
+        "spark_plugs": "Tändstift",
+        "adblue": "Påfyllning av AdBlue",
+        "registration": "Registrering",
+        "insurance": "Försäkring",
+        "inspection": "Besiktning"
+      }
     }
   },
   "issues": {
@@ -53,9 +93,429 @@
     "home_keeper_too_old": {
       "title": "Home Keeper är för gammalt",
       "description": "Fliken Bilar och underhållsuppgifterna kräver Home Keeper version {version} eller senare. Korten, entiteterna och tjänsterna fungerar redan. Uppdatera Home Keeper."
+    },
+    "odometer_decreased": {
+      "title": "Vägmätaren för {car} gick ned",
+      "description": "Vägmätarsensorn för {car} rapporterade {value} {unit} 2 gånger, under den senaste avläsningen på {current} {unit}. Car Keeper behåller den senaste avläsningen. Om sensorn är fel, rätta sensorn. Om bilen har en ny instrumentpanel, rätta bilens vägmätare och ange en förskjutning."
     }
   },
   "services": {
+    "add_car": {
+      "name": "Lägg till bil",
+      "description": "Lägger till en bil med vägmätare och de valda startjobben. Endast administratörer.",
+      "fields": {
+        "name": {
+          "name": "Namn",
+          "description": "Bilens namn."
+        },
+        "make": {
+          "name": "Märke",
+          "description": "Bilens tillverkare."
+        },
+        "model": {
+          "name": "Modell",
+          "description": "Bilens modell."
+        },
+        "year": {
+          "name": "År",
+          "description": "Årsmodellen."
+        },
+        "trim": {
+          "name": "Utrustningsnivå",
+          "description": "Utrustningsnivån eller versionen."
+        },
+        "fuel": {
+          "name": "Drivmedel",
+          "description": "Drivmedelstypen. Den väljer startjobben."
+        },
+        "vin": {
+          "name": "Chassinummer",
+          "description": "Fordonets identifieringsnummer."
+        },
+        "plate": {
+          "name": "Registreringsskylt",
+          "description": "Registreringsskylten."
+        },
+        "area_id": {
+          "name": "Område",
+          "description": "Bilens område i Home Assistant."
+        },
+        "notes": {
+          "name": "Anteckningar",
+          "description": "Anteckningar."
+        },
+        "lead_distance": {
+          "name": "Varningsavstånd",
+          "description": "Avståndet före en gräns då ett jobb är snart."
+        },
+        "lead_days": {
+          "name": "Varningsdagar",
+          "description": "Dagarna före en gräns då ett jobb är snart."
+        },
+        "unit": {
+          "name": "Avståndsenhet",
+          "description": "km eller mi."
+        },
+        "odometer_source": {
+          "name": "Vägmätarens källa",
+          "description": "Skriv in vägmätaren, eller läs den från en sensor."
+        },
+        "odometer_entity_id": {
+          "name": "Vägmätarsensor",
+          "description": "Sensorn som rapporterar vägmätaren."
+        },
+        "odometer": {
+          "name": "Vägmätare",
+          "description": "Avläsningen nu, i bilens enhet."
+        },
+        "starter_jobs": {
+          "name": "Startjobb",
+          "description": "ID:n för startjobben som ska läggas till."
+        },
+        "due_dates": {
+          "name": "Förfallodatum",
+          "description": "Förfallodatumet för varje startjobb med datum, efter dess ID."
+        }
+      }
+    },
+    "update_car": {
+      "name": "Uppdatera bil",
+      "description": "Ändrar fälten för en bil. Ett byte av enhet räknar om varje värde för bilen. Endast administratörer.",
+      "fields": {
+        "car_id": {
+          "name": "Bil",
+          "description": "Bilens ID."
+        },
+        "name": {
+          "name": "Namn",
+          "description": "Bilens namn."
+        },
+        "make": {
+          "name": "Märke",
+          "description": "Bilens tillverkare."
+        },
+        "model": {
+          "name": "Modell",
+          "description": "Bilens modell."
+        },
+        "year": {
+          "name": "År",
+          "description": "Årsmodellen."
+        },
+        "trim": {
+          "name": "Utrustningsnivå",
+          "description": "Utrustningsnivån eller versionen."
+        },
+        "fuel": {
+          "name": "Drivmedel",
+          "description": "Drivmedelstypen. Den väljer startjobben."
+        },
+        "vin": {
+          "name": "Chassinummer",
+          "description": "Fordonets identifieringsnummer."
+        },
+        "plate": {
+          "name": "Registreringsskylt",
+          "description": "Registreringsskylten."
+        },
+        "area_id": {
+          "name": "Område",
+          "description": "Bilens område i Home Assistant."
+        },
+        "notes": {
+          "name": "Anteckningar",
+          "description": "Anteckningar."
+        },
+        "lead_distance": {
+          "name": "Varningsavstånd",
+          "description": "Avståndet före en gräns då ett jobb är snart."
+        },
+        "lead_days": {
+          "name": "Varningsdagar",
+          "description": "Dagarna före en gräns då ett jobb är snart."
+        },
+        "unit": {
+          "name": "Avståndsenhet",
+          "description": "km eller mi."
+        },
+        "odometer_source": {
+          "name": "Vägmätarens källa",
+          "description": "Skriv in vägmätaren, eller läs den från en sensor."
+        },
+        "odometer_entity_id": {
+          "name": "Vägmätarsensor",
+          "description": "Sensorn som rapporterar vägmätaren."
+        }
+      }
+    },
+    "delete_car": {
+      "name": "Ta bort bil",
+      "description": "Tar bort en bil med dess jobb, serviceposter och avläsningar. Endast administratörer.",
+      "fields": {
+        "car_id": {
+          "name": "Bil",
+          "description": "Bilens ID."
+        }
+      }
+    },
+    "set_odometer": {
+      "name": "Ange vägmätare",
+      "description": "Sparar en vägmätaravläsning. Värdet kan inte vara under den senaste avläsningen.",
+      "fields": {
+        "car_id": {
+          "name": "Bil",
+          "description": "Bilens ID."
+        },
+        "value": {
+          "name": "Avläsning",
+          "description": "Vägmätaravläsningen i bilens enhet."
+        }
+      }
+    },
+    "correct_odometer": {
+      "name": "Rätta vägmätare",
+      "description": "Sparar valfri avläsning, även en lägre, och en valfri förskjutning för en ny instrumentpanel. Endast administratörer.",
+      "fields": {
+        "car_id": {
+          "name": "Bil",
+          "description": "Bilens ID."
+        },
+        "value": {
+          "name": "Avläsning",
+          "description": "Vägmätaravläsningen i bilens enhet."
+        },
+        "offset": {
+          "name": "Förskjutning",
+          "description": "Läggs till varje senare sensorvärde, för en ny instrumentpanel."
+        }
+      }
+    },
+    "add_item": {
+      "name": "Lägg till jobb",
+      "description": "Lägger till ett underhållsjobb för en bil. Endast administratörer.",
+      "fields": {
+        "car_id": {
+          "name": "Bil",
+          "description": "Bilens ID."
+        },
+        "name": {
+          "name": "Namn",
+          "description": "Jobbets namn."
+        },
+        "kind": {
+          "name": "Typ",
+          "description": "Ett jobb med intervall, eller ett datum som en registrering."
+        },
+        "interval_distance": {
+          "name": "Avståndsintervall",
+          "description": "Avståndet mellan 2 servicetillfällen i bilens enhet."
+        },
+        "interval_months": {
+          "name": "Tidsintervall",
+          "description": "Månaderna mellan 2 servicetillfällen."
+        },
+        "due_date": {
+          "name": "Förfallodatum",
+          "description": "Förfallodatumet för ett jobb med datum."
+        },
+        "lead_distance": {
+          "name": "Varningsavstånd",
+          "description": "Avståndet före en gräns då ett jobb är snart."
+        },
+        "lead_days": {
+          "name": "Varningsdagar",
+          "description": "Dagarna före en gräns då ett jobb är snart."
+        },
+        "notes": {
+          "name": "Anteckningar",
+          "description": "Anteckningar."
+        },
+        "enabled": {
+          "name": "På",
+          "description": "Av behåller jobbet och stoppar dess förfallostatus."
+        },
+        "add_task": {
+          "name": "Home Keeper-uppgift",
+          "description": "Skapa en Home Keeper-uppgift för jobbet."
+        },
+        "last_date": {
+          "name": "Senast utfört",
+          "description": "Datumet för den senaste servicen, om du vet det."
+        },
+        "last_reading": {
+          "name": "Senast utfört vid",
+          "description": "Vägmätaren vid den senaste servicen, om du vet den."
+        }
+      }
+    },
+    "update_item": {
+      "name": "Uppdatera jobb",
+      "description": "Ändrar fälten för ett underhållsjobb. Endast administratörer.",
+      "fields": {
+        "item_id": {
+          "name": "Jobb",
+          "description": "Jobbets ID."
+        },
+        "name": {
+          "name": "Namn",
+          "description": "Jobbets namn."
+        },
+        "kind": {
+          "name": "Typ",
+          "description": "Ett jobb med intervall, eller ett datum som en registrering."
+        },
+        "interval_distance": {
+          "name": "Avståndsintervall",
+          "description": "Avståndet mellan 2 servicetillfällen i bilens enhet."
+        },
+        "interval_months": {
+          "name": "Tidsintervall",
+          "description": "Månaderna mellan 2 servicetillfällen."
+        },
+        "due_date": {
+          "name": "Förfallodatum",
+          "description": "Förfallodatumet för ett jobb med datum."
+        },
+        "lead_distance": {
+          "name": "Varningsavstånd",
+          "description": "Avståndet före en gräns då ett jobb är snart."
+        },
+        "lead_days": {
+          "name": "Varningsdagar",
+          "description": "Dagarna före en gräns då ett jobb är snart."
+        },
+        "notes": {
+          "name": "Anteckningar",
+          "description": "Anteckningar."
+        },
+        "enabled": {
+          "name": "På",
+          "description": "Av behåller jobbet och stoppar dess förfallostatus."
+        },
+        "add_task": {
+          "name": "Home Keeper-uppgift",
+          "description": "Skapa en Home Keeper-uppgift för jobbet."
+        }
+      }
+    },
+    "delete_item": {
+      "name": "Ta bort jobb",
+      "description": "Tar bort ett underhållsjobb. Serviceposterna finns kvar. Endast administratörer.",
+      "fields": {
+        "item_id": {
+          "name": "Jobb",
+          "description": "Jobbets ID."
+        }
+      }
+    },
+    "apply_templates": {
+      "name": "Lägg till startjobb",
+      "description": "Lägger till de valda startjobben för en bil. Endast administratörer.",
+      "fields": {
+        "car_id": {
+          "name": "Bil",
+          "description": "Bilens ID."
+        },
+        "starter_jobs": {
+          "name": "Startjobb",
+          "description": "Startjobben som ska läggas till."
+        },
+        "due_dates": {
+          "name": "Förfallodatum",
+          "description": "Förfallodatumet för varje startjobb med datum, efter dess ID."
+        }
+      }
+    },
+    "log_service": {
+      "name": "Registrera service",
+      "description": "Lägger till en servicepost och markerar dess jobb som utförda.",
+      "fields": {
+        "car_id": {
+          "name": "Bil",
+          "description": "Bilens ID."
+        },
+        "date": {
+          "name": "Datum",
+          "description": "Datumet för servicen. Standard är i dag."
+        },
+        "reading": {
+          "name": "Avläsning",
+          "description": "Vägmätaren vid servicen."
+        },
+        "items": {
+          "name": "Jobb",
+          "description": "ID:n för jobben som servicen utförde."
+        },
+        "shop": {
+          "name": "Verkstad",
+          "description": "Verkstaden, eller tomt för ett jobb hemma."
+        },
+        "notes": {
+          "name": "Anteckningar",
+          "description": "Anteckningar."
+        },
+        "who": {
+          "name": "Vem",
+          "description": "Vem som utförde jobbet."
+        },
+        "cost": {
+          "name": "Kostnad",
+          "description": "Kostnaden för besöket i valutan för Home Assistant."
+        }
+      }
+    },
+    "update_service": {
+      "name": "Uppdatera servicepost",
+      "description": "Ändrar en servicepost. Endast administratörer.",
+      "fields": {
+        "service_id": {
+          "name": "Servicepost",
+          "description": "Serviceposten ID."
+        },
+        "date": {
+          "name": "Datum",
+          "description": "Datumet för servicen. Standard är i dag."
+        },
+        "reading": {
+          "name": "Avläsning",
+          "description": "Vägmätaren vid servicen."
+        },
+        "items": {
+          "name": "Jobb",
+          "description": "ID:n för jobben som servicen utförde."
+        },
+        "shop": {
+          "name": "Verkstad",
+          "description": "Verkstaden, eller tomt för ett jobb hemma."
+        },
+        "notes": {
+          "name": "Anteckningar",
+          "description": "Anteckningar."
+        },
+        "who": {
+          "name": "Vem",
+          "description": "Vem som utförde jobbet."
+        },
+        "cost": {
+          "name": "Kostnad",
+          "description": "Kostnaden för besöket i valutan för Home Assistant."
+        },
+        "parts_used": {
+          "name": "Använda delar",
+          "description": "En lista över Home Keeper-delarna som servicen använde."
+        }
+      }
+    },
+    "delete_service": {
+      "name": "Ta bort servicepost",
+      "description": "Tar bort en servicepost. Endast administratörer.",
+      "fields": {
+        "service_id": {
+          "name": "Servicepost",
+          "description": "Serviceposten ID."
+        }
+      }
+    },
     "set_settings": {
       "name": "Ange inställningar",
       "description": "Ändrar inställningarna för Car Keeper. Endast administratörer.",
@@ -63,6 +523,72 @@
         "unit": {
           "name": "Avståndsenhet",
           "description": "Enheten för en ny bil: km eller mi."
+        },
+        "templates": {
+          "name": "Startjobb",
+          "description": "Ändringar av startjobben efter ID: km, månader och aktiverad."
+        }
+      }
+    },
+    "export_data": {
+      "name": "Exportera data",
+      "description": "Returnerar all Car Keeper-data för Home Keeper-exporten. Endast administratörer.",
+      "fields": {
+        "files_dir": {
+          "name": "Filmapp",
+          "description": "Anges av Home Keeper för en paketexport eller -import."
+        }
+      }
+    },
+    "import_data": {
+      "name": "Importera data",
+      "description": "Lägger till och uppdaterar Car Keeper-data från en export. Den tar inte bort någon post. Endast administratörer.",
+      "fields": {
+        "document": {
+          "name": "Dokument",
+          "description": "Car Keeper-avsnittet i en export."
+        },
+        "dry_run": {
+          "name": "Förhandsgranskning",
+          "description": "Rapportera vad som skulle ändras och skriv inga data."
+        },
+        "files_dir": {
+          "name": "Filmapp",
+          "description": "Anges av Home Keeper för en paketexport eller -import."
+        }
+      }
+    },
+    "list_cars": {
+      "name": "Lista bilar",
+      "description": "Returnerar varje bil med dess status och nästa jobb."
+    },
+    "get_car": {
+      "name": "Hämta bil",
+      "description": "Returnerar 1 bil med dess jobb, serviceposter och avläsningar.",
+      "fields": {
+        "car_id": {
+          "name": "Bil",
+          "description": "Bilens ID."
+        }
+      }
+    },
+    "list_items": {
+      "name": "Lista jobb",
+      "description": "Returnerar jobben med deras gränser och status.",
+      "fields": {
+        "car_id": {
+          "name": "Bil",
+          "description": "Endast jobben för den här bilen."
+        }
+      }
+    },
+    "list_services": {
+      "name": "Lista serviceposter",
+      "description": "Returnerar serviceposterna, den senaste först.",
+      "fields": {
+        "car_id": {
+          "name": "Bil",
+          "description": "Endast posterna för den här bilen."
         }
       }
     }
@@ -70,6 +596,100 @@
   "exceptions": {
     "not_loaded": {
       "message": "Car Keeper är inte inläst. Försök igen när det har startat."
+    },
+    "car_not_found": {
+      "message": "Ingen bil har ID:t {id}."
+    },
+    "item_not_found": {
+      "message": "Inget jobb har ID:t {id}."
+    },
+    "service_not_found": {
+      "message": "Ingen servicepost har ID:t {id}."
+    },
+    "template_not_found": {
+      "message": "Inget startjobb har ID:t {id}."
+    },
+    "field_required": {
+      "message": "Ange ett värde för {field}."
+    },
+    "field_too_long": {
+      "message": "Värdet för {field} är längre än {limit} tecken."
+    },
+    "invalid_field": {
+      "message": "Värdet för {field} är ogiltigt."
+    },
+    "out_of_range": {
+      "message": "Värdet för {field} måste vara mellan {low} och {high}."
+    },
+    "invalid_date": {
+      "message": "Datumet {value} för {field} är inte ett datum i formatet ÅÅÅÅ-MM-DD."
+    },
+    "interval_required": {
+      "message": "Ange ett avståndsintervall, ett tidsintervall eller båda."
+    },
+    "invalid_reading": {
+      "message": "Avläsningen {value} är ogiltig."
+    },
+    "odometer_decreased": {
+      "message": "Avläsningen {value} är under den senaste avläsningen {current}. En administratör kan rätta vägmätaren."
+    },
+    "todo_only_check": {
+      "message": "Bocka för jobbet för att registrera service. Listan har ingen annan ändring."
+    },
+    "import_not_a_document": {
+      "message": "Dokumentet är inte en Car Keeper-export."
+    },
+    "import_format_too_new": {
+      "message": "Exportformatet {format} är nyare än detta Car Keeper. Uppdatera Car Keeper."
+    },
+    "import_missing_field": {
+      "message": "Fältet {field} saknas eller är tomt."
+    },
+    "import_bad_value": {
+      "message": "Värdet för {field} är ogiltigt."
+    },
+    "import_not_a_record": {
+      "message": "Posten är ogiltig."
+    },
+    "import_unknown_car": {
+      "message": "Posten nämner en bil som inte finns i importen eller i Car Keeper."
+    },
+    "import_unknown_item": {
+      "message": "Serviceposten nämner ett jobb som inte finns i importen eller i Car Keeper."
+    },
+    "import_entity_missing": {
+      "message": "Vägmätarsensorn {entity_id} finns inte i denna Home Assistant. Bilen får en inmatad vägmätare."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "odometer": {
+        "name": "Vägmätare"
+      },
+      "next_due_distance": {
+        "name": "Nästa förfall i avstånd"
+      },
+      "next_due_date": {
+        "name": "Nästa förfallodatum"
+      },
+      "status": {
+        "name": "Underhållsstatus",
+        "state": {
+          "ok": "OK",
+          "soon": "Snart",
+          "overdue": "Försenad"
+        }
+      }
+    },
+    "binary_sensor": {
+      "overdue": {
+        "name": "Underhåll försenat"
+      }
+    },
+    "todo": {
+      "jobs": {
+        "name": "Underhållsjobb"
+      }
     }
   }
 }

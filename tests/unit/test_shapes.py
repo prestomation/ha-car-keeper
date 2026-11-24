@@ -16,9 +16,8 @@ def test_empty_state() -> None:
         "cars": {},
         "items": {},
         "services": {},
-        "documents": {},
         "readings": {},
-        "settings": {"unit": "km"},
+        "settings": {"unit": "km", "templates": {}},
     }
 
 
@@ -30,8 +29,6 @@ def test_settings_event_payload() -> None:
 
 
 def test_state_reply() -> None:
-    assert pr.project_state(m.empty_state(), tab=False, revision=3) == {
-        **m.empty_state(),
-        "tab": False,
-        "revision": 3,
-    }
+    assert pr.project_state(
+        m.empty_state(), today="2026-10-01", tab=False, revision=3
+    ) == {**m.empty_state(), "tab": False, "revision": 3, "today": "2026-10-01"}

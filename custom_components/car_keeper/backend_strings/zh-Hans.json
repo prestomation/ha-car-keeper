@@ -1,4 +1,18 @@
 {
   "tab.title": "车辆",
-  "companion.description": "车辆、里程表、保养项目和保养记录。"
+  "companion.description": "车辆、里程表、保养项目和保养记录。",
+  "template.engine_oil": "机油和机滤",
+  "template.tyre_rotation": "轮胎换位",
+  "template.tyre_check": "胎压和胎纹",
+  "template.brake_fluid": "刹车油",
+  "template.cabin_filter": "空调滤芯",
+  "template.engine_air_filter": "发动机空滤",
+  "template.wipers": "雨刮片",
+  "template.battery_12v": "12 V 蓄电池检测",
+  "template.coolant": "冷却液",
+  "template.spark_plugs": "火花塞",
+  "template.adblue": "补充尿素液",
+  "template.registration": "车辆登记",
+  "template.insurance": "保险",
+  "template.inspection": "年检"
 }

@@ -1,4 +1,18 @@
 {
   "tab.title": "Carros",
-  "companion.description": "Carros, conta-quilómetros, trabalhos de manutenção e histórico de serviço."
+  "companion.description": "Carros, conta-quilómetros, trabalhos de manutenção e histórico de serviço.",
+  "template.engine_oil": "Óleo do motor e filtro",
+  "template.tyre_rotation": "Rodízio de pneus",
+  "template.tyre_check": "Pressão e piso dos pneus",
+  "template.brake_fluid": "Fluido de travões",
+  "template.cabin_filter": "Filtro do habitáculo",
+  "template.engine_air_filter": "Filtro de ar do motor",
+  "template.wipers": "Escovas limpa-vidros",
+  "template.battery_12v": "Teste da bateria de 12 V",
+  "template.coolant": "Líquido de arrefecimento",
+  "template.spark_plugs": "Velas de ignição",
+  "template.adblue": "Reabastecimento de AdBlue",
+  "template.registration": "Registo",
+  "template.insurance": "Seguro",
+  "template.inspection": "Inspeção"
 }
