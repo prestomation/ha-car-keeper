@@ -10,7 +10,7 @@
  */
 import { test, type Page } from '@playwright/test';
 import { resolve } from 'node:path';
-import { noServiceWorker, openCard, openTab } from './tests/helpers';
+import { carsTab, noServiceWorker, openCarCard, openTab } from './tests/helpers';
 import { PHONE } from './viewports';
 
 const SHOT_DIR = resolve(__dirname, process.env.SHOT_DIR || '../../docs/images');
@@ -22,21 +22,35 @@ async function shot(page: Page, name: string): Promise<void> {
   await page.screenshot({ path: resolve(SHOT_DIR, `${name}.png`) });
 }
 
+/** Each surface, in the same order for the desktop and the phone. */
+async function surfaces(page: Page, suffix: string): Promise<void> {
+  await openTab(page);
+  await shot(page, `garage-${suffix}`);
+  await openTab(page, '/car/civic');
+  await shot(page, `car-detail-${suffix}`);
+  await openTab(page, '/car/civic/log');
+  const tab = carsTab(page);
+  await tab.locator('[data-k="log-item-civic-engine_oil"]').check();
+  await shot(page, `log-service-${suffix}`);
+  await openTab(page, '/add');
+  await tab.locator('[data-k="add-name"]').fill('Fit');
+  await tab.locator('[data-k="add-next"]').click();
+  await tab.locator('[data-k="add-next"]').click();
+  await shot(page, `add-car-${suffix}`);
+  await openTab(page, '/settings');
+  await shot(page, `settings-${suffix}`);
+  await openCarCard(page);
+  await shot(page, `cards-${suffix}`);
+}
+
 test('capture the screenshots', async ({ browser }) => {
   const context = await browser.newContext({ storageState: './.auth/state.json', deviceScaleFactor: 1 });
   await noServiceWorker(context);
   const page = await context.newPage();
   await page.setViewportSize(DESKTOP_SHOT);
-
-  await openTab(page);
-  await shot(page, 'garage-empty-desktop');
-  await openCard(page);
-  await shot(page, 'card-garage-desktop');
+  await surfaces(page, 'desktop');
 
   await page.setViewportSize(PHONE);
-  await openTab(page);
-  await shot(page, 'garage-empty-mobile');
-  await openCard(page);
-  await shot(page, 'card-garage-mobile');
+  await surfaces(page, 'mobile');
   await context.close();
 });

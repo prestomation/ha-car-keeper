@@ -6,3 +6,6 @@ views:
     path: cars
     cards:
       - type: custom:car-keeper-garage-card
+      - type: custom:car-keeper-car-card
+        car_id: civic
+        max_height: 320

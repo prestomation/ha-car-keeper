@@ -12,7 +12,8 @@ const OTHER = Object.keys(LOCALES).filter((l) => l !== DEFAULT_LOCALE);
 const PLURAL = /^(.*)\.(zero|one|two|few|many|other)$/;
 
 // Values that are the same as English by design. Keep this list short.
-const IDENTICAL = new Set([]);
+// "VIN" is the same word in each language, and "OK" is the common word for the status.
+const IDENTICAL = new Set(['car.vin', 'status.ok']);
 
 // Words that are the same as English in one language, reviewed one by one.
 // "Garage" is the native word in the languages listed.
@@ -56,7 +57,13 @@ describe.each(OTHER)('locale %s', (lang) => {
 
   it('has every plural category that the language uses', () => {
     const cats = new Intl.PluralRules(lang).resolvedOptions().pluralCategories;
-    const bases = new Set(Object.keys(EN).map((k) => k.match(PLURAL)?.[1]).filter(Boolean));
+    // A plural group has both an English `.one` and `.other`. A key such as
+    // `fuel.other` (the fuel "Other") is not a plural form.
+    const bases = new Set(
+      Object.keys(EN)
+        .map((k) => k.match(PLURAL)?.[1])
+        .filter((b) => b && EN[`${b}.one`] !== undefined && EN[`${b}.other`] !== undefined),
+    );
     const missing = [];
     for (const base of bases) for (const c of cats) if (table[`${base}.${c}`] === undefined) missing.push(`${base}.${c}`);
     expect(missing).toEqual([]);

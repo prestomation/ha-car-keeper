@@ -7,6 +7,239 @@
     "unit": "km",
     "templates": {}
   },
+  "sync": {
+    "undo": [],
+    "stock": []
+  },
+  "starter_jobs": [
+    {
+      "id": "engine_oil",
+      "fuels": [
+        "petrol",
+        "diesel",
+        "hybrid",
+        "plug_in_hybrid",
+        "other"
+      ],
+      "kind": "job",
+      "km": 15000,
+      "months": 12,
+      "enabled": true
+    },
+    {
+      "id": "tyre_rotation",
+      "fuels": [
+        "petrol",
+        "diesel",
+        "hybrid",
+        "plug_in_hybrid",
+        "electric",
+        "other"
+      ],
+      "kind": "job",
+      "km": 10000,
+      "months": 12,
+      "enabled": true
+    },
+    {
+      "id": "tyre_check",
+      "fuels": [
+        "petrol",
+        "diesel",
+        "hybrid",
+        "plug_in_hybrid",
+        "electric",
+        "other"
+      ],
+      "kind": "job",
+      "km": null,
+      "months": 1,
+      "enabled": true
+    },
+    {
+      "id": "brake_fluid",
+      "fuels": [
+        "petrol",
+        "diesel",
+        "hybrid",
+        "plug_in_hybrid",
+        "electric",
+        "other"
+      ],
+      "kind": "job",
+      "km": null,
+      "months": 24,
+      "enabled": true
+    },
+    {
+      "id": "cabin_filter",
+      "fuels": [
+        "petrol",
+        "diesel",
+        "hybrid",
+        "plug_in_hybrid",
+        "electric",
+        "other"
+      ],
+      "kind": "job",
+      "km": 20000,
+      "months": 12,
+      "enabled": true
+    },
+    {
+      "id": "engine_air_filter",
+      "fuels": [
+        "petrol",
+        "diesel",
+        "hybrid",
+        "plug_in_hybrid",
+        "other"
+      ],
+      "kind": "job",
+      "km": 30000,
+      "months": 24,
+      "enabled": true
+    },
+    {
+      "id": "wipers",
+      "fuels": [
+        "petrol",
+        "diesel",
+        "hybrid",
+        "plug_in_hybrid",
+        "electric",
+        "other"
+      ],
+      "kind": "job",
+      "km": null,
+      "months": 12,
+      "enabled": true
+    },
+    {
+      "id": "battery_12v",
+      "fuels": [
+        "petrol",
+        "diesel",
+        "hybrid",
+        "plug_in_hybrid",
+        "electric",
+        "other"
+      ],
+      "kind": "job",
+      "km": null,
+      "months": 12,
+      "enabled": true
+    },
+    {
+      "id": "coolant",
+      "fuels": [
+        "petrol",
+        "diesel",
+        "hybrid",
+        "plug_in_hybrid",
+        "electric",
+        "other"
+      ],
+      "kind": "job",
+      "km": 100000,
+      "months": 60,
+      "enabled": true
+    },
+    {
+      "id": "spark_plugs",
+      "fuels": [
+        "petrol",
+        "hybrid",
+        "plug_in_hybrid"
+      ],
+      "kind": "job",
+      "km": 60000,
+      "months": 60,
+      "enabled": true
+    },
+    {
+      "id": "adblue",
+      "fuels": [
+        "diesel"
+      ],
+      "kind": "job",
+      "km": 10000,
+      "months": null,
+      "enabled": true
+    },
+    {
+      "id": "timing_belt",
+      "fuels": [
+        "petrol",
+        "diesel",
+        "hybrid",
+        "plug_in_hybrid"
+      ],
+      "kind": "job",
+      "km": 100000,
+      "months": 72,
+      "enabled": true
+    },
+    {
+      "id": "gearbox_oil",
+      "fuels": [
+        "petrol",
+        "diesel",
+        "hybrid",
+        "plug_in_hybrid",
+        "other"
+      ],
+      "kind": "job",
+      "km": 60000,
+      "months": 48,
+      "enabled": true
+    },
+    {
+      "id": "registration",
+      "fuels": [
+        "petrol",
+        "diesel",
+        "hybrid",
+        "plug_in_hybrid",
+        "electric",
+        "other"
+      ],
+      "kind": "date",
+      "km": null,
+      "months": 12,
+      "enabled": true
+    },
+    {
+      "id": "insurance",
+      "fuels": [
+        "petrol",
+        "diesel",
+        "hybrid",
+        "plug_in_hybrid",
+        "electric",
+        "other"
+      ],
+      "kind": "date",
+      "km": null,
+      "months": 12,
+      "enabled": true
+    },
+    {
+      "id": "inspection",
+      "fuels": [
+        "petrol",
+        "diesel",
+        "hybrid",
+        "plug_in_hybrid",
+        "electric",
+        "other"
+      ],
+      "kind": "date",
+      "km": null,
+      "months": 12,
+      "enabled": true
+    }
+  ],
   "tab": true,
   "revision": 1,
   "today": "2026-10-15"

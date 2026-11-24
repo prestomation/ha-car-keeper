@@ -66,6 +66,20 @@ export async function openCard(page: Page): Promise<Locator> {
   return card;
 }
 
+/** Open the seeded dashboard and wait for the car card of the Civic. */
+export async function openCarCard(page: Page): Promise<Locator> {
+  await openCard(page);
+  const card = page.locator('car-keeper-car-card');
+  await expect(card.locator('.ck-big')).toBeVisible({ timeout: 30_000 });
+  return card;
+}
+
+/** The current odometer value of a seeded car. */
+export async function odometer(carId: string): Promise<number> {
+  const state = await adminState();
+  return Number(state.cars[carId].odometer.value);
+}
+
 /** The whole `get_state` reply as Alex. */
 export function adminState(): Promise<Record<string, any>> {
   return carKeeper('get_state');

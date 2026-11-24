@@ -34,7 +34,8 @@
     "custom_components/car_keeper/frontend/src/utils.ts",
     "custom_components/car_keeper/frontend/src/i18n.ts",
     "custom_components/car_keeper/frontend/src/units.ts",
-    "custom_components/car_keeper/frontend/src/schedule.ts"
+    "custom_components/car_keeper/frontend/src/schedule.ts",
+    "custom_components/car_keeper/frontend/src/model.ts"
   ],
   "thresholds": {
     "high": 90,

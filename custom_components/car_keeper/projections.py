@@ -17,7 +17,7 @@ from __future__ import annotations
 import copy
 from typing import Any
 
-from . import schedule
+from . import schedule, templates
 
 
 def lead(item: dict[str, Any], car: dict[str, Any]) -> tuple[float, int]:
@@ -50,7 +50,8 @@ def car_summary(state: dict[str, Any], car_id: str, today: str) -> dict[str, Any
     """The computed values of 1 car and of each of its items.
 
     ``next_item_id`` is the first job in the order of ``schedule.sort_key``.
-    ``due_count`` counts the jobs that are ``soon`` or ``overdue``.
+    ``due_count`` counts the jobs that are ``soon`` or ``overdue``. ``cost_total``
+    is the sum of the costs of the service records of the car.
     """
     daily = schedule.daily_distance(state["readings"].get(car_id) or [], today)
     items = [i for i in state["items"].values() if i["car_id"] == car_id]
@@ -66,8 +67,14 @@ def car_summary(state: dict[str, Any], car_id: str, today: str) -> dict[str, Any
         or evaluations[i["id"]]["date_limit"] is not None
     ]
     statuses = [evaluations[i["id"]]["status"] for i in active]
+    costs = [
+        s["cost"]
+        for s in state["services"].values()
+        if s["car_id"] == car_id and s.get("cost") is not None
+    ]
     return {
         "status": schedule.worst(statuses),
+        "cost_total": round(sum(costs), 2),
         "daily_distance": daily,
         "next_item_id": with_limit[0]["id"] if with_limit else None,
         "due_count": sum(1 for s in statuses if s != schedule.OK),
@@ -81,7 +88,8 @@ def project_state(
     """The whole document for a reader, with the computed values.
 
     Each car gets a ``summary`` key and each item a ``due`` key. The reply also has
-    the tab state, the revision and today.
+    the starter jobs with the overrides of the settings, the tab state, the revision
+    and today.
     """
     out = copy.deepcopy(state)
     for car_id, car in out["cars"].items():
@@ -90,6 +98,7 @@ def project_state(
         car["summary"] = summary
         for item_id, evaluation in evaluations.items():
             out["items"][item_id]["due"] = evaluation
+    out["starter_jobs"] = templates.effective(state["settings"].get("templates") or {})
     out["tab"] = tab
     out["revision"] = revision
     out["today"] = today

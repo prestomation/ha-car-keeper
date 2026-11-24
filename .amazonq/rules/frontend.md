@@ -21,7 +21,7 @@ How the tab and the cards work is in [frontend](../../docs/design/frontend.md).
   Home Keeper host gives the tab only the path and drops a `?query`. A default value is
   left out of the URL.
 - **A new URL segment keeps old URLs working.** A user can bookmark any tab URL.
-- Dialogs are not deep-linked, except the Log service dialog at `/cars/<id>/log`.
+- Dialogs are not deep-linked, except the Log service dialog at `/car/<id>/log`.
 
 ## Markup and text
 

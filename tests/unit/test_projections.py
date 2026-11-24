@@ -159,8 +159,22 @@ def test_a_car_with_no_items() -> None:
     )
     assert pr.car_summary(state, "c", TODAY) == {
         "status": "ok",
+        "cost_total": 0,
         "daily_distance": None,
         "next_item_id": None,
         "due_count": 0,
         "items": {},
     }
+
+
+def test_the_cost_total_counts_only_the_car() -> None:
+    state = m.empty_state()
+    for car_id in ("c", "d"):
+        state["cars"][car_id] = m.build_car(
+            {"name": car_id}, car_id=car_id, today=TODAY, default_unit="km"
+        )
+    for n, (car_id, cost) in enumerate(
+        [("c", 10.105), ("c", 20.2), ("c", None), ("d", 99)]
+    ):
+        state["services"][f"s{n}"] = {"car_id": car_id, "cost": cost}
+    assert pr.car_summary(state, "c", TODAY)["cost_total"] == 30.3

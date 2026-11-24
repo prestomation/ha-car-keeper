@@ -1,6 +1,6 @@
 import { type Page } from '@playwright/test';
 import { auditOutlines } from '../outline-audit';
-import { carsTab, expect, openCard, test } from './helpers';
+import { carsTab, expect, openCard, openCarCard, test } from './helpers';
 
 /**
  * Every outline is whole, as in Home Keeper.
@@ -30,11 +30,30 @@ const tabReady = async (page: Page): Promise<void> => {
 
 const VIEWS: View[] = [
   { name: 'Garage', url: '/home-keeper/cars' },
+  { name: 'Car detail', url: '/home-keeper/cars/car/civic' },
+  {
+    name: 'Car detail, edit forms',
+    url: '/home-keeper/cars/car/civic',
+    before: async (page) => {
+      await carsTab(page).locator('[data-k="edit-car"]').click();
+      await carsTab(page).locator('[data-k="add-item"]').click();
+    },
+  },
+  { name: 'Log service', url: '/home-keeper/cars/car/civic/log' },
+  { name: 'Add car', url: '/home-keeper/cars/add' },
+  { name: 'Settings', url: '/home-keeper/cars/settings' },
   {
     name: 'Garage card',
     url: '/car-keeper-e2e/cars',
     ready: async (page) => {
       await openCard(page);
+    },
+  },
+  {
+    name: 'Car card',
+    url: '/car-keeper-e2e/cars',
+    ready: async (page) => {
+      await openCarCard(page);
     },
   },
 ];

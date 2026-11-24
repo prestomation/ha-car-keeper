@@ -1,0 +1,504 @@
+{
+  "cars": {
+    "civic": {
+      "id": "civic",
+      "name": "Civic",
+      "make": "Honda",
+      "model": "Civic",
+      "year": 2018,
+      "trim": "",
+      "fuel": "petrol",
+      "vin": "1HGFC2F59JA000000",
+      "plate": "CK 101",
+      "engine_code": "",
+      "transmission_code": "",
+      "first_registered": null,
+      "area_id": null,
+      "notes": "",
+      "lead_distance": 1000,
+      "lead_days": 30,
+      "unit": "km",
+      "odometer": {
+        "source": "manual",
+        "entity_id": null,
+        "value": 41800.0,
+        "updated": null,
+        "offset": 0.0,
+        "lower": null
+      },
+      "photo": null,
+      "created": "2026-10-15",
+      "hk_asset_id": null,
+      "summary": {
+        "status": "soon",
+        "cost_total": 84.5,
+        "daily_distance": null,
+        "next_item_id": "civic-registration",
+        "due_count": 2
+      }
+    },
+    "model3": {
+      "id": "model3",
+      "name": "Model 3",
+      "make": "Tesla",
+      "model": "Model 3",
+      "year": 2021,
+      "trim": "",
+      "fuel": "electric",
+      "vin": "",
+      "plate": "",
+      "engine_code": "",
+      "transmission_code": "",
+      "first_registered": null,
+      "area_id": null,
+      "notes": "",
+      "lead_distance": 600,
+      "lead_days": 30,
+      "unit": "mi",
+      "odometer": {
+        "source": "manual",
+        "entity_id": null,
+        "value": 18250.0,
+        "updated": null,
+        "offset": 0.0,
+        "lower": null
+      },
+      "photo": null,
+      "created": "2026-10-15",
+      "hk_asset_id": null,
+      "summary": {
+        "status": "overdue",
+        "cost_total": 0,
+        "daily_distance": null,
+        "next_item_id": "model3-tyre_rotation",
+        "due_count": 2
+      }
+    }
+  },
+  "items": {
+    "civic-engine_oil": {
+      "id": "civic-engine_oil",
+      "car_id": "civic",
+      "name": "Engine oil",
+      "kind": "job",
+      "interval_distance": 15000,
+      "interval_months": 12,
+      "due_date": null,
+      "lead_distance": null,
+      "lead_days": null,
+      "notes": "",
+      "enabled": true,
+      "add_task": true,
+      "parts": [],
+      "template_id": "engine_oil",
+      "start": {
+        "date": "2025-11-01",
+        "reading": 32800.0
+      },
+      "last_done": {
+        "date": "2026-04-02",
+        "reading": 35000.0,
+        "service_id": "s1"
+      },
+      "hk_task_id": null,
+      "notified": null,
+      "due": {
+        "status": "ok",
+        "first": "date",
+        "distance_limit": 50000.0,
+        "distance_left": 8200.0,
+        "date_limit": "2027-04-02",
+        "days_left": 169,
+        "eta_days": 169
+      }
+    },
+    "civic-tyre_rotation": {
+      "id": "civic-tyre_rotation",
+      "car_id": "civic",
+      "name": "Tyre rotation",
+      "kind": "job",
+      "interval_distance": 10000,
+      "interval_months": 12,
+      "due_date": null,
+      "lead_distance": null,
+      "lead_days": null,
+      "notes": "",
+      "enabled": true,
+      "add_task": true,
+      "parts": [],
+      "template_id": "tyre_rotation",
+      "start": {
+        "date": "2025-11-01",
+        "reading": 34800.0
+      },
+      "last_done": null,
+      "hk_task_id": null,
+      "notified": null,
+      "due": {
+        "status": "soon",
+        "first": "date",
+        "distance_limit": 44800.0,
+        "distance_left": 3000.0,
+        "date_limit": "2026-11-01",
+        "days_left": 17,
+        "eta_days": 17
+      }
+    },
+    "civic-registration": {
+      "id": "civic-registration",
+      "car_id": "civic",
+      "name": "Registration",
+      "kind": "date",
+      "interval_distance": null,
+      "interval_months": 12,
+      "due_date": "2026-11-01",
+      "lead_distance": null,
+      "lead_days": null,
+      "notes": "",
+      "enabled": true,
+      "add_task": true,
+      "parts": [],
+      "template_id": "registration",
+      "start": {
+        "date": "2025-11-01",
+        "reading": 36800.0
+      },
+      "last_done": null,
+      "hk_task_id": null,
+      "notified": null,
+      "due": {
+        "status": "soon",
+        "first": "date",
+        "distance_limit": null,
+        "distance_left": null,
+        "date_limit": "2026-11-01",
+        "days_left": 17,
+        "eta_days": 17
+      }
+    },
+    "model3-tyre_rotation": {
+      "id": "model3-tyre_rotation",
+      "car_id": "model3",
+      "name": "Tyre rotation",
+      "kind": "job",
+      "interval_distance": 6200,
+      "interval_months": 12,
+      "due_date": null,
+      "lead_distance": null,
+      "lead_days": null,
+      "notes": "",
+      "enabled": true,
+      "add_task": true,
+      "parts": [],
+      "template_id": "tyre_rotation",
+      "start": {
+        "date": "2025-11-01",
+        "reading": 9250.0
+      },
+      "last_done": null,
+      "hk_task_id": null,
+      "notified": null,
+      "due": {
+        "status": "overdue",
+        "first": "distance",
+        "distance_limit": 15450.0,
+        "distance_left": -2800.0,
+        "date_limit": "2026-11-01",
+        "days_left": 17,
+        "eta_days": 0.0
+      }
+    },
+    "model3-cabin_filter": {
+      "id": "model3-cabin_filter",
+      "car_id": "model3",
+      "name": "Cabin filter",
+      "kind": "job",
+      "interval_distance": 12400,
+      "interval_months": 12,
+      "due_date": null,
+      "lead_distance": null,
+      "lead_days": null,
+      "notes": "",
+      "enabled": true,
+      "add_task": true,
+      "parts": [],
+      "template_id": "cabin_filter",
+      "start": {
+        "date": "2025-11-01",
+        "reading": 11250.0
+      },
+      "last_done": null,
+      "hk_task_id": null,
+      "notified": null,
+      "due": {
+        "status": "soon",
+        "first": "date",
+        "distance_limit": 23650.0,
+        "distance_left": 5400.0,
+        "date_limit": "2026-11-01",
+        "days_left": 17,
+        "eta_days": 17
+      }
+    }
+  },
+  "services": {
+    "s1": {
+      "id": "s1",
+      "car_id": "civic",
+      "date": "2026-04-02",
+      "reading": 35000.0,
+      "items": [
+        "civic-engine_oil"
+      ],
+      "shop": "Main Street Garage",
+      "notes": "",
+      "who": null,
+      "cost": 84.5,
+      "parts_used": [],
+      "logged": "2026-04-02T10:00:00+00:00",
+      "origin": null,
+      "hk_completions": {}
+    }
+  },
+  "readings": {},
+  "settings": {
+    "unit": "km",
+    "templates": {}
+  },
+  "sync": {
+    "undo": [],
+    "stock": []
+  },
+  "starter_jobs": [
+    {
+      "id": "engine_oil",
+      "fuels": [
+        "petrol",
+        "diesel",
+        "hybrid",
+        "plug_in_hybrid",
+        "other"
+      ],
+      "kind": "job",
+      "km": 15000,
+      "months": 12,
+      "enabled": true
+    },
+    {
+      "id": "tyre_rotation",
+      "fuels": [
+        "petrol",
+        "diesel",
+        "hybrid",
+        "plug_in_hybrid",
+        "electric",
+        "other"
+      ],
+      "kind": "job",
+      "km": 10000,
+      "months": 12,
+      "enabled": true
+    },
+    {
+      "id": "tyre_check",
+      "fuels": [
+        "petrol",
+        "diesel",
+        "hybrid",
+        "plug_in_hybrid",
+        "electric",
+        "other"
+      ],
+      "kind": "job",
+      "km": null,
+      "months": 1,
+      "enabled": true
+    },
+    {
+      "id": "brake_fluid",
+      "fuels": [
+        "petrol",
+        "diesel",
+        "hybrid",
+        "plug_in_hybrid",
+        "electric",
+        "other"
+      ],
+      "kind": "job",
+      "km": null,
+      "months": 24,
+      "enabled": true
+    },
+    {
+      "id": "cabin_filter",
+      "fuels": [
+        "petrol",
+        "diesel",
+        "hybrid",
+        "plug_in_hybrid",
+        "electric",
+        "other"
+      ],
+      "kind": "job",
+      "km": 20000,
+      "months": 12,
+      "enabled": true
+    },
+    {
+      "id": "engine_air_filter",
+      "fuels": [
+        "petrol",
+        "diesel",
+        "hybrid",
+        "plug_in_hybrid",
+        "other"
+      ],
+      "kind": "job",
+      "km": 30000,
+      "months": 24,
+      "enabled": true
+    },
+    {
+      "id": "wipers",
+      "fuels": [
+        "petrol",
+        "diesel",
+        "hybrid",
+        "plug_in_hybrid",
+        "electric",
+        "other"
+      ],
+      "kind": "job",
+      "km": null,
+      "months": 12,
+      "enabled": true
+    },
+    {
+      "id": "battery_12v",
+      "fuels": [
+        "petrol",
+        "diesel",
+        "hybrid",
+        "plug_in_hybrid",
+        "electric",
+        "other"
+      ],
+      "kind": "job",
+      "km": null,
+      "months": 12,
+      "enabled": true
+    },
+    {
+      "id": "coolant",
+      "fuels": [
+        "petrol",
+        "diesel",
+        "hybrid",
+        "plug_in_hybrid",
+        "electric",
+        "other"
+      ],
+      "kind": "job",
+      "km": 100000,
+      "months": 60,
+      "enabled": true
+    },
+    {
+      "id": "spark_plugs",
+      "fuels": [
+        "petrol",
+        "hybrid",
+        "plug_in_hybrid"
+      ],
+      "kind": "job",
+      "km": 60000,
+      "months": 60,
+      "enabled": true
+    },
+    {
+      "id": "adblue",
+      "fuels": [
+        "diesel"
+      ],
+      "kind": "job",
+      "km": 10000,
+      "months": null,
+      "enabled": true
+    },
+    {
+      "id": "timing_belt",
+      "fuels": [
+        "petrol",
+        "diesel",
+        "hybrid",
+        "plug_in_hybrid"
+      ],
+      "kind": "job",
+      "km": 100000,
+      "months": 72,
+      "enabled": true
+    },
+    {
+      "id": "gearbox_oil",
+      "fuels": [
+        "petrol",
+        "diesel",
+        "hybrid",
+        "plug_in_hybrid",
+        "other"
+      ],
+      "kind": "job",
+      "km": 60000,
+      "months": 48,
+      "enabled": true
+    },
+    {
+      "id": "registration",
+      "fuels": [
+        "petrol",
+        "diesel",
+        "hybrid",
+        "plug_in_hybrid",
+        "electric",
+        "other"
+      ],
+      "kind": "date",
+      "km": null,
+      "months": 12,
+      "enabled": true
+    },
+    {
+      "id": "insurance",
+      "fuels": [
+        "petrol",
+        "diesel",
+        "hybrid",
+        "plug_in_hybrid",
+        "electric",
+        "other"
+      ],
+      "kind": "date",
+      "km": null,
+      "months": 12,
+      "enabled": true
+    },
+    {
+      "id": "inspection",
+      "fuels": [
+        "petrol",
+        "diesel",
+        "hybrid",
+        "plug_in_hybrid",
+        "electric",
+        "other"
+      ],
+      "kind": "date",
+      "km": null,
+      "months": 12,
+      "enabled": true
+    }
+  ],
+  "tab": true,
+  "revision": 1,
+  "today": "2026-10-15"
+}

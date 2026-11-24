@@ -9,6 +9,7 @@ from __future__ import annotations
 import ex.events as ev
 import ex.models as m
 import ex.projections as pr
+import ex.templates as tpl
 import pytest
 
 
@@ -33,7 +34,13 @@ def test_settings_event_payload() -> None:
 def test_state_reply() -> None:
     assert pr.project_state(
         m.empty_state(), today="2026-10-01", tab=False, revision=3
-    ) == {**m.empty_state(), "tab": False, "revision": 3, "today": "2026-10-01"}
+    ) == {
+        **m.empty_state(),
+        "starter_jobs": tpl.effective({}),
+        "tab": False,
+        "revision": 3,
+        "today": "2026-10-01",
+    }
 
 
 def test_normalize_keeps_the_sync_queue() -> None:

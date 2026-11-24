@@ -26,4 +26,6 @@ service. Only an admin can change the records. An example is a new car or a dele
 ## Next steps
 
 1. Read [Installation](installation.md).
-2. To use Car Keeper from an automation, read [Services and events](../automation/services.md).
+2. Add your first car: read [Garage and cars](../cars/garage.md).
+3. Put a card on a dashboard: read [Dashboard cards](../views/cards.md).
+4. To use Car Keeper from an automation, read [Services and events](../automation/services.md).

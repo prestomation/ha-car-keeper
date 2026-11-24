@@ -9,7 +9,7 @@ implements:
   - custom_components/car_keeper/events.py
   - custom_components/car_keeper/projections.py
 related: [architecture, data-model, entities]
-source_hash: 2c89dd564015
+source_hash: 10b60e2fc304
 ---
 
 # Services, events and the API surface

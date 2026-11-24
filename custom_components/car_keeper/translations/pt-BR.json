@@ -67,7 +67,7 @@
         "engine_oil": "Óleo do motor e filtro",
         "tyre_rotation": "Rodízio de pneus",
         "tyre_check": "Pressão e piso dos pneus",
-        "brake_fluid": "Fluido de travões",
+        "brake_fluid": "Fluido de freio",
         "cabin_filter": "Filtro do habitáculo",
         "engine_air_filter": "Filtro de ar do motor",
         "wipers": "Escovas limpa-vidros",
@@ -75,7 +75,7 @@
         "coolant": "Líquido de arrefecimento",
         "spark_plugs": "Velas de ignição",
         "adblue": "Reabastecimento de AdBlue",
-        "registration": "Registo",
+        "registration": "Licenciamento",
         "insurance": "Seguro",
         "inspection": "Inspeção"
       }
@@ -95,14 +95,14 @@
       "description": "O separador Carros e as tarefas de manutenção precisam do Home Keeper versão {version} ou posterior. Os cartões, as entidades e os serviços já funcionam. Atualize o Home Keeper."
     },
     "odometer_decreased": {
-      "title": "O conta-quilómetros de {car} desceu",
-      "description": "O sensor do conta-quilómetros de {car} reportou {value} {unit} 2 vezes, abaixo da última leitura de {current} {unit}. O Car Keeper mantém a última leitura. Se o sensor estiver errado, corrija o sensor. Se o carro tiver um novo painel de instrumentos, corrija o conta-quilómetros do carro e defina um desvio."
+      "title": "O hodômetro de {car} desceu",
+      "description": "O sensor do hodômetro de {car} reportou {value} {unit} 2 vezes, abaixo da última leitura de {current} {unit}. O Car Keeper mantém a última leitura. Se o sensor estiver errado, corrija o sensor. Se o carro tiver um novo painel de instrumentos, corrija o hodômetro do carro e defina um desvio."
     }
   },
   "services": {
     "add_car": {
       "name": "Adicionar carro",
-      "description": "Adiciona um carro com o conta-quilómetros e os trabalhos iniciais escolhidos. Apenas administradores.",
+      "description": "Adiciona um carro com o hodômetro e os trabalhos iniciais escolhidos. Apenas administradores.",
       "fields": {
         "name": {
           "name": "Nome",
@@ -169,15 +169,15 @@
           "description": "km ou mi."
         },
         "odometer_source": {
-          "name": "Origem do conta-quilómetros",
-          "description": "Digite o conta-quilómetros ou leia-o de um sensor."
+          "name": "Origem do hodômetro",
+          "description": "Digite o hodômetro ou leia-o de um sensor."
         },
         "odometer_entity_id": {
-          "name": "Sensor do conta-quilómetros",
-          "description": "O sensor que reporta o conta-quilómetros."
+          "name": "Sensor do hodômetro",
+          "description": "O sensor que reporta o hodômetro."
         },
         "odometer": {
-          "name": "Conta-quilómetros",
+          "name": "Hodômetro",
           "description": "A leitura atual, na unidade do carro."
         },
         "starter_jobs": {
@@ -263,18 +263,18 @@
           "description": "km ou mi."
         },
         "odometer_source": {
-          "name": "Origem do conta-quilómetros",
-          "description": "Digite o conta-quilómetros ou leia-o de um sensor."
+          "name": "Origem do hodômetro",
+          "description": "Digite o hodômetro ou leia-o de um sensor."
         },
         "odometer_entity_id": {
-          "name": "Sensor do conta-quilómetros",
-          "description": "O sensor que reporta o conta-quilómetros."
+          "name": "Sensor do hodômetro",
+          "description": "O sensor que reporta o hodômetro."
         }
       }
     },
     "delete_car": {
-      "name": "Eliminar carro",
-      "description": "Elimina um carro com os seus trabalhos, registos de serviço e leituras. Apenas administradores.",
+      "name": "Excluir carro",
+      "description": "Exclui um carro com os seus trabalhos, registros de serviço e leituras. Apenas administradores.",
       "fields": {
         "car_id": {
           "name": "Carro",
@@ -283,8 +283,8 @@
       }
     },
     "set_odometer": {
-      "name": "Definir conta-quilómetros",
-      "description": "Guarda uma leitura do conta-quilómetros. O valor não pode ser inferior à última leitura.",
+      "name": "Definir hodômetro",
+      "description": "Salva uma leitura do hodômetro. O valor não pode ser inferior à última leitura.",
       "fields": {
         "car_id": {
           "name": "Carro",
@@ -292,13 +292,13 @@
         },
         "value": {
           "name": "Leitura",
-          "description": "A leitura do conta-quilómetros, na unidade do carro."
+          "description": "A leitura do hodômetro, na unidade do carro."
         }
       }
     },
     "correct_odometer": {
-      "name": "Corrigir conta-quilómetros",
-      "description": "Guarda qualquer leitura, também uma inferior, e um desvio opcional para um novo painel de instrumentos. Apenas administradores.",
+      "name": "Corrigir hodômetro",
+      "description": "Salva qualquer leitura, também uma inferior, e um desvio opcional para um novo painel de instrumentos. Apenas administradores.",
       "fields": {
         "car_id": {
           "name": "Carro",
@@ -306,7 +306,7 @@
         },
         "value": {
           "name": "Leitura",
-          "description": "A leitura do conta-quilómetros, na unidade do carro."
+          "description": "A leitura do hodômetro, na unidade do carro."
         },
         "offset": {
           "name": "Desvio",
@@ -328,7 +328,7 @@
         },
         "kind": {
           "name": "Tipo",
-          "description": "Um trabalho com intervalo, ou uma data como um registo."
+          "description": "Um trabalho com intervalo, ou uma data como um registro."
         },
         "interval_distance": {
           "name": "Intervalo de distância",
@@ -372,7 +372,7 @@
         },
         "last_reading": {
           "name": "Última vez aos",
-          "description": "O conta-quilómetros no último serviço, se o souber."
+          "description": "O hodômetro no último serviço, se o souber."
         }
       }
     },
@@ -390,7 +390,7 @@
         },
         "kind": {
           "name": "Tipo",
-          "description": "Um trabalho com intervalo, ou uma data como um registo."
+          "description": "Um trabalho com intervalo, ou uma data como um registro."
         },
         "interval_distance": {
           "name": "Intervalo de distância",
@@ -431,8 +431,8 @@
       }
     },
     "delete_item": {
-      "name": "Eliminar trabalho",
-      "description": "Elimina um trabalho de manutenção. Os registos de serviço ficam. Apenas administradores.",
+      "name": "Excluir trabalho",
+      "description": "Exclui um trabalho de manutenção. Os registros de serviço ficam. Apenas administradores.",
       "fields": {
         "item_id": {
           "name": "Trabalho",
@@ -460,7 +460,7 @@
     },
     "log_service": {
       "name": "Registar serviço",
-      "description": "Adiciona um registo de serviço e marca os seus trabalhos como feitos.",
+      "description": "Adiciona um registro de serviço e marca os seus trabalhos como feitos.",
       "fields": {
         "car_id": {
           "name": "Carro",
@@ -472,7 +472,7 @@
         },
         "reading": {
           "name": "Leitura",
-          "description": "O conta-quilómetros no serviço."
+          "description": "O hodômetro no serviço."
         },
         "items": {
           "name": "Trabalhos",
@@ -501,12 +501,12 @@
       }
     },
     "update_service": {
-      "name": "Atualizar registo de serviço",
-      "description": "Altera um registo de serviço. Apenas administradores.",
+      "name": "Atualizar registro de serviço",
+      "description": "Altera um registro de serviço. Apenas administradores.",
       "fields": {
         "service_id": {
-          "name": "Registo de serviço",
-          "description": "O ID do registo de serviço."
+          "name": "Registro de serviço",
+          "description": "O ID do registro de serviço."
         },
         "date": {
           "name": "Data",
@@ -514,7 +514,7 @@
         },
         "reading": {
           "name": "Leitura",
-          "description": "O conta-quilómetros no serviço."
+          "description": "O hodômetro no serviço."
         },
         "items": {
           "name": "Trabalhos",
@@ -543,12 +543,12 @@
       }
     },
     "delete_service": {
-      "name": "Eliminar registo de serviço",
-      "description": "Elimina um registo de serviço. Apenas administradores.",
+      "name": "Excluir registro de serviço",
+      "description": "Exclui um registro de serviço. Apenas administradores.",
       "fields": {
         "service_id": {
-          "name": "Registo de serviço",
-          "description": "O ID do registo de serviço."
+          "name": "Registro de serviço",
+          "description": "O ID do registro de serviço."
         }
       }
     },
@@ -571,14 +571,14 @@
       "description": "Devolve todos os dados do Car Keeper para a exportação do Home Keeper. Apenas administradores.",
       "fields": {
         "files_dir": {
-          "name": "Pasta de ficheiros",
+          "name": "Pasta de arquivos",
           "description": "Definido pelo Home Keeper para uma exportação ou importação de pacote."
         }
       }
     },
     "import_data": {
       "name": "Importar dados",
-      "description": "Adiciona e atualiza dados do Car Keeper a partir de uma exportação. Não elimina nenhum registo. Apenas administradores.",
+      "description": "Adiciona e atualiza dados do Car Keeper a partir de uma exportação. Não exclui nenhum registro. Apenas administradores.",
       "fields": {
         "document": {
           "name": "Documento",
@@ -589,7 +589,7 @@
           "description": "Indica o que mudaria e não escreve dados."
         },
         "files_dir": {
-          "name": "Pasta de ficheiros",
+          "name": "Pasta de arquivos",
           "description": "Definido pelo Home Keeper para uma exportação ou importação de pacote."
         }
       }
@@ -600,7 +600,7 @@
     },
     "get_car": {
       "name": "Obter carro",
-      "description": "Devolve 1 carro com os seus trabalhos, registos de serviço e leituras.",
+      "description": "Devolve 1 carro com os seus trabalhos, registros de serviço e leituras.",
       "fields": {
         "car_id": {
           "name": "Carro",
@@ -619,12 +619,12 @@
       }
     },
     "list_services": {
-      "name": "Listar registos de serviço",
-      "description": "Devolve os registos de serviço, o mais recente primeiro.",
+      "name": "Listar registros de serviço",
+      "description": "Devolve os registros de serviço, o mais recente primeiro.",
       "fields": {
         "car_id": {
           "name": "Carro",
-          "description": "Apenas os registos deste carro."
+          "description": "Apenas os registros deste carro."
         }
       }
     }
@@ -640,7 +640,7 @@
       "message": "Nenhum trabalho tem o ID {id}."
     },
     "service_not_found": {
-      "message": "Nenhum registo de serviço tem o ID {id}."
+      "message": "Nenhum registro de serviço tem o ID {id}."
     },
     "template_not_found": {
       "message": "Nenhum trabalho inicial tem o ID {id}."
@@ -667,7 +667,7 @@
       "message": "A leitura {value} não é válida."
     },
     "odometer_decreased": {
-      "message": "A leitura {value} é inferior à última leitura {current}. Um administrador pode corrigir o conta-quilómetros."
+      "message": "A leitura {value} é inferior à última leitura {current}. Um administrador pode corrigir o hodômetro."
     },
     "todo_only_check": {
       "message": "Marque o trabalho para registar um serviço. A lista não tem outra alteração."
@@ -685,22 +685,22 @@
       "message": "O valor de {field} não é válido."
     },
     "import_not_a_record": {
-      "message": "O registo não é válido."
+      "message": "O registro não é válido."
     },
     "import_unknown_car": {
-      "message": "O registo indica um carro que não está na importação nem no Car Keeper."
+      "message": "O registro indica um carro que não está na importação nem no Car Keeper."
     },
     "import_unknown_item": {
-      "message": "O registo de serviço indica um trabalho que não está na importação nem no Car Keeper."
+      "message": "O registro de serviço indica um trabalho que não está na importação nem no Car Keeper."
     },
     "import_entity_missing": {
-      "message": "O sensor do conta-quilómetros {entity_id} não está neste Home Assistant. O carro fica com um conta-quilómetros digitado."
+      "message": "O sensor do hodômetro {entity_id} não está neste Home Assistant. O carro fica com um hodômetro digitado."
     }
   },
   "entity": {
     "sensor": {
       "odometer": {
-        "name": "Conta-quilómetros"
+        "name": "Hodômetro"
       },
       "next_due_distance": {
         "name": "Próximo vencimento em distância"

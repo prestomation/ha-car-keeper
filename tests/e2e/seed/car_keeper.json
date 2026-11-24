@@ -3,13 +3,216 @@
   "minor_version": 1,
   "key": "car_keeper",
   "data": {
-    "cars": {},
-    "items": {},
-    "services": {},
+    "cars": {
+      "civic": {
+        "id": "civic",
+        "name": "Civic",
+        "make": "Honda",
+        "model": "Civic",
+        "year": 2018,
+        "trim": "",
+        "fuel": "petrol",
+        "vin": "1HGFC2F59JA000000",
+        "plate": "CK 101",
+        "engine_code": "",
+        "transmission_code": "",
+        "first_registered": null,
+        "area_id": null,
+        "notes": "",
+        "lead_distance": 1000,
+        "lead_days": 30,
+        "unit": "km",
+        "odometer": {
+          "source": "manual",
+          "entity_id": null,
+          "value": 41800.0,
+          "updated": null,
+          "offset": 0.0,
+          "lower": null
+        },
+        "photo": null,
+        "created": "2026-10-15",
+        "hk_asset_id": null
+      },
+      "model3": {
+        "id": "model3",
+        "name": "Model 3",
+        "make": "Tesla",
+        "model": "Model 3",
+        "year": 2021,
+        "trim": "",
+        "fuel": "electric",
+        "vin": "",
+        "plate": "",
+        "engine_code": "",
+        "transmission_code": "",
+        "first_registered": null,
+        "area_id": null,
+        "notes": "",
+        "lead_distance": 600,
+        "lead_days": 30,
+        "unit": "mi",
+        "odometer": {
+          "source": "manual",
+          "entity_id": null,
+          "value": 18250.0,
+          "updated": null,
+          "offset": 0.0,
+          "lower": null
+        },
+        "photo": null,
+        "created": "2026-10-15",
+        "hk_asset_id": null
+      }
+    },
+    "items": {
+      "civic-engine_oil": {
+        "id": "civic-engine_oil",
+        "car_id": "civic",
+        "name": "Engine oil",
+        "kind": "job",
+        "interval_distance": 15000,
+        "interval_months": 12,
+        "due_date": null,
+        "lead_distance": null,
+        "lead_days": null,
+        "notes": "",
+        "enabled": true,
+        "add_task": true,
+        "parts": [],
+        "template_id": "engine_oil",
+        "start": {
+          "date": "2025-11-01",
+          "reading": 32800.0
+        },
+        "last_done": {
+          "date": "2026-04-02",
+          "reading": 35000.0,
+          "service_id": "s1"
+        },
+        "hk_task_id": null,
+        "notified": null
+      },
+      "civic-tyre_rotation": {
+        "id": "civic-tyre_rotation",
+        "car_id": "civic",
+        "name": "Tyre rotation",
+        "kind": "job",
+        "interval_distance": 10000,
+        "interval_months": 12,
+        "due_date": null,
+        "lead_distance": null,
+        "lead_days": null,
+        "notes": "",
+        "enabled": true,
+        "add_task": true,
+        "parts": [],
+        "template_id": "tyre_rotation",
+        "start": {
+          "date": "2025-11-01",
+          "reading": 34800.0
+        },
+        "last_done": null,
+        "hk_task_id": null,
+        "notified": null
+      },
+      "civic-registration": {
+        "id": "civic-registration",
+        "car_id": "civic",
+        "name": "Registration",
+        "kind": "date",
+        "interval_distance": null,
+        "interval_months": 12,
+        "due_date": "2026-11-01",
+        "lead_distance": null,
+        "lead_days": null,
+        "notes": "",
+        "enabled": true,
+        "add_task": true,
+        "parts": [],
+        "template_id": "registration",
+        "start": {
+          "date": "2025-11-01",
+          "reading": 36800.0
+        },
+        "last_done": null,
+        "hk_task_id": null,
+        "notified": null
+      },
+      "model3-tyre_rotation": {
+        "id": "model3-tyre_rotation",
+        "car_id": "model3",
+        "name": "Tyre rotation",
+        "kind": "job",
+        "interval_distance": 6200,
+        "interval_months": 12,
+        "due_date": null,
+        "lead_distance": null,
+        "lead_days": null,
+        "notes": "",
+        "enabled": true,
+        "add_task": true,
+        "parts": [],
+        "template_id": "tyre_rotation",
+        "start": {
+          "date": "2025-11-01",
+          "reading": 9250.0
+        },
+        "last_done": null,
+        "hk_task_id": null,
+        "notified": null
+      },
+      "model3-cabin_filter": {
+        "id": "model3-cabin_filter",
+        "car_id": "model3",
+        "name": "Cabin filter",
+        "kind": "job",
+        "interval_distance": 12400,
+        "interval_months": 12,
+        "due_date": null,
+        "lead_distance": null,
+        "lead_days": null,
+        "notes": "",
+        "enabled": true,
+        "add_task": true,
+        "parts": [],
+        "template_id": "cabin_filter",
+        "start": {
+          "date": "2025-11-01",
+          "reading": 11250.0
+        },
+        "last_done": null,
+        "hk_task_id": null,
+        "notified": null
+      }
+    },
+    "services": {
+      "s1": {
+        "id": "s1",
+        "car_id": "civic",
+        "date": "2026-04-02",
+        "reading": 35000.0,
+        "items": [
+          "civic-engine_oil"
+        ],
+        "shop": "Main Street Garage",
+        "notes": "",
+        "who": null,
+        "cost": 84.5,
+        "parts_used": [],
+        "logged": "2026-04-02T10:00:00+00:00",
+        "origin": null,
+        "hk_completions": {}
+      }
+    },
     "readings": {},
     "settings": {
       "unit": "km",
       "templates": {}
+    },
+    "sync": {
+      "undo": [],
+      "stock": []
     }
   }
 }

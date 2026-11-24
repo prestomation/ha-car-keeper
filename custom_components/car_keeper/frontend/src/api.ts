@@ -10,14 +10,21 @@ export interface Hass {
   connection: HassConnection;
 }
 
+// The records stay loose: the reply holds each stored field, and a new field must
+// not break an old tab.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type Rec = Record<string, any>;
+
 export interface State {
-  cars: Record<string, Record<string, unknown>>;
-  items: Record<string, Record<string, unknown>>;
-  services: Record<string, Record<string, unknown>>;
-  documents: Record<string, Record<string, unknown>>;
-  settings: { unit: string };
+  cars: Record<string, Rec>;
+  items: Record<string, Rec>;
+  services: Record<string, Rec>;
+  readings: Record<string, Rec[]>;
+  settings: { unit: string; templates?: Rec };
+  starter_jobs?: Rec[];
   tab: boolean;
   revision: number;
+  today?: string;
 }
 
 export const DOMAIN = 'car_keeper';
@@ -29,4 +36,13 @@ export function getState(hass: Hass): Promise<State> {
 /** Call `onChange` after each store change. The promise gives the unsubscribe. */
 export function subscribe(hass: Hass, onChange: () => void): Promise<() => void> {
   return hass.connection.subscribeMessage(() => onChange(), { type: `${DOMAIN}/subscribe` });
+}
+
+/**
+ * Call a Car Keeper service through its websocket twin. The server checks the
+ * admin rule with the user of the connection. A refused call rejects with the
+ * translated message of the server.
+ */
+export function call<T = Rec>(hass: Hass, service: string, data: Rec = {}): Promise<T> {
+  return hass.connection.sendMessagePromise<T>({ type: `${DOMAIN}/${service}`, ...data });
 }
