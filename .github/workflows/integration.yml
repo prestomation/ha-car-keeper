@@ -187,3 +187,37 @@ jobs:
       - name: Cleanup
         if: always()
         run: docker compose --project-name ck-noise -f tests/integration/docker-compose.yml down -v
+
+  upgrade:
+    # The upgrade tier (tests/upgrade): the oldest supported Home Assistant with the
+    # oldest supported Home Keeper, then HA stable with Home Keeper main, on 1 config
+    # dir. Car Keeper must load again with its data and its tab.
+    name: Upgrade oldest -> stable
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+
+      # No HA test harness: pytest-socket would block the real HTTP this tier needs.
+      - name: Install test dependencies
+        run: pip install pytest requests websockets
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: custom_components/car_keeper/frontend/package-lock.json
+
+      - name: Install frontend deps
+        run: npm ci --prefix custom_components/car_keeper/frontend
+
+      - name: Build panel JS
+        run: bash ci/build-panel.sh
+
+      - name: Run the upgrade tier
+        run: bash ci/test-upgrade.sh

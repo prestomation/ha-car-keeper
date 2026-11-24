@@ -1,1 +1,55 @@
-{"scenarios": {}}
+{
+  "about": "The noise budget of each scenario in test_noise_budget.py. A pinned counter stays at its value in the update mode. Change a budget only on purpose, and say why in the PR.",
+  "scenarios": {
+    "cold_start": {
+      "budget": {
+        "logbook_rows": 0,
+        "unavailable_flips": 0,
+        "events": 0,
+        "storage_writes": 0,
+        "entry_reloads": 0
+      }
+    },
+    "idle": {
+      "budget": {
+        "logbook_rows": 0,
+        "unavailable_flips": 0,
+        "events": 0,
+        "storage_writes": 0,
+        "entry_reloads": 0
+      },
+      "pinned": [
+        "logbook_rows",
+        "unavailable_flips",
+        "events",
+        "storage_writes",
+        "entry_reloads"
+      ]
+    },
+    "noop_set_settings": {
+      "budget": {
+        "logbook_rows": 0,
+        "unavailable_flips": 0,
+        "events": 0,
+        "storage_writes": 0,
+        "entry_reloads": 0
+      },
+      "pinned": [
+        "logbook_rows",
+        "unavailable_flips",
+        "events",
+        "storage_writes",
+        "entry_reloads"
+      ]
+    },
+    "set_settings_unit": {
+      "budget": {
+        "logbook_rows": 0,
+        "unavailable_flips": 0,
+        "events": 2,
+        "storage_writes": 2,
+        "entry_reloads": 0
+      }
+    }
+  }
+}

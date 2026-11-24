@@ -11,10 +11,14 @@ from hypothesis import strategies as st
 def test_normalize_adds_each_missing_section() -> None:
     assert m.normalize_state(None) == m.empty_state()
     assert m.normalize_state([]) == m.empty_state()
-    state = m.normalize_state({"cars": {"c": {"id": "c"}}, "items": []})
+    state = m.normalize_state(
+        {"cars": {"c": {"id": "c"}}, "items": [], "readings": {"c": [1]}}
+    )
     assert state["cars"] == {"c": {"id": "c"}}
     assert state["items"] == {}
-    assert state["readings"] == {}
+    assert state["readings"] == {"c": [1]}
+    for name in m.RECORD_SECTIONS:
+        assert m.normalize_state({name: {"x": {}}})[name] == {"x": {}}
 
 
 def test_normalize_keeps_known_settings_and_fixes_the_unit() -> None:
@@ -44,6 +48,13 @@ def test_error_keeps_the_key_and_string_placeholders() -> None:
         ("0.34.9", "0.35.0", False),
         ("1.0", "0.35.0", True),
         ("0.35", "0.35.0", True),
+        ("0.35", "0.35.1", False),
+        (" 0.35.0 ", "0.35.0", True),
+        ("V0.36.0", "0.35.0", True),
+        ("0.35.0", "0.35.0a1", True),
+        ("0.35.0a1", "0.35.0", False),
+        ("0.35.0.b1", "0.35.0", False),
+        ("0.35.0b10", "0.35.0b9", True),
         ("v0.36.0", "0.35.0", True),
         ("0.36.0.dev601", "0.35.0", True),
         ("0.35.0.dev601", "0.35.0", False),

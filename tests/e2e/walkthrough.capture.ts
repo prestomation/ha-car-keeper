@@ -10,6 +10,7 @@
  * The recording needs its own context: `recordVideo` is set when a context is made.
  */
 import { test, type Page } from '@playwright/test';
+import { resolve } from 'node:path';
 import { noServiceWorker, openCard, openTab } from './tests/helpers';
 import { DESKTOP } from './viewports';
 
@@ -29,10 +30,16 @@ test('record the Car Keeper walkthrough', async ({ browser }) => {
   await noServiceWorker(context);
   const page = await context.newPage();
 
-  await openTab(page);
-  await beat(page, 2);
-  await openCard(page);
-  await beat(page, 2);
-
-  await context.close();
+  try {
+    // 1. The garage in the Cars tab of Home Keeper.
+    await openTab(page);
+    await beat(page, 2);
+    // 2. The garage card on a dashboard.
+    await openCard(page);
+    await beat(page, 2);
+  } finally {
+    const video = page.video();
+    await context.close();
+    if (video) await video.saveAs(resolve(OUT, 'walkthrough.webm'));
+  }
 });

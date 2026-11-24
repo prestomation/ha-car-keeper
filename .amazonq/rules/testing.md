@@ -19,6 +19,7 @@ Run the cheapest tier first.
 | Integration | `tests/integration` (Docker HA) | `bash ci/test-python-integration.sh` |
 | Browser | `tests/e2e` (Playwright) | `bash ci/e2e-up.sh` |
 | Noise budget | `tests/noise` (Docker HA) | `bash ci/test-noise.sh` |
+| Upgrade | `tests/upgrade` (Docker HA, 2 boots) | `bash ci/test-upgrade.sh` |
 | Mutation | the changed code | see [ci-and-ha-versions.md](ci-and-ha-versions.md#mutation-testing) |
 
 - The unit tier needs only `pip install pytest PyYAML hypothesis`. It tests the pure core,
@@ -89,6 +90,16 @@ Run the cheapest tier first.
   `tests/unit/`: as a root conftest its stubs would hide the real integration from the
   component tier.
 
+## Noise budget
+
+- **`tests/noise` counts what each action writes**: logbook rows, flips to unavailable,
+  `car_keeper_*` events, store writes and entry reloads, against
+  `tests/noise/baseline.json`. A probe integration (`tests/noise/ck_noise_probe`) counts
+  them in the container.
+- A pinned counter never changes in the update mode. Change a budget only on purpose:
+  run `CK_NOISE_UPDATE=1 bash ci/test-noise.sh`, read the diff, and say why in the PR.
+- A new service or a new sync gets a scenario.
+
 ## State machines
 
 - **Each state machine is a pure transition function with a model test.** The odometer,
@@ -132,9 +143,9 @@ Run the cheapest tier first.
 - **A framework contract needs a Docker-tier assertion.** Device registry, entity
   registry, the panel tab API of Home Keeper and storage migration behavior are invisible
   to a test that fakes them.
-- **Cross-version behavior needs an upgrade test.** Boot a frozen older Home Assistant on
-  a seeded config dir, then boot the current one on the same dir
-  ([IDEAS.md](../../IDEAS.md#upgrade-test-tier)).
+- **Cross-version behavior needs an upgrade test.** `tests/upgrade` boots the oldest
+  supported Home Assistant and Home Keeper on a seeded config dir, writes data, then boots
+  the newer ones on the same dir. A change to the storage or the setup adds a check there.
 - **Assert disappearance too.** Test a transition from both ends: present before, gone
   after.
 - Never commit a real `.storage` dump with personal data. Build fixtures from synthetic

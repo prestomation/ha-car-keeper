@@ -73,11 +73,6 @@ The first release is `0.1.0b1`. These parts are not built yet:
 Car Keeper uses the practices of the Platinum quality scale, but `manifest.json` declares no
 tier. A tier needs a `quality_scale.yaml` with a reason for each rule.
 
-## Upgrade test tier
-
-The Docker tier boots 1 Home Assistant version. An upgrade test boots the oldest supported
-version on a seeded config directory, then the current version on the same directory.
-
 ## Risks
 
 1. **Two places hold the state of a job.** Car Keeper has `last_done`, and the Home Keeper task

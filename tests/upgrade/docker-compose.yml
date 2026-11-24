@@ -1,0 +1,19 @@
+services:
+  homeassistant:
+    # The upgrade suite boots this twice against the same config dir: first the
+    # oldest supported Home Assistant with the oldest Home Keeper, then the newer
+    # ones. tests/upgrade/conftest.py sets each variable.
+    image: ghcr.io/home-assistant/home-assistant:${HA_TAG:-stable}
+    ports:
+      # Not 8123: the integration and e2e containers use that port.
+      - "${HA_PORT:-8124}:8123"
+    volumes:
+      # Always a temporary copy. Phase 2 must see what phase 1 left.
+      - ${HA_CONFIG:?tests/upgrade needs HA_CONFIG (a temporary config dir)}:/config
+      - ../../custom_components/car_keeper:/config/custom_components/car_keeper:ro
+      - ${HK_DIR:?tests/upgrade needs HK_DIR (a Home Keeper component)}:/config/custom_components/home_keeper:ro
+    environment:
+      - TZ=America/New_York
+      - PYTHONDEVMODE=1
+    tmpfs:
+      - /tmp

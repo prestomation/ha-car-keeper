@@ -10,6 +10,7 @@ time takes it from its caller.
 
 from __future__ import annotations
 
+import re
 from typing import Any
 
 from .const import UNIT_KM, UNITS
@@ -62,32 +63,25 @@ def normalize_state(data: Any) -> dict[str, Any]:
     return state
 
 
-def _version_key(version: str) -> tuple[tuple[int, ...], int, int] | None:
+_VERSION = re.compile(r"v?(\d+(?:\.\d+)*)\.?(?:(a|b|rc|dev)(\d+))?")
+
+
+def _version_key(version: str) -> tuple[tuple[int, ...], bool, int] | None:
     """The sort key of a version such as ``0.38.0b5``, or None if it is not one.
 
     A pre-release sorts below its release: ``0.35.0b1`` is below ``0.35.0``.
     """
-    head = version.strip().lstrip("v")
-    release = ""
-    for index, char in enumerate(head):
-        if not (char.isdigit() or char == "."):
-            release, rest = head[:index], head[index:]
-            break
-    else:
-        release, rest = head, ""
-    release = release.rstrip(".")
-    parts = release.split(".")
-    if not release or not all(part.isdigit() for part in parts):
+    match = _VERSION.fullmatch(version.strip())
+    if match is None:
         return None
-    numbers = tuple(int(part) for part in parts)
-    numbers += (0,) * (3 - len(numbers))
-    if not rest:
-        return numbers, 1, 0
-    tag = rest.lstrip(".-")
-    for prefix in ("a", "b", "rc", "dev"):
-        if tag.startswith(prefix) and tag[len(prefix) :].isdigit():
-            return numbers, 0, int(tag[len(prefix) :])
-    return None
+    numbers = tuple(int(part) for part in match.group(1).split("."))
+    # A longer pad sorts each pair the same way.
+    numbers += (0,) * (3 - len(numbers))  # pragma: no mutate
+    # The tag and its number are both there or both missing.
+    if match.group(2) is None:  # pragma: no mutate
+        # Only a pre-release compares the last number.
+        return numbers, True, 0  # pragma: no mutate
+    return numbers, False, int(match.group(3))
 
 
 def version_at_least(version: str | None, minimum: str) -> bool:

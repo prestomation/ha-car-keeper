@@ -18,6 +18,9 @@ frontend:
 # it keeps the e2e environment representative and the console clean.
 recorder:
 
+# The noise-budget tier (tests/noise) reads the logbook rows of Car Keeper.
+logbook:
+
 # Dedicated YAML dashboard used by the Playwright e2e suite (the custom card is
 # placed here). The default storage-mode dashboard from onboarding is untouched.
 lovelace:

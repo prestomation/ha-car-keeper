@@ -38,6 +38,7 @@ conventions behind them are in [`AGENTS.md`](../AGENTS.md) and
 |---|---|---|
 | **ruff** lint and format | `lint.yml` | Style and format drift in the Python code. |
 | **mypy**, strict, with Home Assistant | `lint.yml` | Type errors against the real Home Assistant API, from `requirements-typing.txt`. |
+| **Pure core with no Home Assistant** | `test.yml` (`unit-no-ha`) | A Home Assistant import in a pure module. The job installs only `pytest`, `PyYAML` and `hypothesis`. |
 | **Oldest Home Assistant** | `test.yml`, `integration.yml` | A change that breaks the oldest supported Home Assistant, which `ci/oldest-ha.env` names. |
 | **Stale Home Assistant resolve** | `ci/check-ha-version.py` | pip that goes back to an old Home Assistant on an old Python, while the job stays green. |
 | **Prose linting** | `lint.yml` (vale) | AI-writing tells and breaks of the STE rules (`styles/STE/`) in the docs and the strings that Home Assistant shows. Scoped to the changed lines. |
@@ -50,6 +51,11 @@ conventions behind them are in [`AGENTS.md`](../AGENTS.md) and
 | **Localized exceptions** | `tests/unit/test_exception_translations.py` | An error that a user can see with no `translation_key`, and a key with no message. |
 | **Exact shapes** | `tests/unit/test_shapes.py` | A record or reply key that changed name on both sides of a round trip. |
 | **Blocking calls** | `tests/component/conftest.py` (`blockbuster`) | Code of the integration that blocks the event loop in a component test, such as a file read or a `sleep`. |
+| **Noise budget** | `integration.yml` (`noise`), `tests/noise` | An action that writes more logbook rows, events, store writes or reloads than `tests/noise/baseline.json` allows. |
+| **Upgrade** | `integration.yml` (`upgrade`), `tests/upgrade` | Data or a tab that an update of Home Assistant and Home Keeper loses. |
+| **Outline audit** | `tests/e2e/tests/outline-audit.spec.ts` | A control whose border or focus ring is cut or has a gap, at desktop and phone width. Add each new view to `VIEWS`. |
+| **Confirmed deletes** | `frontend/test/destructive-scan-parity.test.js` | A delete or an import that runs with no `confirmDestructive` question. |
+| **Open reads** | `tests/unit/test_projections.py` | A read that hides a field from a user who is not an admin. |
 | **Home Assistant log gate** | `integration.yml`, `ci/check-ha-log.py` | A warning or an error from `custom_components.car_keeper`, a "Detected blocking call", a slow callback, a coroutine that nobody awaited or a deprecation notice in the log of the Docker container. Home Keeper's own records do not count. |
 | **Pure core** | `tests/unit/test_pure_core.py` | A Home Assistant import in a pure module, and a module map that does not match the code. |
 | **API-surface drift** | `tests/unit/test_api_surface.py` | A service, event, payload field, websocket command, entity platform or HTTP view added to 1 registry and not to `api_surface.py`. |
@@ -66,7 +72,8 @@ conventions behind them are in [`AGENTS.md`](../AGENTS.md) and
 that the release names, and closes it on a stable release (`ci/release-issues.py`).
 
 **Nightly, gating nothing:** `ha-beta.yml` runs the Docker and browser tiers against the
-Home Assistant beta and type-checks against a pre-release, then files and closes 1 reusable issue.
+Home Assistant beta and type-checks against a pre-release, then files and closes 1 reusable
+issue.
 
 **In review:** the PR body (`.github/pull_request_template.md`) has these parts.
 

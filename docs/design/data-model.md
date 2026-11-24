@@ -5,7 +5,7 @@ implements:
   - custom_components/car_keeper/models.py
   - custom_components/car_keeper/store.py
 related: [architecture, services-events]
-source_hash: 80ae38dce225
+source_hash: 30f133021717
 ---
 
 # Data model
