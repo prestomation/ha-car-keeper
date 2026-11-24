@@ -13,10 +13,9 @@ It is a companion of [Home Keeper](https://github.com/prestomation/ha-home-keepe
 
 ## Who can do what
 
-Every Home Assistant user can read all Car Keeper data. That includes the VIN and the plate
-of each car and the cost of each service record. Every user can type an odometer reading
-and log a service. Only an admin can add,
-change or delete a car, a job or a setting.
+Every Home Assistant user can read all Car Keeper data. That includes the VIN of each car
+and the cost of each service record. Every user can type an odometer reading and log a
+service. Only an admin can change the records. An example is a new car or a deleted job.
 
 | Place | Who | What |
 |---|---|---|

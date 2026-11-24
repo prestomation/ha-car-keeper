@@ -28,8 +28,8 @@ maintenance, which borrows the parts and stock framework.
   integration only removes the typing.
 - **G3. Home Keeper does the reminders.** Each job is a Home Keeper task. Car Keeper builds
   no notification, calendar or to-do system of its own.
-- **G4. Every read is open.** Every Home Assistant user can read all data, also the VIN,
-  the plate and the costs. Only record management is admin-only.
+- **G4. Every read is open.** Every Home Assistant user can read all data. This includes
+  the VIN and the plate. Only record management is admin-only.
 - **G5. Testable core.** The rules for intervals, units, readings and sync plans run without
   Home Assistant, so the unit tier and the mutation gate check them.
 - **G6. Services first.** Each data action is a `car_keeper.*` service, so automations and
@@ -104,9 +104,10 @@ Text that is not an exception, such as the tab title, is in `backend_strings/<la
 
 ### Diagnostics
 
-The diagnostics download has the options, the tab state, the Home Keeper reason, the counts
-and the document. A user attaches the download to a public issue. So the download redacts
-the VIN and the plate. That rule is for the support file. It is not access control.
+The diagnostics download holds the document with its counts. It also gives the options and
+the state of the tab, with the reason from Home Keeper. A user attaches the download to a
+public issue. So the download redacts the VIN and the plate. That rule is for the support
+file. It is not access control.
 
 ### Design doc index
 
@@ -125,8 +126,8 @@ into these docs when it is built.
 
 ## Trade-offs
 
-- **A companion integration** over **a change to Home Keeper**: cars get fields, an odometer
-  and a history that an appliance does not have, and Home Keeper stays general. The cost is
+- **A companion integration** over **a change to Home Keeper**: a car needs an odometer
+  and a service history, which an appliance does not have. Home Keeper stays general. The cost is
   a second install and the sync.
 - **A tab in the Home Keeper panel** over **a panel of its own**: 1 admin place for the home.
 - **Every read open** over **admin-only private fields**: the household shares its cars, and
