@@ -1,0 +1,2094 @@
+[
+ {
+  "name": "BMW Connected Drive (core)",
+  "domain": "bmw_connected_drive",
+  "kind": "core",
+  "repo": "https://github.com/home-assistant/core",
+  "ref": "0b790a5",
+  "status": "REMOVED: only a stub that raises repair issue 'integration_removed'; no platforms left",
+  "stars": "not checked",
+  "last_release": "not checked",
+  "access": "none (was cloud polling via bimmer_connected)",
+  "region": "n/a",
+  "notes": "strings.json: BMW blocked third-party access in Sept 2025; core points EU users to kvanbiesen/bmw-cardata-ha. No entities at all. verified in source",
+  "verified": true,
+  "feeds": {
+   "odometer": [],
+   "service_distance": [],
+   "service_time": [],
+   "service_flag": [],
+   "oil": [],
+   "brakes": [],
+   "tyres": [],
+   "battery_12v": [],
+   "fluids": [],
+   "ev_battery": [],
+   "warnings": [],
+   "other": []
+  }
+ },
+ {
+  "name": "BMW CarData",
+  "domain": "cardata",
+  "kind": "hacs",
+  "repo": "https://github.com/kvanbiesen/bmw-cardata-ha",
+  "ref": "b833878 (manifest 5.3.4, commit 2026-11-22)",
+  "status": "active (commit 2 days before research); stars/issues not checked (GitHub API blocked)",
+  "stars": "not checked",
+  "last_release": "latest tag by version sort v4.1.0 but manifest says 5.3.4; date not checked",
+  "access": "Official BMW CarData: OAuth device flow + MQTT stream (cloud_push) + daily REST 'container' fetches (service schedule, tyres)",
+  "region": "EU-registered cars only (per core removal text); README: CarData portal unavailable in some countries (e.g. Finland)",
+  "notes": "Entities are NOT EntityDescription-based: one entity per BMW descriptor, unique_id = '{vin}_{descriptor}', no translation_key, name from descriptor_titles.py. 'key' below = descriptor. Units come from the stream (not fixed in source). Platform for per-item CBS entities is a guess (sensor with attrs title,due_date,remaining_distance,description,cbs_id). Source comment: serviceDistance.next is a single number and can show thousands of km while oil/brake fluid are overdue by date - use CBS items.",
+  "verified": true,
+  "feeds": {
+   "odometer": [
+    {
+     "platform": "sensor",
+     "key": "vehicle.vehicle.travelledDistance",
+     "translation_key": null,
+     "unit": "km or mi (unit from payload)",
+     "note": "verified in source; title 'Vehicle mileage'"
+    }
+   ],
+   "service_distance": [
+    {
+     "platform": "sensor",
+     "key": "vehicle.status.serviceDistance.next",
+     "translation_key": null,
+     "unit": "km",
+     "note": "verified in source (title 'Service Distance to next service'; unit guess)"
+    },
+    {
+     "platform": "sensor",
+     "key": "vehicle.status.serviceDistance.yellow",
+     "translation_key": null,
+     "unit": "km",
+     "note": "threshold; verified in source"
+    }
+   ],
+   "service_time": [
+    {
+     "platform": "sensor",
+     "key": "vehicle.status.serviceTime.inspectionDateLegal",
+     "translation_key": null,
+     "unit": null,
+     "note": "'Service Next inspection date' (statutory); verified in source"
+    },
+    {
+     "platform": "sensor",
+     "key": "vehicle.status.serviceTime.yellow",
+     "translation_key": null,
+     "unit": null,
+     "note": "time threshold; verified in source"
+    },
+    {
+     "platform": "sensor",
+     "key": "vehicle.status.serviceTime.hUandAuServiceYellow",
+     "translation_key": null,
+     "unit": null,
+     "note": "HU/AU threshold; verified in source"
+    }
+   ],
+   "service_flag": [
+    {
+     "platform": "binary_sensor",
+     "key": "vehicle.status.conditionBasedServices.serviceDue",
+     "translation_key": null,
+     "unit": null,
+     "note": "'Service due' flag, attrs list due items; verified in source"
+    },
+    {
+     "platform": "sensor",
+     "key": "vehicle.status.conditionBasedServices.vehicleCheck",
+     "translation_key": null,
+     "unit": null,
+     "note": "CBS item; platform guess"
+    },
+    {
+     "platform": "sensor",
+     "key": "vehicle.status.conditionBasedServices.statutoryInspection",
+     "translation_key": null,
+     "unit": null,
+     "note": "CBS id 32; platform guess"
+    },
+    {
+     "platform": "sensor",
+     "key": "vehicle.status.conditionBasedServicesCount",
+     "translation_key": null,
+     "unit": null,
+     "note": "verified in source"
+    }
+   ],
+   "oil": [
+    {
+     "platform": "sensor",
+     "key": "vehicle.status.conditionBasedServices.engineOil",
+     "translation_key": null,
+     "unit": null,
+     "note": "CBS id 1, attrs due_date/remaining_distance; platform guess"
+    }
+   ],
+   "brakes": [
+    {
+     "platform": "sensor",
+     "key": "vehicle.status.conditionBasedServices.brakeFluid",
+     "translation_key": null,
+     "unit": null,
+     "note": "CBS id 3; platform guess"
+    }
+   ],
+   "tyres": [
+    {
+     "platform": "sensor",
+     "key": "vehicle.chassis.axle.row{1,2}.wheel.{left,right}.tire.pressure",
+     "translation_key": null,
+     "unit": "kPa (guess)",
+     "note": "4 wheels + .pressureTarget + .temperature; REST only, not streamed; verified in source"
+    },
+    {
+     "platform": "sensor",
+     "key": "vehicle.chassis.axle.wheel.tire.diagnosis",
+     "translation_key": null,
+     "unit": null,
+     "note": "'Tire diagnostics', option enable_tyre_diagnosis; verified in source"
+    }
+   ],
+   "battery_12v": [
+    {
+     "platform": "sensor",
+     "key": "vehicle.electricalSystem.battery.voltage",
+     "translation_key": null,
+     "unit": "V",
+     "note": "verified in source"
+    },
+    {
+     "platform": "sensor",
+     "key": "vehicle.electricalSystem.battery.stateOfCharge",
+     "translation_key": null,
+     "unit": "%",
+     "note": "verified in source"
+    },
+    {
+     "platform": "sensor or binary_sensor",
+     "key": "vehicle.electricalSystem.battery.serviceDemand.replace",
+     "translation_key": null,
+     "unit": null,
+     "note": "'Battery health state'; platform guess"
+    },
+    {
+     "platform": "sensor or binary_sensor",
+     "key": "vehicle.electricalSystem.battery.serviceDemand.recharge",
+     "translation_key": null,
+     "unit": null,
+     "note": "'Battery recharge required'; platform guess"
+    },
+    {
+     "platform": "sensor",
+     "key": "vehicle.electricalSystem.battery48V.stateOfHealth.displayed",
+     "translation_key": null,
+     "unit": "%",
+     "note": "verified in source"
+    }
+   ],
+   "fluids": [
+    {
+     "platform": "sensor",
+     "key": "vehicle.drivetrain.internalCombustionEngine.engine.ect",
+     "translation_key": null,
+     "unit": "degC",
+     "note": "coolant TEMPERATURE only; no washer/AdBlue/coolant level found"
+    }
+   ],
+   "ev_battery": [
+    {
+     "platform": "sensor",
+     "key": "vehicle.powertrain.electric.battery.stateOfHealth.displayed",
+     "translation_key": null,
+     "unit": "%",
+     "note": "EV SoH; verified in source"
+    },
+    {
+     "platform": "sensor",
+     "key": "vehicle.drivetrain.batteryManagement.maxEnergy",
+     "translation_key": null,
+     "unit": "kWh",
+     "note": "verified in source"
+    }
+   ],
+   "warnings": [
+    {
+     "platform": "sensor",
+     "key": "vehicle.status.checkControlMessages",
+     "translation_key": null,
+     "unit": null,
+     "note": "Check control messages; verified in source"
+    },
+    {
+     "platform": "sensor",
+     "key": "vehicle.electronicControlUnit.diagnosticTroubleCodes.raw",
+     "translation_key": null,
+     "unit": null,
+     "note": "state = number of stored DTCs, attrs ecu_count, codes_by_ecu; verified in source"
+    },
+    {
+     "platform": "sensor",
+     "key": "vehicle.serviceDemand.defect.id",
+     "translation_key": null,
+     "unit": null,
+     "note": "'Service Live diagnostics'; verified in source"
+    }
+   ],
+   "other": [
+    {
+     "platform": "sensor",
+     "key": "vehicle.status.conditionBasedServicesAverageDistancePerDay",
+     "translation_key": null,
+     "unit": null,
+     "note": "verified in source"
+    }
+   ]
+  }
+ },
+ {
+  "name": "Mercedes MB2020 (MercedesME 2020)",
+  "domain": "mbapi2020",
+  "kind": "hacs",
+  "repo": "https://github.com/ReneNulschDE/mbapi2020",
+  "ref": "6976c44 (manifest 0.45.0, commit 2026-11-16)",
+  "status": "active; stars/issues not checked",
+  "stars": "not checked",
+  "last_release": "latest tag v0.44.0 (manifest 0.45.0); date not checked",
+  "access": "Mercedes me cloud: OAuth + websocket push (protobuf)",
+  "region": "Region selectable (EU/NA/AP/China per README - guess, not re-read)",
+  "notes": "Sensors are a table in const.py (internal_name -> list). unique_id = slugify('{vin}_{internal_name}'), translation_key = internal_name.lower(). No dedicated service entity: days/distance to service are ATTRIBUTES 'serviceintervaldays' and 'serviceintervaldistance' of the odometer sensor. Entities only created if the car reports the field.",
+  "verified": true,
+  "feeds": {
+   "odometer": [
+    {
+     "platform": "sensor",
+     "key": "odometer",
+     "translation_key": "odometer",
+     "unit": "km (display_value, car unit)",
+     "note": "verified in source; api attr 'odo', device_class distance, total_increasing"
+    }
+   ],
+   "service_distance": [
+    {
+     "platform": "sensor attribute",
+     "key": "odometer#serviceintervaldistance",
+     "translation_key": null,
+     "unit": "km",
+     "note": "verified in source (attribute, not entity)"
+    }
+   ],
+   "service_time": [
+    {
+     "platform": "sensor attribute",
+     "key": "odometer#serviceintervaldays",
+     "translation_key": null,
+     "unit": "d",
+     "note": "verified in source (attribute, not entity)"
+    }
+   ],
+   "service_flag": [],
+   "oil": [
+    {
+     "platform": "sensor",
+     "key": "oilLevel",
+     "translation_key": "oillevel",
+     "unit": "%",
+     "note": "verified in source"
+    }
+   ],
+   "brakes": [
+    {
+     "platform": "binary_sensor",
+     "key": "warningbrakefluid",
+     "translation_key": "warningbrakefluid",
+     "unit": null,
+     "note": "verified in source; PROBLEM"
+    },
+    {
+     "platform": "binary_sensor",
+     "key": "parkbrakestatus",
+     "translation_key": "parkbrakestatus",
+     "unit": null,
+     "note": "verified in source; attr preWarningBrakeLiningWear = brake pad wear pre-warning"
+    }
+   ],
+   "tyres": [
+    {
+     "platform": "sensor",
+     "key": "tirepressureFrontLeft / tirepressureFrontRight / tirepressureRearLeft / tirepressureRearRight",
+     "translation_key": "lowercased key",
+     "unit": "kPa/bar/psi (display_value)",
+     "note": "verified in source; device_class atmospheric_pressure"
+    },
+    {
+     "platform": "binary_sensor",
+     "key": "tirewarninglamp",
+     "translation_key": "tirewarninglamp",
+     "unit": null,
+     "note": "verified in source; attrs tireMarker*, tirewarningsrdk, tirewarningsprw, tireTemperature*"
+    },
+    {
+     "platform": "sensor",
+     "key": "tirewarningsrdk",
+     "translation_key": "tirewarningsrdk",
+     "unit": null,
+     "note": "verified in source (exists as own entry; details not read)"
+    }
+   ],
+   "battery_12v": [
+    {
+     "platform": "sensor (platform guess)",
+     "key": "starterBatteryState",
+     "translation_key": "starterbatterystate",
+     "unit": null,
+     "note": "verified in source for key; enum-like state, no voltage"
+    },
+    {
+     "platform": "attribute",
+     "key": "warningenginelight#warninglowbattery",
+     "translation_key": null,
+     "unit": null,
+     "note": "verified in source"
+    }
+   ],
+   "fluids": [
+    {
+     "platform": "sensor",
+     "key": "tankleveladblue",
+     "translation_key": "tankleveladblue",
+     "unit": "%",
+     "note": "verified in source"
+    },
+    {
+     "platform": "binary_sensor",
+     "key": "warningwashwater",
+     "translation_key": "warningwashwater",
+     "unit": null,
+     "note": "verified in source"
+    },
+    {
+     "platform": "binary_sensor",
+     "key": "warningcoolantlevellow",
+     "translation_key": "warningcoolantlevellow",
+     "unit": null,
+     "note": "verified in source"
+    }
+   ],
+   "ev_battery": [],
+   "warnings": [
+    {
+     "platform": "binary_sensor",
+     "key": "warningenginelight",
+     "translation_key": "warningenginelight",
+     "unit": null,
+     "note": "verified in source; attrs include warningbrakefluid, warningwashwater, warningcoolantlevellow, warninglowbattery"
+    }
+   ],
+   "other": []
+  }
+ },
+ {
+  "name": "Volkswagen Connect (Carnet)",
+  "domain": "volkswagencarnet",
+  "kind": "hacs",
+  "repo": "https://github.com/robinostlund/homeassistant-volkswagencarnet",
+  "ref": "77f8ded (integration, 2026-11-12) + library robinostlund/volkswagencarnet e1b72a0 (pins volkswagencarnet==5.5.1)",
+  "status": "active; stars/issues not checked",
+  "stars": "not checked",
+  "last_release": "latest tag v5.5.1; date not checked",
+  "access": "VW cloud (We Connect / CARIAD) polling",
+  "region": "EU-centric (README region limits not re-read: guess)",
+  "notes": "Entities are 'instruments' defined in the PyPI library vw_dashboard.py, not EntityDescriptions. unique_id = '{vin}-{component}-{attr}'. No translation_key (names from library). 'key' below = instrument attr.",
+  "verified": true,
+  "feeds": {
+   "odometer": [
+    {
+     "platform": "sensor",
+     "key": "distance",
+     "translation_key": null,
+     "unit": "km",
+     "note": "verified in source; name 'Odometer', total_increasing"
+    }
+   ],
+   "service_distance": [
+    {
+     "platform": "sensor",
+     "key": "service_inspection_distance",
+     "translation_key": null,
+     "unit": "km",
+     "note": "verified in source"
+    }
+   ],
+   "service_time": [
+    {
+     "platform": "sensor",
+     "key": "service_inspection",
+     "translation_key": null,
+     "unit": "d",
+     "note": "verified in source; name 'Service inspection days'"
+    }
+   ],
+   "service_flag": [],
+   "oil": [
+    {
+     "platform": "sensor",
+     "key": "oil_inspection",
+     "translation_key": null,
+     "unit": "d",
+     "note": "verified in source"
+    },
+    {
+     "platform": "sensor",
+     "key": "oil_inspection_distance",
+     "translation_key": null,
+     "unit": "km",
+     "note": "verified in source"
+    }
+   ],
+   "brakes": [],
+   "tyres": [],
+   "battery_12v": [],
+   "fluids": [
+    {
+     "platform": "sensor",
+     "key": "adblue_level",
+     "translation_key": null,
+     "unit": "km",
+     "note": "verified in source; despite name it is AdBlue RANGE in km"
+    }
+   ],
+   "ev_battery": [],
+   "warnings": [
+    {
+     "platform": "binary_sensor",
+     "key": "connection_warning_insufficient_battery_level_warning",
+     "translation_key": null,
+     "unit": null,
+     "note": "verified in source (connectivity/12V-related readiness warning)"
+    }
+   ],
+   "other": []
+  }
+ },
+ {
+  "name": "Volkswagen We Connect ID",
+  "domain": "volkswagen_we_connect_id",
+  "kind": "hacs",
+  "repo": "https://github.com/mitch-dc/volkswagen_we_connect_id",
+  "ref": "30e79f7 (last commit 2025-10-29)",
+  "status": "looks stale (no commit for ~13 months); stars/issues not checked",
+  "stars": "not checked",
+  "last_release": "latest tag v0.2.6; date not checked",
+  "access": "VW cloud via weconnect python lib, polling",
+  "region": "EU (ID. family) - guess",
+  "notes": "EntityDescriptions with name= only, no translation_key.",
+  "verified": true,
+  "feeds": {
+   "odometer": [
+    {
+     "platform": "sensor",
+     "key": "odometer",
+     "translation_key": null,
+     "unit": "km",
+     "note": "verified in source"
+    }
+   ],
+   "service_distance": [
+    {
+     "platform": "sensor",
+     "key": "inspectionDuekm",
+     "translation_key": null,
+     "unit": "km",
+     "note": "verified in source; name 'Health Inspection km'"
+    }
+   ],
+   "service_time": [
+    {
+     "platform": "sensor",
+     "key": "inspectionDue",
+     "translation_key": null,
+     "unit": "d",
+     "note": "verified in source"
+    }
+   ],
+   "service_flag": [],
+   "oil": [
+    {
+     "platform": "sensor",
+     "key": "oilInspectionDue",
+     "translation_key": null,
+     "unit": "d",
+     "note": "verified in source"
+    },
+    {
+     "platform": "sensor",
+     "key": "oilInspectionDuekm",
+     "translation_key": null,
+     "unit": "km",
+     "note": "verified in source"
+    }
+   ],
+   "brakes": [],
+   "tyres": [],
+   "battery_12v": [],
+   "fluids": [],
+   "ev_battery": [],
+   "warnings": [
+    {
+     "platform": "binary_sensor",
+     "key": "insufficientBatteryLevelWarning",
+     "translation_key": null,
+     "unit": null,
+     "note": "verified in source"
+    }
+   ],
+   "other": []
+  }
+ },
+ {
+  "name": "CarConnectivity + MQTT Home Assistant plugin",
+  "domain": "mqtt (discovery)",
+  "kind": "hacs",
+  "repo": "https://github.com/tillsteinbach/CarConnectivity-plugin-mqtt_homeassistant",
+  "ref": "6aba176 (2026-07-05); core CarConnectivity 165509a (2026-10-01)",
+  "status": "maintained (not a HACS integration: standalone daemon/add-on publishing MQTT discovery); stars not checked",
+  "stars": "not checked",
+  "last_release": "not checked",
+  "access": "Standalone Python service with connectors (VW, Skoda, Seat/Cupra, Audi, Volvo, Tronity...) -> MQTT -> HA MQTT discovery",
+  "region": "depends on connector",
+  "notes": "Entities are HA MQTT-discovery components with unique_id '{vin}_odometer', '{vin}_{drive_id}_oil_level', '{vin}_{drive_id}_adblue_level', '..._adblue_range'. Maintenance object exposes inspection_due_at / inspection_due_after / oil_service_due_at / oil_service_due_after (names seen in plugin source; exact unique_id strings for these are a guess: '{vin}_maintenance_inspection_due_at' style). The repo name the caller gave (CarConnectivity-plugin-homeassistant) does not exist; real one is ...-plugin-mqtt_homeassistant.",
+  "verified": true,
+  "feeds": {
+   "odometer": [
+    {
+     "platform": "sensor",
+     "key": "{vin}_odometer",
+     "translation_key": null,
+     "unit": "km (locale)",
+     "note": "verified in source"
+    }
+   ],
+   "service_distance": [
+    {
+     "platform": "sensor",
+     "key": "inspection_due_after",
+     "translation_key": null,
+     "unit": "km",
+     "note": "field verified, unique_id guess"
+    }
+   ],
+   "service_time": [
+    {
+     "platform": "sensor",
+     "key": "inspection_due_at",
+     "translation_key": null,
+     "unit": "timestamp",
+     "note": "field verified, unique_id guess"
+    }
+   ],
+   "service_flag": [],
+   "oil": [
+    {
+     "platform": "sensor",
+     "key": "{vin}_{drive_id}_oil_level",
+     "translation_key": null,
+     "unit": "%",
+     "note": "verified in source"
+    },
+    {
+     "platform": "sensor",
+     "key": "oil_service_due_after",
+     "translation_key": null,
+     "unit": "km",
+     "note": "field verified, unique_id guess"
+    },
+    {
+     "platform": "sensor",
+     "key": "oil_service_due_at",
+     "translation_key": null,
+     "unit": "timestamp",
+     "note": "field verified, unique_id guess"
+    }
+   ],
+   "brakes": [],
+   "tyres": [],
+   "battery_12v": [],
+   "fluids": [
+    {
+     "platform": "sensor",
+     "key": "{vin}_{drive_id}_adblue_level",
+     "translation_key": null,
+     "unit": "%",
+     "note": "verified in source"
+    },
+    {
+     "platform": "sensor",
+     "key": "{vin}_{drive_id}_adblue_range",
+     "translation_key": null,
+     "unit": "km",
+     "note": "verified in source"
+    }
+   ],
+   "ev_battery": [],
+   "warnings": [],
+   "other": []
+  }
+ },
+ {
+  "name": "Audi Connect",
+  "domain": "audiconnect",
+  "kind": "hacs",
+  "repo": "https://github.com/audiconnect/audi_connect_ha",
+  "ref": "d12f74c (manifest 2.5.2, 2026-11-10)",
+  "status": "active; stars/issues not checked",
+  "stars": "not checked",
+  "last_release": "latest tag v2.5.3b1; date not checked",
+  "access": "Audi/CARIAD cloud polling",
+  "region": "region option (DE/US/CA/CN - guess)",
+  "notes": "EntityDescriptions with key + attr_key + name; translation_key not seen in the grepped lines (treat as none: guess).",
+  "verified": true,
+  "feeds": {
+   "odometer": [
+    {
+     "platform": "sensor",
+     "key": "mileage",
+     "translation_key": null,
+     "unit": "km",
+     "note": "verified in source"
+    }
+   ],
+   "service_distance": [
+    {
+     "platform": "sensor",
+     "key": "service_inspection_distance",
+     "translation_key": null,
+     "unit": "km",
+     "note": "verified in source"
+    }
+   ],
+   "service_time": [
+    {
+     "platform": "sensor",
+     "key": "service_inspection_time",
+     "translation_key": null,
+     "unit": "d",
+     "note": "verified in source"
+    }
+   ],
+   "service_flag": [],
+   "oil": [
+    {
+     "platform": "sensor",
+     "key": "oil_change_distance",
+     "translation_key": null,
+     "unit": "km",
+     "note": "verified in source"
+    },
+    {
+     "platform": "sensor",
+     "key": "oil_change_time",
+     "translation_key": null,
+     "unit": "d",
+     "note": "verified in source"
+    },
+    {
+     "platform": "sensor",
+     "key": "oil_level",
+     "translation_key": null,
+     "unit": "%",
+     "note": "verified in source"
+    },
+    {
+     "platform": "binary_sensor",
+     "key": "oil_level_binary",
+     "translation_key": null,
+     "unit": null,
+     "note": "verified in source; PROBLEM"
+    }
+   ],
+   "brakes": [
+    {
+     "platform": "binary_sensor",
+     "key": "braking_status",
+     "translation_key": null,
+     "unit": null,
+     "note": "verified in source; device_class safety (parking brake, not wear)"
+    }
+   ],
+   "tyres": [],
+   "battery_12v": [],
+   "fluids": [
+    {
+     "platform": "sensor",
+     "key": "service_adblue_distance",
+     "translation_key": null,
+     "unit": "km",
+     "note": "verified in source; 'AdBlue range'"
+    }
+   ],
+   "ev_battery": [],
+   "warnings": [],
+   "other": []
+  }
+ },
+ {
+  "name": "Skoda (core, new)",
+  "domain": "skoda",
+  "kind": "core",
+  "repo": "https://github.com/home-assistant/core",
+  "ref": "0b790a5",
+  "status": "in core, quality_scale bronze, lib skoda-public-api==1.4.0",
+  "stars": "not checked",
+  "last_release": "not checked",
+  "access": "Skoda public API, cloud polling",
+  "region": "not checked",
+  "notes": "Core now ships a 'skoda' integration but it has NO maintenance entities beyond mileage.",
+  "verified": true,
+  "feeds": {
+   "odometer": [
+    {
+     "platform": "sensor",
+     "key": "mileage",
+     "translation_key": "mileage",
+     "unit": "km",
+     "note": "verified in source"
+    }
+   ],
+   "service_distance": [],
+   "service_time": [],
+   "service_flag": [],
+   "oil": [],
+   "brakes": [],
+   "tyres": [],
+   "battery_12v": [],
+   "fluids": [],
+   "ev_battery": [],
+   "warnings": [],
+   "other": []
+  }
+ },
+ {
+  "name": "MySkoda",
+  "domain": "myskoda",
+  "kind": "hacs",
+  "repo": "https://github.com/skodaconnect/homeassistant-myskoda",
+  "ref": "b82a45d (manifest 1.36.3, 2026-11-08)",
+  "status": "active; stars/issues not checked",
+  "stars": "not checked",
+  "last_release": "v1.36.3; date not checked",
+  "access": "MySkoda cloud (REST + MQTT push)",
+  "region": "EU",
+  "notes": "Class-per-entity with SensorEntityDescription. NOTE the odometer key is misspelled 'milage' (translation_key 'mileage').",
+  "verified": true,
+  "feeds": {
+   "odometer": [
+    {
+     "platform": "sensor",
+     "key": "milage",
+     "translation_key": "mileage",
+     "unit": "km",
+     "note": "verified in source; total_increasing"
+    }
+   ],
+   "service_distance": [
+    {
+     "platform": "sensor",
+     "key": "inspection_in_km",
+     "translation_key": "inspection_in_km",
+     "unit": "km",
+     "note": "verified in source"
+    }
+   ],
+   "service_time": [
+    {
+     "platform": "sensor",
+     "key": "inspection",
+     "translation_key": "inspection",
+     "unit": "d",
+     "note": "verified in source"
+    }
+   ],
+   "service_flag": [],
+   "oil": [
+    {
+     "platform": "sensor",
+     "key": "oil_service_in_days",
+     "translation_key": "oil_service_in_days",
+     "unit": "d",
+     "note": "verified in source"
+    },
+    {
+     "platform": "sensor",
+     "key": "oil_service_in_km",
+     "translation_key": "oil_service_in_km",
+     "unit": "km",
+     "note": "verified in source"
+    }
+   ],
+   "brakes": [],
+   "tyres": [],
+   "battery_12v": [],
+   "fluids": [
+    {
+     "platform": "sensor",
+     "key": "adblue_range",
+     "translation_key": "adblue_range",
+     "unit": "km",
+     "note": "verified in source"
+    }
+   ],
+   "ev_battery": [],
+   "warnings": [],
+   "other": [
+    {
+     "platform": "sensor",
+     "key": "service_event",
+     "translation_key": "service_event",
+     "unit": "timestamp",
+     "note": "verified in source for key; docstring 'most recent service event' (push event from MySkoda, probably NOT a workshop visit: guess)"
+    },
+    {
+     "platform": "binary_sensor",
+     "key": "vehicle_battery_protection",
+     "translation_key": "vehicle_battery_protection",
+     "unit": null,
+     "note": "verified in source (12V protection mode; meaning guess)"
+    },
+    {
+     "platform": "sensor",
+     "key": "overall_mileage",
+     "translation_key": "overall_mileage",
+     "unit": "km",
+     "note": "trip statistics, not odometer"
+    }
+   ]
+  }
+ },
+ {
+  "name": "Seat/Cupra We Connect",
+  "domain": "cupra_we_connect",
+  "kind": "hacs",
+  "repo": "https://github.com/daernsinstantfortress/cupra_we_connect",
+  "ref": "d9e6c8f (manifest 0.8.9, 2026-07-13)",
+  "status": "low activity; stars not checked",
+  "stars": "not checked",
+  "last_release": "v0.8.9; date not checked",
+  "access": "Cupra/Seat cloud via weconnect-cupra lib, polling",
+  "region": "EU",
+  "notes": "Only odometer is maintenance-relevant. For Seat/Cupra service data use CarConnectivity (seatcupra connector).",
+  "verified": true,
+  "feeds": {
+   "odometer": [
+    {
+     "platform": "sensor",
+     "key": "odometer_km",
+     "translation_key": null,
+     "unit": "km",
+     "note": "verified in source"
+    },
+    {
+     "platform": "sensor",
+     "key": "odometer_mi",
+     "translation_key": null,
+     "unit": "mi",
+     "note": "verified in source"
+    }
+   ],
+   "service_distance": [],
+   "service_time": [],
+   "service_flag": [],
+   "oil": [],
+   "brakes": [],
+   "tyres": [],
+   "battery_12v": [],
+   "fluids": [],
+   "ev_battery": [],
+   "warnings": [],
+   "other": []
+  }
+ },
+ {
+  "name": "Porsche Connect",
+  "domain": "porscheconnect",
+  "kind": "hacs",
+  "repo": "https://github.com/CJNE/ha-porscheconnect",
+  "ref": "b4c5319 (manifest 0.1.13, 2026-11-14)",
+  "status": "active; stars not checked",
+  "stars": "not checked",
+  "last_release": "0.1.13; date not checked",
+  "access": "My Porsche cloud polling (pyporscheconnectapi)",
+  "region": "not checked",
+  "notes": "EntityDescriptions with key == translation_key.",
+  "verified": true,
+  "feeds": {
+   "odometer": [
+    {
+     "platform": "sensor",
+     "key": "mileage",
+     "translation_key": "mileage",
+     "unit": "km",
+     "note": "verified in source"
+    }
+   ],
+   "service_distance": [
+    {
+     "platform": "sensor",
+     "key": "main_service_range",
+     "translation_key": "main_service_range",
+     "unit": "km",
+     "note": "verified in source"
+    },
+    {
+     "platform": "sensor",
+     "key": "intermediate_service_range",
+     "translation_key": "intermediate_service_range",
+     "unit": "km",
+     "note": "verified in source"
+    }
+   ],
+   "service_time": [
+    {
+     "platform": "sensor",
+     "key": "main_service_time",
+     "translation_key": "main_service_time",
+     "unit": "d",
+     "note": "verified in source"
+    },
+    {
+     "platform": "sensor",
+     "key": "intermediate_service_time",
+     "translation_key": "intermediate_service_time",
+     "unit": "d",
+     "note": "verified in source"
+    }
+   ],
+   "service_flag": [],
+   "oil": [
+    {
+     "platform": "sensor",
+     "key": "oil_service_range",
+     "translation_key": "oil_service_range",
+     "unit": "km",
+     "note": "verified in source"
+    },
+    {
+     "platform": "sensor",
+     "key": "oil_service_time",
+     "translation_key": "oil_service_time",
+     "unit": "d",
+     "note": "verified in source"
+    },
+    {
+     "platform": "sensor",
+     "key": "oil_level",
+     "translation_key": "oil_level",
+     "unit": "%",
+     "note": "verified in source"
+    }
+   ],
+   "brakes": [],
+   "tyres": [
+    {
+     "platform": "binary_sensor",
+     "key": "tire_pressure_status",
+     "translation_key": "tire_pressure_status",
+     "unit": null,
+     "note": "verified in source; PROBLEM; per-wheel pressures as attributes '{pos}_{field}'"
+    }
+   ],
+   "battery_12v": [],
+   "fluids": [],
+   "ev_battery": [],
+   "warnings": [],
+   "other": []
+  }
+ },
+ {
+  "name": "Volvo (core, OAuth)",
+  "domain": "volvo",
+  "kind": "core",
+  "repo": "https://github.com/home-assistant/core",
+  "ref": "0b790a5",
+  "status": "in core, quality_scale platinum, lib volvocarsapi==0.6.0, codeowner @thomasddn",
+  "stars": "not checked",
+  "last_release": "not checked",
+  "access": "Official Volvo Cars public API (OAuth2 application_credentials), cloud polling",
+  "region": "Only models/regions supported by Volvo's public API",
+  "notes": "Best maintenance coverage of all. translation_key is set to description.key in entity.py. All units fixed in source.",
+  "verified": true,
+  "feeds": {
+   "odometer": [
+    {
+     "platform": "sensor",
+     "key": "odometer",
+     "translation_key": "odometer",
+     "unit": "km",
+     "note": "verified in source; device_class distance"
+    }
+   ],
+   "service_distance": [
+    {
+     "platform": "sensor",
+     "key": "distance_to_service",
+     "translation_key": "distance_to_service",
+     "unit": "km",
+     "note": "verified in source"
+    }
+   ],
+   "service_time": [
+    {
+     "platform": "sensor",
+     "key": "time_to_service",
+     "translation_key": "time_to_service",
+     "unit": "d",
+     "note": "verified in source; device_class duration"
+    },
+    {
+     "platform": "sensor",
+     "key": "engine_time_to_service",
+     "translation_key": "engine_time_to_service",
+     "unit": "h",
+     "note": "verified in source; engine hours to service"
+    }
+   ],
+   "service_flag": [
+    {
+     "platform": "sensor",
+     "key": "service_warning",
+     "translation_key": "service_warning",
+     "unit": null,
+     "note": "verified in source; ENUM: no_warning, regular_maintenance_{almost_time,time,overdue}_for_service, distance_driven_..., engine_hours_..., unknown_warning"
+    }
+   ],
+   "oil": [
+    {
+     "platform": "binary_sensor",
+     "key": "oil_level_warning",
+     "translation_key": "oil_level_warning",
+     "unit": null,
+     "note": "verified in source; PROBLEM; on for SERVICE_REQUIRED/TOO_LOW/TOO_HIGH"
+    }
+   ],
+   "brakes": [
+    {
+     "platform": "binary_sensor",
+     "key": "brake_fluid_level_warning",
+     "translation_key": "brake_fluid_level_warning",
+     "unit": null,
+     "note": "verified in source; PROBLEM"
+    }
+   ],
+   "tyres": [
+    {
+     "platform": "binary_sensor",
+     "key": "tire_front_left / tire_front_right / tire_rear_left / tire_rear_right",
+     "translation_key": "same as key",
+     "unit": null,
+     "note": "verified in source; PROBLEM; on for VERY_LOW_PRESSURE/LOW_PRESSURE/HIGH_PRESSURE; no numeric pressure"
+    }
+   ],
+   "battery_12v": [],
+   "fluids": [
+    {
+     "platform": "binary_sensor",
+     "key": "washer_fluid_level_warning",
+     "translation_key": "washer_fluid_level_warning",
+     "unit": null,
+     "note": "verified in source"
+    },
+    {
+     "platform": "binary_sensor",
+     "key": "coolant_level_warning",
+     "translation_key": "coolant_level_warning",
+     "unit": null,
+     "note": "verified in source"
+    }
+   ],
+   "ev_battery": [
+    {
+     "platform": "sensor",
+     "key": "battery_capacity",
+     "translation_key": "battery_capacity",
+     "unit": "kWh",
+     "note": "verified in source; nominal capacity, not SoH"
+    }
+   ],
+   "warnings": [
+    {
+     "platform": "binary_sensor",
+     "key": "brake_light_center_warning, brake_light_left_warning, brake_light_right_warning, daytime_running_light_{left,right}_warning, fog_light_{front,rear}_warning, hazard_lights_warning, high_beam_{left,right}_warning, low_beam_{left,right}_warning, position_light_{front,rear}_{left,right}_warning, registration_plate_light_warning, reverse_lights_warning, side_mark_lights_warning, turn_indication_{front,rear}_{left,right}_warning",
+     "translation_key": "same as key",
+     "unit": null,
+     "note": "verified in source; all PROBLEM, bulb failures"
+    }
+   ],
+   "other": []
+  }
+ },
+ {
+  "name": "Volvo On Call (legacy core)",
+  "domain": "volvooncall",
+  "kind": "core",
+  "repo": "https://github.com/home-assistant/core",
+  "ref": "0b790a5",
+  "status": "REMOVED: directory homeassistant/components/volvooncall does not exist at this commit",
+  "stars": "not checked",
+  "last_release": "not checked",
+  "access": "n/a",
+  "region": "n/a",
+  "notes": "Verified absent via git ls-tree. verified in source",
+  "verified": true,
+  "feeds": {
+   "odometer": [],
+   "service_distance": [],
+   "service_time": [],
+   "service_flag": [],
+   "oil": [],
+   "brakes": [],
+   "tyres": [],
+   "battery_12v": [],
+   "fluids": [],
+   "ev_battery": [],
+   "warnings": [],
+   "other": []
+  }
+ },
+ {
+  "name": "Volvo Cars (HACS, predecessor of core)",
+  "domain": "volvo_cars",
+  "kind": "hacs",
+  "repo": "https://github.com/thomasddn/ha-volvo-cars",
+  "ref": "d56f812 (last commit 2025-12-07)",
+  "status": "UNMAINTAINED: README says no longer maintained, replaced by core 'volvo'",
+  "stars": "not checked",
+  "last_release": "latest tag v1.5.7; date not checked",
+  "access": "Volvo public API OAuth",
+  "region": "as core",
+  "notes": "Same keys as core, except service_warning is a binary_sensor here.",
+  "verified": true,
+  "feeds": {
+   "odometer": [
+    {
+     "platform": "sensor",
+     "key": "odometer",
+     "translation_key": "odometer",
+     "unit": "km",
+     "note": "verified in source"
+    }
+   ],
+   "service_distance": [
+    {
+     "platform": "sensor",
+     "key": "distance_to_service",
+     "translation_key": "distance_to_service",
+     "unit": "km",
+     "note": "verified in source"
+    }
+   ],
+   "service_time": [
+    {
+     "platform": "sensor",
+     "key": "time_to_service",
+     "translation_key": "time_to_service",
+     "unit": "d",
+     "note": "verified in source"
+    },
+    {
+     "platform": "sensor",
+     "key": "engine_time_to_service",
+     "translation_key": "engine_time_to_service",
+     "unit": "h",
+     "note": "verified in source"
+    }
+   ],
+   "service_flag": [
+    {
+     "platform": "binary_sensor",
+     "key": "service_warning",
+     "translation_key": "service_warning",
+     "unit": null,
+     "note": "verified in source; PROBLEM"
+    }
+   ],
+   "oil": [
+    {
+     "platform": "binary_sensor",
+     "key": "oil_level_warning",
+     "translation_key": "oil_level_warning",
+     "unit": null,
+     "note": "verified in source"
+    }
+   ],
+   "brakes": [
+    {
+     "platform": "binary_sensor",
+     "key": "brake_fluid_level_warning",
+     "translation_key": "brake_fluid_level_warning",
+     "unit": null,
+     "note": "verified in source"
+    }
+   ],
+   "tyres": [],
+   "battery_12v": [],
+   "fluids": [
+    {
+     "platform": "binary_sensor",
+     "key": "washer_fluid_level_warning",
+     "translation_key": "washer_fluid_level_warning",
+     "unit": null,
+     "note": "verified in source"
+    },
+    {
+     "platform": "binary_sensor",
+     "key": "coolant_level_warning",
+     "translation_key": "coolant_level_warning",
+     "unit": null,
+     "note": "verified in source"
+    }
+   ],
+   "ev_battery": [
+    {
+     "platform": "sensor",
+     "key": "battery_capacity",
+     "translation_key": "battery_capacity",
+     "unit": "kWh",
+     "note": "verified in source"
+    }
+   ],
+   "warnings": [],
+   "other": []
+  }
+ },
+ {
+  "name": "volvo2mqtt",
+  "domain": "mqtt (discovery)",
+  "kind": "hacs",
+  "repo": "https://github.com/Dielee/volvo2mqtt",
+  "ref": "25045e9 (2026-10-26)",
+  "status": "commits in 2026; README deprecation not found by grep; stars not checked",
+  "stars": "not checked",
+  "last_release": "latest tag v1.13.7; date not checked",
+  "access": "Add-on/Docker: Volvo API -> MQTT discovery",
+  "region": "as Volvo API",
+  "notes": "Not a HACS integration (add-on). 'key' = discovery id in src/const.py.",
+  "verified": true,
+  "feeds": {
+   "odometer": [
+    {
+     "platform": "sensor",
+     "key": "odometer",
+     "translation_key": null,
+     "unit": "km",
+     "note": "verified in source"
+    }
+   ],
+   "service_distance": [
+    {
+     "platform": "sensor",
+     "key": "km_to_service",
+     "translation_key": null,
+     "unit": "km",
+     "note": "verified in source"
+    }
+   ],
+   "service_time": [
+    {
+     "platform": "sensor",
+     "key": "time_to_service",
+     "translation_key": null,
+     "unit": null,
+     "note": "verified in source; no unit in source"
+    },
+    {
+     "platform": "sensor",
+     "key": "hours_to_service",
+     "translation_key": null,
+     "unit": "h",
+     "note": "verified in source"
+    }
+   ],
+   "service_flag": [
+    {
+     "platform": "sensor",
+     "key": "service_warning_status",
+     "translation_key": null,
+     "unit": null,
+     "note": "verified in source"
+    }
+   ],
+   "oil": [],
+   "brakes": [],
+   "tyres": [
+    {
+     "platform": "sensor",
+     "key": "tyre_front_left / tyre_front_right / tyre_rear_left / tyre_rear_right",
+     "translation_key": null,
+     "unit": null,
+     "note": "verified in source; status text"
+    }
+   ],
+   "battery_12v": [],
+   "fluids": [
+    {
+     "platform": "sensor",
+     "key": "washer_fluid_warning",
+     "translation_key": null,
+     "unit": null,
+     "note": "verified in source"
+    }
+   ],
+   "ev_battery": [],
+   "warnings": [
+    {
+     "platform": "sensor",
+     "key": "warnings",
+     "translation_key": null,
+     "unit": null,
+     "note": "verified in source"
+    }
+   ],
+   "other": []
+  }
+ },
+ {
+  "name": "Polestar API",
+  "domain": "polestar_api",
+  "kind": "hacs",
+  "repo": "https://github.com/pypolestar/polestar_api",
+  "ref": "98ee282 (manifest 1.24.3, 2026-09-22)",
+  "status": "maintained; stars not checked",
+  "stars": "not checked",
+  "last_release": "1.24.3; date not checked",
+  "access": "Polestar cloud GraphQL (pypolestar), polling",
+  "region": "not checked",
+  "notes": "unique_id = 'polestar_{vin}_{key}', translation_key = 'polestar_{key}'. All are SENSORS (warnings are text sensors, not binary). Odometer unit is METERS natively.",
+  "verified": true,
+  "feeds": {
+   "odometer": [
+    {
+     "platform": "sensor",
+     "key": "current_odometer",
+     "translation_key": "polestar_current_odometer",
+     "unit": "m",
+     "note": "verified in source; native unit meters, device_class distance"
+    }
+   ],
+   "service_distance": [
+    {
+     "platform": "sensor",
+     "key": "distance_to_service",
+     "translation_key": "polestar_distance_to_service",
+     "unit": "km",
+     "note": "verified in source"
+    }
+   ],
+   "service_time": [
+    {
+     "platform": "sensor",
+     "key": "days_to_service",
+     "translation_key": "polestar_days_to_service",
+     "unit": "d",
+     "note": "verified in source"
+    }
+   ],
+   "service_flag": [
+    {
+     "platform": "sensor",
+     "key": "service_warning",
+     "translation_key": "polestar_service_warning",
+     "unit": null,
+     "note": "verified in source"
+    }
+   ],
+   "oil": [
+    {
+     "platform": "sensor",
+     "key": "oil_level_warning",
+     "translation_key": "polestar_oil_level_warning",
+     "unit": null,
+     "note": "verified in source"
+    }
+   ],
+   "brakes": [
+    {
+     "platform": "sensor",
+     "key": "brake_fluid_level_warning",
+     "translation_key": "polestar_brake_fluid_level_warning",
+     "unit": null,
+     "note": "verified in source"
+    }
+   ],
+   "tyres": [],
+   "battery_12v": [],
+   "fluids": [
+    {
+     "platform": "sensor",
+     "key": "engine_coolant_level_warning",
+     "translation_key": "polestar_engine_coolant_level_warning",
+     "unit": null,
+     "note": "verified in source"
+    }
+   ],
+   "ev_battery": [],
+   "warnings": [],
+   "other": [
+    {
+     "platform": "sensor",
+     "key": "last_updated_health_data",
+     "translation_key": "polestar_last_updated_health_data",
+     "unit": "timestamp",
+     "note": "verified in source"
+    }
+   ]
+  }
+ },
+ {
+  "name": "Renault (core)",
+  "domain": "renault",
+  "kind": "core",
+  "repo": "https://github.com/home-assistant/core",
+  "ref": "0b790a5",
+  "status": "in core, quality_scale platinum, lib renault-api==0.6.3, codeowner @epenet",
+  "stars": "not checked",
+  "last_release": "not checked",
+  "access": "My Renault / Kamereon cloud polling",
+  "region": "Renault + Dacia, EU mostly; endpoints vary per model",
+  "notes": "NO service/maintenance entities at all. Only mileage and (some models) tyre pressures.",
+  "verified": true,
+  "feeds": {
+   "odometer": [
+    {
+     "platform": "sensor",
+     "key": "mileage",
+     "translation_key": "mileage",
+     "unit": "km",
+     "note": "verified in source; coordinator cockpit"
+    }
+   ],
+   "service_distance": [],
+   "service_time": [],
+   "service_flag": [],
+   "oil": [],
+   "brakes": [],
+   "tyres": [
+    {
+     "platform": "sensor",
+     "key": "front_left_pressure / front_right_pressure / rear_left_pressure / rear_right_pressure",
+     "translation_key": "same as key",
+     "unit": "mbar",
+     "note": "verified in source; device_class pressure, coordinator 'pressure'"
+    }
+   ],
+   "battery_12v": [],
+   "fluids": [],
+   "ev_battery": [],
+   "warnings": [],
+   "other": []
+  }
+ },
+ {
+  "name": "Stellantis Vehicles",
+  "domain": "stellantis_vehicles",
+  "kind": "hacs",
+  "repo": "https://github.com/andreadegiovine/homeassistant-stellantis-vehicles",
+  "ref": "11fa3e5 (manifest 2026.11.1-beta.3, 2026-11-17)",
+  "status": "active; stars not checked",
+  "stars": "not checked",
+  "last_release": "tags unclear (version sort gives v2025.11.5-beta.1; manifest 2026.11.1-beta.3)",
+  "access": "Stellantis/PSA Connected Car API (OAuth via brand app) + MQTT for commands",
+  "region": "Peugeot/Citroen/DS/Opel/Vauxhall (ex-PSA) EU",
+  "notes": "Sensors are a dict in const.py (SENSORS_DEFAULT). unique_id = '{vin}_{key}'; translation_key assumed = key (guess). 'service_battery_voltage' is reported in % with device_class battery despite its name. No tyre, oil level, AdBlue or warning entities.",
+  "verified": true,
+  "feeds": {
+   "odometer": [
+    {
+     "platform": "sensor",
+     "key": "mileage",
+     "translation_key": "mileage",
+     "unit": "km",
+     "note": "verified in source; total_increasing"
+    }
+   ],
+   "service_distance": [
+    {
+     "platform": "sensor",
+     "key": "mileage_before_maintenance",
+     "translation_key": "mileage_before_maintenance",
+     "unit": "km",
+     "note": "verified in source"
+    }
+   ],
+   "service_time": [
+    {
+     "platform": "sensor",
+     "key": "days_before_maintenance",
+     "translation_key": "days_before_maintenance",
+     "unit": "d",
+     "note": "verified in source"
+    }
+   ],
+   "service_flag": [],
+   "oil": [
+    {
+     "platform": "sensor",
+     "key": "oil_temperature",
+     "translation_key": "oil_temperature",
+     "unit": "degC",
+     "note": "verified in source; temperature only"
+    }
+   ],
+   "brakes": [],
+   "tyres": [],
+   "battery_12v": [
+    {
+     "platform": "sensor",
+     "key": "service_battery_voltage",
+     "translation_key": "service_battery_voltage",
+     "unit": "%",
+     "note": "verified in source; 12V battery, value_map battery.voltage but unit %"
+    }
+   ],
+   "fluids": [
+    {
+     "platform": "sensor",
+     "key": "coolant_temperature",
+     "translation_key": "coolant_temperature",
+     "unit": "degC",
+     "note": "verified in source; temperature only"
+    }
+   ],
+   "ev_battery": [
+    {
+     "platform": "sensor",
+     "key": "battery_health_capacity",
+     "translation_key": "battery_health_capacity",
+     "unit": "%",
+     "note": "verified in source; SoH capacity"
+    },
+    {
+     "platform": "sensor",
+     "key": "battery_health_resistance",
+     "translation_key": "battery_health_resistance",
+     "unit": "%",
+     "note": "verified in source"
+    }
+   ],
+   "warnings": [],
+   "other": []
+  }
+ },
+ {
+  "name": "PSA Car Controller",
+  "domain": "n/a",
+  "kind": "hacs",
+  "repo": "https://github.com/flobz/psa_car_controller",
+  "ref": "c50a5c8 (2026-10-05)",
+  "status": "maintained standalone app; NOT a HA integration",
+  "stars": "not checked",
+  "last_release": "not checked",
+  "access": "Standalone app (Docker / HA add-on flobz/psacc-ha) with own REST API + dashboard; HA reads via REST sensors",
+  "region": "ex-PSA EU",
+  "notes": "Cloned but entity list not inspected: it creates no HA entities by itself (users write rest sensors). Skipped.",
+  "verified": false,
+  "feeds": {
+   "odometer": [],
+   "service_distance": [],
+   "service_time": [],
+   "service_flag": [],
+   "oil": [],
+   "brakes": [],
+   "tyres": [],
+   "battery_12v": [],
+   "fluids": [],
+   "ev_battery": [],
+   "warnings": [],
+   "other": []
+  }
+ },
+ {
+  "name": "Uconnect (Fiat/Jeep/Alfa/Abarth/Lancia/Maserati)",
+  "domain": "uconnect",
+  "kind": "hacs",
+  "repo": "https://github.com/hass-uconnect/hass-uconnect",
+  "ref": "9037a6c (2026-11-23)",
+  "status": "active; 71 stars (GitHub search API, 2026-11-24)",
+  "stars": "71",
+  "last_release": "latest tag v1.0.3; date not checked",
+  "access": "Reverse-engineered Stellantis Uconnect cloud, polling",
+  "region": "US, Canada, EU, Asia, LATAM",
+  "notes": "The caller's guessed names (fiat / ha-fiat / mopar) were not found; hass-uconnect is the live one. key == translation_key. unique_id = 'uconnect_{vin}_{key}'. Distance units are dynamic (UNIT_DYNAMIC).",
+  "verified": true,
+  "feeds": {
+   "odometer": [
+    {
+     "platform": "sensor",
+     "key": "odometer",
+     "translation_key": "odometer",
+     "unit": "km or mi (dynamic)",
+     "note": "verified in source"
+    }
+   ],
+   "service_distance": [
+    {
+     "platform": "sensor",
+     "key": "distance_to_service",
+     "translation_key": "distance_to_service",
+     "unit": "km or mi (dynamic)",
+     "note": "verified in source"
+    }
+   ],
+   "service_time": [
+    {
+     "platform": "sensor",
+     "key": "days_to_service",
+     "translation_key": "days_to_service",
+     "unit": "d",
+     "note": "verified in source"
+    }
+   ],
+   "service_flag": [],
+   "oil": [
+    {
+     "platform": "sensor",
+     "key": "oil_level",
+     "translation_key": "oil_level",
+     "unit": "%",
+     "note": "verified in source"
+    }
+   ],
+   "brakes": [],
+   "tyres": [
+    {
+     "platform": "binary_sensor",
+     "key": "wheel_front_left_pressure_warning / wheel_front_right_pressure_warning / wheel_rear_left_pressure_warning / wheel_rear_right_pressure_warning",
+     "translation_key": "same as key",
+     "unit": null,
+     "note": "verified in source; PROBLEM"
+    }
+   ],
+   "battery_12v": [
+    {
+     "platform": "sensor",
+     "key": "battery_voltage",
+     "translation_key": "battery_voltage",
+     "unit": "V",
+     "note": "verified in source"
+    },
+    {
+     "platform": "sensor",
+     "key": "battery_state_of_charge",
+     "translation_key": "battery_state_of_charge",
+     "unit": "%",
+     "note": "key verified; whether 12V or HV not checked"
+    }
+   ],
+   "fluids": [],
+   "ev_battery": [],
+   "warnings": [],
+   "other": [
+    {
+     "platform": "sensor",
+     "key": "vhr",
+     "translation_key": null,
+     "unit": null,
+     "note": "unique_id suffix '_vhr' seen (vehicle health report sensor); details not read"
+    }
+   ]
+  }
+ },
+ {
+  "name": "JLR InControl",
+  "domain": "jlrincontrol",
+  "kind": "hacs",
+  "repo": "https://github.com/msp1974/homeassistant-jlrincontrol",
+  "ref": "f2a6c62 (default branch, const VERSION 2.2.7, last commit 2024-03-21)",
+  "status": "default branch stale since 2024-03; tags up to v3.0.0beta7 exist; stars not checked",
+  "stars": "not checked",
+  "last_release": "latest tag v3.0.0beta7; date not checked",
+  "access": "JLR InControl cloud polling (jlrpy)",
+  "region": "EU/ROW + China option; known breakage not checked",
+  "notes": "Old-style entities, no EntityDescription/translation_key. unique_id = '{prefix}-{sensor_name}'. Maintenance data lives in ATTRIBUTES of two sensors: 'service info' and 'tyres'; odometer is attribute 'Odometer' of the main vehicle sensor.",
+  "verified": true,
+  "feeds": {
+   "odometer": [
+    {
+     "platform": "sensor attribute",
+     "key": "info#Odometer",
+     "translation_key": null,
+     "unit": "km/mi",
+     "note": "verified in source (attribute; sensor_name of vehicle sensor not read)"
+    }
+   ],
+   "service_distance": [
+    {
+     "platform": "sensor attribute",
+     "key": "service info#Distance To Service",
+     "translation_key": null,
+     "unit": "km",
+     "note": "verified in source (EXT_KILOMETERS_TO_SERVICE)"
+    }
+   ],
+   "service_time": [],
+   "service_flag": [
+    {
+     "platform": "sensor",
+     "key": "service info",
+     "translation_key": null,
+     "unit": null,
+     "note": "verified in source; state summarises whether all service statuses are OK"
+    }
+   ],
+   "oil": [
+    {
+     "platform": "sensor attribute",
+     "key": "service info#Oil Level",
+     "translation_key": null,
+     "unit": null,
+     "note": "verified in source (EXT_OIL_LEVEL_WARN)"
+    }
+   ],
+   "brakes": [
+    {
+     "platform": "sensor attribute",
+     "key": "service info#Brake Fluid",
+     "translation_key": null,
+     "unit": null,
+     "note": "verified in source (BRAKE_FLUID_WARN)"
+    }
+   ],
+   "tyres": [
+    {
+     "platform": "sensor",
+     "key": "tyres",
+     "translation_key": null,
+     "unit": null,
+     "note": "verified in source; attrs per wheel status TYRE_STATUS_* and pressure TYRE_PRESSURE_*"
+    }
+   ],
+   "battery_12v": [],
+   "fluids": [
+    {
+     "platform": "sensor attribute",
+     "key": "service info#Coolant Level / Washer Fluid / Exhaust Fluid / Exhaust Fluid Distance To Service / Exhaust Fluid Fill / Dpf",
+     "translation_key": null,
+     "unit": null,
+     "note": "verified in source"
+    }
+   ],
+   "ev_battery": [],
+   "warnings": [
+    {
+     "platform": "sensor",
+     "key": "check_control_messages / condition_based_services",
+     "translation_key": null,
+     "unit": null,
+     "note": "keys exist in SENSOR_TYPES in const.py; usage not read"
+    }
+   ],
+   "other": []
+  }
+ },
+ {
+  "name": "MG SAIC",
+  "domain": "mg_saic",
+  "kind": "hacs",
+  "repo": "https://github.com/ad-ha/mg-saic-ha",
+  "ref": "8f09aa9 (manifest 1.6.0, 2026-11-21)",
+  "status": "active; stars not checked",
+  "stars": "not checked",
+  "last_release": "latest tag 2.0.0-beta05; date not checked",
+  "access": "SAIC iSMART cloud polling",
+  "region": "EU / AU / ROW regions (guess)",
+  "notes": "Entities constructed positionally with a display name and a data field; unique_id = '{entry_id}_{vin}_{suffix}'. No translation_key. No service-interval entities.",
+  "verified": true,
+  "feeds": {
+   "odometer": [
+    {
+     "platform": "sensor",
+     "key": "mileage",
+     "translation_key": null,
+     "unit": "km",
+     "note": "verified in source; name 'Mileage'"
+    }
+   ],
+   "service_distance": [],
+   "service_time": [],
+   "service_flag": [],
+   "oil": [],
+   "brakes": [],
+   "tyres": [
+    {
+     "platform": "sensor",
+     "key": "frontLeftTyrePressure / frontRightTyrePressure / rearLeftTyrePressure / rearRightTyrePressure",
+     "translation_key": null,
+     "unit": "bar (guess)",
+     "note": "verified in source for fields"
+    },
+    {
+     "platform": "binary_sensor",
+     "key": "wheelTyreMonitorStatus",
+     "translation_key": null,
+     "unit": null,
+     "note": "verified in source; 'Wheel Tyre Monitor Status'; plus a derived 'Tyre Pressure Low' binary"
+    }
+   ],
+   "battery_12v": [
+    {
+     "platform": "sensor",
+     "key": "batteryVoltage",
+     "translation_key": null,
+     "unit": "V",
+     "note": "verified in source; name 'Ancillary Battery Voltage'"
+    }
+   ],
+   "fluids": [],
+   "ev_battery": [
+    {
+     "platform": "sensor",
+     "key": "measured battery capacity",
+     "translation_key": null,
+     "unit": "kWh",
+     "note": "verified in source (class SAICMGMeasuredBatteryCapacitySensor, computed from charges; exact unique_id suffix not read)"
+    }
+   ],
+   "warnings": [],
+   "other": []
+  }
+ },
+ {
+  "name": "Smart #1/#3 (SmartHashtag)",
+  "domain": "smarthashtag",
+  "kind": "hacs",
+  "repo": "https://github.com/DasBasti/SmartHashtag",
+  "ref": "37e5222 (manifest 0.13.0, 2026-11-14)",
+  "status": "active; stars not checked",
+  "stars": "not checked",
+  "last_release": "v0.13.0; date not checked",
+  "access": "Smart (Geely) cloud polling via pysmarthashtag",
+  "region": "EU",
+  "notes": "key == translation_key; unique_id suffix '_{key}'. Note typo 'break_fluid_level_status'.",
+  "verified": true,
+  "feeds": {
+   "odometer": [
+    {
+     "platform": "sensor",
+     "key": "odometer",
+     "translation_key": "odometer",
+     "unit": "km",
+     "note": "verified in source"
+    }
+   ],
+   "service_distance": [
+    {
+     "platform": "sensor",
+     "key": "distance_to_service",
+     "translation_key": "distance_to_service",
+     "unit": "km",
+     "note": "verified in source"
+    }
+   ],
+   "service_time": [
+    {
+     "platform": "sensor",
+     "key": "days_to_service",
+     "translation_key": "days_to_service",
+     "unit": "d",
+     "note": "verified in source"
+    },
+    {
+     "platform": "sensor",
+     "key": "engine_hours_to_service",
+     "translation_key": "engine_hours_to_service",
+     "unit": "h",
+     "note": "verified in source (unit guess)"
+    }
+   ],
+   "service_flag": [
+    {
+     "platform": "sensor",
+     "key": "service_warning_status",
+     "translation_key": "service_warning_status",
+     "unit": null,
+     "note": "verified in source"
+    }
+   ],
+   "oil": [],
+   "brakes": [
+    {
+     "platform": "sensor",
+     "key": "break_fluid_level_status",
+     "translation_key": "break_fluid_level_status",
+     "unit": null,
+     "note": "verified in source (sic)"
+    }
+   ],
+   "tyres": [
+    {
+     "platform": "sensor",
+     "key": "tire_pressure_0 .. tire_pressure_3",
+     "translation_key": "same as key",
+     "unit": "kPa (guess)",
+     "note": "verified in source"
+    },
+    {
+     "platform": "sensor",
+     "key": "temperature_0 .. temperature_3",
+     "translation_key": "same as key",
+     "unit": "degC",
+     "note": "verified in source; tyre temperatures"
+    }
+   ],
+   "battery_12v": [],
+   "fluids": [
+    {
+     "platform": "sensor",
+     "key": "washer_fluid_level_status",
+     "translation_key": "washer_fluid_level_status",
+     "unit": null,
+     "note": "verified in source"
+    },
+    {
+     "platform": "sensor",
+     "key": "engine_coolant_level_status",
+     "translation_key": "engine_coolant_level_status",
+     "unit": null,
+     "note": "verified in source"
+    }
+   ],
+   "ev_battery": [
+    {
+     "platform": "sensor",
+     "key": "main_battery_state_of_health",
+     "translation_key": "main_battery_state_of_health",
+     "unit": "%",
+     "note": "verified in source (unit guess)"
+    }
+   ],
+   "warnings": [],
+   "other": []
+  }
+ },
+ {
+  "name": "BYD Vehicle",
+  "domain": "byd_vehicle",
+  "kind": "hacs",
+  "repo": "https://github.com/jkaberg/hass-byd-vehicle",
+  "ref": "ba346de (manifest 0.0.105, 2026-11-23)",
+  "status": "very active; stars not checked",
+  "stars": "not checked",
+  "last_release": "0.0.105; date not checked",
+  "access": "BYD app cloud API (reverse engineered), polling",
+  "region": "country selectable in config (README)",
+  "notes": "Has LAST service date/mileage from service history (rare). No distance/days to next service found.",
+  "verified": true,
+  "feeds": {
+   "odometer": [
+    {
+     "platform": "sensor",
+     "key": "total_mileage",
+     "translation_key": null,
+     "unit": "km",
+     "note": "verified in source; also total_mileage_v2"
+    }
+   ],
+   "service_distance": [],
+   "service_time": [],
+   "service_flag": [],
+   "oil": [
+    {
+     "platform": "binary_sensor",
+     "key": "oil_pressure_system",
+     "translation_key": null,
+     "unit": null,
+     "note": "verified in source (warning lamp)"
+    }
+   ],
+   "brakes": [
+    {
+     "platform": "binary_sensor",
+     "key": "braking_system",
+     "translation_key": null,
+     "unit": null,
+     "note": "verified in source"
+    },
+    {
+     "platform": "binary_sensor",
+     "key": "abs_warning",
+     "translation_key": null,
+     "unit": null,
+     "note": "verified in source"
+    }
+   ],
+   "tyres": [
+    {
+     "platform": "sensor",
+     "key": "left_front_tire_pressure / right_front_tire_pressure / left_rear_tire_pressure / right_rear_tire_pressure",
+     "translation_key": null,
+     "unit": "kPa",
+     "note": "verified in source"
+    },
+    {
+     "platform": "binary_sensor",
+     "key": "left_front_tire_status / right_front_tire_status / left_rear_tire_status / right_rear_tire_status",
+     "translation_key": null,
+     "unit": null,
+     "note": "verified in source"
+    },
+    {
+     "platform": "binary_sensor",
+     "key": "tirepressure_system",
+     "translation_key": null,
+     "unit": null,
+     "note": "verified in source"
+    },
+    {
+     "platform": "binary_sensor",
+     "key": "rapid_tire_leak",
+     "translation_key": null,
+     "unit": null,
+     "note": "verified in source"
+    }
+   ],
+   "battery_12v": [],
+   "fluids": [
+    {
+     "platform": "binary_sensor",
+     "key": "ect",
+     "translation_key": null,
+     "unit": null,
+     "note": "verified in source (coolant temp warning; meaning guess)"
+    }
+   ],
+   "ev_battery": [],
+   "warnings": [
+    {
+     "platform": "binary_sensor",
+     "key": "svs / srs / eps / esp / power_system / charging_system / steering_system",
+     "translation_key": null,
+     "unit": null,
+     "note": "verified in source (warning lamps)"
+    }
+   ],
+   "other": [
+    {
+     "platform": "sensor",
+     "key": "last_service_mileage",
+     "translation_key": "last_service_mileage",
+     "unit": "km",
+     "note": "verified in source; unique_id '{vin}_sensor_last_service_mileage'"
+    },
+    {
+     "platform": "sensor",
+     "key": "last_service_date",
+     "translation_key": "last_service_date",
+     "unit": "date",
+     "note": "verified in source; attr service_count"
+    }
+   ]
+  }
+ }
+]

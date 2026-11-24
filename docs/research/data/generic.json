@@ -1,0 +1,2145 @@
+{
+ "sources": [
+  {
+   "name": "Smartcar",
+   "domain": "smartcar",
+   "kind": "hacs",
+   "repo": "https://github.com/wbyoung/smartcar (tube0013/Smartcar-HA redirects here, same HEAD)",
+   "ref": "f579ff6",
+   "status": "active; last commit 2026-11-23; manifest version 0.1.0; NOT in core (verified: no core smartcar dir)",
+   "stars": "not checked",
+   "last_release": "not checked (GitHub API blocked; date = last commit of shallow clone)",
+   "access": "Cloud: Smartcar API (OAuth2 application_credentials, user needs own free Smartcar developer app). Polling plus optional webhooks. cloud_polling.",
+   "region": "Smartcar coverage: North America + Europe, ~40 brands (guess, from Smartcar marketing; not checked)",
+   "notes": "Verified in source. Entities use name= (no translation_key); unique_id = f'{device_id}_{key}', keys are StrEnum auto() lower-case. Free plan has tight rate limits / 1 vehicle (README: availability depends on plan, make, permissions). Most entities disabled by default. No service-interval signals. maintenance_supporter matches it by key 'odometer'.",
+   "verified": true,
+   "feeds": {
+    "odometer": [
+     {
+      "platform": "sensor",
+      "key": "odometer",
+      "translation_key": null,
+      "unit": "km",
+      "note": "name 'Odometer', DISTANCE"
+     }
+    ],
+    "service_distance": [],
+    "service_time": [],
+    "service_flag": [],
+    "oil": [
+     {
+      "platform": "sensor",
+      "key": "engine_oil",
+      "translation_key": null,
+      "unit": "%",
+      "note": "name 'Engine Oil Life'; value path internalcombustionengine-oillife.value"
+     }
+    ],
+    "brakes": [],
+    "tyres": [
+     {
+      "platform": "sensor",
+      "key": "tire_pressure_front_left",
+      "translation_key": null,
+      "unit": "kPa",
+      "note": ""
+     },
+     {
+      "platform": "sensor",
+      "key": "tire_pressure_front_right",
+      "translation_key": null,
+      "unit": "kPa",
+      "note": ""
+     },
+     {
+      "platform": "sensor",
+      "key": "tire_pressure_back_left",
+      "translation_key": null,
+      "unit": "kPa",
+      "note": ""
+     },
+     {
+      "platform": "sensor",
+      "key": "tire_pressure_back_right",
+      "translation_key": null,
+      "unit": "kPa",
+      "note": ""
+     }
+    ],
+    "battery_12v": [
+     {
+      "platform": "sensor",
+      "key": "low_voltage_battery_level",
+      "translation_key": null,
+      "unit": "%",
+      "note": "state of charge %, not volts"
+     }
+    ],
+    "fluids": [],
+    "ev_battery": [
+     {
+      "platform": "sensor",
+      "key": "battery_level",
+      "translation_key": null,
+      "unit": "%",
+      "note": ""
+     },
+     {
+      "platform": "sensor",
+      "key": "battery_capacity",
+      "translation_key": null,
+      "unit": "kWh",
+      "note": ""
+     },
+     {
+      "platform": "sensor",
+      "key": "range",
+      "translation_key": null,
+      "unit": "km",
+      "note": ""
+     }
+    ],
+    "warnings": [
+     {
+      "platform": "sensor",
+      "key": "diag_mil",
+      "translation_key": null,
+      "unit": null,
+      "note": "check-engine (MIL) status; platform sensor, exact value set not read"
+     },
+     {
+      "platform": "sensor",
+      "key": "diag_abs",
+      "translation_key": null,
+      "unit": null,
+      "note": ""
+     },
+     {
+      "platform": "sensor",
+      "key": "diag_dtc_count",
+      "translation_key": null,
+      "unit": null,
+      "note": "number of DTCs"
+     },
+     {
+      "platform": "sensor",
+      "key": "diag_dtc_list",
+      "translation_key": null,
+      "unit": null,
+      "note": "DTC list"
+     },
+     {
+      "platform": "sensor",
+      "key": "diag_ev_hv_battery",
+      "translation_key": null,
+      "unit": null,
+      "note": ""
+     },
+     {
+      "platform": "sensor",
+      "key": "diag_ev_drive_unit",
+      "translation_key": null,
+      "unit": null,
+      "note": ""
+     },
+     {
+      "platform": "sensor",
+      "key": "diag_ev_charging",
+      "translation_key": null,
+      "unit": null,
+      "note": ""
+     },
+     {
+      "platform": "sensor",
+      "key": "diag_ev_battery_conditioning",
+      "translation_key": null,
+      "unit": null,
+      "note": ""
+     }
+    ],
+    "other": [
+     {
+      "platform": "sensor",
+      "key": "fuel",
+      "translation_key": null,
+      "unit": "L",
+      "note": ""
+     },
+     {
+      "platform": "sensor",
+      "key": "fuel_percent",
+      "translation_key": null,
+      "unit": "%",
+      "note": ""
+     },
+     {
+      "platform": "sensor",
+      "key": "fuel_range",
+      "translation_key": null,
+      "unit": "km",
+      "note": ""
+     }
+    ]
+   }
+  },
+  {
+   "name": "DIMO",
+   "domain": "dimo",
+   "kind": "hacs",
+   "repo": "https://github.com/ardevd/ha-dimo",
+   "ref": "0ad1572",
+   "status": "active; last commit 2026-11-14; manifest 1.7.2; 45 stars",
+   "stars": 45,
+   "last_release": "not checked (GitHub API blocked; date = last commit of shallow clone)",
+   "access": "Cloud: DIMO Telemetry API (dimo-python-sdk 1.8.0). Car data arrives via DIMO OBD hardware (Macaron/AutoPi) or DIMO's OEM/Smartcar connection. User needs DIMO developer licence (client id, API key) and must share the vehicle with it. cloud_polling.",
+   "region": "US/EU (guess)",
+   "notes": "Verified in source. Keys are DIMO/VSS signal names (camelCase); translation_key = key.lower() (base_entity.py:34); entities exist only for signals the vehicle reports. No oil-life or service-interval signal in const.py.",
+   "verified": true,
+   "feeds": {
+    "odometer": [
+     {
+      "platform": "sensor",
+      "key": "powertrainTransmissionTravelledDistance",
+      "translation_key": "powertraintransmissiontravelleddistance",
+      "unit": "km (unit not read: guess)",
+      "note": "the odometer signal"
+     }
+    ],
+    "service_distance": [],
+    "service_time": [],
+    "service_flag": [],
+    "oil": [
+     {
+      "platform": "sensor",
+      "key": "obdOilTemperature",
+      "translation_key": "obdoiltemperature",
+      "unit": null,
+      "note": "temperature only, no oil life"
+     }
+    ],
+    "brakes": [
+     {
+      "platform": "binary_sensor (guess: platform not read)",
+      "key": "chassisParkingBrakeIsEngaged",
+      "translation_key": "chassisparkingbrakeisengaged",
+      "unit": null,
+      "note": "state only, no wear"
+     }
+    ],
+    "tyres": [
+     {
+      "platform": "sensor",
+      "key": "chassisAxleRow1WheelLeftTirePressure",
+      "translation_key": "chassisaxlerow1wheellefttirepressure",
+      "unit": null,
+      "note": ""
+     },
+     {
+      "platform": "sensor",
+      "key": "chassisAxleRow1WheelRightTirePressure",
+      "translation_key": "chassisaxlerow1wheelrighttirepressure",
+      "unit": null,
+      "note": ""
+     },
+     {
+      "platform": "sensor",
+      "key": "chassisAxleRow2WheelLeftTirePressure",
+      "translation_key": "chassisaxlerow2wheellefttirepressure",
+      "unit": null,
+      "note": ""
+     },
+     {
+      "platform": "sensor",
+      "key": "chassisAxleRow2WheelRightTirePressure",
+      "translation_key": "chassisaxlerow2wheelrighttirepressure",
+      "unit": null,
+      "note": ""
+     }
+    ],
+    "battery_12v": [
+     {
+      "platform": "sensor",
+      "key": "lowVoltageBatteryCurrentVoltage",
+      "translation_key": "lowvoltagebatterycurrentvoltage",
+      "unit": "V (guess)",
+      "note": ""
+     }
+    ],
+    "fluids": [
+     {
+      "platform": "sensor",
+      "key": "powertrainCombustionEngineDieselExhaustFluidLevel",
+      "translation_key": "powertraincombustionenginedieselexhaustfluidlevel",
+      "unit": null,
+      "note": "AdBlue/DEF level"
+     }
+    ],
+    "ev_battery": [
+     {
+      "platform": "sensor",
+      "key": "powertrainTractionBatteryStateOfHealth",
+      "translation_key": "powertraintractionbatterystateofhealth",
+      "unit": "%",
+      "note": ""
+     },
+     {
+      "platform": "sensor",
+      "key": "powertrainTractionBatteryStateOfChargeCurrent",
+      "translation_key": "powertraintractionbatterystateofchargecurrent",
+      "unit": null,
+      "note": ""
+     }
+    ],
+    "warnings": [
+     {
+      "platform": "sensor",
+      "key": "obdStatusDTCCount",
+      "translation_key": "obdstatusdtccount",
+      "unit": null,
+      "note": ""
+     },
+     {
+      "platform": "sensor",
+      "key": "obdDTCList",
+      "translation_key": "obddtclist",
+      "unit": null,
+      "note": ""
+     },
+     {
+      "platform": "sensor",
+      "key": "obdDistanceWithMIL",
+      "translation_key": "obddistancewithmil",
+      "unit": null,
+      "note": "distance driven with check-engine on"
+     }
+    ],
+    "other": [
+     {
+      "platform": "sensor",
+      "key": "powertrainFuelSystemRelativeLevel",
+      "translation_key": "powertrainfuelsystemrelativelevel",
+      "unit": null,
+      "note": "fuel %"
+     },
+     {
+      "platform": "sensor",
+      "key": "powertrainCombustionEngineECT",
+      "translation_key": "powertraincombustionengineect",
+      "unit": null,
+      "note": "coolant temp"
+     },
+     {
+      "platform": "sensor",
+      "key": "obdRunTime",
+      "translation_key": "obdruntime",
+      "unit": null,
+      "note": "run time since engine start, not lifetime engine hours"
+     }
+    ]
+   }
+  },
+  {
+   "name": "Enode",
+   "domain": "enode",
+   "kind": "hacs",
+   "repo": "https://github.com/evilmarty/enode",
+   "ref": "8af27ba",
+   "status": "active; last commit 2026-10-23; manifest 1.3.3; 21 stars",
+   "stars": 21,
+   "last_release": "not checked (GitHub API blocked; date = last commit of shallow clone)",
+   "access": "Cloud: Enode API (OAuth application_credentials + webhooks); Enode is a B2B EV/energy API, user needs an Enode developer client. cloud_polling.",
+   "region": "EU/US EV brands (guess)",
+   "notes": "Verified in source. EV-charging oriented: only maintenance-relevant feed is the odometer.",
+   "verified": true,
+   "feeds": {
+    "odometer": [
+     {
+      "platform": "sensor",
+      "key": "distance",
+      "translation_key": "odometer_distance",
+      "unit": "km",
+      "note": "DISTANCE, state_class TOTAL"
+     }
+    ],
+    "service_distance": [],
+    "service_time": [],
+    "service_flag": [],
+    "oil": [],
+    "brakes": [],
+    "tyres": [],
+    "battery_12v": [],
+    "fluids": [],
+    "ev_battery": [
+     {
+      "platform": "sensor",
+      "key": "battery_level",
+      "translation_key": "charge_state_battery_level",
+      "unit": "%",
+      "note": ""
+     },
+     {
+      "platform": "sensor",
+      "key": "battery_capacity",
+      "translation_key": "charge_state_battery_capacity",
+      "unit": null,
+      "note": ""
+     },
+     {
+      "platform": "sensor",
+      "key": "range",
+      "translation_key": "charge_state_range",
+      "unit": null,
+      "note": ""
+     }
+    ],
+    "warnings": [],
+    "other": []
+   }
+  },
+  {
+   "name": "High Mobility",
+   "domain": null,
+   "kind": "app",
+   "repo": null,
+   "ref": null,
+   "status": "No Home Assistant integration found (2 web searches + GitHub repo search returned nothing relevant)",
+   "stars": null,
+   "last_release": null,
+   "access": "B2B OEM data API (fleet/insurer oriented), no consumer path",
+   "region": "EU",
+   "notes": "Not found = guess that none exists. Skip for car_keeper.",
+   "verified": false,
+   "feeds": {
+    "odometer": [],
+    "service_distance": [],
+    "service_time": [],
+    "service_flag": [],
+    "oil": [],
+    "brakes": [],
+    "tyres": [],
+    "battery_12v": [],
+    "fluids": [],
+    "ev_battery": [],
+    "warnings": [],
+    "other": []
+   }
+  },
+  {
+   "name": "WiCAN (MeatPi) OBD-II adapter",
+   "domain": "wican",
+   "kind": "hacs",
+   "repo": "https://github.com/jay-oswald/ha-wican (firmware: https://github.com/meatpiHQ/wican-fw, 866 stars, not cloned)",
+   "ref": "a0d51dc",
+   "status": "active; last commit 2026-11-23; 134 stars; README carries 'HACS Default' badge",
+   "stars": 134,
+   "last_release": "not checked (GitHub API blocked; date = last commit of shallow clone)",
+   "access": "Hardware OBD-II/CAN dongle on car Wi-Fi/home Wi-Fi. Device runs AutoPID protocol with a per-vehicle profile and pushes to HA (webhook/HTTP API; integration says 'WiCAN does not poll the vehicle from Home Assistant'). Alternative: firmware publishes to MQTT with HA discovery (docs conflict on whether MQTT discovery is currently enabled: not verified). Data only while the car is awake and in Wi-Fi range.",
+   "region": "worldwide",
+   "notes": "Verified in source for the HACS integration. Sensors are DYNAMIC: one per PID name configured on the device; unique_id = f'{entry_id}_pid_{pid_key}'; no translation_key. PID names are conventions from the vehicle profile (integration data/params.json has 337 known names with unit/class) but users can define their own, so treat as user-defined. Availability of each PID depends on the vehicle profile.",
+   "verified": true,
+   "feeds": {
+    "odometer": [
+     {
+      "platform": "sensor",
+      "key": "ODOMETER",
+      "translation_key": null,
+      "unit": "km",
+      "note": "params.json: 'Vehicle odometer', class distance"
+     },
+     {
+      "platform": "sensor",
+      "key": "ODOMETER_MI",
+      "translation_key": null,
+      "unit": "mi (guess)",
+      "note": "alt name in params.json"
+     }
+    ],
+    "service_distance": [
+     {
+      "platform": "sensor",
+      "key": "OILCH_DIS",
+      "translation_key": null,
+      "unit": "km",
+      "note": "'Distance till next oil change'"
+     }
+    ],
+    "service_time": [],
+    "service_flag": [],
+    "oil": [
+     {
+      "platform": "sensor",
+      "key": "OIL_LIFE",
+      "translation_key": null,
+      "unit": "%",
+      "note": ""
+     },
+     {
+      "platform": "sensor",
+      "key": "PCM_Oil_Life",
+      "translation_key": null,
+      "unit": null,
+      "note": "Ford-profile name"
+     },
+     {
+      "platform": "sensor",
+      "key": "ENGINE_OIL_TEMP",
+      "translation_key": null,
+      "unit": null,
+      "note": ""
+     },
+     {
+      "platform": "sensor",
+      "key": "ENGINE_OIL_PRES",
+      "translation_key": null,
+      "unit": null,
+      "note": ""
+     }
+    ],
+    "brakes": [],
+    "tyres": [
+     {
+      "platform": "sensor",
+      "key": "TYRE_P_FL / TYRE_P_FR / TYRE_P_RL / TYRE_P_RR",
+      "translation_key": null,
+      "unit": "psi",
+      "note": ""
+     },
+     {
+      "platform": "sensor",
+      "key": "TYRE_T_FL / _FR / _RL / _RR",
+      "translation_key": null,
+      "unit": null,
+      "note": "tyre temperature"
+     }
+    ],
+    "battery_12v": [],
+    "fluids": [],
+    "ev_battery": [],
+    "warnings": [],
+    "other": [
+     {
+      "platform": "sensor",
+      "key": "FUEL",
+      "translation_key": null,
+      "unit": "%",
+      "note": "fuel level"
+     },
+     {
+      "platform": "sensor",
+      "key": "FUEL_L",
+      "translation_key": null,
+      "unit": null,
+      "note": ""
+     },
+     {
+      "platform": "sensor",
+      "key": "COOLANT_TMP",
+      "translation_key": null,
+      "unit": "°C",
+      "note": ""
+     },
+     {
+      "platform": "binary_sensor",
+      "key": "connected",
+      "translation_key": "connected",
+      "unit": null,
+      "note": "device online"
+     }
+    ]
+   }
+  },
+  {
+   "name": "OVMS (Open Vehicle Monitoring System)",
+   "domain": "ovms",
+   "kind": "hacs",
+   "repo": "https://github.com/enoch85/ovms-home-assistant",
+   "ref": "f5485a4",
+   "status": "active; last commit 2026-11-22; 33 stars",
+   "stars": 33,
+   "last_release": "not checked (GitHub API blocked; date = last commit of shallow clone)",
+   "access": "Hardware module (OBD/CAN, own LTE/Wi-Fi) publishing OVMS v3 metrics to the user's MQTT broker; integration subscribes and creates entities. local push via MQTT.",
+   "region": "worldwide; mostly EVs (Leaf, Twizy, Zoe, i3, MG, Smart, VW e-Up ...)",
+   "notes": "Verified in source (metrics/common/*.py). Entities are created from MQTT topics, key = OVMS metric name; names from a metric table; unique_id namespaced 'ovms_{entry_id}_...'. No translation_key found. Only vehicles whose OVMS module decodes a metric publish it. This is the ONLY brand-neutral source with a real 'distance/time to service' metric.",
+   "verified": true,
+   "feeds": {
+    "odometer": [
+     {
+      "platform": "sensor",
+      "key": "v.p.odometer",
+      "translation_key": null,
+      "unit": "km",
+      "note": ""
+     }
+    ],
+    "service_distance": [
+     {
+      "platform": "sensor",
+      "key": "v.e.serv.range",
+      "translation_key": null,
+      "unit": "km",
+      "note": "name 'Service Distance'; 'Distance to next scheduled maintenance/service'; diagnostic"
+     }
+    ],
+    "service_time": [
+     {
+      "platform": "sensor",
+      "key": "v.e.serv.time",
+      "translation_key": null,
+      "unit": "unit not read",
+      "note": "time/date of next service (OVMS docs: timestamp, guess)"
+     }
+    ],
+    "service_flag": [],
+    "oil": [],
+    "brakes": [],
+    "tyres": [
+     {
+      "platform": "sensor",
+      "key": "v.tp.* (fl/fr/rl/rr pressure, temp, health, alert)",
+      "translation_key": null,
+      "unit": null,
+      "note": "exact v.tp keys not grepped in metrics/common: guess from OVMS metric list"
+     }
+    ],
+    "battery_12v": [
+     {
+      "platform": "sensor",
+      "key": "v.b.12v.voltage",
+      "translation_key": null,
+      "unit": "V",
+      "note": ""
+     },
+     {
+      "platform": "sensor",
+      "key": "v.b.12v.voltage.ref",
+      "translation_key": null,
+      "unit": "V",
+      "note": "reference (resting) voltage"
+     },
+     {
+      "platform": "sensor",
+      "key": "v.b.12v.voltage.alert",
+      "translation_key": null,
+      "unit": null,
+      "note": "12 V alert flag"
+     },
+     {
+      "platform": "sensor",
+      "key": "v.b.12v.current",
+      "translation_key": null,
+      "unit": "A",
+      "note": ""
+     },
+     {
+      "platform": "sensor",
+      "key": "v.c.12v.voltage",
+      "translation_key": null,
+      "unit": "V",
+      "note": "DC-DC converter"
+     }
+    ],
+    "fluids": [],
+    "ev_battery": [
+     {
+      "platform": "sensor",
+      "key": "v.b.soh",
+      "translation_key": null,
+      "unit": "%",
+      "note": ""
+     },
+     {
+      "platform": "sensor",
+      "key": "v.b.health",
+      "translation_key": null,
+      "unit": null,
+      "note": ""
+     }
+    ],
+    "warnings": [
+     {
+      "platform": "sensor",
+      "key": "v.e.alarm",
+      "translation_key": null,
+      "unit": null,
+      "note": ""
+     }
+    ],
+    "other": [
+     {
+      "platform": "sensor",
+      "key": "v.e.drivetime",
+      "translation_key": null,
+      "unit": null,
+      "note": ""
+     },
+     {
+      "platform": "sensor",
+      "key": "v.e.parktime",
+      "translation_key": null,
+      "unit": null,
+      "note": ""
+     }
+    ]
+   }
+  },
+  {
+   "name": "Torque (core, legacy)",
+   "domain": "torque",
+   "kind": "core",
+   "repo": "home-assistant/core",
+   "ref": "0b790a5",
+   "status": "core, quality_scale 'legacy', no codeowners, YAML only",
+   "stars": null,
+   "last_release": "core",
+   "access": "Android app Torque Pro + ELM327 dongle; app uploads PIDs over HTTP(S) to /api/torque while driving (phone needs a route to HA). local_push.",
+   "region": "worldwide, Android only",
+   "notes": "Verified in core source. Sensors are created dynamically from whatever PIDs the app uploads; entity name = '{vehicle name} {Torque PID full name}', no unique_id, no translation_key, values not restored after restart. Everything is user-defined.",
+   "verified": true,
+   "feeds": {
+    "odometer": [
+     {
+      "platform": "sensor",
+      "key": "user-defined (PID from Torque, e.g. a6 Odometer or Torque's own trip/GPS distance)",
+      "translation_key": null,
+      "unit": "as sent by app",
+      "note": "no fixed key"
+     }
+    ],
+    "service_distance": [],
+    "service_time": [],
+    "service_flag": [],
+    "oil": [],
+    "brakes": [],
+    "tyres": [],
+    "battery_12v": [],
+    "fluids": [],
+    "ev_battery": [],
+    "warnings": [],
+    "other": []
+   }
+  },
+  {
+   "name": "Torque OBD-II (updated, HACS)",
+   "domain": "torque_obd",
+   "kind": "hacs",
+   "repo": "https://github.com/JOHLC/Home-Assistant-Torque-OBDII",
+   "ref": "27057e8",
+   "status": "active; last commit 2026-11-16; successor of archived JOHLC/ha-torque-2.0 (15 stars)",
+   "stars": "not checked",
+   "last_release": "not checked (GitHub API blocked; date = last commit of shallow clone)",
+   "access": "Same Torque Pro web upload as core, with config flow, unique ids, restore after restart.",
+   "region": "worldwide, Android only",
+   "notes": "PIDS.md read; sensor.py not read in detail. Sensors dynamic per uploaded PID (Torque key 'k<pid>'). Odometer is standard PID 0xA6, which many cars do not answer.",
+   "verified": true,
+   "feeds": {
+    "odometer": [
+     {
+      "platform": "sensor",
+      "key": "ka6",
+      "translation_key": null,
+      "unit": "km",
+      "note": "PID 0xA6 Odometer, 'if available'"
+     }
+    ],
+    "service_distance": [],
+    "service_time": [],
+    "service_flag": [],
+    "oil": [
+     {
+      "platform": "sensor",
+      "key": "k5c",
+      "translation_key": null,
+      "unit": "°C",
+      "note": "oil temperature only"
+     }
+    ],
+    "brakes": [],
+    "tyres": [],
+    "battery_12v": [
+     {
+      "platform": "sensor",
+      "key": "k42",
+      "translation_key": null,
+      "unit": "V",
+      "note": "control module voltage"
+     },
+     {
+      "platform": "sensor",
+      "key": "kff1238",
+      "translation_key": null,
+      "unit": "V",
+      "note": "OBD adapter voltage"
+     }
+    ],
+    "fluids": [],
+    "ev_battery": [],
+    "warnings": [
+     {
+      "platform": "sensor",
+      "key": "k31",
+      "translation_key": null,
+      "unit": "km",
+      "note": "distance since codes cleared"
+     }
+    ],
+    "other": [
+     {
+      "platform": "sensor",
+      "key": "k05",
+      "translation_key": null,
+      "unit": "°C",
+      "note": "coolant temp"
+     },
+     {
+      "platform": "sensor",
+      "key": "k2f",
+      "translation_key": null,
+      "unit": "%",
+      "note": "fuel level"
+     },
+     {
+      "platform": "sensor",
+      "key": "k1f",
+      "translation_key": null,
+      "unit": "s",
+      "note": "run time since engine start"
+     }
+    ]
+   }
+  },
+  {
+   "name": "ELM327 BLE dongle (direct to HA Bluetooth)",
+   "domain": "elm327_ble",
+   "kind": "hacs",
+   "repo": "https://github.com/andrewgould/ha-elm327-ble",
+   "ref": "ef71883",
+   "status": "new/small; last commit 2026-11-03; 0 stars",
+   "stars": 0,
+   "last_release": "not checked (GitHub API blocked; date = last commit of shallow clone)",
+   "access": "HA Bluetooth (or ESPHome BT proxy) talks to a BLE ELM327 dongle left in the OBD port (GATT FFF0/FFE0); reads when car is in range and awake. local.",
+   "region": "worldwide",
+   "notes": "Verified in source: FIXED keys, translation_key = key, unique_id = f'{address}_{key}'. Best fixed-key OBD source found. Standard PIDs plus some manufacturer requests; unsupported PIDs are not asked.",
+   "verified": true,
+   "feeds": {
+    "odometer": [
+     {
+      "platform": "sensor",
+      "key": "odometer",
+      "translation_key": "odometer",
+      "unit": "km",
+      "note": ""
+     }
+    ],
+    "service_distance": [],
+    "service_time": [],
+    "service_flag": [],
+    "oil": [
+     {
+      "platform": "sensor",
+      "key": "oil_temperature",
+      "translation_key": "oil_temperature",
+      "unit": "°C",
+      "note": ""
+     }
+    ],
+    "brakes": [],
+    "tyres": [
+     {
+      "platform": "sensor",
+      "key": "tyre_pressure_{wheel}",
+      "translation_key": "tyre_pressure_{wheel}",
+      "unit": "kPa",
+      "note": "wheel suffixes not read"
+     },
+     {
+      "platform": "sensor",
+      "key": "tyre_temperature_{wheel}",
+      "translation_key": "tyre_temperature_{wheel}",
+      "unit": "°C",
+      "note": ""
+     }
+    ],
+    "battery_12v": [
+     {
+      "platform": "sensor",
+      "key": "battery_voltage",
+      "translation_key": "battery_voltage",
+      "unit": "V",
+      "note": "adapter-measured voltage"
+     }
+    ],
+    "fluids": [
+     {
+      "platform": "sensor",
+      "key": "transmission_temperature",
+      "translation_key": "transmission_temperature",
+      "unit": "°C",
+      "note": ""
+     }
+    ],
+    "ev_battery": [
+     {
+      "platform": "sensor",
+      "key": "state_of_charge",
+      "translation_key": "state_of_charge",
+      "unit": "%",
+      "note": ""
+     },
+     {
+      "platform": "sensor",
+      "key": "state_of_health",
+      "translation_key": "state_of_health",
+      "unit": "%",
+      "note": ""
+     }
+    ],
+    "warnings": [
+     {
+      "platform": "binary_sensor",
+      "key": "check_engine_light",
+      "translation_key": "check_engine_light",
+      "unit": null,
+      "note": "MIL"
+     },
+     {
+      "platform": "sensor",
+      "key": "trouble_codes",
+      "translation_key": "trouble_codes",
+      "unit": null,
+      "note": "count of DTCs"
+     },
+     {
+      "platform": "sensor",
+      "key": "distance_with_mil",
+      "translation_key": "distance_with_mil",
+      "unit": "km",
+      "note": ""
+     },
+     {
+      "platform": "sensor",
+      "key": "distance_since_codes_cleared",
+      "translation_key": "distance_since_codes_cleared",
+      "unit": "km",
+      "note": ""
+     }
+    ],
+    "other": [
+     {
+      "platform": "sensor",
+      "key": "fuel_level",
+      "translation_key": "fuel_level",
+      "unit": "%",
+      "note": ""
+     },
+     {
+      "platform": "sensor",
+      "key": "fuel_remaining",
+      "translation_key": "fuel_remaining",
+      "unit": "L",
+      "note": ""
+     },
+     {
+      "platform": "sensor",
+      "key": "coolant_temperature",
+      "translation_key": "coolant_temperature",
+      "unit": "°C",
+      "note": ""
+     },
+     {
+      "platform": "binary_sensor",
+      "key": "engine_running",
+      "translation_key": "engine_running",
+      "unit": null,
+      "note": ""
+     }
+    ]
+   }
+  },
+  {
+   "name": "OBD2 BLE (dala318)",
+   "domain": "obd2_ble",
+   "kind": "hacs",
+   "repo": "https://github.com/dala318/obd2_ble",
+   "ref": "28e7901",
+   "status": "small; last commit 2026-06-08",
+   "stars": "not checked",
+   "last_release": "not checked (GitHub API blocked; date = last commit of shallow clone)",
+   "access": "HA Bluetooth / ESPHome BT proxy to a BLE OBD2 dongle.",
+   "region": "worldwide",
+   "notes": "Verified in source: sensors are built from python-OBD style commands, key = command.name (e.g. standard names like DISTANCE_SINCE_DTC_CLEAR; list not read), user chooses commands. Treat as user-defined.",
+   "verified": true,
+   "feeds": {
+    "odometer": [
+     {
+      "platform": "sensor",
+      "key": "command.name (user-selected OBD command)",
+      "translation_key": null,
+      "unit": null,
+      "note": "no fixed odometer key verified"
+     }
+    ],
+    "service_distance": [],
+    "service_time": [],
+    "service_flag": [],
+    "oil": [],
+    "brakes": [],
+    "tyres": [],
+    "battery_12v": [],
+    "fluids": [],
+    "ev_battery": [],
+    "warnings": [],
+    "other": []
+   }
+  },
+  {
+   "name": "ESPHome / ESP32 OBD and CAN approaches",
+   "domain": null,
+   "kind": "hardware",
+   "repo": "https://github.com/adlerre/obd2-mqtt (279 stars, ref 161cc31); https://github.com/rubenmuehlhans/esphome-obd2-ble (13 stars, not cloned); ESPHome core 'canbus' component (not checked)",
+   "ref": "161cc31",
+   "status": "obd2-mqtt active, last commit 2026-11-11",
+   "stars": 279,
+   "last_release": "not checked (GitHub API blocked; date = last commit of shallow clone)",
+   "access": "ESP32 + ELM327 (BT) or CAN transceiver in the car; publishes via MQTT discovery (obd2-mqtt uses a SIM7xxx modem) or ESPHome native API when in Wi-Fi range.",
+   "region": "worldwide",
+   "notes": "obd2-mqtt strings seen in source (grep only, MQTT discovery ids not confirmed): batteryVoltage, odometer, distanceDriven, fuelLevel, engineCoolantTemp, oilTemp, numDTCs, milState, oilLevel. ESPHome YAML approaches are fully user-defined entity names.",
+   "verified": false,
+   "feeds": {
+    "odometer": [
+     {
+      "platform": "sensor (MQTT)",
+      "key": "odometer / distanceDriven",
+      "translation_key": null,
+      "unit": null,
+      "note": "obd2-mqtt; distanceDriven is computed from speed (guess)"
+     }
+    ],
+    "service_distance": [],
+    "service_time": [],
+    "service_flag": [],
+    "oil": [],
+    "brakes": [],
+    "tyres": [],
+    "battery_12v": [
+     {
+      "platform": "sensor (MQTT)",
+      "key": "batteryVoltage",
+      "translation_key": null,
+      "unit": "V",
+      "note": ""
+     }
+    ],
+    "fluids": [],
+    "ev_battery": [],
+    "warnings": [
+     {
+      "platform": "sensor (MQTT)",
+      "key": "numDTCs",
+      "translation_key": null,
+      "unit": null,
+      "note": ""
+     },
+     {
+      "platform": "binary_sensor (MQTT, guess)",
+      "key": "milState",
+      "translation_key": null,
+      "unit": null,
+      "note": ""
+     }
+    ],
+    "other": []
+   }
+  },
+  {
+   "name": "AutoPi",
+   "domain": null,
+   "kind": "hardware",
+   "repo": "https://github.com/topeju/autopi_mqtt (community MQTT returner; not cloned)",
+   "ref": null,
+   "status": "No maintained HA integration found; forum thread from 2018",
+   "stars": null,
+   "last_release": null,
+   "access": "Raspberry-Pi based OBD/4G dongle with cloud + local MQTT returner; HA via manual MQTT sensors. Also available through DIMO (AutoPi hardware).",
+   "region": "EU/US",
+   "notes": "Not verified in source. All entities user-defined MQTT sensors.",
+   "verified": false,
+   "feeds": {
+    "odometer": [],
+    "service_distance": [],
+    "service_time": [],
+    "service_flag": [],
+    "oil": [],
+    "brakes": [],
+    "tyres": [],
+    "battery_12v": [],
+    "fluids": [],
+    "ev_battery": [],
+    "warnings": [],
+    "other": []
+   }
+  },
+  {
+   "name": "Car Scanner ELM OBD2 app",
+   "domain": null,
+   "kind": "app",
+   "repo": null,
+   "ref": null,
+   "status": "No direct HA export found (web search: users bridge via WiCAN; forum reports no odometer from it)",
+   "stars": null,
+   "last_release": null,
+   "access": "Phone app + ELM327 dongle",
+   "region": "worldwide",
+   "notes": "guess / forum hearsay; skip.",
+   "verified": false,
+   "feeds": {
+    "odometer": [],
+    "service_distance": [],
+    "service_time": [],
+    "service_flag": [],
+    "oil": [],
+    "brakes": [],
+    "tyres": [],
+    "battery_12v": [],
+    "fluids": [],
+    "ev_battery": [],
+    "warnings": [],
+    "other": []
+   }
+  },
+  {
+   "name": "A Better Routeplanner (ABRP)",
+   "domain": "abrp",
+   "kind": "core",
+   "repo": "home-assistant/core",
+   "ref": "0b790a5",
+   "status": "core at local HEAD 0b790a5 (config flow, quality_scale bronze, codeowner @mtandersson, aioabrp 0.9.0). Note: maintenance_supporter cites a HACS 'MichelFR/ha-abrp' with the same odometer key",
+   "stars": null,
+   "last_release": "core",
+   "access": "Cloud push: ABRP account telemetry (fed to ABRP by OBD dongle/app or OEM link). OAuth application_credentials.",
+   "region": "worldwide, EV",
+   "notes": "Verified in core source.",
+   "verified": true,
+   "feeds": {
+    "odometer": [
+     {
+      "platform": "sensor",
+      "key": "odometer",
+      "translation_key": "odometer",
+      "unit": "m (suggested km)",
+      "note": "DISTANCE"
+     }
+    ],
+    "service_distance": [],
+    "service_time": [],
+    "service_flag": [],
+    "oil": [],
+    "brakes": [],
+    "tyres": [],
+    "battery_12v": [],
+    "fluids": [],
+    "ev_battery": [
+     {
+      "platform": "sensor",
+      "key": "soh",
+      "translation_key": "soh",
+      "unit": "%",
+      "note": ""
+     },
+     {
+      "platform": "sensor",
+      "key": "soc",
+      "translation_key": "soc",
+      "unit": "%",
+      "note": ""
+     },
+     {
+      "platform": "sensor",
+      "key": "battery_capacity",
+      "translation_key": "battery_capacity",
+      "unit": "Wh",
+      "note": ""
+     },
+     {
+      "platform": "sensor",
+      "key": "battery_temperature",
+      "translation_key": "battery_temperature",
+      "unit": "°C",
+      "note": ""
+     }
+    ],
+    "warnings": [],
+    "other": []
+   }
+  },
+  {
+   "name": "Home Assistant Companion app: Android Auto car sensors",
+   "domain": "mobile_app",
+   "kind": "core",
+   "repo": "https://github.com/home-assistant/android (docs: https://companion.home-assistant.io/docs/core/sensors)",
+   "ref": "docs fetched 2026-11-24",
+   "status": "official; sensors disabled by default",
+   "stars": null,
+   "last_release": "not checked",
+   "access": "Phone reads car hardware properties via the Android for Cars API while connected; the HA app must be opened on the car screen each connection, otherwise the sensors are 'unavailable'.",
+   "region": "worldwide; Android only",
+   "notes": "From companion docs (not source). Docs say 'only available for Android Auto' and 'may not provide data depending on your phone and/or car software'; forum reports many cars only give car_name. Android Automotive OS build of the app exists (AAOS experience mentioned in docs) but car sensors on AAOS reported missing by users (forum, not verified). Entity ids are sensor.<phone>_car_odometer etc; unique id suffix 'car_odometer' is a guess. iOS/CarPlay: NO vehicle sensors (docs list none).",
+   "verified": false,
+   "feeds": {
+    "odometer": [
+     {
+      "platform": "sensor",
+      "key": "car_odometer",
+      "translation_key": null,
+      "unit": "m",
+      "note": "docs name 'car_odometer'"
+     }
+    ],
+    "service_distance": [],
+    "service_time": [],
+    "service_flag": [],
+    "oil": [],
+    "brakes": [],
+    "tyres": [],
+    "battery_12v": [],
+    "fluids": [],
+    "ev_battery": [
+     {
+      "platform": "sensor",
+      "key": "car_battery",
+      "translation_key": null,
+      "unit": "%",
+      "note": ""
+     },
+     {
+      "platform": "sensor",
+      "key": "car_range_remaining",
+      "translation_key": null,
+      "unit": "m",
+      "note": ""
+     },
+     {
+      "platform": "sensor",
+      "key": "car_charging_status",
+      "translation_key": null,
+      "unit": null,
+      "note": ""
+     }
+    ],
+    "warnings": [],
+    "other": [
+     {
+      "platform": "sensor",
+      "key": "car_fuel",
+      "translation_key": null,
+      "unit": "%",
+      "note": ""
+     },
+     {
+      "platform": "sensor",
+      "key": "car_name",
+      "translation_key": null,
+      "unit": null,
+      "note": "attributes: manufacturer, year"
+     },
+     {
+      "platform": "binary_sensor",
+      "key": "android_auto",
+      "translation_key": null,
+      "unit": null,
+      "note": "connected to Android Auto"
+     }
+    ]
+   }
+  },
+  {
+   "name": "Apple CarPlay (HA iOS app)",
+   "domain": "mobile_app",
+   "kind": "core",
+   "repo": "https://companion.home-assistant.io/docs/carplay/",
+   "ref": null,
+   "status": "official",
+   "stars": null,
+   "last_release": null,
+   "access": "CarPlay UI only",
+   "region": "worldwide",
+   "notes": "No car data sensors (docs/sensor list show none). Nothing to feed.",
+   "verified": false,
+   "feeds": {
+    "odometer": [],
+    "service_distance": [],
+    "service_time": [],
+    "service_flag": [],
+    "oil": [],
+    "brakes": [],
+    "tyres": [],
+    "battery_12v": [],
+    "fluids": [],
+    "ev_battery": [],
+    "warnings": [],
+    "other": []
+   }
+  },
+  {
+   "name": "Traccar Server",
+   "domain": "traccar_server",
+   "kind": "core",
+   "repo": "home-assistant/core",
+   "ref": "0b790a5",
+   "status": "core",
+   "stars": null,
+   "last_release": "core",
+   "access": "Self-hosted/cloud Traccar GPS server; many cheap OBD/GPS trackers report to it. local/cloud polling + websocket.",
+   "region": "worldwide",
+   "notes": "Verified in core source: NO odometer / totalDistance / hours sensor. Fixed sensors: attributes.batteryLevel, attributes.power (tk 'power', V = external/vehicle supply), attributes.battery (tk 'battery', V = tracker battery), speed, altitude, address, geofence. But the options flow has 'custom attributes' (CONF_CUSTOM_ATTRIBUTES) which copy any Traccar position attribute (e.g. totalDistance, odometer, hours) into the device_tracker's state attributes: user must add a template sensor. So odometer = attribute, user-defined.",
+   "verified": true,
+   "feeds": {
+    "odometer": [
+     {
+      "platform": "device_tracker attribute",
+      "key": "totalDistance / odometer (custom attribute, user-configured)",
+      "translation_key": null,
+      "unit": "m (Traccar native, guess)",
+      "note": "needs template sensor; GPS-estimated unless tracker reads OBD"
+     }
+    ],
+    "service_distance": [],
+    "service_time": [],
+    "service_flag": [],
+    "oil": [],
+    "brakes": [],
+    "tyres": [],
+    "battery_12v": [
+     {
+      "platform": "sensor",
+      "key": "attributes.power",
+      "translation_key": "power",
+      "unit": "V",
+      "note": "supply voltage seen by a hard-wired tracker = car 12 V"
+     }
+    ],
+    "fluids": [],
+    "ev_battery": [],
+    "warnings": [],
+    "other": [
+     {
+      "platform": "device_tracker attribute",
+      "key": "hours (custom attribute)",
+      "translation_key": null,
+      "unit": "ms (guess)",
+      "note": "Traccar engine hours"
+     }
+    ]
+   }
+  },
+  {
+   "name": "Traccar Client (legacy webhook)",
+   "domain": "traccar",
+   "kind": "core",
+   "repo": "home-assistant/core",
+   "ref": "0b790a5",
+   "status": "core",
+   "stars": null,
+   "last_release": "core",
+   "access": "Phone app webhook",
+   "region": "worldwide",
+   "notes": "device_tracker only; no odometer (verified: only device_tracker.py).",
+   "verified": true,
+   "feeds": {
+    "odometer": [],
+    "service_distance": [],
+    "service_time": [],
+    "service_flag": [],
+    "oil": [],
+    "brakes": [],
+    "tyres": [],
+    "battery_12v": [],
+    "fluids": [],
+    "ev_battery": [],
+    "warnings": [],
+    "other": []
+   }
+  },
+  {
+   "name": "Autoskope",
+   "domain": "autoskope",
+   "kind": "core",
+   "repo": "home-assistant/core",
+   "ref": "0b790a5",
+   "status": "core (has quality_scale.yaml)",
+   "stars": null,
+   "last_release": "core",
+   "access": "Cloud API of Autoskope GPS trackers",
+   "region": "DE/EU",
+   "notes": "Verified in core source: device_tracker platform ONLY (no sensor.py). No odometer, no voltage entity.",
+   "verified": true,
+   "feeds": {
+    "odometer": [],
+    "service_distance": [],
+    "service_time": [],
+    "service_flag": [],
+    "oil": [],
+    "brakes": [],
+    "tyres": [],
+    "battery_12v": [],
+    "fluids": [],
+    "ev_battery": [],
+    "warnings": [],
+    "other": []
+   }
+  },
+  {
+   "name": "StarLine",
+   "domain": "starline",
+   "kind": "core",
+   "repo": "home-assistant/core",
+   "ref": "0b790a5",
+   "status": "core",
+   "stars": null,
+   "last_release": "core",
+   "access": "Cloud: StarLine alarm/telematics account (car alarm with CAN module)",
+   "region": "Russia/CIS mainly",
+   "notes": "Verified in core source. maintenance_supporter already uses tk 'mileage'.",
+   "verified": true,
+   "feeds": {
+    "odometer": [
+     {
+      "platform": "sensor",
+      "key": "mileage",
+      "translation_key": "mileage",
+      "unit": "km",
+      "note": "DISTANCE, TOTAL_INCREASING; from CAN via alarm"
+     }
+    ],
+    "service_distance": [],
+    "service_time": [],
+    "service_flag": [],
+    "oil": [],
+    "brakes": [
+     {
+      "platform": "binary_sensor",
+      "key": "hbrake",
+      "translation_key": "hand_brake",
+      "unit": null,
+      "note": "state only"
+     }
+    ],
+    "tyres": [],
+    "battery_12v": [
+     {
+      "platform": "sensor",
+      "key": "battery",
+      "translation_key": "battery",
+      "unit": "V",
+      "note": "car battery voltage"
+     }
+    ],
+    "fluids": [],
+    "ev_battery": [],
+    "warnings": [
+     {
+      "platform": "sensor",
+      "key": "errors",
+      "translation_key": "errors",
+      "unit": "errors",
+      "note": "count of OBD errors, diagnostic"
+     }
+    ],
+    "other": [
+     {
+      "platform": "sensor",
+      "key": "fuel",
+      "translation_key": "fuel",
+      "unit": null,
+      "note": "% or volume, no device_class"
+     },
+     {
+      "platform": "sensor",
+      "key": "etemp",
+      "translation_key": "engine_temperature",
+      "unit": "°C",
+      "note": ""
+     }
+    ]
+   }
+  },
+  {
+   "name": "Ituran",
+   "domain": "ituran",
+   "kind": "core",
+   "repo": "home-assistant/core",
+   "ref": "0b790a5",
+   "status": "core",
+   "stars": null,
+   "last_release": "core",
+   "access": "Cloud: Ituran tracker account",
+   "region": "Israel / LatAm",
+   "notes": "Verified in core source.",
+   "verified": true,
+   "feeds": {
+    "odometer": [
+     {
+      "platform": "sensor",
+      "key": "mileage",
+      "translation_key": "mileage",
+      "unit": "km",
+      "note": ""
+     }
+    ],
+    "service_distance": [],
+    "service_time": [],
+    "service_flag": [],
+    "oil": [],
+    "brakes": [],
+    "tyres": [],
+    "battery_12v": [
+     {
+      "platform": "sensor",
+      "key": "battery_voltage",
+      "translation_key": "battery_voltage",
+      "unit": "V",
+      "note": ""
+     }
+    ],
+    "fluids": [],
+    "ev_battery": [],
+    "warnings": [],
+    "other": []
+   }
+  },
+  {
+   "name": "Invoxia GPS tracker",
+   "domain": "invoxia",
+   "kind": "hacs",
+   "repo": "https://github.com/timothyl13241/Invoxia-HA",
+   "ref": "c60a7b7",
+   "status": "last commit 2025-12-30; 14 stars",
+   "stars": 14,
+   "last_release": "not checked (GitHub API blocked; date = last commit of shallow clone)",
+   "access": "Cloud API (gps-tracker lib)",
+   "region": "EU/US",
+   "notes": "Verified in source: device_tracker + tracker battery %, latitude, longitude sensors only. No distance/odometer.",
+   "verified": true,
+   "feeds": {
+    "odometer": [],
+    "service_distance": [],
+    "service_time": [],
+    "service_flag": [],
+    "oil": [],
+    "brakes": [],
+    "tyres": [],
+    "battery_12v": [],
+    "fluids": [],
+    "ev_battery": [],
+    "warnings": [],
+    "other": []
+   }
+  },
+  {
+   "name": "EV chargers / OCPP",
+   "domain": null,
+   "kind": "core",
+   "repo": null,
+   "ref": null,
+   "status": "skipped",
+   "stars": null,
+   "last_release": null,
+   "access": "n/a",
+   "region": "n/a",
+   "notes": "Chargers report energy/session data, not car-side maintenance data (at most SoC via ISO 15118). Not a maintenance source; skipped.",
+   "verified": false,
+   "feeds": {
+    "odometer": [],
+    "service_distance": [],
+    "service_time": [],
+    "service_flag": [],
+    "oil": [],
+    "brakes": [],
+    "tyres": [],
+    "battery_12v": [],
+    "fluids": [],
+    "ev_battery": [],
+    "warnings": [],
+    "other": []
+   }
+  },
+  {
+   "name": "Drivvo (fuel/expense log app)",
+   "domain": "drivvo",
+   "kind": "hacs",
+   "repo": "https://github.com/oOBenjaminOo/HA-drivvo (maintained fork of theglus/sensor.drivvo)",
+   "ref": "8b137fc",
+   "status": "active; last commit 2026-11-05; manifest 3.1.2; 3 stars",
+   "stars": 3,
+   "last_release": "not checked (GitHub API blocked; date = last commit of shallow clone)",
+   "access": "Cloud: Drivvo account (unofficial API). cloud_polling.",
+   "region": "worldwide (app popular in Brazil/EU)",
+   "notes": "Verified in source. Odometer is whatever the user last typed in the app (stale between fill-ups). Has reminders from the app: closest thing to 'service due' from a log app.",
+   "verified": true,
+   "feeds": {
+    "odometer": [
+     {
+      "platform": "sensor",
+      "key": "odometer",
+      "translation_key": "odometer_value",
+      "unit": "user unit (km/mi)",
+      "note": "last logged odometer"
+     },
+     {
+      "platform": "sensor",
+      "key": "refuelling_odometer",
+      "translation_key": null,
+      "unit": null,
+      "note": ""
+     },
+     {
+      "platform": "sensor",
+      "key": "service_odometer",
+      "translation_key": "service_odometer",
+      "unit": null,
+      "note": "odometer at last service"
+     }
+    ],
+    "service_distance": [
+     {
+      "platform": "sensor",
+      "key": "reminder_next_distance",
+      "translation_key": "reminder_next_distance",
+      "unit": "user unit",
+      "note": "distance to next app reminder"
+     }
+    ],
+    "service_time": [
+     {
+      "platform": "sensor",
+      "key": "reminder_next_days",
+      "translation_key": "reminder_next_days",
+      "unit": "d",
+      "note": ""
+     },
+     {
+      "platform": "sensor",
+      "key": "reminder_next_date",
+      "translation_key": null,
+      "unit": null,
+      "note": ""
+     }
+    ],
+    "service_flag": [
+     {
+      "platform": "binary_sensor",
+      "key": "maintenance_due",
+      "translation_key": "maintenance_due",
+      "unit": null,
+      "note": "device_class problem"
+     },
+     {
+      "platform": "sensor",
+      "key": "reminders_overdue",
+      "translation_key": "reminders_overdue",
+      "unit": null,
+      "note": ""
+     }
+    ],
+    "oil": [],
+    "brakes": [],
+    "tyres": [],
+    "battery_12v": [],
+    "fluids": [],
+    "ev_battery": [],
+    "warnings": [],
+    "other": [
+     {
+      "platform": "sensor",
+      "key": "service_date",
+      "translation_key": null,
+      "unit": null,
+      "note": "last service date"
+     },
+     {
+      "platform": "sensor",
+      "key": "fuel_level",
+      "translation_key": null,
+      "unit": null,
+      "note": "estimated"
+     }
+    ]
+   }
+  },
+  {
+   "name": "Spritmonitor",
+   "domain": "spritmonitor",
+   "kind": "hacs",
+   "repo": "https://github.com/matbott/home_assistant_Spritmonitor",
+   "ref": "a1da09d",
+   "status": "active; last commit 2026-11-11; manifest 4.7.0; 13 stars",
+   "stars": 13,
+   "last_release": "not checked (GitHub API blocked; date = last commit of shallow clone)",
+   "access": "Cloud: Spritmonitor.de API (user token). cloud_polling.",
+   "region": "DE/EU",
+   "notes": "Verified in source: sensor ids are strings, unique_id = f'spritmonitor_{vehicle_id}_{sensor_id}'; translation_key use not checked. Odometer = last fuel log entry.",
+   "verified": true,
+   "feeds": {
+    "odometer": [
+     {
+      "platform": "sensor",
+      "key": "last_refuel_odometer",
+      "translation_key": null,
+      "unit": "km/mi",
+      "note": "last logged"
+     },
+     {
+      "platform": "sensor",
+      "key": "total_distance",
+      "translation_key": null,
+      "unit": "km/mi",
+      "note": "distance logged in Spritmonitor, not the odometer"
+     }
+    ],
+    "service_distance": [
+     {
+      "platform": "sensor",
+      "key": "km_to_next_service",
+      "translation_key": null,
+      "unit": null,
+      "note": "from Spritmonitor reminders"
+     },
+     {
+      "platform": "sensor",
+      "key": "next_service_km",
+      "translation_key": null,
+      "unit": null,
+      "note": "target odometer"
+     }
+    ],
+    "service_time": [
+     {
+      "platform": "sensor",
+      "key": "next_service_date",
+      "translation_key": null,
+      "unit": null,
+      "note": ""
+     }
+    ],
+    "service_flag": [],
+    "oil": [],
+    "brakes": [],
+    "tyres": [],
+    "battery_12v": [],
+    "fluids": [],
+    "ev_battery": [],
+    "warnings": [],
+    "other": [
+     {
+      "platform": "sensor",
+      "key": "next_service_note",
+      "translation_key": null,
+      "unit": null,
+      "note": ""
+     },
+     {
+      "platform": "sensor",
+      "key": "fuel_level_estimate",
+      "translation_key": null,
+      "unit": null,
+      "note": ""
+     }
+    ]
+   }
+  },
+  {
+   "name": "Fuelio / Fuelly / aCar",
+   "domain": null,
+   "kind": "app",
+   "repo": null,
+   "ref": null,
+   "status": "No Home Assistant integration found (GitHub search: only CSV importers, e.g. tigattack/lubelogger-fuelio-importer; AutoLog add-on imports Fuelly/Fuelio/Drivvo CSV)",
+   "stars": null,
+   "last_release": null,
+   "access": "CSV export / Google Drive backup only",
+   "region": "worldwide",
+   "notes": "guess that none exists. Lesson: offer CSV import of service history rather than live feed.",
+   "verified": false,
+   "feeds": {
+    "odometer": [],
+    "service_distance": [],
+    "service_time": [],
+    "service_flag": [],
+    "oil": [],
+    "brakes": [],
+    "tyres": [],
+    "battery_12v": [],
+    "fluids": [],
+    "ev_battery": [],
+    "warnings": [],
+    "other": []
+   }
+  },
+  {
+   "name": "TPMS BLE (aftermarket Bluetooth tyre sensors)",
+   "domain": "tpms_ble",
+   "kind": "hacs",
+   "repo": "https://github.com/bkbilly/tpms_ble",
+   "ref": "ba14e07",
+   "status": "active; last commit 2026-11-20; manifest 2.0.0; 86 stars; in HACS (README)",
+   "stars": 86,
+   "last_release": "not checked (GitHub API blocked; date = last commit of shallow clone)",
+   "access": "HA Bluetooth passive advertisements from valve-cap/internal BLE TPMS sensors (several 'types': TPMSII, SYTPMS, ITPMS K, FOBO, HRTPMS, Ai-8000, TC.TPMS ...). local_push; only while car is near a BT adapter/proxy.",
+   "region": "worldwide",
+   "notes": "Verified in source. ONE HA DEVICE PER WHEEL SENSOR (not per car): the user must map 4 devices to wheel positions. Keys via PassiveBluetooth entity keys; no translation_key seen. Also https://github.com/anufryieu/tesla-tpms-ble (3 stars) for Tesla-protocol BLE TPMS (not cloned).",
+   "verified": true,
+   "feeds": {
+    "odometer": [],
+    "service_distance": [],
+    "service_time": [],
+    "service_flag": [],
+    "oil": [],
+    "brakes": [],
+    "tyres": [
+     {
+      "platform": "sensor",
+      "key": "pressure",
+      "translation_key": null,
+      "unit": "bar",
+      "note": "device_class pressure"
+     },
+     {
+      "platform": "sensor",
+      "key": "temperature",
+      "translation_key": null,
+      "unit": "°C",
+      "note": ""
+     },
+     {
+      "platform": "sensor",
+      "key": "battery",
+      "translation_key": null,
+      "unit": "%",
+      "note": "sensor's own battery"
+     },
+     {
+      "platform": "sensor",
+      "key": "voltage",
+      "translation_key": null,
+      "unit": "V",
+      "note": ""
+     },
+     {
+      "platform": "sensor",
+      "key": "data_age",
+      "translation_key": null,
+      "unit": "min",
+      "note": ""
+     },
+     {
+      "platform": "binary_sensor",
+      "key": "(TPMSBinarySensor enum: alarm etc., members not read)",
+      "translation_key": null,
+      "unit": null,
+      "note": ""
+     }
+    ],
+    "battery_12v": [],
+    "fluids": [],
+    "ev_battery": [],
+    "warnings": [],
+    "other": []
+   }
+  },
+  {
+   "name": "BM2 battery monitor (BLE)",
+   "domain": "ha_bm2monitor",
+   "kind": "hacs",
+   "repo": "https://github.com/andystewart999/ha_bm2monitor",
+   "ref": "660c8fa",
+   "status": "active; last commit 2026-11-20; manifest 1.5.0b2; 9 stars",
+   "stars": 9,
+   "last_release": "not checked (GitHub API blocked; date = last commit of shallow clone)",
+   "access": "HA Bluetooth to a BM2 clamp-on 12 V battery monitor. local_push.",
+   "region": "worldwide",
+   "notes": "Verified in source. Keys are BMxSensor enum members (string values not read); entities use name= ('Voltage','Status','Percent').",
+   "verified": true,
+   "feeds": {
+    "odometer": [],
+    "service_distance": [],
+    "service_time": [],
+    "service_flag": [],
+    "oil": [],
+    "brakes": [],
+    "tyres": [],
+    "battery_12v": [
+     {
+      "platform": "sensor",
+      "key": "BMxSensor.BATTERY_VOLTAGE",
+      "translation_key": null,
+      "unit": "V",
+      "note": "name 'Voltage'"
+     },
+     {
+      "platform": "sensor",
+      "key": "BMxSensor.BATTERY_PERCENT",
+      "translation_key": null,
+      "unit": "%",
+      "note": "name 'Percent'"
+     },
+     {
+      "platform": "sensor",
+      "key": "BMxSensor.BATTERY_STATUS",
+      "translation_key": "status",
+      "unit": null,
+      "note": "name 'Status' (enum values not read)"
+     }
+    ],
+    "fluids": [],
+    "ev_battery": [],
+    "warnings": [],
+    "other": []
+   }
+  },
+  {
+   "name": "BM6 battery monitor (BLE)",
+   "domain": "bm6_ha",
+   "kind": "hacs",
+   "repo": "https://github.com/danfulton72/bm6_ha (also https://github.com/rafciq/bm6 and ESPHome andrewbackway/esphome-bm6_ble, not cloned)",
+   "ref": "f2316ed",
+   "status": "new; last commit 2026-11-23; manifest 1.0.4; 0 stars",
+   "stars": 0,
+   "last_release": "not checked (GitHub API blocked; date = last commit of shallow clone)",
+   "access": "HA Bluetooth polling of a BM6 12 V battery monitor (encrypted GATT). local_polling.",
+   "region": "worldwide",
+   "notes": "Verified in source: fixed keys, translation_key = key for most. Richest 12 V feed found: crank and charging-system tests map directly to 'battery / alternator needs attention'.",
+   "verified": true,
+   "feeds": {
+    "odometer": [],
+    "service_distance": [],
+    "service_time": [],
+    "service_flag": [],
+    "oil": [],
+    "brakes": [],
+    "tyres": [],
+    "battery_12v": [
+     {
+      "platform": "sensor",
+      "key": "voltage",
+      "translation_key": null,
+      "unit": "V",
+      "note": ""
+     },
+     {
+      "platform": "sensor",
+      "key": "battery",
+      "translation_key": null,
+      "unit": "%",
+      "note": ""
+     },
+     {
+      "platform": "sensor",
+      "key": "temperature",
+      "translation_key": null,
+      "unit": "°C",
+      "note": ""
+     },
+     {
+      "platform": "sensor",
+      "key": "status",
+      "translation_key": "status",
+      "unit": null,
+      "note": "enum"
+     },
+     {
+      "platform": "sensor",
+      "key": "crank_voltage",
+      "translation_key": "crank_voltage",
+      "unit": null,
+      "note": ""
+     },
+     {
+      "platform": "sensor",
+      "key": "crank_result",
+      "translation_key": "crank_result",
+      "unit": null,
+      "note": ""
+     },
+     {
+      "platform": "sensor",
+      "key": "charge_result",
+      "translation_key": "charge_result",
+      "unit": null,
+      "note": ""
+     },
+     {
+      "platform": "sensor",
+      "key": "charge_idle_voltage",
+      "translation_key": "charge_idle_voltage",
+      "unit": null,
+      "note": ""
+     }
+    ],
+    "fluids": [],
+    "ev_battery": [],
+    "warnings": [
+     {
+      "platform": "binary_sensor",
+      "key": "low_battery",
+      "translation_key": "low_battery",
+      "unit": null,
+      "note": ""
+     },
+     {
+      "platform": "binary_sensor",
+      "key": "crank_problem",
+      "translation_key": "crank_problem",
+      "unit": null,
+      "note": ""
+     },
+     {
+      "platform": "binary_sensor",
+      "key": "charging_system_problem",
+      "translation_key": "charging_system_problem",
+      "unit": null,
+      "note": "alternator"
+     },
+     {
+      "platform": "binary_sensor",
+      "key": "voltage_problem",
+      "translation_key": "voltage_problem",
+      "unit": null,
+      "note": ""
+     },
+     {
+      "platform": "binary_sensor",
+      "key": "temperature_problem",
+      "translation_key": "temperature_problem",
+      "unit": null,
+      "note": ""
+     }
+    ],
+    "other": []
+   }
+  },
+  {
+   "name": "Victron BLE (SmartShunt / BMV / Smart Battery Sense / Orion)",
+   "domain": "victron_ble",
+   "kind": "core",
+   "repo": "home-assistant/core",
+   "ref": "0b790a5",
+   "status": "core (has quality_scale.yaml)",
+   "stars": null,
+   "last_release": "core",
+   "access": "HA Bluetooth 'instant readout' advertisements (needs per-device encryption key). local push.",
+   "region": "worldwide; campers/vans mainly",
+   "notes": "Verified in core source: keys are victron_ble Keys enum members; string values of Keys.* not read (guess: 'voltage', 'starter_voltage', 'state_of_charge'). Starter voltage = aux input of a SmartShunt wired to the starter battery.",
+   "verified": true,
+   "feeds": {
+    "odometer": [],
+    "service_distance": [],
+    "service_time": [],
+    "service_flag": [],
+    "oil": [],
+    "brakes": [],
+    "tyres": [],
+    "battery_12v": [
+     {
+      "platform": "sensor",
+      "key": "Keys.VOLTAGE",
+      "translation_key": null,
+      "unit": "V",
+      "note": ""
+     },
+     {
+      "platform": "sensor",
+      "key": "Keys.STARTER_VOLTAGE",
+      "translation_key": null,
+      "unit": "V",
+      "note": "aux input on starter battery"
+     },
+     {
+      "platform": "sensor",
+      "key": "Keys.STATE_OF_CHARGE",
+      "translation_key": null,
+      "unit": "%",
+      "note": ""
+     },
+     {
+      "platform": "sensor",
+      "key": "Keys.ALARM",
+      "translation_key": "alarm",
+      "unit": null,
+      "note": ""
+     }
+    ],
+    "fluids": [],
+    "ev_battery": [],
+    "warnings": [],
+    "other": []
+   }
+  }
+ ],
+ "prior_art": [
+  {
+   "name": "LubeLogger + lubelogger-ha",
+   "repo": "https://github.com/hargata/lubelog (app, 2981 stars, pushed 2026-11-19); https://github.com/hollowpnt92/lubelogger-ha (HACS, ref fdd960f, 16 stars, last commit 2026-01-05, manifest 1.0.13)",
+   "status": "app very active; HA integration small and slow-moving. No other LubeLogger HA integration found.",
+   "what": "Self-hosted web vehicle maintenance + fuel tracker (service/repair/upgrade records, odometer log, taxes, supplies, plans, reminders by date, mileage or whichever comes first). The HA integration polls its REST API (/api/vehicle/odometerrecords, adjustedodometer, reminders, servicerecords, gasrecords, planrecords ...) and makes one device per vehicle. Read-only: verified in source, no services to push an odometer.",
+   "entities": "sensor keys (unique_id lubelogger_{vehicle_id}_{key}, names not translated): latest_odometer (DISTANCE, unit HARD-CODED 'mi', state_class measurement), next_reminder (TIMESTAMP = dueDate, whole reminder record as attributes), next_plan (TIMESTAMP), latest_service / latest_repair / latest_upgrade / latest_supply / latest_gas (TIMESTAMP, record in attributes), latest_tax (MONETARY, hard-coded USD)",
+   "lesson": "Expose 'next due' as proper typed entities with numeric distance/days remaining (not a blob of attributes with hard-coded units), and consider LubeLogger as an optional import/export target rather than competing with its logbook."
+  },
+  {
+   "name": "Maintenance Supporter",
+   "repo": "https://github.com/iluebbe/maintenance_supporter (ref 1778c9c, 148 stars, last commit 2026-11-23)",
+   "status": "very active generic maintenance integration",
+   "what": "Generic home maintenance tracker with sensor triggers (threshold, counter/delta, runtime, state-change, compound), objects nested in objects ('both cars inside Vehicles'), spare parts, To-do entity. HAS VEHICLE FEATURES: helpers/signatures/cars.py is a source-verified catalog of 39 car/bike integrations (kia_uvo, tesla_custom, renault, mbapi2020, volvo, fordpass, toyota, myskoda, audiconnect, tesla_fleet, teslemetry, tessie, ituran, starline, stellantis_vehicles, cardata, porscheconnect, nissan_connect, smartcar, abrp, volkswagencarnet, smarthashtag, byd_vehicle, dvla, pycupra, ...) mapping translation_keys to suggested tasks.",
+   "entities": "Matches other integrations' entities by registry translation_key with entity_id-suffix / original_name fallback. Car task templates seen: 'Annual Service' from odometer (usage_delta 15000 km) or from countdown keys (distance_to_service / service_inspection_distance value_below 1000; days_to_service / service_inspection_days below 336 h), 'Tire Rotation' (odometer delta 10000), 'Oil Service' (oil % percent_left; oil_inspection_days/distance).",
+   "lesson": "Direct prior art for car_keeper's source catalog: match by translation_key (rename-proof) with fallbacks, record source+verified ref per signature, and distinguish countdown signals (car knows) from odometer-delta (we compute); differentiate by going deeper on cars than its two or three generic tasks."
+  },
+  {
+   "name": "Vehicle Service Manager",
+   "repo": "https://github.com/toxictody1337/vehicle-service-manager (ref 5e6be5b, 2 stars, last commit 2026-05-30; card: toxictody1337/vehicle-service-card)",
+   "status": "small, German-only UI strings, HACS custom repo",
+   "what": "Per-vehicle service intervals by km and months with preset defaults, first-registration date as baseline until a service is logged, tyre tread-depth tracking, service log via service add_service_entry(vehicle_id, entry_date, km, services). Odometer is fed by an automation calling a service from e.g. sensor.obd_odometer (README) or typed manually.",
+   "entities": "per service: sensor '{vehicle_id}_{svc}_status' (attributes last_service_km, km_left, months_left, interval_km, interval_months) and binary_sensor '{vehicle_id}_{svc}_due' (device_class problem); binary_sensor '{vehicle_id}_any_due'; sensor '{vehicle_id}_km' (Kilometerstand, km); sensor '{vehicle_id}_tire_{position}' (mm tread depth)",
+   "lesson": "Per-task due binary_sensor + one 'any due' roll-up + registration date as initial baseline are good patterns; avoid km-only units, hard-coded German names and needing a user automation to feed the odometer (link the source entity directly)."
+  },
+  {
+   "name": "CARnet (ha-carnet-entretien)",
+   "repo": "https://github.com/aldoushx/ha-carnet-entretien (ref 5e9b8a2, last commit 2026-10-25, manifest 1.11.2, domain carnet_entretien)",
+   "status": "active, French origin, HACS custom integration with its own card",
+   "what": "Maintenance logbook for cars, motorcycles, scooters, e-bikes: hard-coded maintenance catalog per vehicle category with intervals refined by engine/trim, mileage typed manually or taken from a linked HA sensor (service set_mileage_source), notifications when due by time or mileage, recalls, known issues, cost estimates, resale value, invoices, PDF history; uses a Gemini client (cloud LLM) for some data. Services: add_vehicle, update_mileage, set_mileage_source, log_maintenance, refresh_plan, refresh_known_issues, refresh_recalls, value_snapshot, remove_vehicle.",
+   "entities": "Only 3 sensors per vehicle (unique_id carnet_entretien_{vehicle_id}_{suffix}): NextMaintenanceSensor, MileageSensor (km), ResaleValueSensor (EUR); everything else lives in the custom card/storage.",
+   "lesson": "Closest competitor in scope: copy the linked-odometer-or-manual model and built-in catalog, but expose every task as an entity (it hides them in a card), stay local (no LLM/cloud dependency) and support mi/other currencies."
+  },
+  {
+   "name": "AutoLog add-on",
+   "repo": "https://github.com/7hemas7er/autolog-addon (3 stars, pushed 2026-08-22; not cloned)",
+   "status": "small add-on (not an integration); facts from the author's forum post only",
+   "what": "Fuel-up, running-cost and maintenance logbook as an add-on with SQLite; one MQTT device per vehicle; imports Fuelly/Fuelio/Drivvo CSV; command topic to log a fill-up from an automation.",
+   "entities": "ten MQTT-discovered sensors per vehicle with state_class (names not listed in the post: not verified)",
+   "lesson": "CSV import from the common fuel-log apps is the realistic bridge for history; an add-on is the wrong shape for entity-first HA users."
+  },
+  {
+   "name": "Drivvo / Spritmonitor integrations (log apps with reminders)",
+   "repo": "https://github.com/oOBenjaminOo/HA-drivvo (8b137fc); https://github.com/matbott/home_assistant_Spritmonitor (a1da09d)",
+   "status": "active small HACS integrations",
+   "what": "Mirror a cloud fuel-log account into HA, including the app's own service reminders.",
+   "entities": "Drivvo: odometer (tk odometer_value), service_odometer, service_date, reminder_next_distance, reminder_next_days, reminder_next_date, reminders_overdue, binary_sensor maintenance_due (problem). Spritmonitor: last_refuel_odometer, next_service_km, km_to_next_service, next_service_date, next_service_note.",
+   "lesson": "The entity triple 'distance remaining / days remaining / due flag' is the de-facto shape users already see; log-app odometers are stale (last fill-up), so accept them only as a low-priority odometer source."
+  },
+  {
+   "name": "Generic chore/maintenance helpers (Chore Helper, Device Maintenance Monitor, Home Maintenance, Activity Manager)",
+   "repo": "https://github.com/VolantisDev/ha-chore-helper (157 stars, pushed 2026-01-26); https://github.com/rafael-zilberman/device-maintenance-monitor-custom-component (21 stars, pushed 2025-01-13); others not located",
+   "status": "not cloned; from repo descriptions only (guess)",
+   "what": "Time-based recurring chores, or runtime/count-based device maintenance; no vehicle or odometer features found.",
+   "entities": "not checked",
+   "lesson": "Time-only schedulers cannot express 'whichever comes first: km or months', which is the core of car maintenance: that dual trigger is car_keeper's reason to exist."
+  }
+ ],
+ "meta": {
+  "date": "2026-11-24",
+  "core_ref": "0b790a5",
+  "hacs_clones": "/home/user/upstream/hacs2",
+  "caveats": [
+   "GitHub REST API (stars/releases) was blocked for non-attached repos: stars come from gh search results where a number is given, last_release was never checked",
+   "'verified': true means the keys were read in the cloned source at 'ref'; individual notes marked guess are not verified",
+   "units marked null were not read"
+  ]
+ }
+}
