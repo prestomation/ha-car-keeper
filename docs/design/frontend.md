@@ -8,7 +8,7 @@ implements:
   - custom_components/car_keeper/frontend/src/*.ts
   - custom_components/car_keeper/frontend/src/locales/*.ts
 related: [architecture, home-keeper-link]
-source_hash: cabaf483c35c
+source_hash: 4ed39b24d7ad
 ---
 
 # Cars tab and cards
@@ -69,6 +69,7 @@ shows the message of the server.
   against each reducer and a small model.
 - `dialog.confirmDestructive` asks before each delete. A store change during the question
   keeps the dialog open.
+- The link to the appliance shows only for a path of Home Assistant (`views.safeLink`).
 - Each control has a `data-k`, so a render keeps the focus, the caret and the typed text.
 
 ### The cards
