@@ -149,6 +149,27 @@ class ReconcileMachine(RuleBasedStateMachine):
         self.sync()
 
     @rule(data=st.data())
+    def log_the_same_job_again_today(self, data) -> None:
+        """A second service of 1 job on the same day, logged at the same time."""
+        if not self.state["services"]:
+            return
+        first = self.state["services"][
+            data.draw(st.sampled_from(sorted(self.state["services"])))
+        ]
+        service = models.build_service(
+            {"items": first["items"][:1], "date": first["date"]},
+            service_id=f"s{next(self.ids)}",
+            car=self.state["cars"][CAR],
+            items=self.state["items"],
+            today=first["date"],
+            now=first["logged"],
+            origin=None,
+        )
+        self.state["services"][service["id"]] = service
+        self._refresh(service["items"])
+        self.sync()
+
+    @rule(data=st.data())
     def delete_service(self, data) -> None:
         if not self.state["services"]:
             return

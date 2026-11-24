@@ -353,6 +353,17 @@ def plan_tasks(
         parts = item.get("parts") or []
         if _links(linked) != _key(parts):
             plan["consumables"].append({"task_id": linked["id"], "parts": list(parts)})
+    # The completion times that the services hold, by task, as instants. Each
+    # completion of a task gets its own time, so 2 services of 1 job on 1 day never
+    # share a completion.
+    held: dict[str, dict[str, tuple[str, str]]] = {}
+    for service_id, service in state["services"].items():
+        for item_id, done in (service.get("hk_completions") or {}).items():
+            if isinstance(done, Mapping) and done.get("task_id"):
+                held.setdefault(str(done["task_id"]), {})[instant(done.get("ts"))] = (
+                    service_id,
+                    item_id,
+                )
     for service_id, service in sorted(
         state["services"].items(), key=lambda kv: (kv[1]["date"], kv[0])
     ):
@@ -362,29 +373,37 @@ def plan_tasks(
             target = live.get(item_id)
             if target is None:
                 continue
-            fields: dict[str, Any] = {
-                "task_id": target["id"],
-                "completed_at": completed_at(service, offset),
-            }
+            fields: dict[str, Any] = {"task_id": target["id"]}
             if first and service.get("cost") is not None:
                 fields["cost"] = service["cost"]
             first = False
             if (done.get(item_id) or {}).get("task_id") == target["id"]:
                 continue
-            if fields["completed_at"] in _completion_times(target):
-                # Home Keeper has the completion: the store write after the call
-                # did not happen. Write it now, and do not complete the task again.
+            taken = held.setdefault(target["id"], {})
+            in_home_keeper = _completion_times(target)
+            start_at = dt.datetime.fromisoformat(completed_at(service, offset))
+            lost = _lost_completion(start_at, in_home_keeper, taken)
+            if lost is not None:
+                # Home Keeper has a completion of this job that no service holds:
+                # the store write after the call did not happen. Write it now with
+                # the time of Home Keeper, and do not complete the task again.
+                taken[instant(lost)] = (service_id, item_id)
                 plan["records"].append(
                     {
                         "service_id": service_id,
                         "item_id": item_id,
-                        "completion": {
-                            "task_id": target["id"],
-                            "ts": fields["completed_at"],
-                        },
+                        "completion": {"task_id": target["id"], "ts": lost},
                     }
                 )
                 continue
+            when = start_at
+            while (
+                instant(when.isoformat()) in taken
+                or instant(when.isoformat()) in in_home_keeper
+            ):
+                when += dt.timedelta(seconds=1)
+            fields["completed_at"] = when.isoformat()
+            taken[instant(fields["completed_at"])] = (service_id, item_id)
             if target.get("recurrence_type") == SENSOR and service.get("reading"):
                 fields["reading"] = service["reading"]
             if str(service.get("who") or "").startswith("person."):
@@ -397,10 +416,51 @@ def plan_tasks(
     return plan
 
 
-def _completion_times(task: Mapping[str, Any]) -> set[str]:
-    """The ``ts`` of each completion of a Home Keeper task."""
+def instant(value: Any) -> str:
+    """A completion time as a UTC instant, so 2 spellings of 1 time are equal.
+
+    A text that is not an ISO time with a zone stays as it is.
+    """
+    try:
+        when = dt.datetime.fromisoformat(str(value))
+    except ValueError:
+        return str(value)
+    if when.tzinfo is None:
+        return str(value)
+    return when.astimezone(dt.UTC).isoformat()
+
+
+#: A completion that Home Keeper has counts as the lost one of a service when its
+#: time is at most this far after the time of the service.
+LOST_WINDOW = dt.timedelta(minutes=1)
+
+
+def _lost_completion(
+    base: dt.datetime, in_home_keeper: Mapping[str, str], taken: Mapping[str, Any]
+) -> str | None:
+    """The ``ts`` of a completion of Home Keeper that no service holds, from *base*.
+
+    The plan gives each completion of a task its own time, at or after the time of
+    its service. So a completion that no service holds, in the window after the
+    time of a service with no completion, is the one that service lost.
+    """
+    start = base.astimezone(dt.UTC)
+    for key in sorted(in_home_keeper):
+        if key in taken:
+            continue
+        try:
+            when = dt.datetime.fromisoformat(key)
+        except ValueError:
+            continue
+        if when.tzinfo is not None and start <= when <= start + LOST_WINDOW:
+            return in_home_keeper[key]
+    return None
+
+
+def _completion_times(task: Mapping[str, Any]) -> dict[str, str]:
+    """The completions of a Home Keeper task: each instant, with its own ``ts``."""
     return {
-        str(c.get("ts"))
+        instant(c.get("ts")): str(c.get("ts"))
         for c in task.get("completions") or []
         if isinstance(c, Mapping)
     }

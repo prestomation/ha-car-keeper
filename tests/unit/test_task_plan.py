@@ -433,3 +433,62 @@ def test_a_completion_that_home_keeper_has_is_only_recorded() -> None:
             "completion": {"task_id": "t1", "ts": "2026-03-01T09:00:00+02:00"},
         }
     ]
+
+
+def test_instant() -> None:
+    assert tp.instant("2026-03-01T09:00:00+02:00") == "2026-03-01T07:00:00+00:00"
+    assert tp.instant("2026-03-01T07:00:00Z") == "2026-03-01T07:00:00+00:00"
+    assert tp.instant("2026-03-01T07:00:00") == "2026-03-01T07:00:00"
+    assert tp.instant("soon") == "soon"
+    assert tp.instant(None) == "None"
+
+
+def test_a_completion_in_another_spelling_is_recorded_with_the_home_keeper_time() -> (
+    None
+):
+    task = _linked()
+    task["completions"] = [{"ts": "2026-03-01T07:00:00+00:00"}]
+    plan = _plan([_item(hk_task_id="t1")], [task], {"s": _service(items=["i"])})
+    assert plan["completes"] == []
+    assert plan["records"][0]["completion"]["ts"] == "2026-03-01T07:00:00+00:00"
+
+
+def test_2_services_of_1_job_get_2_completion_times() -> None:
+    services = {
+        "a": _service(items=["i"]),
+        "b": _service(items=["i"]),
+        "c": _service(
+            items=["i"],
+            hk_completions={"i": {"task_id": "t1", "ts": "2026-03-01T09:00:02+02:00"}},
+        ),
+    }
+    plan = _plan([_item(hk_task_id="t1")], [_linked()], services)
+    times = [c["fields"]["completed_at"] for c in plan["completes"]]
+    assert times == ["2026-03-01T09:00:00+02:00", "2026-03-01T09:00:01+02:00"]
+    held = {"i": {"task_id": "t1", "ts": "2026-03-01T09:00:00+02:00"}}
+    later = _plan(
+        [_item(hk_task_id="t1")],
+        [_linked()],
+        {"a": _service(items=["i"], hk_completions=held), "b": _service(items=["i"])},
+    )
+    assert [c["fields"]["completed_at"] for c in later["completes"]] == [
+        "2026-03-01T09:00:01+02:00"
+    ]
+
+
+def test_a_lost_completion_is_found_only_in_its_window() -> None:
+    start = tp.dt.datetime.fromisoformat("2026-03-01T09:00:00+02:00")
+    hk = {
+        tp.instant(ts): ts
+        for ts in (
+            "2026-03-01T06:59:59+00:00",
+            "2026-03-01T07:01:00+00:00",
+            "2026-03-01T07:01:01+00:00",
+            "nope",
+            "2026-03-01T07:00:30",
+        )
+    }
+    assert tp._lost_completion(start, hk, {}) == "2026-03-01T07:01:00+00:00"
+    taken = {tp.instant("2026-03-01T07:01:00+00:00"): ("s", "i")}
+    assert tp._lost_completion(start, hk, taken) is None
+    assert tp._lost_completion(start, {}, {}) is None
