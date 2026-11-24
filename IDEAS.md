@@ -47,6 +47,7 @@ The first release is `0.1.0b1`. These parts are not built yet:
 3. **Live readings.** Tyre pressure and distance-to-service rules from the car integration.
    Each rule is 1 managed triggered task that the condition arms and clears.
 4. **The Upcoming, History and Parts lists** for all cars.
+5. **Service book as a PDF.** The history of 1 car as a file to give to a buyer.
 
 ## Later
 
