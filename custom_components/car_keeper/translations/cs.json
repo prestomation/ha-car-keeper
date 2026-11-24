@@ -338,6 +338,10 @@
           "name": "Úkol Home Keeper",
           "description": "Vytvořit pro úkon úkol Home Keeper."
         },
+        "parts": {
+          "name": "Díly",
+          "description": "Díly Home Keeper, které úkon pokaždé spotřebuje. Home Keeper je odečte ze zásoby."
+        },
         "last_date": {
           "name": "Naposledy dne",
           "description": "Datum posledního servisu, pokud ho znáte."
@@ -395,6 +399,10 @@
         "add_task": {
           "name": "Úkol Home Keeper",
           "description": "Vytvořit pro úkon úkol Home Keeper."
+        },
+        "parts": {
+          "name": "Díly",
+          "description": "Díly Home Keeper, které úkon pokaždé spotřebuje. Home Keeper je odečte ze zásoby."
         }
       }
     },
@@ -461,6 +469,10 @@
         "cost": {
           "name": "Cena",
           "description": "Cena návštěvy v měně Home Assistant."
+        },
+        "parts_used": {
+          "name": "Použité díly",
+          "description": "Seznam dílů Home Keeper, které servis použil."
         }
       }
     },

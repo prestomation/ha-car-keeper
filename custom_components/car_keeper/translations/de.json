@@ -338,6 +338,10 @@
           "name": "Home Keeper-Aufgabe",
           "description": "Eine Home Keeper-Aufgabe für die Arbeit anlegen."
         },
+        "parts": {
+          "name": "Teile",
+          "description": "Die Home Keeper-Teile, die die Arbeit jedes Mal braucht. Home Keeper zieht sie vom Bestand ab."
+        },
         "last_date": {
           "name": "Zuletzt erledigt am",
           "description": "Das Datum des letzten Services, falls Sie es kennen."
@@ -395,6 +399,10 @@
         "add_task": {
           "name": "Home Keeper-Aufgabe",
           "description": "Eine Home Keeper-Aufgabe für die Arbeit anlegen."
+        },
+        "parts": {
+          "name": "Teile",
+          "description": "Die Home Keeper-Teile, die die Arbeit jedes Mal braucht. Home Keeper zieht sie vom Bestand ab."
         }
       }
     },
@@ -461,6 +469,10 @@
         "cost": {
           "name": "Kosten",
           "description": "Die Kosten des Besuchs in der Währung von Home Assistant."
+        },
+        "parts_used": {
+          "name": "Verwendete Teile",
+          "description": "Eine Liste der Home Keeper-Teile, die der Service verwendet hat."
         }
       }
     },

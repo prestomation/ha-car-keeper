@@ -118,6 +118,7 @@ _ITEM_FIELDS: dict[Any, Any] = {
     vol.Optional("notes"): _OPT_STR,
     vol.Optional("enabled"): cv.boolean,
     vol.Optional("add_task"): cv.boolean,
+    vol.Optional("parts"): list,
 }
 _SERVICE_FIELDS: dict[Any, Any] = {
     vol.Optional("date"): _OPT_STR,
@@ -167,7 +168,11 @@ SERVICE_FIELDS: dict[str, dict[Any, Any]] = {
         vol.Required("starter_jobs"): _STR_LIST,
         vol.Optional("due_dates"): vol.Schema({cv.string: cv.string}),
     },
-    "log_service": {**_CAR_ID, **_SERVICE_FIELDS},
+    "log_service": {
+        **_CAR_ID,
+        **_SERVICE_FIELDS,
+        vol.Optional("parts_used"): list,
+    },
     "update_service": {
         vol.Required("service_id"): cv.string,
         **_SERVICE_FIELDS,

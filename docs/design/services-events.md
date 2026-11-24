@@ -9,7 +9,7 @@ implements:
   - custom_components/car_keeper/events.py
   - custom_components/car_keeper/projections.py
 related: [architecture, data-model, entities]
-source_hash: faa7b560e96b
+source_hash: 38c277553e29
 ---
 
 # Services, events and the API surface
@@ -51,6 +51,10 @@ service with its schema from `SERVICE_FIELDS` and its handler from `SERVICE_HAND
 - A mutation returns its record, with the computed values, when the call asks for it.
 - `add_car` takes `starter_jobs` and `due_dates`. `set_settings` takes `templates`, the
   overrides of the starter jobs.
+- `add_item` and `update_item` take `parts`, the Home Keeper parts that the job takes.
+  `log_service` and `update_service` take `parts_used`, the more parts that the service
+  used. Home Keeper takes them off the stock. A user who logs a service moves the stock,
+  as a completion in Home Keeper does.
 - `import_data` answers `{ok, dry_run, counts, records, problems}` with each problem as a
   message in the language of Home Assistant, as the Home Keeper import needs.
 

@@ -176,6 +176,7 @@ class HomeKeeperLink:
         self._coordinator = coordinator
         self._unregister_tab: Callable[[], None] | None = None
         self._unsubs: list[Callable[[], None]] = []
+        self._listeners: list[Callable[[], None]] = []
         self.reason: str | None = ISSUE_HOME_KEEPER_NOT_SET_UP
         # A state change of an entry sends several signals. The lock runs the
         # checks 1 at a time, so a stale check never wins.
@@ -185,6 +186,16 @@ class HomeKeeperLink:
     def available(self) -> bool:
         """Whether Home Keeper takes the tab and the tasks now."""
         return self.reason is None
+
+    @callback
+    def async_add_listener(self, listener: Callable[[], None]) -> Callable[[], None]:
+        """Call *listener* each time Home Keeper becomes available."""
+        self._listeners.append(listener)
+
+        def remove() -> None:
+            self._listeners.remove(listener)
+
+        return remove
 
     async def async_start(self) -> None:
         """Run the check now, and again when Home Keeper changes."""
@@ -254,6 +265,8 @@ class HomeKeeperLink:
             self._coordinator.tab_registered = await self._register_tab()
         if not was_available:
             await async_register_companion(self._hass, self._entry)
+            for listener in list(self._listeners):
+                listener()
 
     async def _register_tab(self) -> bool:
         module = await async_panel_tabs(self._hass)

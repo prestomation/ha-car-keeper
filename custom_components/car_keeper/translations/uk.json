@@ -338,6 +338,10 @@
           "name": "Завдання Home Keeper",
           "description": "Створити завдання Home Keeper для роботи."
         },
+        "parts": {
+          "name": "Запчастини",
+          "description": "Запчастини Home Keeper, які робота витрачає щоразу. Home Keeper списує їх зі складу."
+        },
         "last_date": {
           "name": "Востаннє",
           "description": "Дата останнього обслуговування, якщо ви її знаєте."
@@ -395,6 +399,10 @@
         "add_task": {
           "name": "Завдання Home Keeper",
           "description": "Створити завдання Home Keeper для роботи."
+        },
+        "parts": {
+          "name": "Запчастини",
+          "description": "Запчастини Home Keeper, які робота витрачає щоразу. Home Keeper списує їх зі складу."
         }
       }
     },
@@ -461,6 +469,10 @@
         "cost": {
           "name": "Вартість",
           "description": "Вартість візиту у валюті Home Assistant."
+        },
+        "parts_used": {
+          "name": "Використані запчастини",
+          "description": "Список запчастин Home Keeper, використаних під час обслуговування."
         }
       }
     },

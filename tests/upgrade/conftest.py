@@ -168,6 +168,21 @@ def _token() -> str:
     return str(tokens.json()["access_token"])
 
 
+def _settled(client: Client, quiet: float = 5, timeout: float = 90) -> Any:
+    """The state once the Home Keeper sync stops writing for *quiet* seconds."""
+    deadline = time.monotonic() + timeout
+    state = client.ws("car_keeper/get_state")
+    still = time.monotonic()
+    while time.monotonic() < deadline:
+        time.sleep(1)
+        now = client.ws("car_keeper/get_state")
+        if now["revision"] != state["revision"]:
+            state, still = now, time.monotonic()
+        elif time.monotonic() - still >= quiet:
+            return now
+    raise AssertionError("the Car Keeper store did not stop changing")
+
+
 @pytest.fixture(scope="session")
 def upgraded() -> Iterator[dict[str, Any]]:
     """Run both phases. Yield the client and what phase 1 wrote."""
@@ -191,7 +206,7 @@ def upgraded() -> Iterator[dict[str, Any]]:
             "log_service",
             {"car_id": car["id"], "items": [items[0]["id"]], "reading": 12100},
         )
-        before = client.ws("car_keeper/get_state")
+        before = _settled(client)
         _compose(config, OLD_HA_TAG, old_hk, "stop")
         _compose(config, NEW_HA_TAG, new_hk, "up", "-d", "--force-recreate")
         client.wait()

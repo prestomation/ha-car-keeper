@@ -302,6 +302,10 @@ add_item:
       required: false
       selector:
         boolean:
+    parts:
+      required: false
+      selector:
+        object:
     last_date:
       required: false
       selector:
@@ -377,6 +381,10 @@ update_item:
       required: false
       selector:
         boolean:
+    parts:
+      required: false
+      selector:
+        object:
 
 delete_item:
   fields:
@@ -460,6 +468,10 @@ log_service:
           max: 10000000
           step: 0.01
           mode: box
+    parts_used:
+      required: false
+      selector:
+        object:
 
 update_service:
   fields:

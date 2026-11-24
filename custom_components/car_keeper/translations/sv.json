@@ -338,6 +338,10 @@
           "name": "Home Keeper-uppgift",
           "description": "Skapa en Home Keeper-uppgift för jobbet."
         },
+        "parts": {
+          "name": "Delar",
+          "description": "De Home Keeper-delar som jobbet använder varje gång. Home Keeper drar dem från lagret."
+        },
         "last_date": {
           "name": "Senast utfört",
           "description": "Datumet för den senaste servicen, om du vet det."
@@ -395,6 +399,10 @@
         "add_task": {
           "name": "Home Keeper-uppgift",
           "description": "Skapa en Home Keeper-uppgift för jobbet."
+        },
+        "parts": {
+          "name": "Delar",
+          "description": "De Home Keeper-delar som jobbet använder varje gång. Home Keeper drar dem från lagret."
         }
       }
     },
@@ -461,6 +469,10 @@
         "cost": {
           "name": "Kostnad",
           "description": "Kostnaden för besöket i valutan för Home Assistant."
+        },
+        "parts_used": {
+          "name": "Använda delar",
+          "description": "En lista över Home Keeper-delarna som servicen använde."
         }
       }
     },

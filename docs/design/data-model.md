@@ -6,7 +6,7 @@ implements:
   - custom_components/car_keeper/store.py
   - custom_components/car_keeper/import_export.py
 related: [architecture, odometer-schedule, services-events]
-source_hash: a244c93e9b71
+source_hash: eb77b9769d1d
 ---
 
 # Data model
@@ -38,6 +38,7 @@ Car Keeper keeps 1 JSON document, `.storage/car_keeper`, which only `CarStore` c
 | `services` | The service records, by id |
 | `readings` | The odometer readings of each car, in time order |
 | `settings` | `unit` (of a new car) and `templates` (the starter job overrides) |
+| `sync` | The work that waits for Home Keeper: `undo` (`{task_id, ts}`) and `stock` (`{asset_id, part_id, delta}`) |
 
 `models.normalize_state` runs on each load. It adds each missing section, and replaces a
 value of the wrong type with the empty value.
@@ -47,7 +48,7 @@ value of the wrong type with the empty value.
 | Record | Fields |
 |---|---|
 | Car | `name`, `make`, `model`, `year`, `trim`, `fuel`, `unit`, `vin`, `plate`, `area_id`, `notes`, `lead_distance`, `lead_days`, `odometer`, `photo`, `created`, `hk_asset_id` |
-| Item | `car_id`, `name`, `kind` (`job` or `date`), `interval_distance`, `interval_months`, `due_date`, `lead_distance`, `lead_days`, `notes`, `enabled`, `add_task`, `template_id`, `start`, `last_done`, `hk_task_id`, `notified` |
+| Item | `car_id`, `name`, `kind` (`job` or `date`), `interval_distance`, `interval_months`, `due_date`, `lead_distance`, `lead_days`, `notes`, `enabled`, `add_task`, `parts`, `template_id`, `start`, `last_done`, `hk_task_id`, `notified` |
 | Service record | `car_id`, `date`, `reading`, `items`, `shop`, `notes`, `who`, `cost`, `parts_used`, `logged`, `origin`, `hk_completions` |
 | Reading | `ts`, `value`, `source` (`manual`, `entity`, `service`, `correction`), `by` |
 
@@ -58,8 +59,11 @@ value of the wrong type with the empty value.
 - A new item counts from `start`: today and the odometer of today, or the last date and
   reading that the admin gives.
 - `last_done` is not input. It follows from the history (`history.refresh`).
+- `parts` of an item and `parts_used` of a service are Home Keeper parts
+  `{asset_id, part_id, quantity}` (`models.clean_parts`).
 - `hk_asset_id`, `hk_task_id`, `notified` and `hk_completions` are bookkeeping of the syncs
-  and of the due check.
+  and of the due check. `hk_completions` maps a job to its Home Keeper completion
+  `{task_id, ts}`.
 
 ### The store
 
@@ -70,6 +74,9 @@ value of the wrong type with the empty value.
 - `CarStore.update_car` with a new `unit` converts the odometer, the readings, the
   intervals, the warning distances and the service readings 1 time.
 - `CarStore.delete_car` deletes the items, the service records and the readings of the car.
+- `CarStore.delete_service`, and an `update_service` that takes a job off, queue the Home
+  Keeper completion in `sync.undo`. A change of `parts_used` queues the moves of
+  `history.stock_moves` in `sync.stock`. A change with origin `home_keeper` queues no undo.
 - `CarStore.check_due` stores in `notified` the last due point that fired an event, so each
   `item_due_soon` and `item_overdue` fires 1 time for each due point.
 - `store.now` and `store.today` are the only clocks.
@@ -78,7 +85,8 @@ value of the wrong type with the empty value.
 
 `import_export.export_document` returns `{format, version, data, skipped}`. `NOT_EXPORTED`
 names each stored field that the export leaves out, with the reason: the Home Keeper ids,
-the photo, `notified` and `last_done`, which the history gives again.
+the photo, `notified` and `last_done`, which the history gives again. The `sync` queue is
+not exported.
 
 `import_export.plan_import` is an upsert. A car matches by id, then by VIN, then by name.
 An item matches by id, then by its car and its name. It never deletes a record. A sensor
@@ -99,5 +107,7 @@ of an export is the first export.
 ## One-way doors
 
 - The storage key `car_keeper`, the version `1.1`, the section names and the record fields.
+- The `sync` entries `{task_id, ts}` and `{asset_id, part_id, delta}`, and the value
+  `{task_id, ts}` of `hk_completions`.
 - The values of `fuel`, `kind` and the reading `source`.
 - The export `format` 1 and the keys of `data`.

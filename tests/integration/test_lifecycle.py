@@ -6,6 +6,7 @@ and a seeded config entry for each integration, so both load at startup.
 
 from __future__ import annotations
 
+import time
 from pathlib import Path
 
 import pytest
@@ -64,9 +65,16 @@ def test_a_car_gets_its_entities(api):
 
 
 def test_get_state_and_the_tab(ws):
-    state = ws("car_keeper/get_state")
-    assert state["success"], state
-    result = state["result"]
+    # Home Keeper reloads its entry after the tasks of a new job, and the tab
+    # comes back after the reload.
+    deadline = time.monotonic() + 60
+    while True:
+        state = ws("car_keeper/get_state")
+        assert state["success"], state
+        result = state["result"]
+        if result["tab"] or time.monotonic() > deadline:
+            break
+        time.sleep(1)
     assert result["tab"] is True and result["settings"]["unit"] == "km"
     tabs = ws("home_keeper/get_panel_tabs")
     assert tabs["success"], tabs

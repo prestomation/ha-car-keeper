@@ -66,6 +66,14 @@ The diagnostics download redacts the VIN and the plate of each car. A user attac
 download to a public issue. The redaction is a rule for that support file. It is not
 access control: every Home Assistant user can read the VIN and the plate.
 
+## Home Keeper
+
+The appliance of a car in Home Keeper has the name and the area of the car, with its make
+and model. It never has the VIN or the plate, because a Home Keeper read lists the appliances. Car
+Keeper calls the Home Keeper services from its own sync, with no user, so the admin gate
+of Home Keeper does not stop it. A user who logs a service with `parts_used` moves the
+stock of those parts in Home Keeper.
+
 ## Credentials
 
 Car Keeper has no credential and sends no data out of Home Assistant.

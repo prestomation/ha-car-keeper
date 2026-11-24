@@ -31,6 +31,7 @@ ITEM_KINDS = ("job", "date")
 MAX_NAME = 100
 MAX_TEXT = 200
 MAX_NOTES = 4000
+MAX_PARTS = 50
 MAX_INTERVAL = 1_000_000
 MAX_MONTHS = 240
 MAX_LEAD_DAYS = 365
@@ -62,6 +63,7 @@ ITEM_FIELDS = (
     "notes",
     "enabled",
     "add_task",
+    "parts",
 )
 SERVICE_FIELDS = ("date", "reading", "items", "shop", "notes", "who", "cost")
 
@@ -86,7 +88,18 @@ def empty_state() -> dict[str, Any]:
         **{name: {} for name in RECORD_SECTIONS},
         "readings": {},
         "settings": default_settings(),
+        "sync": empty_sync(),
     }
+
+
+def empty_sync() -> dict[str, list[dict[str, Any]]]:
+    """The work that waits for Home Keeper.
+
+    ``undo`` holds the Home Keeper completions ``{task_id, ts}`` to delete, and
+    ``stock`` the part counts ``{asset_id, part_id, delta}`` to move. The sync
+    removes each entry when Home Keeper accepts it.
+    """
+    return {"undo": [], "stock": []}
 
 
 def normalize_state(data: Any) -> dict[str, Any]:
@@ -112,6 +125,11 @@ def normalize_state(data: Any) -> dict[str, Any]:
     for car_id, value in list(state["readings"].items()):
         if not isinstance(value, list):
             state["readings"][car_id] = []
+    sync = data.get("sync")
+    if isinstance(sync, dict):
+        for key in ("undo", "stock"):
+            if isinstance(sync.get(key), list):
+                state["sync"][key] = [e for e in sync[key] if isinstance(e, dict)]
     return state
 
 
@@ -284,6 +302,33 @@ def update_car(
     return {**car, **values}, changed
 
 
+def clean_parts(value: Any, field: str = "parts_used") -> list[dict[str, Any]]:
+    """A list of Home Keeper parts ``{asset_id, part_id, quantity}``, checked.
+
+    The ids name a part of a Home Keeper appliance. The quantity is 1 when it is
+    not given.
+    """
+    if not isinstance(value, list) or len(value) > MAX_PARTS:
+        raise CarKeeperError("invalid_field", field=field)
+    out = []
+    for part in value:
+        if (
+            not isinstance(part, dict)
+            or not part.get("asset_id")
+            or not part.get("part_id")
+        ):
+            raise CarKeeperError("invalid_field", field=field)
+        quantity = number(part, "quantity", low=0, high=10_000)
+        out.append(
+            {
+                "asset_id": str(part["asset_id"]),
+                "part_id": str(part["part_id"]),
+                "quantity": quantity if quantity is not None else 1,
+            }
+        )
+    return out
+
+
 # ── Items ────────────────────────────────────────────────────────────────────
 
 
@@ -308,6 +353,7 @@ def _item_values(data: dict[str, Any]) -> dict[str, Any]:
         "notes": text(data, "notes", MAX_NOTES),
         "enabled": bool(data.get("enabled", True)),
         "add_task": bool(data.get("add_task", True)),
+        "parts": clean_parts(data.get("parts") or [], "parts"),
     }
 
 
@@ -397,7 +443,7 @@ def build_service(
         "id": service_id,
         "car_id": car["id"],
         **_service_values(data, car, items, today),
-        "parts_used": [],
+        "parts_used": clean_parts(data.get("parts_used") or []),
         "logged": now,
         "origin": origin,
         "hk_completions": {},

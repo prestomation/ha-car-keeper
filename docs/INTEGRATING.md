@@ -86,3 +86,14 @@ Car Keeper is a companion of Home Keeper. It uses only the services, the events 
 panel tab API of Home Keeper, as the
 [Home Keeper integration guide](https://github.com/prestomation/ha-home-keeper/blob/main/docs/INTEGRATING.md)
 says.
+
+Each car is a managed appliance in Home Keeper, and each job with `add_task` is a managed
+task on that appliance. A job with a distance is a usage task on the odometer sensor of
+the car. Home Keeper owns the reminders of the jobs.
+
+- A Car Keeper record has `managed_by.integration: car_keeper`. An appliance names its car
+  in `managed_by.car_id`. A task names its job in `source.car_keeper.item_id`.
+- A service in Car Keeper completes the task with `origin: car_keeper`. A completion in
+  Home Keeper with another origin logs a service in Car Keeper with origin `home_keeper`.
+- The `parts` of a job are the part links of its task. The `parts_used` of a service move
+  the stock of each part with `adjust_part_stock`.

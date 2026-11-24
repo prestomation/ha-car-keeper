@@ -338,6 +338,10 @@
           "name": "Home Keeper-taak",
           "description": "Een Home Keeper-taak voor de taak maken."
         },
+        "parts": {
+          "name": "Onderdelen",
+          "description": "De Home Keeper-onderdelen die de taak elke keer gebruikt. Home Keeper haalt ze van de voorraad af."
+        },
         "last_date": {
           "name": "Laatst gedaan op",
           "description": "De datum van de laatste beurt, als u die weet."
@@ -395,6 +399,10 @@
         "add_task": {
           "name": "Home Keeper-taak",
           "description": "Een Home Keeper-taak voor de taak maken."
+        },
+        "parts": {
+          "name": "Onderdelen",
+          "description": "De Home Keeper-onderdelen die de taak elke keer gebruikt. Home Keeper haalt ze van de voorraad af."
         }
       }
     },
@@ -461,6 +469,10 @@
         "cost": {
           "name": "Kosten",
           "description": "De kosten van het bezoek, in de valuta van Home Assistant."
+        },
+        "parts_used": {
+          "name": "Gebruikte onderdelen",
+          "description": "Een lijst van de Home Keeper-onderdelen die de beurt gebruikte."
         }
       }
     },

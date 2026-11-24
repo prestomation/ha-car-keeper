@@ -76,6 +76,7 @@ FIELDS: dict[str, tuple[str, ...]] = {
         "add_task",
         "template_id",
         "start",
+        "parts",
     ),
     "services": (
         "id",

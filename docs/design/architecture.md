@@ -10,7 +10,7 @@ implements:
   - custom_components/car_keeper/coordinator.py
   - custom_components/car_keeper/manifest.json
 related: [data-model, home-keeper-link, services-events, frontend]
-source_hash: a6b0a26e7b0a
+source_hash: a74ee707ff9e
 ---
 
 # Architecture
@@ -53,7 +53,7 @@ maintenance, which borrows the parts and stock framework.
 |---|---|---|
 | Who | Admin users | Every user |
 | Where | The Cars tab in the Home Keeper panel | Dashboard cards, entities, open services |
-| What | Add, edit and delete cars, jobs, documents and settings. | Read all data. Type an odometer reading. Log a service. |
+| What | Add, edit and delete cars, jobs and settings. | Read all data. Type an odometer reading. Log a service. |
 
 Do not mix the 2. A card never edits a car. Each data action of the tab is also a service.
 
@@ -61,8 +61,8 @@ Do not mix the 2. A card never edits a car. Each data action of the tab is also 
 
 | Layer | Modules | Rule |
 |---|---|---|
-| Pure core | `const.py`, `units.py`, `models.py`, `readings.py`, `schedule.py`, `history.py`, `templates.py`, `events.py`, `projections.py`, `import_export.py`, `card_resource.py`, `backend_i18n.py`, `api_surface.py` | No Home Assistant import. |
-| Boundary | `store.py`, `coordinator.py`, `odometer.py` | Talks to storage, the bus and the state machine. |
+| Pure core | `const.py`, `units.py`, `models.py`, `readings.py`, `schedule.py`, `history.py`, `templates.py`, `events.py`, `projections.py`, `import_export.py`, `task_plan.py`, `card_resource.py`, `backend_i18n.py`, `api_surface.py` | No Home Assistant import. |
+| Boundary | `store.py`, `coordinator.py`, `odometer.py`, `hk_sync.py` | Talks to storage, the bus and the state machine. |
 | Glue | `__init__.py`, `services.py`, `websocket_api.py`, `home_keeper.py`, `frontend_assets.py`, `card.py`, `config_flow.py`, `diagnostics.py` | Registers and connects, with no rules of its own. |
 | Platforms | `sensor.py`, `binary_sensor.py`, `todo.py`, with `entity.py` | `const.PLATFORMS` lists them. |
 

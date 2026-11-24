@@ -45,6 +45,7 @@ The first release is `0.1.0b1`. These parts are not built yet:
 1. **Preset nudge.** A review dialog that offers the presets that match the device of a car.
 2. **Document files.** Receipts, photos and documents as files.
 3. **Live readings.** Tyre pressure and distance-to-service rules from the car integration.
+   Each rule is 1 managed triggered task that the condition arms and clears.
 4. **The Upcoming, History and Parts lists** for all cars.
 
 ## Later

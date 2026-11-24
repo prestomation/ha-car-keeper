@@ -20,6 +20,7 @@ from .const import DOMAIN, ISSUE_ODOMETER_DECREASED, PANEL_VERSION
 from .store import CarStore
 
 if TYPE_CHECKING:
+    from .hk_sync import HomeKeeperSync
     from .home_keeper import HomeKeeperLink
 
 _LOGGER = logging.getLogger(__name__)
@@ -42,6 +43,7 @@ class CarCoordinator(DataUpdateCoordinator[dict[str, Any]]):
         self.store = store
         # Set by async_setup_entry.
         self.home_keeper: HomeKeeperLink
+        self.sync: HomeKeeperSync
         self.tab_registered = False
         self.version = PANEL_VERSION
 

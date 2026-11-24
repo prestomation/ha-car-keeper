@@ -9,6 +9,7 @@ from __future__ import annotations
 import ex.events as ev
 import ex.models as m
 import ex.projections as pr
+import pytest
 
 
 def test_empty_state() -> None:
@@ -18,6 +19,7 @@ def test_empty_state() -> None:
         "services": {},
         "readings": {},
         "settings": {"unit": "km", "templates": {}},
+        "sync": {"undo": [], "stock": []},
     }
 
 
@@ -32,3 +34,23 @@ def test_state_reply() -> None:
     assert pr.project_state(
         m.empty_state(), today="2026-10-01", tab=False, revision=3
     ) == {**m.empty_state(), "tab": False, "revision": 3, "today": "2026-10-01"}
+
+
+def test_normalize_keeps_the_sync_queue() -> None:
+    undo = {"task_id": "t", "ts": "2026-01-01T12:00:00+00:00"}
+    state = m.normalize_state({"sync": {"undo": [undo, "bad"], "stock": "bad"}})
+    assert state["sync"] == {"undo": [undo], "stock": []}
+    assert m.normalize_state({"sync": []})["sync"] == {"undo": [], "stock": []}
+
+
+def test_clean_parts() -> None:
+    assert m.clean_parts([{"asset_id": "a", "part_id": "p"}]) == [
+        {"asset_id": "a", "part_id": "p", "quantity": 1}
+    ]
+    assert m.clean_parts([{"asset_id": 1, "part_id": 2, "quantity": 2.5}]) == [
+        {"asset_id": "1", "part_id": "2", "quantity": 2.5}
+    ]
+    for bad in ("x", [{"asset_id": "a"}], [{"part_id": "p"}], ["x"], [{}] * 51):
+        with pytest.raises(m.CarKeeperError) as err:
+            m.clean_parts(bad, "parts")
+        assert err.value.placeholders == {"field": "parts"}

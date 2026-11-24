@@ -12,23 +12,34 @@ Setup order:
 
 from __future__ import annotations
 
+import logging
 from datetime import timedelta
 from typing import Any
 
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant, callback
+from homeassistant.exceptions import HomeAssistantError
 from homeassistant.helpers import config_validation as cv
 from homeassistant.helpers.dispatcher import async_dispatcher_send
 from homeassistant.helpers.event import async_track_time_interval
 from homeassistant.helpers.typing import ConfigType
 
-from . import backend_i18n, card, frontend_assets, home_keeper, websocket_api
+from . import (
+    backend_i18n,
+    card,
+    frontend_assets,
+    hk_sync,
+    home_keeper,
+    websocket_api,
+)
 from .api_surface import SERVICE_NAMES
 from .const import DOMAIN, DUE_CHECK_INTERVAL_S, PLATFORMS, SIGNAL_STORE_CHANGED
 from .coordinator import CarCoordinator
 from .odometer import OdometerFollower
 from .services import async_register_services
 from .store import CarStore, today
+
+_LOGGER = logging.getLogger(__name__)
 
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 
@@ -91,6 +102,11 @@ async def async_setup_entry(hass: HomeAssistant, entry: CarKeeperConfigEntry) ->
     # while Home Keeper can take it.
     link = home_keeper.HomeKeeperLink(hass, entry, coordinator)
     coordinator.home_keeper = link
+    # The sync starts first, so it hears the first pass of the link.
+    sync = hk_sync.HomeKeeperSync(hass, entry, store, link)
+    coordinator.sync = sync
+    sync.async_start()
+    entry.async_on_unload(sync.async_stop)
     await link.async_start()
     entry.async_on_unload(link.async_stop)
     return True
@@ -108,5 +124,12 @@ async def async_unload_entry(hass: HomeAssistant, entry: CarKeeperConfigEntry) -
 
 
 async def async_remove_entry(hass: HomeAssistant, entry: CarKeeperConfigEntry) -> None:
-    """Remove the card resource when the integration is removed (not on unload)."""
+    """Remove the card resource when the integration is removed (not on unload).
+
+    The appliances of the cars go to the user, with their parts and stock.
+    """
     await card.async_unregister_card(hass)
+    try:
+        await hk_sync.async_release(hass, entry)
+    except HomeAssistantError as err:
+        _LOGGER.warning("Car Keeper kept its Home Keeper appliances: %s", err)

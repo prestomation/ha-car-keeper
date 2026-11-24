@@ -338,6 +338,10 @@
           "name": "Tarefa do Home Keeper",
           "description": "Criar uma tarefa do Home Keeper para o trabalho."
         },
+        "parts": {
+          "name": "Peças",
+          "description": "As peças do Home Keeper que a tarefa usa a cada vez. O Home Keeper as tira do estoque."
+        },
         "last_date": {
           "name": "Última vez em",
           "description": "A data do último serviço, se a souber."
@@ -395,6 +399,10 @@
         "add_task": {
           "name": "Tarefa do Home Keeper",
           "description": "Criar uma tarefa do Home Keeper para o trabalho."
+        },
+        "parts": {
+          "name": "Peças",
+          "description": "As peças do Home Keeper que a tarefa usa a cada vez. O Home Keeper as tira do estoque."
         }
       }
     },
@@ -461,6 +469,10 @@
         "cost": {
           "name": "Custo",
           "description": "O custo da visita, na moeda do Home Assistant."
+        },
+        "parts_used": {
+          "name": "Peças usadas",
+          "description": "Uma lista das peças do Home Keeper que o serviço usou."
         }
       }
     },

@@ -338,6 +338,10 @@
           "name": "Home Keeper -tehtävä",
           "description": "Luo työlle Home Keeper -tehtävä."
         },
+        "parts": {
+          "name": "Osat",
+          "description": "Home Keeper -osat, jotka työ käyttää joka kerta. Home Keeper vähentää ne varastosta."
+        },
         "last_date": {
           "name": "Viimeksi tehty",
           "description": "Viimeisimmän huollon päivämäärä, jos tiedät sen."
@@ -395,6 +399,10 @@
         "add_task": {
           "name": "Home Keeper -tehtävä",
           "description": "Luo työlle Home Keeper -tehtävä."
+        },
+        "parts": {
+          "name": "Osat",
+          "description": "Home Keeper -osat, jotka työ käyttää joka kerta. Home Keeper vähentää ne varastosta."
         }
       }
     },
@@ -461,6 +469,10 @@
         "cost": {
           "name": "Hinta",
           "description": "Käynnin hinta Home Assistantin valuutassa."
+        },
+        "parts_used": {
+          "name": "Käytetyt osat",
+          "description": "Luettelo huollossa käytetyistä Home Keeper -osista."
         }
       }
     },

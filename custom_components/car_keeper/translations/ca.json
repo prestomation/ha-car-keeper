@@ -338,6 +338,10 @@
           "name": "Tasca de Home Keeper",
           "description": "Crea una tasca de Home Keeper per a la feina."
         },
+        "parts": {
+          "name": "Peces",
+          "description": "Les peces de Home Keeper que la tasca fa servir cada vegada. Home Keeper les treu de l'estoc."
+        },
         "last_date": {
           "name": "Última vegada el",
           "description": "La data de l'últim servei, si la saps."
@@ -395,6 +399,10 @@
         "add_task": {
           "name": "Tasca de Home Keeper",
           "description": "Crea una tasca de Home Keeper per a la feina."
+        },
+        "parts": {
+          "name": "Peces",
+          "description": "Les peces de Home Keeper que la tasca fa servir cada vegada. Home Keeper les treu de l'estoc."
         }
       }
     },
@@ -461,6 +469,10 @@
         "cost": {
           "name": "Cost",
           "description": "El cost de la visita, en la moneda de Home Assistant."
+        },
+        "parts_used": {
+          "name": "Peces utilitzades",
+          "description": "Una llista de les peces de Home Keeper que ha fet servir el servei."
         }
       }
     },

@@ -338,6 +338,10 @@
           "name": "Home Keeper task",
           "description": "Make a Home Keeper task for the job."
         },
+        "parts": {
+          "name": "Parts",
+          "description": "The Home Keeper parts that the job takes each time it is done. Home Keeper takes them off the stock."
+        },
         "last_date": {
           "name": "Last done on",
           "description": "The date of the last service, if you know it."
@@ -395,6 +399,10 @@
         "add_task": {
           "name": "Home Keeper task",
           "description": "Make a Home Keeper task for the job."
+        },
+        "parts": {
+          "name": "Parts",
+          "description": "The Home Keeper parts that the job takes each time it is done. Home Keeper takes them off the stock."
         }
       }
     },
@@ -461,6 +469,10 @@
         "cost": {
           "name": "Cost",
           "description": "The cost of the visit, in the currency of Home Assistant."
+        },
+        "parts_used": {
+          "name": "Parts used",
+          "description": "A list of the Home Keeper parts that the service used."
         }
       }
     },

@@ -338,6 +338,10 @@
           "name": "Home Keeper-opgave",
           "description": "Opret en Home Keeper-opgave til opgaven."
         },
+        "parts": {
+          "name": "Dele",
+          "description": "De Home Keeper-dele, som opgaven bruger hver gang. Home Keeper trækker dem fra lageret."
+        },
         "last_date": {
           "name": "Sidst udført den",
           "description": "Datoen for det seneste serviceeftersyn, hvis du kender den."
@@ -395,6 +399,10 @@
         "add_task": {
           "name": "Home Keeper-opgave",
           "description": "Opret en Home Keeper-opgave til opgaven."
+        },
+        "parts": {
+          "name": "Dele",
+          "description": "De Home Keeper-dele, som opgaven bruger hver gang. Home Keeper trækker dem fra lageret."
         }
       }
     },
@@ -461,6 +469,10 @@
         "cost": {
           "name": "Pris",
           "description": "Prisen for besøget i Home Assistants valuta."
+        },
+        "parts_used": {
+          "name": "Brugte dele",
+          "description": "En liste over de Home Keeper-dele, som serviceeftersynet brugte."
         }
       }
     },

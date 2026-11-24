@@ -338,6 +338,10 @@
           "name": "Home Keeper 任务",
           "description": "为该项目创建 Home Keeper 任务。"
         },
+        "parts": {
+          "name": "配件",
+          "description": "该项目每次使用的 Home Keeper 配件。Home Keeper 会从库存中扣除。"
+        },
         "last_date": {
           "name": "上次完成日期",
           "description": "上次保养的日期（如果您知道）。"
@@ -395,6 +399,10 @@
         "add_task": {
           "name": "Home Keeper 任务",
           "description": "为该项目创建 Home Keeper 任务。"
+        },
+        "parts": {
+          "name": "配件",
+          "description": "该项目每次使用的 Home Keeper 配件。Home Keeper 会从库存中扣除。"
         }
       }
     },
@@ -461,6 +469,10 @@
         "cost": {
           "name": "费用",
           "description": "本次保养的费用，使用 Home Assistant 的货币。"
+        },
+        "parts_used": {
+          "name": "使用的配件",
+          "description": "本次保养使用的 Home Keeper 配件列表。"
         }
       }
     },

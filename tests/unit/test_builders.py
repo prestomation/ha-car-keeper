@@ -102,6 +102,7 @@ def test_build_item_and_update() -> None:
         "last_done": None,
         "hk_task_id": None,
         "notified": None,
+        "parts": [],
     }
     known = m.build_item(
         {

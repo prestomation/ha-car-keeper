@@ -338,6 +338,10 @@
           "name": "Zadanie Home Keeper",
           "description": "Utwórz zadanie Home Keeper dla pracy."
         },
+        "parts": {
+          "name": "Części",
+          "description": "Części Home Keeper, których czynność używa za każdym razem. Home Keeper odejmuje je od zapasu."
+        },
         "last_date": {
           "name": "Ostatnio wykonano",
           "description": "Data ostatniego serwisu, jeśli ją znasz."
@@ -395,6 +399,10 @@
         "add_task": {
           "name": "Zadanie Home Keeper",
           "description": "Utwórz zadanie Home Keeper dla pracy."
+        },
+        "parts": {
+          "name": "Części",
+          "description": "Części Home Keeper, których czynność używa za każdym razem. Home Keeper odejmuje je od zapasu."
         }
       }
     },
@@ -461,6 +469,10 @@
         "cost": {
           "name": "Koszt",
           "description": "Koszt wizyty w walucie Home Assistant."
+        },
+        "parts_used": {
+          "name": "Użyte części",
+          "description": "Lista części Home Keeper użytych podczas serwisu."
         }
       }
     },

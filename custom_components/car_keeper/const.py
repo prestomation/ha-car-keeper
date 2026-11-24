@@ -70,6 +70,9 @@ UNITS = (UNIT_KM, UNIT_MI)
 # The origin marker that Car Keeper sends to Home Keeper, and that it reads back
 # in the events of Home Keeper to stop a loop.
 ORIGIN = DOMAIN
+#: The origin of a change that comes from a Home Keeper event. The sync sends nothing
+#: back to Home Keeper for it.
+HOME_KEEPER_ORIGIN = "home_keeper"
 
 # The bus events. Each name is ``car_keeper_<noun>_<verb>``. The pure builders in
 # events.py make the payloads, and the store fires them.

@@ -47,6 +47,7 @@ from .const import (
     EVENT_SERVICE_REMOVED,
     EVENT_SERVICE_UPDATED,
     EVENT_SETTINGS_UPDATED,
+    HOME_KEEPER_ORIGIN,
     STORAGE_KEY,
     STORAGE_MINOR_VERSION,
     STORAGE_VERSION,
@@ -485,10 +486,13 @@ class CarStore:
         *,
         by: str | None = None,
         origin: str | None = None,
+        hk_completions: dict[str, dict[str, str]] | None = None,
     ) -> dict[str, Any]:
         """Add a service record and mark its jobs done.
 
-        A reading above the odometer moves the odometer to it.
+        A reading above the odometer moves the odometer to it. A service that
+        comes from a Home Keeper completion gives *hk_completions*, so the sync
+        does not complete the task again.
         """
         car = self.car(car_id)
         stamp = now()
@@ -525,7 +529,10 @@ class CarStore:
                     events.odometer_event_data(car, outcome.reading, origin),
                 )
             )
+        if hk_completions:
+            service["hk_completions"] = dict(hk_completions)
         self.state["services"][service["id"]] = service
+        self._queue_stock([], service["parts_used"])
         self._refresh_last_done(service["items"])
         fired.insert(
             0, (EVENT_SERVICE_LOGGED, events.service_event_data(service, origin))
@@ -543,12 +550,19 @@ class CarStore:
             service, data, car, self.state["items"], today()
         )
         if "parts_used" in data:
-            parts = clean_parts(data["parts_used"])
+            parts = models.clean_parts(data["parts_used"])
             if parts != service.get("parts_used"):
                 new["parts_used"] = parts
                 changed.append("parts_used")
         if not changed:
             return service
+        gone = [i for i in service["items"] if i not in new["items"]]
+        new["hk_completions"] = {
+            k: v for k, v in service.get("hk_completions", {}).items() if k not in gone
+        }
+        if origin != HOME_KEEPER_ORIGIN:
+            self._queue_undo(service, gone)
+        self._queue_stock(service.get("parts_used", []), new.get("parts_used", []))
         self.state["services"][service_id] = new
         self._refresh_last_done({*service["items"], *new["items"]})
         await self._commit(
@@ -569,11 +583,84 @@ class CarStore:
         """Delete a service record. ``last_done`` follows the history."""
         service = self.service(service_id)
         del self.state["services"][service_id]
+        if origin != HOME_KEEPER_ORIGIN:
+            self._queue_undo(service, service["items"])
+        self._queue_stock(service.get("parts_used", []), [])
         self._refresh_last_done(service["items"])
         await self._commit(
             [(EVENT_SERVICE_REMOVED, events.service_event_data(service, origin))]
         )
         return service
+
+    # ── The Home Keeper sync ─────────────────────────────────────────────────
+
+    def _queue_undo(self, service: dict[str, Any], item_ids: Iterable[str]) -> None:
+        """Ask the sync to delete the Home Keeper completions of *item_ids*."""
+        done = service.get("hk_completions") or {}
+        for item_id in item_ids:
+            if item_id in done:
+                self.state["sync"]["undo"].append(dict(done[item_id]))
+
+    def _queue_stock(
+        self, before: list[dict[str, Any]], after: list[dict[str, Any]]
+    ) -> None:
+        """Ask the sync to move the part counts from *before* to *after*."""
+        for (asset_id, part_id), delta in history.stock_moves(before, after).items():
+            self.state["sync"]["stock"].append(
+                {"asset_id": asset_id, "part_id": part_id, "delta": delta}
+            )
+
+    async def sync_done(self, kind: str, entry: dict[str, Any]) -> None:
+        """Remove 1 entry that Home Keeper accepted from the sync queue."""
+        queue = self.state["sync"][kind]
+        if entry in queue:
+            queue.remove(entry)
+            await self._commit([])
+
+    async def set_completion(
+        self, service_id: str, item_id: str, completion: dict[str, str]
+    ) -> None:
+        """Write the Home Keeper completion of 1 job of a service. No event."""
+        service = self.state["services"].get(service_id)
+        if service is None:
+            return
+        service.setdefault("hk_completions", {})[item_id] = dict(completion)
+        await self._commit([])
+
+    async def forget_task(self, item_id: str, *, origin: str | None = None) -> None:
+        """The user deleted the Home Keeper task of a job: stop the task."""
+        item = self.state["items"].get(item_id)
+        if item is None:
+            return
+        changed = ["add_task"] if item["add_task"] else []
+        item["hk_task_id"] = None
+        item["add_task"] = False
+        fired: list[Event] = []
+        if changed:
+            fired.append(
+                (
+                    EVENT_ITEM_UPDATED,
+                    events.changed_data(events.item_event_data(item, origin), changed),
+                )
+            )
+        await self._commit(fired)
+
+    async def remove_completion(self, task_id: str, ts: str) -> None:
+        """A completion was undone in Home Keeper: take its job off the service.
+
+        A service with no job left is deleted.
+        """
+        for service_id, service in list(self.state["services"].items()):
+            for item_id, done in (service.get("hk_completions") or {}).items():
+                if done.get("task_id") == task_id and done.get("ts") == ts:
+                    items = [i for i in service["items"] if i != item_id]
+                    if items:
+                        await self.update_service(
+                            service_id, {"items": items}, origin=HOME_KEEPER_ORIGIN
+                        )
+                    else:
+                        await self.delete_service(service_id, origin=HOME_KEEPER_ORIGIN)
+                    return
 
     # ── Settings ─────────────────────────────────────────────────────────────
 
@@ -631,26 +718,3 @@ class CarStore:
                 )
             ]
         )
-
-
-def clean_parts(value: Any) -> list[dict[str, Any]]:
-    """The ``parts_used`` list of a service, checked."""
-    if not isinstance(value, list):
-        raise CarKeeperError("invalid_field", field="parts_used")
-    out = []
-    for part in value:
-        if (
-            not isinstance(part, dict)
-            or not part.get("asset_id")
-            or not part.get("part_id")
-        ):
-            raise CarKeeperError("invalid_field", field="parts_used")
-        quantity = models.number(part, "quantity", low=0, high=10_000)
-        out.append(
-            {
-                "asset_id": str(part["asset_id"]),
-                "part_id": str(part["part_id"]),
-                "quantity": quantity if quantity is not None else 1,
-            }
-        )
-    return out

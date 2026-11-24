@@ -338,6 +338,10 @@
           "name": "Attività Home Keeper",
           "description": "Crea un'attività Home Keeper per l'intervento."
         },
+        "parts": {
+          "name": "Ricambi",
+          "description": "I ricambi di Home Keeper che il lavoro usa ogni volta. Home Keeper li toglie dalle scorte."
+        },
         "last_date": {
           "name": "Ultima volta il",
           "description": "La data dell'ultimo tagliando, se la conosci."
@@ -395,6 +399,10 @@
         "add_task": {
           "name": "Attività Home Keeper",
           "description": "Crea un'attività Home Keeper per l'intervento."
+        },
+        "parts": {
+          "name": "Ricambi",
+          "description": "I ricambi di Home Keeper che il lavoro usa ogni volta. Home Keeper li toglie dalle scorte."
         }
       }
     },
@@ -461,6 +469,10 @@
         "cost": {
           "name": "Costo",
           "description": "Il costo della visita, nella valuta di Home Assistant."
+        },
+        "parts_used": {
+          "name": "Ricambi usati",
+          "description": "Un elenco dei ricambi Home Keeper usati dal tagliando."
         }
       }
     },
