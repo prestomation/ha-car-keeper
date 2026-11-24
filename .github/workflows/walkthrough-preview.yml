@@ -28,9 +28,11 @@ on:
 permissions:
   contents: read
 
-# The Home Keeper branch or tag that ci/fetch-home-keeper.sh clones.
+# The Home Keeper branch, tag or commit that ci/fetch-home-keeper.sh clones.
 env:
-  HOME_KEEPER_REF: main
+  # The commit with register_presets (ci/home-keeper-presets.env).
+  HOME_KEEPER_REF: 9f1335ffc6385919f117cce7417158297bb2aaed
+  CK_EXPECT_PRESETS: "1"
 
 concurrency:
   group: walkthrough-preview-${{ github.event.number }}

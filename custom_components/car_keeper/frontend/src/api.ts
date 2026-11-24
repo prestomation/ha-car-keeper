@@ -22,9 +22,18 @@ export interface State {
   readings: Record<string, Rec[]>;
   settings: { unit: string; templates?: Rec };
   starter_jobs?: Rec[];
+  presets?: Presets;
   tab: boolean;
   revision: number;
   today?: string;
+}
+
+/** The car presets in Home Keeper (`presets.project` on the server). */
+export interface Presets {
+  status?: 'registered' | 'no_service' | 'failed' | 'waiting';
+  preset_ids?: string[];
+  error?: string | null;
+  rows?: { domain: string; brand: string; duties: string[] }[];
 }
 
 export const DOMAIN = 'car_keeper';

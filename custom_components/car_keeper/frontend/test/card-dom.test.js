@@ -26,6 +26,12 @@ describe('cards', () => {
     expect(() => cleanConfig({ type: 'x', max_height: 0 }, false)).toThrow('max_height');
     expect(() => cleanConfig({ type: 'x', max_height: 'tall' }, false)).toThrow('max_height');
     expect(cleanConfig({ type: 'x', max_height: '240' }, false).max_height).toBe(240);
+    expect(() => cleanConfig({ type: 'x', min_height: -1 }, false)).toThrow('min_height');
+    expect(() => cleanConfig({ type: 'x', min_height: 'x' }, false)).toThrow('min_height');
+    expect(() => cleanConfig({ type: 'x', min_height: 300, max_height: 200 }, false)).toThrow(
+      'min_height',
+    );
+    expect(cleanConfig({ type: 'x', min_height: '200', max_height: 200 }, false).min_height).toBe(200);
     expect(() => cleanConfig({ type: 'x' }, true)).toThrow('car_id');
     expect(cleanConfig({ type: 'x', car_id: 'c' }, true).car_id).toBe('c');
   });
@@ -62,6 +68,27 @@ describe('garage card', () => {
     );
     await flush();
     expect($('.ck-scroll').style.maxHeight).toBe('120px');
+    expect($('.ck-scroll').style.minHeight).toBe('');
+  });
+
+  it('keeps a min_height, with or without a max_height', async () => {
+    const both = mount(
+      'car-keeper-garage-card',
+      { type: 'custom:car-keeper-garage-card', min_height: 80, max_height: 120 },
+      { state: structuredClone(GARAGE) },
+    );
+    await flush();
+    expect(both.$('.ck-scroll').style.minHeight).toBe('80px');
+    expect(both.$('.ck-scroll').style.maxHeight).toBe('120px');
+    const grow = mount(
+      'car-keeper-garage-card',
+      { type: 'custom:car-keeper-garage-card', min_height: 300 },
+      { state: structuredClone(GARAGE) },
+    );
+    await flush();
+    expect(grow.$('.ck-scroll')).toBeNull();
+    expect(grow.$('.ck-grow').style.minHeight).toBe('300px');
+    expect(grow.$('.ck-grow').style.maxHeight).toBe('');
   });
 });
 

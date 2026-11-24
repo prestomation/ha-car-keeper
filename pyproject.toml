@@ -76,6 +76,7 @@ only_mutate = [
     "custom_components/car_keeper/projections.py",
     "custom_components/car_keeper/import_export.py",
     "custom_components/car_keeper/task_plan.py",
+    "custom_components/car_keeper/presets.py",
     "custom_components/car_keeper/card_resource.py",
 ]
 pytest_add_cli_args_test_selection = ["tests/unit"]

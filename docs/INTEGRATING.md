@@ -97,3 +97,6 @@ the car. Home Keeper owns the reminders of the jobs.
   Home Keeper with another origin logs a service in Car Keeper with origin `home_keeper`.
 - The `parts` of a job are the part links of its task. The `parts_used` of a service move
   the stock of each part with `adjust_part_stock`.
+- With Home Keeper 0.38.0b5 or later, Car Keeper calls `register_presets` with the rows
+  of 12 car integrations. The preset ids start with `car_keeper/`. `get_state` gives the
+  status under `presets`. An older Home Keeper gets no call.

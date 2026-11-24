@@ -41,9 +41,11 @@ Run the cheapest tier first.
   `custom_components` is a namespace package, so the conftest puts the fake directory on
   `sys.path` and imports `custom_components` before Home Assistant starts.
 - **The Docker and browser tiers use the real Home Keeper.** `ci/fetch-home-keeper.sh`
-  copies it from `HOME_KEEPER_SRC`, or clones `HOME_KEEPER_REF`, into the git-ignored
-  `tests/integration/.home_keeper/`, and `docker-compose.yml` mounts it. A test of the tab
-  skips when that Home Keeper has no `panel_tabs.py`.
+  copies it from `HOME_KEEPER_SRC`, or clones `HOME_KEEPER_REF` (a branch, a tag or a full
+  SHA), into the git-ignored `tests/integration/.home_keeper/`. A lane that needs
+  `register_presets` runs the SHA of `ci/home-keeper-presets.env` with
+  `CK_EXPECT_PRESETS=1`; the oldest lane runs 0.35.0 and checks that the presets skip.
+  A test of the tab skips when that Home Keeper has no `panel_tabs.py`.
 - A test that waits for the syncs uses
   `hass.async_block_till_done(wait_background_tasks=True)`. Keep each background task
   finite, or that call never returns.

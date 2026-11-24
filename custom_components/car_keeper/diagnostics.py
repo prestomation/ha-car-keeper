@@ -13,7 +13,7 @@ from typing import Any
 from homeassistant.components.diagnostics import async_redact_data
 from homeassistant.core import HomeAssistant
 
-from . import CarKeeperConfigEntry
+from . import CarKeeperConfigEntry, presets
 
 TO_REDACT = {"vin", "plate"}
 
@@ -32,6 +32,7 @@ async def async_get_config_entry_diagnostics(
         },
         "tab_registered": coordinator.tab_registered,
         "home_keeper_reason": coordinator.home_keeper.reason,
+        "presets": presets.status(coordinator.presets.state),
         "revision": coordinator.store.revision,
         "counts": {
             name: len(value)

@@ -74,6 +74,11 @@ Keeper calls the Home Keeper services from its own sync, with no user, so the ad
 of Home Keeper does not stop it. A user who logs a service with `parts_used` moves the
 stock of those parts in Home Keeper.
 
+Car Keeper also calls the Home Keeper services `register_presets` and
+`unregister_presets` from its setup and its unload, with no user. Both are admin-only in
+Home Keeper, because a preset decides which tasks the home can get. A user cannot change
+the rows: they are code in `presets.py`, and Home Keeper checks each one.
+
 ## Credentials
 
 Car Keeper has no credential and sends no data out of Home Assistant.

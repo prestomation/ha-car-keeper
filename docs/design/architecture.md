@@ -10,7 +10,7 @@ implements:
   - custom_components/car_keeper/coordinator.py
   - custom_components/car_keeper/manifest.json
 related: [data-model, home-keeper-link, services-events, frontend]
-source_hash: a74ee707ff9e
+source_hash: 54193a351fd0
 ---
 
 # Architecture
@@ -61,8 +61,8 @@ Do not mix the 2. A card never edits a car. Each data action of the tab is also 
 
 | Layer | Modules | Rule |
 |---|---|---|
-| Pure core | `const.py`, `units.py`, `models.py`, `readings.py`, `schedule.py`, `history.py`, `templates.py`, `events.py`, `projections.py`, `import_export.py`, `task_plan.py`, `card_resource.py`, `backend_i18n.py`, `api_surface.py` | No Home Assistant import. |
-| Boundary | `store.py`, `coordinator.py`, `odometer.py`, `hk_sync.py` | Talks to storage, the bus and the state machine. |
+| Pure core | `const.py`, `units.py`, `models.py`, `readings.py`, `schedule.py`, `history.py`, `templates.py`, `events.py`, `projections.py`, `import_export.py`, `task_plan.py`, `presets.py`, `card_resource.py`, `backend_i18n.py`, `api_surface.py` | No Home Assistant import. |
+| Boundary | `store.py`, `coordinator.py`, `odometer.py`, `hk_sync.py`, `hk_presets.py` | Talks to storage, the bus and the state machine. |
 | Glue | `__init__.py`, `services.py`, `websocket_api.py`, `home_keeper.py`, `frontend_assets.py`, `card.py`, `config_flow.py`, `diagnostics.py` | Registers and connects, with no rules of its own. |
 | Platforms | `sensor.py`, `binary_sensor.py`, `todo.py`, with `entity.py` | `const.PLATFORMS` lists them. |
 
@@ -78,7 +78,8 @@ Do not mix the 2. A card never edits a car. Each data action of the tab is also 
 4. Forward the platforms and register the services.
 5. Start the odometer follower and the due check, which runs after each change and each
    hour.
-6. Start `home_keeper.HomeKeeperLink`. It adds the tab and the companion row, or shows a
+6. Start the Home Keeper sync and the preset sync (`hk_presets.PresetSync`), then
+   `home_keeper.HomeKeeperLink`. The link adds the tab and the companion row, or shows a
    repair issue.
 
 `async_unload_entry` unloads the platforms, removes each service and stops the follower.
@@ -119,6 +120,7 @@ file. It is not access control.
 | [home-keeper-link](home-keeper-link.md) | The check, the tab, the companion and the repair issue |
 | [services-events](services-events.md) | Services, events, websocket commands and the API surface |
 | [frontend](frontend.md) | The Cars tab, the cards and the delivery of the bundles |
+| [presets](presets.md) | The car presets in the Home Keeper preset picker |
 
 The approved design of the first release is in
 [docs/research/first-release](../research/first-release/architecture.md). Each part moves

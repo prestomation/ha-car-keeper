@@ -328,6 +328,39 @@ describe('Cars tab', () => {
     expect(call.templates.registration).not.toHaveProperty('km');
   });
 
+  it('lists the car presets and says that Home Keeper holds them', async () => {
+    const state = garage();
+    state.presets = {
+      status: 'registered',
+      preset_ids: ['car_keeper/volvo_life_low', 'car_keeper/volvo_alert_binary_sensor_on'],
+      error: null,
+      rows: [{ domain: 'volvo', brand: 'Volvo <Cars>', duties: ['annual_service', 'check_tyres'] }],
+    };
+    const { $, $$ } = mount({ state }, '/settings');
+    await flush();
+    expect($('[data-k="presets-status"]').textContent).toBe('2 presets are in Home Keeper.');
+    expect($('[data-k="presets-status"]').dataset.status).toBe('registered');
+    const row = $$('[data-preset]')[0];
+    expect(row.dataset.preset).toBe('volvo');
+    expect(row.textContent).toContain('Volvo <Cars>');
+    expect(row.innerHTML).not.toContain('<Cars>');
+    expect(row.textContent).toContain('Annual service, Check the tyres');
+  });
+
+  it.each([
+    [{ status: 'registered', preset_ids: ['a'] }, '1 preset is in Home Keeper.'],
+    [{ status: 'no_service' }, 'Your Home Keeper cannot take presets from a companion.'],
+    [{ status: 'failed', error: 'rows[0]: bad' }, 'Home Keeper refused the presets: rows[0]: bad'],
+    [{ status: 'waiting' }, 'Car Keeper is sending the presets to Home Keeper.'],
+    [{}, 'Car Keeper is sending the presets to Home Keeper.'],
+  ])('says the preset status %o', async (presets, text) => {
+    const state = garage();
+    state.presets = presets;
+    const { $ } = mount({ state }, '/settings');
+    await flush();
+    expect($('[data-k="presets-status"]').textContent).toContain(text);
+  });
+
   it('shows the error of a refused call as a toast', async () => {
     const { click, toasts } = mount(
       { state: garage(), replies: { delete_item: () => Promise.reject(new Error('Only an admin can do this.')) } },

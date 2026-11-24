@@ -13,7 +13,8 @@ its tab back with no repair issue.
 Run it with::
 
     HOME_KEEPER_REF=v0.35.0 bash ci/fetch-home-keeper.sh   # copy to HK_OLD_DIR
-    HOME_KEEPER_REF=main bash ci/fetch-home-keeper.sh      # copy to HK_NEW_DIR
+    HOME_KEEPER_REF=<SHA of ci/home-keeper-presets.env> bash ci/fetch-home-keeper.sh
+                                                           # copy to HK_NEW_DIR
     HK_OLD_DIR=... HK_NEW_DIR=... python -m pytest tests/upgrade -v
 
 ``ci/test-upgrade.sh`` does all 3 steps.

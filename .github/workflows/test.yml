@@ -62,9 +62,15 @@ jobs:
         run: bash ci/test-frontend.sh
 
       # The stateful model tests run many more examples in CI than in a local run.
+      # The car preset rows pass the validator of Home Keeper itself. It needs
+      # python-dateutil, so it runs here and not in the job with no Home Assistant.
+      - name: Fetch the Home Keeper preset validator
+        run: bash ci/fetch-home-keeper-validator.sh
+
       - name: Run Python unit tests (pure core)
         env:
           CK_STATEFUL_EXAMPLES: "1000"
+          CK_HK_VALIDATOR: tests/.home_keeper_validator/custom_components/home_keeper
         run: bash ci/test-python-unit.sh
 
       - name: Run Python component tests (in-process HA harness)

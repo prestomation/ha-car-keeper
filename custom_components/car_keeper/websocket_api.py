@@ -22,7 +22,7 @@ from homeassistant.core import HomeAssistant, callback
 from homeassistant.exceptions import ServiceValidationError
 from homeassistant.helpers.dispatcher import async_dispatcher_connect
 
-from . import projections
+from . import presets, projections
 from .api_surface import SERVICES, WEBSOCKET_COMMANDS
 from .backend_i18n import resolve_exception
 from .const import DOMAIN, SIGNAL_STORE_CHANGED
@@ -116,6 +116,7 @@ def ws_get_state(
             today=today(),
             tab=coordinator.tab_registered,
             revision=coordinator.store.revision,
+            presets=presets.project(coordinator.presets.state),
         ),
     )
 

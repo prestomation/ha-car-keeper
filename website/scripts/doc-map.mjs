@@ -19,6 +19,7 @@ export const USER_SECTIONS = [
   {slug: 'odometer', title: 'Odometer', group: 'cars'},
   {slug: 'jobs', title: 'Jobs and service log', group: 'cars'},
   {slug: 'home-keeper', title: 'Home Keeper tasks and parts', group: 'cars'},
+  {slug: 'presets', title: 'Home Keeper presets', group: 'cars'},
   {slug: 'cards', title: 'Dashboard cards', group: 'views'},
   {slug: 'services', title: 'Services and events', group: 'automation'},
 ];

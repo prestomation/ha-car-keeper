@@ -11,18 +11,9 @@ Nothing in this file is built. The design of the parts that are built is in
 
 ## First release
 
-The first release is `0.1.0b1`. These parts are not built yet:
-
-1. Cars with a typed or bound odometer, and the odometer sensor of each car.
-2. Jobs with a distance and a time interval, the due rule, and the starter jobs.
-3. Log service with many jobs, the reading, the shop and the cost.
-4. The sensors, the binary sensor and the to-do list of each car.
-5. A managed Home Keeper appliance for each car and a managed task for each job, with the
-   sync both ways.
-6. The Cars tab: garage, car detail, Add car, Log service, settings.
-7. The garage card and the car card, with `min_height` and `max_height`.
-8. Export and import through Home Keeper.
-9. The car presets through the Home Keeper `register_presets` service.
+The first release is `0.1.0b1`. Its parts are built, and
+[docs/design/](docs/design/architecture.md) describes them. The decisions stay here, because
+the later work keeps them.
 
 ### Decisions
 
@@ -43,11 +34,19 @@ The first release is `0.1.0b1`. These parts are not built yet:
 ## After the first release
 
 1. **Preset nudge.** A review dialog that offers the presets that match the device of a car.
-2. **Document files.** Receipts, photos and documents as files.
-3. **Live readings.** Tyre pressure and distance-to-service rules from the car integration.
+   It needs the matched entities of a preset for 1 device from Home Keeper.
+2. **More preset rows.** Audi, Volkswagen ID and WiCAN set no translation key, the Polestar
+   warnings have states with spaces, and the states of the Volvo service warning are longer
+   than 32 characters. Each needs a change in the integration or in the Home Keeper row
+   format.
+3. **Document files.** Receipts, photos and documents as files.
+4. **Live readings.** Tyre pressure and distance-to-service rules from the car integration.
    Each rule is 1 managed triggered task that the condition arms and clears.
-4. **The Upcoming, History and Parts lists** for all cars.
-5. **Service book as a PDF.** The history of 1 car as a file to give to a buyer.
+5. **The Upcoming, History and Parts lists** for all cars.
+6. **Service book as a PDF.** The history of 1 car as a file to give to a buyer.
+7. **The rest of the first design.** Add a car from a detected car device, a visual editor
+   for each card, the `cars` option of the garage card and the `show` option of the car
+   card, a status filter on the garage, and the stock control of the parts in the tab.
 
 ## Later
 

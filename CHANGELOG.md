@@ -31,7 +31,7 @@ is the single source of truth (see `RELEASE.md`).
   the service.
 - **[Dashboard cards](https://prestomation.github.io/ha-car-keeper/docs/guide/cards).**
   The garage card shows each car with its status and its next job. The car card lets any
-  user type a reading or mark a job done, and it can scroll inside a fixed height.
+  user type a reading or mark a job done. Each card can have a minimum and a maximum height.
 - **[Car Keeper services](https://prestomation.github.io/ha-car-keeper/docs/guide/services).**
   An automation can type a reading or log a service with the same rules as the tab.
   Events tell an automation when a job is due soon or overdue.
@@ -42,3 +42,7 @@ is the single source of truth (see `RELEASE.md`).
 - **[Parts and stock](https://prestomation.github.io/ha-car-keeper/docs/guide/home-keeper).**
   A job can take parts of a Home Keeper appliance, such as an oil filter. Home Keeper takes
   them off the stock when the job is done.
+- **[Car integration presets](https://prestomation.github.io/ha-car-keeper/docs/guide/presets).**
+  Home Keeper 0.38.0b5 and later get presets for 12 car integrations, such as Volvo, Kia
+  and Mercedes-Benz. A preset makes a Home Keeper task when the car reports a service due
+  soon, low oil life or a warning.

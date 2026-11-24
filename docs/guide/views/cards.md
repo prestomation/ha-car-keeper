@@ -33,3 +33,4 @@ Find the `car_id` in the address of the page of the car: `/home-keeper/cars/car/
 | `title` | Both | The title. The default is "Garage", or the name of the car. |
 | `car_id` | Car card | The car to show. |
 | `max_height` | Both | A height in pixels. Above it, the list scrolls inside the card. With no `max_height`, the card grows with its content. |
+| `min_height` | Both | A height in pixels. The card is at least this tall. It cannot be above `max_height`. |

@@ -37,10 +37,16 @@ def test_state_reply() -> None:
     ) == {
         **m.empty_state(),
         "starter_jobs": tpl.effective({}),
+        "presets": {},
         "tab": False,
         "revision": 3,
         "today": "2026-10-01",
     }
+    presets = {"status": "registered", "preset_ids": ["a"], "error": None, "rows": []}
+    reply = pr.project_state(
+        m.empty_state(), today="2026-10-01", tab=True, revision=1, presets=presets
+    )
+    assert reply["presets"] == presets
 
 
 def test_normalize_keeps_the_sync_queue() -> None:

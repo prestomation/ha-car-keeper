@@ -20,15 +20,20 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # The stable lane runs Home Keeper `main`. The oldest lane runs the oldest
-        # Home Assistant with the oldest Home Keeper (const.HOME_KEEPER_MIN_VERSION).
+        # The stable lane runs the Home Keeper commit with register_presets
+        # (ci/home-keeper-presets.env), and expects the car presets. The oldest lane
+        # runs the oldest Home Assistant with the oldest Home Keeper
+        # (const.HOME_KEEPER_MIN_VERSION), which has no presets: Car Keeper skips them.
         include:
           - ha: stable
-            home_keeper: main
+            home_keeper: 9f1335ffc6385919f117cce7417158297bb2aaed
+            presets: "1"
           - ha: oldest
             home_keeper: v0.35.0
+            presets: "0"
     env:
       HOME_KEEPER_REF: ${{ matrix.home_keeper }}
+      CK_EXPECT_PRESETS: ${{ matrix.presets }}
     steps:
       - uses: actions/checkout@v7
 
@@ -136,7 +141,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 25
     env:
-      HOME_KEEPER_REF: main
+      # The Home Keeper commit with register_presets (ci/home-keeper-presets.env).
+      HOME_KEEPER_REF: 9f1335ffc6385919f117cce7417158297bb2aaed
     steps:
       - uses: actions/checkout@v7
 

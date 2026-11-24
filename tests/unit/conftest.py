@@ -49,6 +49,7 @@ _PURE_MODULES = (
     "projections",
     "import_export",
     "task_plan",
+    "presets",
     "card_resource",
     "backend_i18n",
     "api_surface",

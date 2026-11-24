@@ -55,4 +55,5 @@ car_keeper.zip
 
 # The Home Keeper copy that ci/fetch-home-keeper.sh puts there for the Docker tier.
 tests/integration/.home_keeper/
+tests/.home_keeper_validator/
 ha-*.log

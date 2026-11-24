@@ -2,6 +2,7 @@
 // its odometer and its next job. The car card shows 1 car: it types a reading and
 // marks a job done, and has no other control. With `max_height` (pixels) the list
 // scrolls inside the card; with no `max_height` the card grows with its content.
+// `min_height` (pixels) keeps the card at least that tall.
 import { call, getState, subscribe, type Hass, type State } from './api';
 import { setLanguage, t } from './i18n';
 import { carRows, distance, itemRows, nextItem, type Rec } from './model';
@@ -17,9 +18,10 @@ export interface CardConfig {
   title?: string;
   car_id?: string;
   max_height?: number;
+  min_height?: number;
 }
 
-/** The checked config of a card. A bad `max_height` throws. */
+/** The checked config of a card. A bad `max_height` or `min_height` throws. */
 export function cleanConfig(config: CardConfig | undefined, needsCar: boolean): CardConfig {
   if (!config || typeof config !== 'object') throw new Error(t('card.invalid_config'));
   const out: CardConfig = { ...config };
@@ -27,6 +29,12 @@ export function cleanConfig(config: CardConfig | undefined, needsCar: boolean): 
     const h = Number(out.max_height);
     if (!Number.isFinite(h) || h <= 0) throw new Error(t('card.invalid_max_height'));
     out.max_height = h;
+  }
+  if (out.min_height !== undefined) {
+    const h = Number(out.min_height);
+    const above = out.max_height !== undefined && h > out.max_height;
+    if (!Number.isFinite(h) || h <= 0 || above) throw new Error(t('card.invalid_min_height'));
+    out.min_height = h;
   }
   if (needsCar && !out.car_id) throw new Error(t('card.need_car'));
   return out;
@@ -82,8 +90,12 @@ abstract class BaseCard extends HTMLElement {
   }
 
   protected _scroll(inner: string): string {
-    const h = this._config.max_height;
-    return h ? `<div class="ck-scroll" style="max-height:${h}px">${inner}</div>` : inner;
+    const { max_height: max, min_height: min } = this._config;
+    if (!max && !min) return inner;
+    const style = [max ? `max-height:${max}px` : '', min ? `min-height:${min}px` : '']
+      .filter(Boolean)
+      .join(';');
+    return `<div class="${max ? 'ck-scroll' : 'ck-grow'}" style="${style}">${inner}</div>`;
   }
 
   protected async _onClick(_ev: Event): Promise<void> {

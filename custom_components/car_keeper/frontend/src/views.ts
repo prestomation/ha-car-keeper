@@ -1,7 +1,7 @@
 // The markup of each view of the tab. Each function is pure: it takes the state
 // and the form state and returns HTML. Every user value goes through `escapeHTML`.
 // Each control has a `data-k`, so a render keeps the focus and the typed text.
-import type { State } from './api';
+import type { Presets, State } from './api';
 import { formatDate, t, tn } from './i18n';
 import {
   ADD_STEPS,
@@ -365,5 +365,33 @@ export function settingsView(state: State): string {
         <th>${e(t('settings.km'))}</th><th>${e(t('settings.months'))}</th></tr></thead><tbody>${rows}</tbody></table></div>
       <div class="ck-actions"><button class="ck-btn primary" data-act="settings-save" data-k="settings-save">${e(
         t('action.save'),
-      )}</button></div></section>`;
+      )}</button></div></section>
+    ${presetsSection(state.presets ?? {})}`;
+}
+
+/** The line that says if Home Keeper holds the car presets. */
+export function presetStatus(presets: Presets): string {
+  const status = presets.status ?? 'waiting';
+  if (status === 'registered') return tn('presets.status.registered', presets.preset_ids?.length ?? 0);
+  if (status === 'failed') return t('presets.status.failed', { error: presets.error ?? '' });
+  return t(`presets.status.${status}`);
+}
+
+/** The car integrations that have Home Keeper presets, and the tasks of each. */
+export function presetsSection(presets: Presets): string {
+  const rows = (presets.rows ?? [])
+    .map(
+      (row) => `<tr data-preset="${e(row.domain)}"><td>${e(row.brand)}</td>
+      <td>${e(row.duties.map((duty) => t(`duty.${duty}`)).join(', '))}</td></tr>`,
+    )
+    .join('');
+  return `<section class="ck-card" data-view="presets">
+      <h2>${e(t('presets.title'))}</h2>
+      <p>${e(t('presets.intro'))}</p>
+      <p class="ck-note" data-k="presets-status" data-status="${e(presets.status ?? 'waiting')}">${e(
+        presetStatus(presets),
+      )}</p>
+      <div class="ck-table-wrap"><table class="ck-table"><thead><tr><th>${e(t('presets.integration'))}</th>
+        <th>${e(t('presets.tasks'))}</th></tr></thead><tbody>${rows}</tbody></table></div>
+    </section>`;
 }

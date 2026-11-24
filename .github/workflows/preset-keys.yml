@@ -1,0 +1,39 @@
+name: Preset keys
+
+# The car preset rows match entities by translation key. This checks each key
+# against the upstream file of its integration (ci/check_preset_keys.py):
+# - on a PR that changes the rows, at the pinned commits;
+# - each week, at the newest upstream files, so a renamed key shows early.
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - custom_components/car_keeper/presets.py
+      - ci/check_preset_keys.py
+  schedule:
+    - cron: "17 6 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  keys:
+    name: preset keys
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.14"
+
+      - name: Check the pinned keys
+        if: github.event_name == 'pull_request'
+        run: python3 ci/check_preset_keys.py
+
+      - name: Check the newest upstream keys
+        if: github.event_name != 'pull_request'
+        run: python3 ci/check_preset_keys.py --branch

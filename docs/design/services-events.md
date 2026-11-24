@@ -9,7 +9,7 @@ implements:
   - custom_components/car_keeper/events.py
   - custom_components/car_keeper/projections.py
 related: [architecture, data-model, entities]
-source_hash: 10b60e2fc304
+source_hash: ca6464f78de4
 ---
 
 # Services, events and the API surface
@@ -60,8 +60,10 @@ service with its schema from `SERVICE_FIELDS` and its handler from `SERVICE_HAND
 
 ### Websocket commands
 
-- `car_keeper/get_state` returns `projections.project_state`. `car_keeper/subscribe` sends
-  `changed` with the revision after each store change. Both are open.
+- `car_keeper/get_state` returns `projections.project_state`, with the state of the car
+  presets in Home Keeper under `presets` ([presets](presets.md)). `car_keeper/subscribe`
+  sends `changed` with the revision after each store change and each change of the preset
+  status. Both are open.
 - Each service that is not a read has a twin `car_keeper/<service>` with the same fields.
   The twin calls `async_run` with the admin flag of the connection user.
 

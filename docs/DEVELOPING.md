@@ -57,7 +57,7 @@ conventions behind them are in [`AGENTS.md`](../AGENTS.md) and
 | **Confirmed deletes** | `frontend/test/destructive-scan-parity.test.js` | A delete or an import that runs with no `confirmDestructive` question. |
 | **Open reads** | `tests/unit/test_projections.py` | A read that hides a field from a user who is not an admin. |
 | **Home Assistant log gate** | `integration.yml`, `ci/check-ha-log.py` | A warning or an error from `custom_components.car_keeper`, a "Detected blocking call", a slow callback, a coroutine that nobody awaited or a deprecation notice in the log of the Docker container. Home Keeper's own records do not count. |
-| **State machines** | `tests/unit/test_*_stateful.py` | A transition of the odometer, the job status, the service history or the Home Keeper sync that breaks an invariant of its Hypothesis model. CI runs them with `CK_STATEFUL_EXAMPLES=1000`. |
+| **State machines** | `tests/unit/test_*_stateful.py` | A transition of the odometer, the job status, the service history, the Home Keeper sync or the preset registration that breaks an invariant of its Hypothesis model. CI runs them with `CK_STATEFUL_EXAMPLES=1000`. |
 | **Fixed points** | `tests/unit/test_import_export.py` | An import of an export that loses or changes a field, and a second import that changes the data. |
 | **Shared rules** | `tests/fixtures/shared/`, `frontend/test/shared-corpus.test.js` | A TypeScript copy of a rule that gives another output than the Python rule for the same case. |
 | **Pure core** | `tests/unit/test_pure_core.py` | A Home Assistant import in a pure module, and a module map that does not match the code. |
@@ -66,6 +66,8 @@ conventions behind them are in [`AGENTS.md`](../AGENTS.md) and
 | **Seeded fixture** | `tests/unit/test_integration_fixture_clean.py` | A local Docker run committed into the seeded config entries of Home Keeper and Car Keeper. |
 | **Docs site build** | `docs-preview.yml` | A guide page with no sidebar entry, a broken link or anchor, and a missing image. Posts a preview link. |
 | **Walkthrough capture** | `walkthrough-preview.yml` | A tour that no longer runs. A failed capture fails the check. |
+| **Preset rows** | `tests/unit/test_presets.py`, `ci/check_preset_keys.py` (`preset-keys.yml`) | A car preset row that the Home Keeper validator refuses, a preset id that changed (golden file), and a key that is not in its integration at the pinned commit or, each week, upstream. |
+| **Home Keeper presets pin** | `ci/home-keeper-presets.env`, `tests/unit/test_home_keeper_pin.py` | A lane that runs a Home Keeper with no `register_presets`, or 2 places with different SHAs. |
 | **Pinned actions and read-only tokens** | `tests/unit/test_ci_action_pins.py` | A third-party action that is not pinned in a job that can write. |
 | **HACS validation and hassfest** | `test.yml`, `hacs.yml` | Manifest, brand and repository problems that block an install. |
 | **Release consistency** | `release.yml` | A `manifest.json` version, `PANEL_VERSION` and CHANGELOG section that disagree. |

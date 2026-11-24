@@ -13,6 +13,7 @@
 #
 #   HOME_KEEPER_SRC=/path/to/ha-home-keeper bash ci/fetch-home-keeper.sh
 #   HOME_KEEPER_REF=v0.35.0 bash ci/fetch-home-keeper.sh   # clone and build
+#   HOME_KEEPER_REF=<40-character SHA> bash ci/fetch-home-keeper.sh   # 1 commit
 set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 DEST="$ROOT/tests/integration/.home_keeper/custom_components"
@@ -30,7 +31,14 @@ else
   TMP="$(mktemp -d)"
   trap 'rm -rf "$TMP"' EXIT
   echo "[home-keeper] cloning $REPO at $REF"
-  git clone --quiet --depth 1 --branch "$REF" "$REPO" "$TMP/hk"
+  if [[ "$REF" =~ ^[0-9a-f]{40}$ ]]; then
+    # A full commit SHA: git clone --branch takes only a branch or a tag.
+    git init --quiet "$TMP/hk"
+    git -C "$TMP/hk" fetch --quiet --depth 1 "$REPO" "$REF"
+    git -C "$TMP/hk" checkout --quiet FETCH_HEAD
+  else
+    git clone --quiet --depth 1 --branch "$REF" "$REPO" "$TMP/hk"
+  fi
   echo "[home-keeper] building the Home Keeper panel and card"
   # --ignore-scripts: no package of the build needs an install script.
   npm ci --ignore-scripts --no-audit --no-fund \

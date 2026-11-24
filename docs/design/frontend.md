@@ -8,7 +8,7 @@ implements:
   - custom_components/car_keeper/frontend/src/*.ts
   - custom_components/car_keeper/frontend/src/locales/*.ts
 related: [architecture, home-keeper-link]
-source_hash: 4ed39b24d7ad
+source_hash: 7393c5a62886
 ---
 
 # Cars tab and cards
@@ -55,7 +55,7 @@ pushes, and closing the Log dialog or deleting a car replaces.
 | `/car/<id>` | 1 car: odometer, jobs, service history, car details. An unknown id shows the gone notice. |
 | `/car/<id>/log` | The car with the Log service dialog open. It is the only dialog with a URL. |
 | `/add` | Add car, in 3 steps: details, odometer, starter jobs. |
-| `/settings` | The unit of a new car and the starter job overrides. |
+| `/settings` | The unit of a new car, the starter job overrides, and the car presets in Home Keeper with their status ([presets](presets.md)). |
 
 `utils.parseRoute` reads the path, and `utils.buildPath` writes it. The filters of a view
 are `;key=value` parameters on the last segment, because the host gives the tab only the
@@ -77,7 +77,8 @@ shows the message of the server.
 The garage card shows each car with its odometer, its status and its next job. The car card
 (`car_id`) shows 1 car and its jobs. It types a reading and marks a job done, and has no
 other control. `max_height` is a number of pixels: above it, the list scrolls inside the
-card. `cleanConfig` in `card.ts` checks the config.
+card. `min_height` is a number of pixels too, and keeps the card at least that tall. It is
+not above `max_height`. `cleanConfig` in `card.ts` checks the config.
 
 ### Text and style
 
@@ -93,7 +94,8 @@ card. `cleanConfig` in `card.ts` checks the config.
 ## One-way doors
 
 - The element names `home-keeper-cars-tab`, `car-keeper-garage-card` and
-  `car-keeper-car-card`, and the card options `title`, `car_id` and `max_height`.
+  `car-keeper-car-card`, and the card options `title`, `car_id`, `max_height` and
+  `min_height`.
 - The tab paths `/car/<id>`, `/car/<id>/log`, `/add` and `/settings`.
 - The bundle names `cars-tab.js` and `car-keeper-card.js`, and the Lovelace resource path
   under `/car_keeper_static`.

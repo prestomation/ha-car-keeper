@@ -83,13 +83,18 @@ def car_summary(state: dict[str, Any], car_id: str, today: str) -> dict[str, Any
 
 
 def project_state(
-    state: dict[str, Any], *, today: str, tab: bool, revision: int
+    state: dict[str, Any],
+    *,
+    today: str,
+    tab: bool,
+    revision: int,
+    presets: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     """The whole document for a reader, with the computed values.
 
     Each car gets a ``summary`` key and each item a ``due`` key. The reply also has
-    the starter jobs with the overrides of the settings, the tab state, the revision
-    and today.
+    the starter jobs with the overrides of the settings, the tab state, the state of
+    the car presets in Home Keeper, the revision and today.
     """
     out = copy.deepcopy(state)
     for car_id, car in out["cars"].items():
@@ -100,6 +105,7 @@ def project_state(
             out["items"][item_id]["due"] = evaluation
     out["starter_jobs"] = templates.effective(state["settings"].get("templates") or {})
     out["tab"] = tab
+    out["presets"] = presets if presets is not None else {}
     out["revision"] = revision
     out["today"] = today
     return out

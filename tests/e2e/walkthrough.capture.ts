@@ -5,7 +5,8 @@
  *   bash ci/capture-video.sh        # writes docs/videos/walkthrough.{webm,mp4,gif}
  *
  * The tour: open the Cars tab in Home Keeper, see the garage, open a car, type a
- * reading, log a service, look at Add car, and open the cards on a dashboard. `BEAT` pauses let each step read in the video.
+ * reading, log a service, see the Home Keeper presets in the settings, look at Add car,
+ * and open the cards on a dashboard. `BEAT` pauses let each step read in the video.
  *
  * The recording needs its own context: `recordVideo` is set when a context is made.
  */
@@ -52,6 +53,10 @@ test('record the Car Keeper walkthrough', async ({ browser }) => {
     await tab.locator('[data-k="log-save"]').click();
     await beat(page, 2);
     // 5. Add car offers the starter jobs of the fuel type.
+    await openTab(page, '/settings');
+    await tab.locator('[data-view="presets"]').evaluate((el) => el.scrollIntoView({ block: 'start', behavior: 'smooth' }));
+    await beat(page, 2);
+
     await openTab(page, '/add');
     await tab.locator('[data-k="add-name"]').fill('Fit');
     await tab.locator('[data-k="add-next"]').click();

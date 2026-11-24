@@ -80,6 +80,27 @@ test.describe('Cars tab', () => {
     await expect(tab.locator('[data-job="timing_belt"]')).toBeVisible();
   });
 
+  test('lists the car presets and their status in Home Keeper', async ({ page }) => {
+    const tab = await openTab(page, '/settings');
+    const section = tab.locator('[data-view="presets"]');
+    await expect(section.locator('[data-preset="volvo"]')).toContainText('Volvo Cars');
+    const status = section.locator('[data-k="presets-status"]');
+    // The lanes with the Home Keeper presets pin (CK_EXPECT_PRESETS=1) must register.
+    const word = process.env.CK_EXPECT_PRESETS === '1' ? 'registered' : /registered|no_service/;
+    await expect(status).toHaveAttribute('data-status', word);
+    const state = await userState();
+    if (state.presets.status === 'registered') {
+      await expect(status).toHaveText(`${state.presets.preset_ids.length} presets are in Home Keeper.`);
+      const picker = await import('../ha-ws').then(({ withWs }) =>
+        withWs('admin', (ws) =>
+          ws.call<{ presets: { id: string }[] }>({ type: 'home_keeper/list_declarative_presets' }),
+        ),
+      );
+      const ours = picker.presets.filter((p) => p.id.startsWith('car_keeper/'));
+      expect(ours.map((p) => p.id)).toEqual(state.presets.preset_ids);
+    }
+  });
+
   test('a user who is not an admin reads the same state', async () => {
     const state = await userState();
     const admin = await adminState();

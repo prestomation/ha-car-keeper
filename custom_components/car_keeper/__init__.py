@@ -28,6 +28,7 @@ from . import (
     backend_i18n,
     card,
     frontend_assets,
+    hk_presets,
     hk_sync,
     home_keeper,
     websocket_api,
@@ -107,6 +108,11 @@ async def async_setup_entry(hass: HomeAssistant, entry: CarKeeperConfigEntry) ->
     coordinator.sync = sync
     sync.async_start()
     entry.async_on_unload(sync.async_stop)
+    # The presets start before the link too, so they hear its first pass.
+    preset_sync = hk_presets.PresetSync(hass, entry, store, link)
+    coordinator.presets = preset_sync
+    preset_sync.async_start()
+    entry.async_on_unload(preset_sync.async_stop)
     await link.async_start()
     entry.async_on_unload(link.async_stop)
     return True
